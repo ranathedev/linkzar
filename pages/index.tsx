@@ -1,19 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Head from "next/head";
 import HeroSection from "components/hero-section";
+import ToggleThemeBtn from "components/toggle-theme-btn";
 
 export default function Home() {
   const [theme, setTheme] = React.useState("light");
-
-  let isDarkMode = false;
-
-  if (typeof window !== "undefined") {
-    isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  }
-
-  useEffect(() => {
-    isDarkMode ? setTheme("dark") : setTheme("light");
-  }, [isDarkMode]);
 
   return (
     <>
@@ -24,6 +15,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
+        <ToggleThemeBtn
+          handleOnClick={() => setTheme(theme === "light" ? "dark" : "light")}
+        />
         <HeroSection theme={theme} />
       </main>
     </>

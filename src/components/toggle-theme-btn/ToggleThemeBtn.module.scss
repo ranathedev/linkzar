@@ -1,0 +1,36 @@
+.toggleBtn {
+  position: absolute;
+  top: 0.625rem;
+  right: 0.625rem;
+  cursor: pointer;
+
+  .iconContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 1rem;
+    background: #fff;
+    padding: 5px;
+    width: 70px;
+  }
+
+  .dotBtn {
+    position: absolute;
+    top: 15%;
+    left: 6%;
+    width: 23px;
+    height: 23px;
+    border-radius: 50%;
+    background: #ccc;
+    transition: all 0.3s;
+  }
+
+  .activeBtn {
+    background: #333;
+  }
+
+  .active {
+    background: #666;
+    left: 61%;
+  }
+}

@@ -63,8 +63,6 @@
 
       .secondaryBtn {
         color: rgb(17 24 39);
-        border: 1px solid rgb(209 213 219);
-        border: none;
 
         &:hover {
           background: rgb(243 244 246);
@@ -97,7 +95,7 @@
       .secondaryBtn {
         color: #fff;
         border: 1px solid rgb(55 65 81);
-        background: none;
+        background: transparent;
 
         &:hover {
           background: rgb(55 65 81);

@@ -1,6 +1,20 @@
+import React, { useEffect } from "react";
 import Head from "next/head";
+import HeroSection from "components/hero-section";
 
 export default function Home() {
+  const [theme, setTheme] = React.useState("light");
+
+  let isDarkMode = false;
+
+  if (typeof window !== "undefined") {
+    isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  }
+
+  useEffect(() => {
+    isDarkMode ? setTheme("dark") : setTheme("light");
+  }, [isDarkMode]);
+
   return (
     <>
       <Head>
@@ -10,7 +24,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <h1>Linkzar</h1>
+        <HeroSection theme={theme} />
       </main>
     </>
   );

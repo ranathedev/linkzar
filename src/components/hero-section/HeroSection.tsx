@@ -25,7 +25,7 @@ const HeroSection = ({ theme }: Props) => {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [texts.length]);
 
   return (
     <section className={clsx(stl.heroSec, stl[`${theme}HeroSec`])}>

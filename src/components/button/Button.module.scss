@@ -1,0 +1,45 @@
+@import "styles/common";
+
+.btn {
+  @extend .flexCenter;
+  gap: 10px;
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  line-height: 1.3rem;
+  font-weight: 500;
+  text-align: center;
+  border-radius: 0.5rem;
+  cursor: pointer;
+
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+.primaryBtn {
+  color: #fff;
+  background: #1d4ed8;
+
+  &:hover {
+    background: #1e40af;
+  }
+}
+
+.secondaryBtn {
+  color: #111827;
+  border: 1px solid #d1d5db;
+
+  &:hover {
+    background: #f3f4f6;
+  }
+}
+
+.darksecondaryBtn {
+  color: #fff;
+  border-color: #374151;
+  background: transparent;
+
+  &:hover {
+    background: #374151;
+  }
+}

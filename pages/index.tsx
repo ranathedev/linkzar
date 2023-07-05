@@ -1,8 +1,9 @@
 import React from "react";
 import Head from "next/head";
 import Header from "components/header";
-import HeroSection from "components/hero-section";
+// import Intro from "components/intro";
 import ToggleThemeBtn from "components/toggle-theme-btn";
+import HeroSection from "components/hero-section";
 
 export default function Home() {
   const [theme, setTheme] = React.useState("light");
@@ -20,6 +21,7 @@ export default function Home() {
         <ToggleThemeBtn
           handleOnClick={() => setTheme(theme === "light" ? "dark" : "light")}
         />
+        {/* <Intro theme={theme} /> */}
         <HeroSection theme={theme} />
       </main>
     </>

@@ -1,67 +1,70 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Image from "next/image";
 import clsx from "clsx";
 
-import Img from "assets/url-shortener.png";
+import Button from "components/button";
+
 import ArrowIcon from "assets/arrow-right.svg";
+import TrackURLImage from "assets/track-url-section.png";
 
 import stl from "./HeroSection.module.scss";
 
 interface Props {
   theme: string;
+  heading: string;
+  desc: string;
+  btnLabel: string;
+  btnOnClick: () => void;
+  btnIcon: React.ReactNode;
+  src: any;
+  swap: Boolean;
 }
 
-const HeroSection = ({ theme }: Props) => {
-  const [currentIndex, setCurrentIndex] = React.useState(0);
-  const texts = [
-    "Simplifying Your Links",
-    "Amplifying Your Reach",
-    "Optimizing Your Sharing",
-  ];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % texts.length);
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [texts.length]);
-
+const HeroSection = ({
+  theme,
+  heading,
+  desc,
+  btnLabel,
+  btnOnClick,
+  btnIcon,
+  src,
+  swap,
+}: Props) => {
   return (
-    <section className={clsx(stl.heroSec, stl[`${theme}HeroSec`])}>
-      <div className={stl.container}>
-        <div className={stl.content}>
-          <h1 className={stl.heading}>
-            Explore Our Advanced URL Shortener App,
-            <div className={stl.featureTransition}>
-              {texts.map((text, index) => (
-                <span
-                  key={index}
-                  className={clsx(
-                    stl.text,
-                    `${index === currentIndex ? stl.current : ""}`
-                  )}
-                >
-                  {text}
-                </span>
-              ))}
-            </div>
-          </h1>
-          <p className={stl.desc}>
-            From checkout to global sales tax compliance, companies around the
-            world use Flowbite to simplify their payment stack.
-          </p>
-          <button className={stl.primaryBtn}>
-            Get started <ArrowIcon />
-          </button>
-          <button className={stl.secondaryBtn}>Speak to Sales</button>
-        </div>
-        <div className={stl.img}>
-          <Image src={Img} alt="img" layout="responsive" />
+    <div
+      className={clsx(
+        stl.heroSec,
+        stl[`${theme}HeroSec`],
+        swap ? stl.swap : ""
+      )}
+    >
+      <div className={stl.content}>
+        <div className={stl.heading}>{heading}</div>
+        <p className={stl.desc}>{desc}</p>
+        <div className={stl.btnContainer}>
+          <Button
+            label={btnLabel}
+            theme={theme}
+            icon={btnIcon}
+            handleOnClick={btnOnClick}
+          />
         </div>
       </div>
-    </section>
+      <div className={stl.img}>
+        <Image src={src} alt="short-url-image" />
+      </div>
+    </div>
   );
+};
+
+HeroSection.defaultProps = {
+  heading: "Shorten Long URLs Effortlessly",
+  desc: "Say goodbye to long, clunky URLs and hello to simple and shareable links. Our friendly URL shortening platform makes it a breeze to transform lengthy web addresses into compact, easy-to-remember links. Whether you're sharing on social media, sending emails, or engaging with your audience, our user-friendly solution ensures that your links are streamlined and professional. Start shortening URLs effortlessly and share with confidence today!",
+  btnLabel: "Get Started",
+  btnOnClick: () => console.log("Hero Section Button Clicked..."),
+  btnIcon: <ArrowIcon />,
+  src: TrackURLImage,
+  swap: false,
 };
 
 export default HeroSection;

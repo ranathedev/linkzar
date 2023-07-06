@@ -1,0 +1,116 @@
+@import "styles/common";
+
+.faqSec {
+  @extend .flexCol;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1280px;
+  padding: 1rem;
+
+  .heading {
+    font-size: 2rem;
+    font-weight: 600;
+  }
+
+  .list {
+    @extend .flexCol;
+    gap: 1rem;
+    width: 100%;
+    list-style: none;
+
+    li {
+      @extend .flexCol;
+      min-height: 4.4rem;
+      max-height: 10rem;
+      padding: 0 1rem;
+      background: #fff;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      overflow: hidden;
+      transition: all 0.3s;
+      box-shadow: #00000066 0px 3px 8px;
+
+      .header {
+        @extend .alignStart;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1.5rem 0;
+
+        .question {
+          font-weight: 600;
+        }
+
+        .btnContainer {
+          width: 1.5rem;
+
+          button {
+            @extend .alignCen;
+            justify-content: center;
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+          }
+
+          .primary {
+            color: #fff;
+            background: #1d4ed8;
+
+            &:hover {
+              background: #1e40af;
+            }
+          }
+
+          .secondary {
+            background: #00000010;
+
+            &:hover {
+              background: #00000020;
+            }
+          }
+        }
+      }
+
+      .answer {
+        color: #00000070;
+        max-height: 0;
+        transition: all 0.3s;
+      }
+    }
+
+    .expand {
+      max-height: 800px;
+
+      .answer {
+        max-height: 600px;
+        padding-bottom: 1.5rem;
+      }
+    }
+  }
+}
+
+.darkFAQSec {
+  .heading {
+    color: #fff;
+  }
+
+  .list li {
+    background: #111827;
+
+    .header {
+      color: #f1f2f5;
+
+      .btnContainer .secondary {
+        background: #dbd6dc;
+
+        &:hover {
+          background: #f3f4f6;
+        }
+      }
+    }
+
+    .answer {
+      color: #9ca3af;
+    }
+  }
+}

@@ -17,6 +17,7 @@ interface Props {
   btnOnClick: () => void;
   btnIcon: React.ReactNode;
   src: any;
+  background?: string;
   swap: Boolean;
 }
 
@@ -28,10 +29,12 @@ const HeroSection = ({
   btnOnClick,
   btnIcon,
   src,
+  background,
   swap,
 }: Props) => {
   return (
     <div
+      style={{ background }}
       className={clsx(
         stl.heroSec,
         stl[`${theme}HeroSec`],

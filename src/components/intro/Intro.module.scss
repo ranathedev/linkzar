@@ -4,7 +4,6 @@
   @extend .alignCen;
   width: 100%;
   max-width: 1280px;
-  background: #fff;
   height: 100%;
   padding: 2rem 0;
 
@@ -76,17 +75,13 @@
   }
 }
 
-.darkIntro {
-  background: #111827;
+.darkIntro .container .content {
+  .heading {
+    color: #fff;
+  }
 
-  .container .content {
-    .heading {
-      color: #fff;
-    }
-
-    .desc {
-      color: #9ca3af;
-    }
+  .desc {
+    color: #9ca3af;
   }
 }
 

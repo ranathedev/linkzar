@@ -1,8 +1,10 @@
 import React from "react";
 import Head from "next/head";
+
 import Header from "components/header";
 import ToggleThemeBtn from "components/toggle-theme-btn";
-import CTA from "components/cta";
+import Homepage from "./Homepage";
+import Footer from "components/footer";
 
 import stl from "./index.module.scss";
 
@@ -22,7 +24,8 @@ export default function Home() {
         <ToggleThemeBtn
           handleOnClick={() => setTheme(theme === "light" ? "dark" : "light")}
         />
-        <CTA theme={theme} />
+        <Homepage theme={theme} />
+        <Footer theme={theme} />
       </main>
     </>
   );

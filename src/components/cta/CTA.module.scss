@@ -3,6 +3,7 @@
 .cta {
   position: relative;
   width: 95%;
+  max-width: 1280px;
   border-radius: 1rem;
   margin: 1rem 0 3rem;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
@@ -24,7 +25,6 @@
   .container {
     backdrop-filter: blur(2rem);
     width: 100%;
-    max-width: 1280px;
     padding: 2rem 1rem;
     margin: 0 auto;
 

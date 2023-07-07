@@ -1,3 +1,5 @@
+@import "styles/common";
+
 .toggleBtn {
   position: fixed;
   bottom: 0.625rem;
@@ -5,21 +7,19 @@
   cursor: pointer;
 
   .iconContainer {
-    display: flex;
-    align-items: center;
+    @extend .alignCen;
     justify-content: space-between;
+    width: 70px;
     border-radius: 1rem;
     background: #fff;
     padding: 5px;
-    width: 70px;
   }
 
   .dotBtn {
     position: absolute;
     top: 15%;
     left: 6%;
-    width: 23px;
-    height: 23px;
+    @include setSquare(23px);
     border-radius: 50%;
     background: #ccc;
     transition: all 0.3s;

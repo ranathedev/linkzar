@@ -60,7 +60,7 @@ const Intro = ({ theme, customClass }: Props) => {
           </div>
         </div>
         <div className={stl.img}>
-          <Image src={Img} alt="img" layout="responsive" />
+          <Image src={Img} alt="img" />
         </div>
       </div>
     </section>

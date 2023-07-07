@@ -60,7 +60,9 @@ const Header = ({ links, theme }: Props) => {
           ))}
         </div>
         <div className={stl.right}>
-          <button className={stl.contactBtn}>Contact</button>
+          <a href="/contact" className={stl.contactBtn}>
+            Contact
+          </a>
           <button
             id="btn"
             onClick={() => setIsExpand(!expand)}

@@ -1,3 +1,8 @@
+@mixin setSquare($value) {
+  width: $value;
+  height: $value;
+}
+
 .flexCenter {
   display: flex;
   align-items: center;
@@ -26,8 +31,7 @@
 
 .sr_only {
   position: absolute;
-  width: 1px;
-  height: 1px;
+  @include setSquare(1px);
   padding: 0;
   margin: -1px;
   overflow: hidden;

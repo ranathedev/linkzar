@@ -29,6 +29,11 @@
   flex-direction: column;
 }
 
+.justifyCen {
+  display: flex;
+  justify-content: center;
+}
+
 .sr_only {
   position: absolute;
   @include setSquare(1px);

@@ -36,6 +36,11 @@
     @extend .flexCenter;
     width: 50%;
     background: none;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
   }
 }
 
@@ -65,7 +70,7 @@
 
     .content,
     .img {
-      width: 100%;
+      width: 95%;
       max-width: 700px;
     }
 

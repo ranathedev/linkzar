@@ -1,8 +1,11 @@
 import React from "react";
+import Image from "next/image";
 import clsx from "clsx";
 import { Formik, Form, Field } from "formik";
 
 import Button from "components/button";
+
+import ContactImage from "assets/contact-2.png";
 
 import stl from "./ContactForm.module.scss";
 
@@ -58,6 +61,9 @@ const ContactForm = ({ theme }: Props) => {
             </Form>
           )}
         </Formik>
+      </div>
+      <div className={stl.img}>
+        <Image src={ContactImage} alt="image" />
       </div>
     </section>
   );

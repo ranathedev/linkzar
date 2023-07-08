@@ -1,10 +1,19 @@
 @import "styles/common";
 
 .contactForm {
+  @extend .alignCen;
+  gap: 1rem;
+  width: 95%;
+  max-width: 1280px;
+  padding-right: 0.625rem;
+  margin: 0 1rem;
   background: #fff;
+  border-radius: 1rem;
+  box-shadow: #63636333 0px 2px 8px 0px;
 
   .container {
-    max-width: 768px;
+    max-width: 600px;
+    width: 50%;
     padding: 2rem 1rem;
     margin: 0 auto;
 
@@ -68,6 +77,16 @@
       }
     }
   }
+
+  .img {
+    @extend .alignCen;
+    width: 50%;
+    height: 100%;
+
+    img {
+      width: 100%;
+    }
+  }
 }
 
 .darkContactForm {
@@ -123,6 +142,16 @@
         color: #d1d5db;
       }
     }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .contactForm .container {
+    width: 100%;
+  }
+
+  .img {
+    display: none;
   }
 }
 

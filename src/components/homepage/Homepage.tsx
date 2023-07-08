@@ -5,15 +5,13 @@ import HeroSection from "components/hero-section";
 import FAQSection from "components/faq-section";
 import CTA from "components/cta";
 
-import stl from "./index.module.scss";
-
 interface Props {
   theme: string;
 }
 
 const Homepage = ({ theme }: Props) => {
   return (
-    <div className={stl.homepage}>
+    <div>
       <Intro theme={theme} />
       <HeroSection theme={theme} swap={true} />
       <HeroSection theme={theme} background="transparent" />

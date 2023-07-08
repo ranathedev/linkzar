@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import clsx from "clsx";
 import { Formik, Form, Field } from "formik";
@@ -14,8 +14,20 @@ interface Props {
 }
 
 const ContactForm = ({ theme }: Props) => {
+  const [className, setClassName] = React.useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (theme === "dark") {
+        setClassName(stl.darkContactForm);
+      } else {
+        setClassName("");
+      }
+    }
+  }, [theme]);
+
   return (
-    <section className={clsx(stl.contactForm, stl[`${theme}ContactForm`])}>
+    <section className={clsx(stl.contactForm, className)}>
       <div className={stl.container}>
         <h2 className={stl.heading}>Contact Us</h2>
         <p className={stl.desc}>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import clsx from "clsx";
 
 import AddIcon from "assets/plus.svg";
@@ -13,13 +13,24 @@ interface Props {
 
 const FAQSection = ({ data, theme }: Props) => {
   const [expand, setExpand] = React.useState("none");
+  const [className, setClassName] = React.useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (theme === "dark") {
+        setClassName(stl.darkFAQSec);
+      } else {
+        setClassName("");
+      }
+    }
+  }, [theme]);
 
   const handleExpand = (id: string) => {
     expand === id ? setExpand("none") : setExpand(id);
   };
 
   return (
-    <div className={clsx(stl.faqSec, stl[`${theme}FAQSec`])}>
+    <section className={clsx(stl.faqSec, className)}>
       <div className={stl.heading}>Frequently Asked Questions</div>
       <ul className={stl.list}>
         {data.map((item, i) => (
@@ -43,7 +54,7 @@ const FAQSection = ({ data, theme }: Props) => {
           </li>
         ))}
       </ul>
-    </div>
+    </section>
   );
 };
 

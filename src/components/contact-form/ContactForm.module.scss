@@ -146,12 +146,22 @@
 }
 
 @media screen and (max-width: 768px) {
-  .contactForm .container {
-    width: 100%;
-  }
+  .contactForm {
+    .container {
+      width: 100%;
 
-  .img {
-    display: none;
+      .form {
+        gap: 1rem;
+
+        textarea {
+          min-height: 170px;
+        }
+      }
+    }
+
+    .img {
+      display: none;
+    }
   }
 }
 

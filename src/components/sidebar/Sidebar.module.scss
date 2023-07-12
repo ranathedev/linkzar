@@ -1,0 +1,260 @@
+@import "styles/common";
+
+.sidebar {
+  @extend .flexCol;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 400px;
+  height: 99vh;
+  padding-bottom: 1rem;
+  background: #fff;
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: all 0.3s;
+
+  .container {
+    .header {
+      @extend .alignCen;
+      justify-content: space-between;
+      padding: 1rem;
+
+      .logo {
+        @extend .flexCenter;
+        @include setSquare(35px);
+
+        img {
+          width: 100%;
+          height: auto;
+        }
+      }
+
+      .sidebarBtn {
+        box-sizing: border-box;
+        @extend .flexCenter;
+        @include setSquare(3rem);
+        border: 1px solid #1d4ed815;
+        border-radius: 0.5rem;
+        color: inherit;
+        cursor: pointer;
+
+        &:hover {
+          color: #1d4ed8;
+          background: #1d4ed815;
+        }
+      }
+    }
+
+    .divider {
+      height: 2px;
+      width: calc(100% - 2rem);
+      margin: 5px auto;
+      background: #f3f4f6;
+    }
+
+    .list {
+      @extend .flexCol;
+      gap: 1rem;
+      list-style: none;
+      padding: 1rem;
+
+      li {
+        @extend .alignCen;
+        gap: 1rem;
+        padding: 1rem;
+        font-size: 1.25rem;
+        line-height: 1.75rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: background-color 0.3s color 0.3s;
+
+        .title {
+          overflow: hidden;
+          transition: all 0.3s;
+        }
+
+        &:hover {
+          color: #1d4ed8;
+          background: #1d4ed815;
+        }
+
+        .icon {
+          @extend .flexCenter;
+        }
+      }
+    }
+  }
+
+  .account {
+    @extend .alignCen;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0 1rem;
+
+    .left {
+      @extend .alignCen;
+      gap: 1rem;
+
+      .img {
+        @extend .flexCenter;
+        @include setSquare(2.5rem);
+        border-radius: 1.5rem;
+        border: 1px solid #e5e7eb;
+        overflow: hidden;
+
+        img {
+          width: 100%;
+          height: auto;
+        }
+      }
+
+      .name {
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+        overflow: hidden;
+      }
+    }
+
+    .left button {
+      box-sizing: border-box;
+      @extend .flexCenter;
+      @include setSquare(2.5rem);
+      border-radius: 1.25rem;
+      color: inherit;
+      cursor: pointer;
+
+      &:hover {
+        color: #1d4ed8;
+        background: #1d4ed815;
+      }
+    }
+  }
+}
+
+.collapse {
+  max-width: 80px;
+
+  .container {
+    .header .logo {
+      display: none;
+    }
+
+    .divider {
+      width: 85%;
+    }
+
+    .list {
+      padding: 10px;
+
+      li {
+        padding: 1rem;
+        padding-left: 1.1rem;
+
+        .title {
+          width: 0;
+        }
+      }
+    }
+  }
+
+  .account .left {
+    padding-left: 4px;
+
+    .img {
+      cursor: pointer;
+    }
+
+    .name {
+      width: 0;
+    }
+  }
+}
+
+.darkSidebar {
+  background: #111827;
+
+  .container {
+    .header .sidebarBtn {
+      color: #9ca3af;
+      border-color: #374151;
+
+      &:hover {
+        background: #374151;
+        color: #fff;
+      }
+    }
+
+    .divider {
+      background: #374151;
+    }
+
+    .list li {
+      color: #9ca3af;
+
+      &:hover {
+        color: #3b82f6;
+        background: #374151;
+      }
+    }
+  }
+
+  .account {
+    color: #9ca3af;
+
+    .left button:hover {
+      background: #374151;
+      color: #fff;
+    }
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .sidebar {
+    .container {
+      .header {
+        padding: 10px;
+
+        .sidebarBtn {
+          transform: scale(0.85);
+        }
+      }
+
+      .list {
+        padding: 10px;
+        gap: 5px;
+
+        li {
+          font-size: 1.2rem;
+          line-height: 1.75rem;
+          padding: 10px 1rem;
+        }
+      }
+    }
+
+    .account .left .img {
+      @include setSquare(2.2rem);
+    }
+  }
+
+  .collapse {
+    max-width: 58px;
+    padding-bottom: 5px;
+
+    .container {
+      .header {
+        padding: 10px 5px;
+      }
+
+      .list {
+        padding: 0 5px;
+
+        li {
+          padding-left: 12px;
+        }
+      }
+    }
+
+    .account {
+      padding: 0 0.35rem;
+    }
+  }
+}

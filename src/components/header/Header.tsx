@@ -16,6 +16,16 @@ const Header = ({ links, theme }: Props) => {
   const [className, setClassName] = React.useState("");
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (theme === "dark") {
+        setClassName(stl.darkHeader);
+      } else {
+        setClassName("");
+      }
+    }
+  }, [theme]);
+
+  useEffect(() => {
     const btn = document.getElementById("btn");
     expand ? btn?.classList.add(stl.active) : btn?.classList.add(stl.noActive);
     expand
@@ -35,16 +45,6 @@ const Header = ({ links, theme }: Props) => {
     window.addEventListener("resize", measureWidth);
     return () => window.removeEventListener("resize", measureWidth);
   }, []);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl.darkHeader);
-      } else {
-        setClassName("");
-      }
-    }
-  }, [theme]);
 
   return (
     <header className={clsx(stl.header, expand ? stl.expand : "", className)}>

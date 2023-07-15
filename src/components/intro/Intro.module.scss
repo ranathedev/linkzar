@@ -1,0 +1,146 @@
+@import "styles/common";
+
+.intro {
+  @extend .alignCen;
+  width: 100%;
+  max-width: 1280px;
+  background: #fff;
+  height: 100%;
+  padding: 2rem 0;
+
+  .container {
+    @extend .alignCen;
+    max-width: 1280px;
+    min-height: 500px;
+    padding: 2rem 0 2rem 1rem;
+    width: 100%;
+
+    .content {
+      @extend .flexCol;
+      justify-content: space-between;
+      gap: 2rem;
+      place-self: center;
+      width: 100%;
+      margin-right: auto;
+
+      .heading {
+        position: relative;
+        max-width: 38rem;
+        font-size: 2.25rem;
+        line-height: 3rem;
+        font-weight: 800;
+        letter-spacing: -0.025em;
+        overflow: hidden;
+
+        .featureTransition {
+          height: 3.5rem;
+          color: #007bff;
+
+          .text {
+            position: absolute;
+            top: 32%;
+            left: 0;
+            @extend .alignCen;
+            width: 100%;
+            height: 100%;
+            font-size: inherit;
+            line-height: 3.5rem;
+            transform: translateY(100%);
+            transition: transform 0.5s;
+          }
+
+          .current {
+            transform: translateY(0);
+          }
+        }
+      }
+
+      .desc {
+        max-width: 38rem;
+        font-weight: 300;
+        color: #6b7280;
+      }
+
+      .btnContainer {
+        @extend .alignCen;
+        gap: 1rem;
+        width: 100%;
+      }
+    }
+
+    .img {
+      width: 55%;
+      @extend .flexCenter;
+      display: none;
+    }
+  }
+}
+
+.darkIntro {
+  background: #111827;
+
+  .container .content {
+    .heading {
+      color: #fff;
+    }
+
+    .desc {
+      color: #9ca3af;
+    }
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .intro .container {
+    gap: 0;
+
+    .content {
+      .heading {
+        font-size: 3.75rem;
+        line-height: 1;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .intro {
+    height: 700px;
+
+    .container {
+      gap: 2rem;
+      padding: 1rem;
+
+      .content {
+        .desc {
+          margin-bottom: 2rem;
+          font-size: 1.25rem;
+          line-height: 1.75rem;
+        }
+
+        .btnContainer {
+          margin-top: -2rem;
+        }
+      }
+
+      .img {
+        margin-top: 0;
+        display: flex;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .intro .container .content {
+    .heading {
+      font-size: 3rem;
+      line-height: 1;
+    }
+
+    .desc {
+      font-size: 1.125rem;
+      line-height: 1.75rem;
+    }
+  }
+}

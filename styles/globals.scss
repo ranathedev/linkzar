@@ -24,10 +24,13 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-top: 3.5rem;
+    // background: #111827;
 
     button {
       outline: none;
       border: none;
+      font-size: 1rem;
       background: none;
     }
   }

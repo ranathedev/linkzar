@@ -1,101 +1,53 @@
 @import "styles/common";
 
 .heroSec {
+  @extend .alignCen;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1280px;
   background: #fff;
+  padding: 5rem 0.75rem;
 
-  .container {
-    @extend .alignCen;
-    max-width: 1280px;
-    min-height: 500px;
-    padding: 2rem 0 2rem 1rem;
+  .content {
+    @extend .flexCol;
+    gap: 1rem;
+    width: 50%;
+    padding-right: 1rem;
 
-    .content {
-      margin-right: auto;
-      place-self: center;
-
-      .heading {
-        position: relative;
-        max-width: 38rem;
-        margin-bottom: 1rem;
-        font-size: 2.25rem;
-        line-height: 3rem;
-        font-weight: 800;
-        letter-spacing: -0.025em;
-        overflow: hidden;
-
-        .featureTransition {
-          height: 3.5rem;
-          color: #007bff;
-
-          .text {
-            position: absolute;
-            top: 32%;
-            left: 0;
-            @extend .alignCen;
-            width: 100%;
-            height: 100%;
-            font-size: inherit;
-            line-height: 3.5rem;
-            transform: translateY(100%);
-            transition: transform 0.5s;
-          }
-
-          .current {
-            transform: translateY(0);
-          }
-        }
-      }
-
-      .desc {
-        max-width: 38rem;
-        margin-bottom: 1.5rem;
-        font-weight: 300;
-        color: #6b7280;
-      }
-
-      button {
-        @extend .inlineFlexCen;
-        gap: 10px;
-        padding: 0.75rem 1.25rem;
-        margin-right: 0.75rem;
-        font-size: 1rem;
-        line-height: 1.5rem;
-        font-weight: 500;
-        text-align: center;
-        border-radius: 0.5rem;
-        cursor: pointer;
-      }
-
-      .primaryBtn {
-        color: #fff;
-        background: #1d4ed8;
-
-        &:hover {
-          background: #1e40af;
-        }
-      }
-
-      .secondaryBtn {
-        color: #111827;
-
-        &:hover {
-          background: #f3f4f6;
-        }
-      }
+    .heading {
+      font-weight: 600;
+      font-size: calc(1.5rem + 7 * ((100vw - 360px) / 1240));
+      line-height: calc(1.625rem + 9 * ((100vw - 360px) / 1240));
     }
 
-    .img {
-      width: 55%;
-      @extend .flexCenter;
-      display: none;
+    .desc {
+      color: #6b7280;
+      font-size: calc(16px + 6 * ((100vw - 360px) / 1240));
+      line-height: calc(1.2rem + 10 * ((100vw - 360px) / 1240));
     }
+
+    .btnContainer {
+      margin-top: 2rem;
+    }
+  }
+
+  .img {
+    @extend .flexCenter;
+    width: 50%;
+    background: none;
+  }
+}
+
+.swap {
+  .content {
+    order: 1;
   }
 }
 
 .darkHeroSec {
   background: #111827;
 
-  .container .content {
+  .content {
     .heading {
       color: #fff;
     }
@@ -103,61 +55,48 @@
     .desc {
       color: #9ca3af;
     }
-
-    .secondaryBtn {
-      color: #fff;
-      border: 1px solid #374151;
-      background: transparent;
-
-      &:hover {
-        background: #374151;
-      }
-    }
   }
 }
 
-@media screen and (min-width: 1280px) {
-  .heroSec .container {
-    gap: 0;
+@media screen and (max-width: 1024px) {
+  .heroSec {
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1rem 0.75rem 2rem;
+
+    .content,
+    .img {
+      width: 100%;
+      max-width: 700px;
+    }
 
     .content {
-      .heading {
-        font-size: 3.75rem;
-        line-height: 1;
+      order: 1;
+
+      .btnContainer {
+        margin-top: 1rem;
       }
     }
   }
 }
 
-@media screen and (min-width: 1024px) {
-  .heroSec .container {
-    gap: 2rem;
-    padding: 1rem;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-
-    .content .desc {
-      margin-bottom: 2rem;
-      font-size: 1.25rem;
-      line-height: 1.75rem;
-    }
-
-    .img {
-      margin-top: 0;
-      display: flex;
-    }
+@media screen and (max-width: 768px) {
+  .heroSec .content,
+  .img {
+    width: 90%;
   }
 }
 
-@media screen and (min-width: 768px) {
-  .heroSec .container .content {
-    .heading {
-      font-size: 3rem;
-      line-height: 1;
+@media screen and (max-width: 640px) {
+  .heroSec {
+    .content,
+    .img {
+      width: 100%;
     }
 
-    .desc {
-      font-size: 1.125rem;
-      line-height: 1.75rem;
+    .content .desc {
+      font-size: 1.2rem;
+      line-height: 1.4rem;
     }
   }
 }

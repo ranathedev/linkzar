@@ -3,10 +3,11 @@ import Head from "next/head";
 import Header from "components/header";
 // import Intro from "components/intro";
 import ToggleThemeBtn from "components/toggle-theme-btn";
-import FAQSection from "components/faq-section";
+// import FAQSection from "components/faq-section";
 // import HeroSection from "components/hero-section";
 
 import stl from "./index.module.scss";
+import Footer from "components/footer";
 
 export default function Home() {
   const [theme, setTheme] = React.useState("light");
@@ -26,7 +27,8 @@ export default function Home() {
         />
         {/* <Intro theme={theme} /> */}
         {/* <HeroSection theme={theme} swap={true} /> */}
-        <FAQSection theme={theme} />
+        {/* <FAQSection theme={theme} /> */}
+        <Footer theme={theme} />
       </main>
     </>
   );

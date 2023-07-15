@@ -3,8 +3,9 @@ import Head from "next/head";
 
 import Header from "components/header";
 import ToggleThemeBtn from "components/toggle-theme-btn";
-import Homepage from "./Homepage";
-import Footer from "components/footer";
+// import Homepage from "./Homepage";
+// import Footer from "components/footer";
+import ContactForm from "components/contact-form";
 
 import stl from "./index.module.scss";
 
@@ -24,8 +25,9 @@ export default function Home() {
         <ToggleThemeBtn
           handleOnClick={() => setTheme(theme === "light" ? "dark" : "light")}
         />
-        <Homepage theme={theme} />
-        <Footer theme={theme} />
+        {/* <Homepage theme={theme} /> */}
+        {/* <Footer theme={theme} /> */}
+        <ContactForm theme={theme} />
       </main>
     </>
   );

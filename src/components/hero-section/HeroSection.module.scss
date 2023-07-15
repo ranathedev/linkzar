@@ -1,11 +1,12 @@
+@import "styles/common";
+
 .heroSec {
   background: #fff;
 
   .container {
-    display: flex;
-    align-items: center;
+    @extend .alignCen;
     max-width: 1280px;
-    min-height: 450px;
+    min-height: 500px;
     padding: 2rem 0 2rem 1rem;
 
     .content {
@@ -13,13 +14,36 @@
       place-self: center;
 
       .heading {
+        position: relative;
         max-width: 38rem;
         margin-bottom: 1rem;
         font-size: 2.25rem;
-        line-height: 2.5rem;
+        line-height: 3rem;
         font-weight: 800;
         letter-spacing: -0.025em;
-        line-height: 1;
+        overflow: hidden;
+
+        .featureTransition {
+          height: 3.5rem;
+          color: #007bff;
+
+          .text {
+            position: absolute;
+            top: 32%;
+            left: 0;
+            @extend .alignCen;
+            width: 100%;
+            height: 100%;
+            font-size: inherit;
+            line-height: 3.5rem;
+            transform: translateY(100%);
+            transition: transform 0.5s;
+          }
+
+          .current {
+            transform: translateY(0);
+          }
+        }
       }
 
       .desc {
@@ -32,9 +56,8 @@
       button {
         border: none;
         outline: none;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
+        @extend .inlineFlexCen;
+        gap: 10px;
         padding: 0.75rem 1.25rem;
         margin-right: 0.75rem;
         font-size: 1rem;
@@ -72,8 +95,7 @@
 
     .img {
       width: 55%;
-      align-items: center;
-      justify-content: center;
+      @extend .flexCenter;
       display: none;
     }
   }
@@ -82,84 +104,69 @@
 .darkHeroSec {
   background: #111827;
 
-  .container {
-    .content {
-      .heading {
-        color: #fff;
-      }
+  .container .content {
+    .heading {
+      color: #fff;
+    }
 
-      .desc {
-        color: #9ca3af;
-      }
+    .desc {
+      color: #9ca3af;
+    }
 
-      .secondaryBtn {
-        color: #fff;
-        border: 1px solid rgb(55 65 81);
-        background: transparent;
+    .secondaryBtn {
+      color: #fff;
+      border: 1px solid rgb(55 65 81);
+      background: transparent;
 
-        &:hover {
-          background: rgb(55 65 81);
-        }
+      &:hover {
+        background: rgb(55 65 81);
       }
     }
   }
 }
 
 @media screen and (min-width: 1280px) {
-  .heroSec {
-    .container {
-      gap: 0;
+  .heroSec .container {
+    gap: 0;
 
-      .content {
-        .heading {
-          font-size: 3.75rem;
-          line-height: 1;
-        }
+    .content {
+      .heading {
+        font-size: 3.75rem;
+        line-height: 1;
       }
     }
   }
 }
 
 @media screen and (min-width: 1024px) {
-  .heroSec {
-    .container {
-      gap: 2rem;
-      padding: 1rem;
-      grid-template-columns: repeat(12, minmax(0, 1fr));
+  .heroSec .container {
+    gap: 2rem;
+    padding: 1rem;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
 
-      .content {
-        // grid-column: span 7 / span 7;
+    .content .desc {
+      margin-bottom: 2rem;
+      font-size: 1.25rem;
+      line-height: 1.75rem;
+    }
 
-        .desc {
-          margin-bottom: 2rem;
-          font-size: 1.25rem;
-          line-height: 1.75rem;
-        }
-      }
-
-      .img {
-        margin-top: 0;
-        // grid-column: span 5 / span 5;
-        display: flex;
-      }
+    .img {
+      margin-top: 0;
+      display: flex;
     }
   }
 }
 
 @media screen and (min-width: 768px) {
-  .heroSec {
-    .container {
-      .content {
-        .heading {
-          font-size: 3rem;
-          line-height: 1;
-        }
+  .heroSec .container .content {
+    .heading {
+      font-size: 3rem;
+      line-height: 1;
+    }
 
-        .desc {
-          font-size: 1.125rem;
-          line-height: 1.75rem;
-        }
-      }
+    .desc {
+      font-size: 1.125rem;
+      line-height: 1.75rem;
     }
   }
 }

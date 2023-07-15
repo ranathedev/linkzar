@@ -6,9 +6,11 @@
   "author": "ranaintizar <intizaralirana2@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "concurrently \"yarn server\" \"yarn client\"",
-    "server": "cd server && yarn start",
-    "client": "cd client && yarn dev"
+    "dev": "concurrently \"yarn server\" \"yarn client-dev\"",
+    "start": "concurrently \"yarn server\" \"yarn client-start\"",
+    "client-start": "cd client && yarn start",
+    "client-dev": "cd client && yarn dev",
+    "server": "cd server && yarn start"
   },
   "dependencies": {
     "concurrently": "^8.2.0"

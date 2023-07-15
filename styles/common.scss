@@ -9,6 +9,11 @@
   align-items: center;
 }
 
+.alignStart {
+  display: flex;
+  align-items: flex-start;
+}
+
 .flexCol {
   display: flex;
   flex-direction: column;

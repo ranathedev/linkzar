@@ -3,7 +3,10 @@ import Head from "next/head";
 import Header from "components/header";
 // import Intro from "components/intro";
 import ToggleThemeBtn from "components/toggle-theme-btn";
-import HeroSection from "components/hero-section";
+import FAQSection from "components/faq-section";
+// import HeroSection from "components/hero-section";
+
+import stl from "./index.module.scss";
 
 export default function Home() {
   const [theme, setTheme] = React.useState("light");
@@ -16,13 +19,14 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
+      <main className={stl[`${theme}Main`]}>
         <Header theme={theme} />
         <ToggleThemeBtn
           handleOnClick={() => setTheme(theme === "light" ? "dark" : "light")}
         />
         {/* <Intro theme={theme} /> */}
-        <HeroSection theme={theme} />
+        {/* <HeroSection theme={theme} swap={true} /> */}
+        <FAQSection theme={theme} />
       </main>
     </>
   );

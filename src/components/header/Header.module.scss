@@ -1,0 +1,347 @@
+@import "styles/common";
+
+.header {
+  position: fixed;
+  top: 0;
+  @extend .flexColCen;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 5px;
+  width: 100%;
+  max-width: 1300px;
+  height: 3.5rem;
+  padding: 8px 1rem;
+  background: #fff;
+  z-index: 10;
+  transition: all 0.4s;
+  overflow: hidden;
+
+  .container {
+    @extend .alignCen;
+    justify-content: space-between;
+    gap: 4rem;
+    transition: all 0.25s;
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .menu {
+      @extend .alignCen;
+      justify-content: center;
+      gap: 10px;
+      flex: 1;
+
+      a {
+        padding: 10px;
+        font-size: 1.2rem;
+        color: #374151;
+
+        &:hover {
+          color: #1d4ed8;
+        }
+      }
+
+      .active {
+        position: relative;
+        color: #1d4ed8;
+
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: -5px;
+          left: 0;
+          height: 3px;
+          background: #1d4ed8;
+          width: 100%;
+        }
+      }
+    }
+
+    .right {
+      @extend .alignCen;
+      gap: 12px;
+
+      .contactBtn {
+        padding: 0.625rem 1rem;
+        font-size: 1rem;
+        line-height: 1.25rem;
+        font-weight: 500;
+        color: #fff;
+        background: #1d4ed8;
+        border-radius: 0.5rem;
+        cursor: pointer;
+
+        &:hover {
+          background: #1e40af;
+        }
+
+        &:active {
+          transform: scale(0.95);
+        }
+      }
+
+      .expandBtn {
+        width: 40px;
+        padding: 8px;
+        color: #64748b;
+        border-radius: 5px;
+        cursor: pointer;
+        display: none;
+
+        &:hover {
+          background: #f3f4f6;
+        }
+
+        span {
+          display: block;
+          width: 85%;
+          border-radius: 3px;
+          height: 3px;
+          margin-left: 1.5px;
+          background: #010851;
+          transition: all 0.3s;
+          position: relative;
+        }
+
+        span + span {
+          margin-top: 4.5px;
+        }
+      }
+
+      .active span:nth-child(1) {
+        animation: ease 0.4s top forwards;
+      }
+
+      .notActive span:nth-child(1) {
+        animation: ease 0.4s top-2 forwards;
+      }
+
+      .active span:nth-child(2) {
+        animation: ease 0.4s scaled forwards;
+      }
+
+      .notActive span:nth-child(2) {
+        animation: ease 0.4s scaled-2 forwards;
+      }
+
+      .active span:nth-child(3) {
+        animation: ease 0.4s bottom forwards;
+      }
+
+      .notActive span:nth-child(3) {
+        animation: ease 0.4s bottom-2 forwards;
+      }
+    }
+  }
+
+  .list {
+    @extend .flexCol;
+    width: 100%;
+    margin-top: 11px;
+    font-weight: 500;
+    font-size: 1rem;
+    list-style: none;
+
+    a {
+      position: relative;
+      display: block;
+      padding: 10px 1rem;
+      border-bottom: 1px solid #f3f4f6;
+
+      &:hover {
+        background: #f9fafb;
+      }
+    }
+
+    .active {
+      background: #1d4ed8;
+      color: #fff;
+    }
+  }
+}
+
+.expand {
+  height: 14.5rem;
+}
+
+.darkHeader {
+  background: #1f2937;
+
+  .container {
+    .logo {
+      color: #fff;
+    }
+
+    .menu {
+      a {
+        color: #9ca3af;
+
+        &:hover {
+          color: #fff;
+        }
+      }
+
+      .active {
+        color: #fff;
+
+        &::after {
+          background: #fff;
+        }
+
+        &:hover {
+          color: #fff;
+        }
+      }
+    }
+
+    .right {
+      .contactBtn {
+        background: #2563eb;
+
+        &:hover {
+          background: #1d4ed8;
+        }
+      }
+
+      .expandBtn {
+        color: #9ca3af;
+
+        &:hover {
+          background: #374151;
+        }
+
+        span {
+          background: #fff;
+        }
+      }
+    }
+  }
+
+  .list {
+    a {
+      color: #9ca3af;
+      border-color: #374151;
+
+      &:hover {
+        background: #374151;
+        color: #fff;
+      }
+    }
+
+    .active {
+      color: #fff;
+    }
+  }
+}
+
+@keyframes top {
+  0% {
+    top: 0;
+    transform: rotate(0);
+  }
+  50% {
+    top: 7.5px;
+    transform: rotate(0);
+  }
+  100% {
+    top: 7.5px;
+    transform: rotate(45deg);
+  }
+}
+
+@keyframes top-2 {
+  0% {
+    top: 7.5px;
+    transform: rotate(45deg);
+  }
+  50% {
+    top: 7.5px;
+    transform: rotate(0deg);
+  }
+  100% {
+    top: 0;
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes bottom {
+  0% {
+    bottom: 0;
+    transform: rotate(0);
+  }
+  50% {
+    bottom: 7.5px;
+    transform: rotate(0);
+  }
+  100% {
+    bottom: 7.5px;
+    transform: rotate(135deg);
+  }
+}
+
+@keyframes bottom-2 {
+  0% {
+    bottom: 7.5px;
+    transform: rotate(135deg);
+  }
+  50% {
+    bottom: 7.5px;
+    transform: rotate(0);
+  }
+  100% {
+    bottom: 0;
+    transform: rotate(0);
+  }
+}
+
+@keyframes scaled {
+  50% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+@keyframes scaled-2 {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media screen and (max-width: 820px) {
+  .header .container {
+    gap: 1rem;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .header .container {
+    .logo {
+      padding-top: 7px;
+    }
+
+    .menu {
+      display: none;
+    }
+
+    .right {
+      .contactBtn {
+        padding: 0.5rem 1rem;
+        margin-right: 0.5rem;
+      }
+
+      .expandBtn {
+        display: block;
+      }
+    }
+  }
+}

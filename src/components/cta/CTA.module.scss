@@ -1,0 +1,97 @@
+@import "styles/common";
+
+.cta {
+  position: relative;
+  width: 95%;
+  border-radius: 1rem;
+  margin: 1rem 0 3rem;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  overflow: hidden;
+  z-index: 2;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    @include setSquare(350px);
+    border-radius: 50%;
+    background: rgb(59 130 246);
+  }
+
+  .container {
+    backdrop-filter: blur(2rem);
+    width: 100%;
+    max-width: 1280px;
+    padding: 2rem 1rem;
+    margin: 0 auto;
+
+    .content {
+      @extend .flexColCen;
+      gap: 1.5rem;
+      max-width: 40rem;
+      margin: 0 auto;
+      text-align: center;
+
+      .heading {
+        font-size: 2.25rem;
+        line-height: 2.5rem;
+        letter-spacing: -0.025em;
+        color: #111827;
+      }
+
+      .desc {
+        font-weight: 300;
+        color: #6b7280;
+      }
+    }
+  }
+}
+
+.darkCTA {
+  background: #111827;
+  box-shadow: rgb(31 41 55) 0px 6px 24px 0px, rgb(55 65 81) 0px 0px 0px 1px;
+
+  &::before {
+    background: rgb(30 58 138);
+  }
+
+  .container .content {
+    .heading {
+      color: #fff;
+    }
+
+    .desc {
+      color: #9ca3af;
+    }
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .cta .container {
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .cta {
+    &::before {
+      @include setSquare(300px);
+    }
+
+    .container .content .desc {
+      font-size: 1.125rem;
+      line-height: 1.75rem;
+    }
+  }
+}
+
+@media screen and (min-width: 640px) {
+  .cta .container {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}

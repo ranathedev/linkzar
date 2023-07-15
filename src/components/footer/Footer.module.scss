@@ -6,6 +6,7 @@
   width: 100%;
   padding: 2rem 1rem;
   background: #fff;
+  font-size: 1.2rem;
   color: #6b7280;
 
   .logo {
@@ -16,7 +17,6 @@
 
   .about {
     max-width: 1024px;
-    font-size: 1.2rem;
     text-align: center;
   }
 
@@ -44,7 +44,7 @@
 }
 
 @media screen and (max-width: 600px) {
-  .footer .about {
-    font-size: 1rem;
+  .footer {
+    font-size: 1.1rem;
   }
 }

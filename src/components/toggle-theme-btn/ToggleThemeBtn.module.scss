@@ -5,6 +5,7 @@
   bottom: 0.625rem;
   right: 0.625rem;
   cursor: pointer;
+  z-index: 20;
 
   .iconContainer {
     @extend .alignCen;

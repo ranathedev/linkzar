@@ -66,20 +66,19 @@
       a {
         @extend .alignCen;
         gap: 10px;
-        color: dodgerblue;
+        color: #1e90ff;
         font-size: 1.2rem;
 
         span {
-          color: dodgerblue;
+          color: #d1d5db;
           cursor: pointer;
-          opacity: 0;
         }
 
         &:hover {
           text-decoration: underline;
 
           span {
-            opacity: 1;
+            color: #1e90ff;
           }
         }
       }
@@ -103,23 +102,27 @@
         border-radius: 0.5rem;
         cursor: pointer;
 
-        .options {
-          position: absolute;
-          top: 0.5rem;
-          right: 10px;
-          @extend .alignCen;
-          gap: 5px;
-          opacity: 0;
+        .optContainer {
+          display: flex;
+          justify-content: center;
 
-          .btn {
-            @extend .flexCenter;
-            @include setSquare(30px);
-            border-radius: 0.3rem;
-            color: inherit;
-            cursor: pointer;
+          .options {
+            position: absolute;
+            top: 0.5rem;
+            right: 10px;
+            @extend .alignCen;
+            gap: 5px;
 
-            &:hover {
-              background: #e5e7eb;
+            .btn {
+              @extend .flexCenter;
+              @include setSquare(30px);
+              border-radius: 0.3rem;
+              color: inherit;
+              cursor: pointer;
+
+              &:hover {
+                background: #e5e7eb;
+              }
             }
           }
         }
@@ -127,8 +130,16 @@
         &:hover {
           background: #f9fafb;
           color: #9ca3af;
+        }
+      }
 
-          .options {
+      .hideOptions {
+        .optContainer .options {
+          opacity: 0;
+        }
+
+        &:hover {
+          .optContainer .options {
             opacity: 1;
           }
         }
@@ -200,7 +211,48 @@
 }
 
 @media screen and (max-width: 640px) {
-  .urlShotener .container .searchBar {
+  .urlShotener .container {
+    padding: 1rem;
+
+    .searchBar {
+      flex-direction: column;
+    }
+
+    .longURL {
+      flex-direction: column;
+    }
+
+    .shortURL {
+      margin-bottom: 2.5rem;
+      flex-direction: column;
+
+      .link {
+        .optContainer .options {
+          top: unset;
+          bottom: -2.7rem;
+          border: 1px solid #d1d5db;
+          padding: 3px;
+          right: unset;
+          border-radius: 0.5rem;
+          display: flex;
+          justify-content: center;
+        }
+
+        &:hover {
+          background: unset;
+          color: unset;
+        }
+      }
+    }
+  }
+
+  .darkURLShortener .container .shortURL .link .options {
+    border-color: #4b5563;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .urlShotener .container .btnContainer {
     flex-direction: column;
   }
 }

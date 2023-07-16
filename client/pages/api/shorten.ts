@@ -20,11 +20,18 @@ const insertDataObject = async (dataObject: {
     });
 
     if (urlData) {
-      console.log("Data Found:", urlData);
-      return urlData;
+      const response = {
+        originalURL: urlData.originalURL,
+        shortURL: `http://localhost:3001/${urlData.shortURL}`,
+      };
+      return response;
     } else {
       await collection.insertOne(dataObject);
-      return dataObject;
+      const response = {
+        originalURL: dataObject.originalURL,
+        shortURL: `http://localhost:3001/${dataObject.shortURL}`,
+      };
+      return response;
     }
   } catch (error) {
     console.error("Error inserting data object:", error);

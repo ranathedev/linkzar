@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import clsx from "clsx";
 
 import SunIcon from "assets/sun.svg";
@@ -8,11 +8,24 @@ import stl from "./ToggleThemeBtn.module.scss";
 
 interface Props {
   handleOnClick: any;
+  theme: string;
   customClass?: string;
 }
 
-const ToggleThemeBtn = ({ handleOnClick, customClass }: Props) => {
-  const [isActive, setIsActive] = React.useState(false);
+const ToggleThemeBtn = ({ handleOnClick, theme, customClass }: Props) => {
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const btn = document.getElementById("toggleBtn");
+      const dot = document.getElementById("dotBtn");
+      if (theme === "dark") {
+        btn?.classList.add(stl.activeBtn);
+        dot?.classList.add(stl.active);
+      } else {
+        btn?.classList.remove(stl.activeBtn);
+        dot?.classList.remove(stl.active);
+      }
+    }
+  }, [theme]);
 
   return (
     <div
@@ -20,21 +33,13 @@ const ToggleThemeBtn = ({ handleOnClick, customClass }: Props) => {
       className={clsx(stl.toggleBtn, customClass)}
       onClick={() => {
         handleOnClick();
-        setIsActive(!isActive);
       }}
     >
-      <div
-        className={clsx(
-          stl.iconContainer,
-          isActive ? stl.activeBtn : undefined
-        )}
-      >
+      <div id="toggleBtn" className={stl.iconContainer}>
         <MoonIcon />
         <SunIcon />
       </div>
-      <span
-        className={clsx(stl.dotBtn, isActive ? stl.active : undefined)}
-      ></span>
+      <span id="dotBtn" className={stl.dotBtn} />
     </div>
   );
 };

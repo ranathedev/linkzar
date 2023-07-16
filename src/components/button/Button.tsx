@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import clsx from "clsx";
 
 import stl from "./Button.module.scss";
@@ -12,13 +12,21 @@ interface Props {
 }
 
 const Button = ({ label, variant, icon, theme, handleOnClick }: Props) => {
+  const [className, setClassName] = React.useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (theme === "dark") {
+        setClassName(stl[`dark${variant}Btn`]);
+      } else {
+        setClassName("");
+      }
+    }
+  }, [theme, variant]);
+
   return (
     <button
-      className={clsx(
-        stl.btn,
-        stl[`${variant}Btn`],
-        stl[`${theme}${variant}Btn`]
-      )}
+      className={clsx(stl.btn, stl[`${variant}Btn`], className)}
       onClick={handleOnClick}
     >
       {label}

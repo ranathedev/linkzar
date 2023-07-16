@@ -13,6 +13,7 @@ const Header = ({ links, theme }: Props) => {
   const [expand, setIsExpand] = React.useState(false);
   const [width, setWidth] = React.useState(500);
   const [active, setIsActive] = React.useState("Overview");
+  const [className, setClassName] = React.useState("");
 
   useEffect(() => {
     const btn = document.getElementById("btn");
@@ -35,14 +36,18 @@ const Header = ({ links, theme }: Props) => {
     return () => window.removeEventListener("resize", measureWidth);
   }, []);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (theme === "dark") {
+        setClassName(stl.darkHeader);
+      } else {
+        setClassName("");
+      }
+    }
+  }, [theme]);
+
   return (
-    <header
-      className={clsx(
-        stl.header,
-        expand ? stl.expand : "",
-        stl[`${theme}Header`]
-      )}
-    >
+    <header className={clsx(stl.header, expand ? stl.expand : "", className)}>
       <div className={stl.container}>
         <a href="#" className={stl.logo}>
           Linkzar
@@ -60,9 +65,9 @@ const Header = ({ links, theme }: Props) => {
           ))}
         </div>
         <div className={stl.right}>
-          <a href="/contact" className={stl.contactBtn}>
+          <Link href="/contact" className={stl.contactBtn}>
             Contact
-          </a>
+          </Link>
           <button
             id="btn"
             onClick={() => setIsExpand(!expand)}

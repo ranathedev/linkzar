@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import clsx from "clsx";
 
@@ -16,8 +16,20 @@ interface Props {
 }
 
 const Footer = ({ theme, links }: Props) => {
+  const [className, setClassName] = React.useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (theme === "dark") {
+        setClassName(stl.darkFooter);
+      } else {
+        setClassName("");
+      }
+    }
+  }, [theme]);
+
   return (
-    <footer className={clsx(stl.footer, stl[`${theme}Footer`])}>
+    <footer className={clsx(stl.footer, className)}>
       <Link href="/" className={stl.logo}>
         Linkzar
       </Link>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import clsx from "clsx";
 
 import Button from "components/button";
@@ -12,8 +12,20 @@ interface Props {
 }
 
 const CTA = ({ theme }: Props) => {
+  const [className, setClassName] = React.useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (theme === "dark") {
+        setClassName(stl.darkCTA);
+      } else {
+        setClassName("");
+      }
+    }
+  }, [theme]);
+
   return (
-    <section className={clsx(stl.cta, stl[`${theme}CTA`])}>
+    <section className={clsx(stl.cta, className)}>
       <div className={stl.container}>
         <div className={stl.content}>
           <h2 className={stl.heading}>Start your free trial today</h2>

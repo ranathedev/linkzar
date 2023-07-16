@@ -16,6 +16,7 @@ interface Props {
 
 const Intro = ({ theme, customClass }: Props) => {
   const [currentIndex, setCurrentIndex] = React.useState(0);
+  const [className, setClassName] = React.useState("");
   const texts = [
     "Simplifying Your Links",
     "Amplifying Your Reach",
@@ -30,8 +31,18 @@ const Intro = ({ theme, customClass }: Props) => {
     return () => clearInterval(interval);
   }, [texts.length]);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (theme === "dark") {
+        setClassName(stl.darkIntro);
+      } else {
+        setClassName("");
+      }
+    }
+  }, [theme]);
+
   return (
-    <section className={clsx(stl.intro, stl[`${theme}Intro`], customClass)}>
+    <section className={clsx(stl.intro, className, customClass)}>
       <div className={stl.container}>
         <div className={stl.content}>
           <h1 className={stl.heading}>

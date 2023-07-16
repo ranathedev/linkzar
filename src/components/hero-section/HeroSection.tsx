@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import clsx from "clsx";
 
@@ -32,14 +32,22 @@ const HeroSection = ({
   background,
   swap,
 }: Props) => {
+  const [className, setClassName] = React.useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (theme === "dark") {
+        setClassName(stl.darkHeroSec);
+      } else {
+        setClassName("");
+      }
+    }
+  }, [theme]);
+
   return (
-    <div
+    <section
       style={{ background }}
-      className={clsx(
-        stl.heroSec,
-        stl[`${theme}HeroSec`],
-        swap ? stl.swap : ""
-      )}
+      className={clsx(stl.heroSec, swap ? stl.swap : "", className)}
     >
       <div className={stl.content}>
         <div className={stl.heading}>{heading}</div>
@@ -56,7 +64,7 @@ const HeroSection = ({
       <div className={stl.img}>
         <Image src={src} alt="short-url-image" />
       </div>
-    </div>
+    </section>
   );
 };
 

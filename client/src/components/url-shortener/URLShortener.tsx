@@ -83,6 +83,29 @@ const URLShortener = ({ theme }: Props) => {
     }
   };
 
+  const handleReset = () => {
+    setShortURL("");
+    setLongURL("");
+  };
+
+  const handleDelLink = async (originalURL: string) => {
+    setIsLoading(true);
+    const response = await axios.post("/api/deleteLink", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      originalURL,
+    });
+
+    if (response.status === 200) {
+      const data = response.data;
+      data && handleReset();
+    } else {
+      console.log("Error:", response.statusText);
+    }
+    setIsLoading(false);
+  };
+
   return (
     <div className={clsx(stl.urlShotener, className)}>
       <div className={stl.container}>
@@ -154,7 +177,10 @@ const URLShortener = ({ theme }: Props) => {
                           <ShareIcon />
                         </button>
                       )}
-                      <button className={stl.btn}>
+                      <button
+                        className={stl.btn}
+                        onClick={() => handleDelLink(longURL)}
+                      >
                         <DeleteIcon />
                       </button>
                     </div>
@@ -168,10 +194,7 @@ const URLShortener = ({ theme }: Props) => {
                   label="Shorten another"
                   icon={<LinkIcon />}
                   theme={theme}
-                  handleOnClick={() => {
-                    setShortURL("");
-                    setLongURL("");
-                  }}
+                  handleOnClick={handleReset}
                 />
               )}
               <Button

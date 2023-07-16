@@ -41,22 +41,6 @@ const insertDataObject = async (dataObject: {
   }
 };
 
-// const run = async () => {
-//   console.log(generateRandomString(5));
-
-//   try {
-//     const database = client.db("linkzar");
-//     const linksCollection = database.collection("links");
-
-//     const query = { originalURL: "https://ranaintizar.com" };
-//     const link = await linksCollection.findOne(query);
-
-//     return link;
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
-
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     const url = req.body.url;

@@ -1,0 +1,206 @@
+@import "styles/common";
+
+.urlShotener {
+  @extend .flexCenter;
+  gap: 2rem;
+  width: 95%;
+  max-width: 1280px;
+  min-height: calc(100vh - 3.5rem);
+
+  .container {
+    @extend .flexColCen;
+    gap: 2rem;
+    width: 100%;
+    max-width: 768px;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 0.5rem;
+
+    .heading {
+      text-align: center;
+    }
+
+    .searchBar {
+      position: relative;
+      @extend .justifyCen;
+      width: 100%;
+      gap: 1rem;
+
+      .searchIcon {
+        position: absolute;
+        top: 12px;
+        left: 0;
+        @extend .alignCen;
+        padding-left: 0.75rem;
+        color: #6b7280;
+        pointer-events: none;
+      }
+
+      input {
+        outline: none;
+        flex: 1;
+        padding: 10.5px;
+        padding-left: 2.5rem;
+        font-size: 1rem;
+        line-height: 1.5rem;
+        color: #111827;
+        background: #f9fafb;
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+
+        &:hover {
+          border-color: #3b82f6;
+        }
+      }
+
+      .btnContainer {
+        margin: auto;
+      }
+    }
+
+    .longURL {
+      @extend .alignCen;
+      gap: 10px;
+      width: 100%;
+
+      a {
+        @extend .alignCen;
+        gap: 10px;
+        color: dodgerblue;
+        font-size: 1.2rem;
+
+        span {
+          color: dodgerblue;
+          cursor: pointer;
+          opacity: 0;
+        }
+
+        &:hover {
+          text-decoration: underline;
+
+          span {
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    .shortURL {
+      position: relative;
+      @extend .alignCen;
+      gap: 0.75rem;
+      width: 100%;
+      font-size: 1.2rem;
+
+      .link {
+        flex: 1;
+        padding: 10.5px;
+        font-size: 1.2rem;
+        line-height: 1.5rem;
+        color: #111827;
+        background: #fff;
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+        cursor: pointer;
+
+        .options {
+          position: absolute;
+          top: 0.5rem;
+          right: 10px;
+          @extend .alignCen;
+          gap: 5px;
+          opacity: 0;
+
+          .btn {
+            @extend .flexCenter;
+            @include setSquare(30px);
+            border-radius: 0.3rem;
+            color: inherit;
+            cursor: pointer;
+
+            &:hover {
+              background: #e5e7eb;
+            }
+          }
+        }
+
+        &:hover {
+          background: #f9fafb;
+          color: #9ca3af;
+
+          .options {
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    .btnContainer {
+      @extend .justifyCen;
+      gap: 1rem;
+    }
+  }
+}
+
+.darkURLShortener {
+  .container {
+    background: #111827;
+
+    .heading {
+      color: #fff;
+    }
+
+    .searchBar {
+      .searchIcon {
+        color: #9ca3af;
+      }
+
+      input {
+        background: #374151;
+        border-color: #4b5563;
+        color: #fff;
+
+        &:focus {
+          border-color: #3b82f6;
+        }
+
+        &::placeholder {
+          color: #9ca3af;
+        }
+      }
+    }
+
+    .longURL {
+      color: #fff;
+    }
+
+    .shortURL {
+      color: #fff;
+
+      .link {
+        background: #374151;
+        border-color: #4b5563;
+        color: #fff;
+
+        .options .btn {
+          color: #9ca3af;
+
+          &:hover {
+            background: #6b7280;
+          }
+        }
+
+        &:hover {
+          background: #374151;
+          color: #9ca3af;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .urlShotener .container .searchBar {
+    flex-direction: column;
+  }
+}

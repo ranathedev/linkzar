@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 import clsx from "clsx";
+import axios from "axios";
 
 import Button from "components/button";
+import { validateUrl } from "lib/utils";
 
 import LinkIcon from "assets/link.svg";
 import OpenLinkIcon from "assets/openLink.svg";
@@ -17,7 +19,7 @@ interface Props {
 }
 
 const URLShortener = ({ theme }: Props) => {
-  const [givenLink, setGivenLink] = React.useState("");
+  const [url, setURL] = React.useState("");
   const [longURL, setLongURL] = React.useState("");
   const [shortURL, setShortURL] = React.useState("");
   const [className, setClassName] = React.useState("");
@@ -32,11 +34,31 @@ const URLShortener = ({ theme }: Props) => {
     }
   }, [theme]);
 
-  const handleSubmit = () => {
-    console.log(givenLink);
-    setLongURL(givenLink);
-    setShortURL("https://shorturl.at/jtwz4");
-    setGivenLink("");
+  const handleKeyDown = (e: any) => {
+    e.keyCode === 13 && handleSubmit();
+  };
+
+  const handleSubmit = async () => {
+    const isValidURL = validateUrl(url);
+    if (isValidURL) {
+      const response = await axios.post("/api/shorten", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        url,
+      });
+
+      if (response.status === 200) {
+        const data = response.data;
+        console.log(data);
+
+        setLongURL(data.originalURL);
+        setShortURL(data.shortURL);
+      } else {
+        console.log("Error:", response.statusText);
+      }
+      setURL("");
+    }
   };
 
   return (
@@ -49,9 +71,10 @@ const URLShortener = ({ theme }: Props) => {
               <LinkIcon />
             </div>
             <input
-              value={givenLink}
+              value={url}
               placeholder="Enter link here"
-              onChange={(e) => setGivenLink(e.target.value)}
+              onChange={(e) => setURL(e.target.value)}
+              onKeyDown={handleKeyDown}
             />
             <div className={stl.btnContainer}>
               <Button
@@ -77,7 +100,7 @@ const URLShortener = ({ theme }: Props) => {
           <div className={stl.shortURL}>
             Short URL :{" "}
             <div className={stl.link}>
-              https://shorturl.at/jtwz4
+              http://localhost:3001/{shortURL}
               <div className={stl.options}>
                 <button className={stl.btn}>
                   <OpenLinkIcon />

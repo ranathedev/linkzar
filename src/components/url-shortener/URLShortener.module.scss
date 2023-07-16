@@ -116,10 +116,11 @@
             @extend .flexCenter;
             @include setSquare(30px);
             border-radius: 0.3rem;
+            color: inherit;
             cursor: pointer;
 
             &:hover {
-              background: rgb(229 231 235);
+              background: #e5e7eb;
             }
           }
         }
@@ -186,7 +187,7 @@
           color: #9ca3af;
 
           &:hover {
-            background: rgb(107 114 128);
+            background: #6b7280;
           }
         }
 

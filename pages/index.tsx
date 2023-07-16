@@ -1,18 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 // import Overview from "./overview";
-import URLShortener from "components/url-shortener";
+import Sidebar from "components/sidebar";
 
 export default function Home() {
-  const [theme, setTheme] = React.useState("light");
-
-  useEffect(() => {
-    setTheme("");
-  }, []);
+  //@ts-ignore
+  const [theme, setTheme] = React.useState("dark");
 
   return (
     <main>
-      <URLShortener theme={theme} />
+      <Sidebar theme={theme} />
     </main>
   );
 }

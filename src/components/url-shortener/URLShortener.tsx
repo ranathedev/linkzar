@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import Link from "next/link";
 import clsx from "clsx";
 
 import Button from "components/button";
@@ -10,7 +11,6 @@ import ShareIcon from "assets/share.svg";
 import DeleteIcon from "assets/delete.svg";
 
 import stl from "./URLShortener.module.scss";
-import Link from "next/link";
 
 interface Props {
   theme: string;

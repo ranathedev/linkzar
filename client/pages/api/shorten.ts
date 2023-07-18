@@ -1,8 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 const { MongoClient } = require("mongodb");
 
-import { generateRandomString } from "lib/utils";
-
 const uri = `mongodb+srv://linkzar:${process.env.MONGO_KEY}@linkzar-cluster.2wcn1ji.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
 
@@ -19,11 +17,18 @@ const insertDataObject = async (dataObject: {
       originalURL: dataObject.originalURL,
     });
 
+    const shortLink = await collection.findOne({
+      shortURL: dataObject.shortURL,
+    });
+
     if (urlData) {
       const response = {
         originalURL: urlData.originalURL,
         shortURL: `http://localhost:3001/${urlData.shortURL}`,
       };
+      return response;
+    } else if (shortLink) {
+      const response = { err: "This alias is taken" };
       return response;
     } else {
       await collection.insertOne(dataObject);
@@ -44,7 +49,7 @@ const insertDataObject = async (dataObject: {
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     const url = req.body.url;
-    const shortURL = generateRandomString(5);
+    const shortURL = req.body.shortURL;
     const dataObject = { shortURL, originalURL: url };
     const response = await insertDataObject(dataObject);
     response

@@ -13,6 +13,8 @@ const client = new MongoClient(uri);
 app.use(cors());
 
 app.get("/", function (req, res) {
+  const fullUrl = `${req.protocol}://${req.get("host")}`;
+  console.log("Server url is:", fullUrl);
   res.send("Server is running perfectly!");
 });
 

@@ -3,7 +3,13 @@ import Link from "next/link";
 import clsx from "clsx";
 import axios from "axios";
 
-import { validateUrl, isMobileDevice } from "lib/utils";
+import {
+  validateUrl,
+  isMobileDevice,
+  shareShortLink,
+  handleDelLink,
+  generateRandomString,
+} from "lib/utils";
 import Button from "components/button";
 import Spinner from "components/spinner";
 
@@ -23,6 +29,7 @@ const URLShortener = ({ theme }: Props) => {
   const [url, setURL] = React.useState("");
   const [longURL, setLongURL] = React.useState("");
   const [shortURL, setShortURL] = React.useState("");
+  const [alias, setAlias] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
   const [className, setClassName] = React.useState("");
 
@@ -42,68 +49,47 @@ const URLShortener = ({ theme }: Props) => {
 
   const handleSubmit = async () => {
     setIsLoading(true);
+    const shortURL = alias === "" ? generateRandomString(5) : alias;
     const isValidURL = validateUrl(url);
-    if (isValidURL) {
-      const response = await axios.post("/api/shorten", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        url,
-      });
+    const minLength = 5;
+    const aliasLength = alias.length;
 
-      if (response.status === 200) {
-        const data = response.data;
-        console.log(data);
-        setLongURL(data.originalURL);
-        setShortURL(data.shortURL);
+    if (isValidURL) {
+      if (aliasLength >= minLength) {
+        const response = await axios.post("/api/shorten", {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          url,
+          shortURL,
+        });
+
+        if (response.status === 200) {
+          const data = response.data;
+          console.log(data);
+          if (!data.err) {
+            setLongURL(data.originalURL);
+            setShortURL(data.shortURL);
+          } else {
+            console.error(data.err);
+          }
+        } else {
+          console.log("Error:", response.statusText);
+        }
+        setURL("");
+        setAlias("");
       } else {
-        console.log("Error:", response.statusText);
+        console.log("Alias must be at least 5 aphanumeric chars.");
       }
-      setURL("");
+    } else {
+      console.log("URL is not Valid");
     }
     setIsLoading(false);
-  };
-
-  const shareShortLink = (shortLink: string) => {
-    if (navigator.share) {
-      navigator
-        .share({
-          title: "Share Short Link",
-          text: "Check out this short link:",
-          url: shortLink,
-        })
-        .then(() => {
-          console.log("Shared successfully");
-        })
-        .catch((error) => {
-          console.error("Error sharing:", error);
-        });
-    } else {
-      console.log("Web Share API is not supported on this device");
-    }
   };
 
   const handleReset = () => {
     setShortURL("");
     setLongURL("");
-  };
-
-  const handleDelLink = async (originalURL: string) => {
-    setIsLoading(true);
-    const response = await axios.post("/api/deleteLink", {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      originalURL,
-    });
-
-    if (response.status === 200) {
-      const data = response.data;
-      data && handleReset();
-    } else {
-      console.log("Error:", response.statusText);
-    }
-    setIsLoading(false);
   };
 
   return (
@@ -124,12 +110,26 @@ const URLShortener = ({ theme }: Props) => {
                   placeholder="Enter link here"
                   onChange={(e) => setURL(e.target.value)}
                   onKeyDown={handleKeyDown}
+                  spellCheck={false}
                 />
+                <input
+                  value={alias}
+                  className={stl.alias}
+                  onChange={(e) => setAlias(e.target.value)}
+                  placeholder="Enter alias here (optional)"
+                  spellCheck={false}
+                />
+                <label>Alias must be 5 alphanumeric chars</label>
                 <div className={stl.btnContainer}>
                   <Button
                     label="Shorten URL"
                     theme={theme}
                     handleOnClick={handleSubmit}
+                  />
+                  <Button
+                    label="Goto Dashboard"
+                    theme={theme}
+                    variant="secondary"
                   />
                 </div>
               </div>
@@ -179,7 +179,9 @@ const URLShortener = ({ theme }: Props) => {
                       )}
                       <button
                         className={stl.btn}
-                        onClick={() => handleDelLink(longURL)}
+                        onClick={() =>
+                          handleDelLink(longURL, setIsLoading, handleReset)
+                        }
                       >
                         <DeleteIcon />
                       </button>
@@ -197,11 +199,6 @@ const URLShortener = ({ theme }: Props) => {
                   handleOnClick={handleReset}
                 />
               )}
-              <Button
-                label="Goto Dashboard"
-                theme={theme}
-                variant="secondary"
-              />
             </div>
           </>
         )}

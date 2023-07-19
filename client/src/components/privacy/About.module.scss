@@ -1,0 +1,97 @@
+@import "styles/common";
+
+.about {
+  width: 95%;
+  max-width: 1000px;
+  margin-bottom: 4rem;
+  padding-top: 6rem;
+
+  h1 {
+    text-align: center;
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+    margin-bottom: 5rem;
+    letter-spacing: -0.025em;
+    font-weight: 600;
+
+    span {
+      color: #007bff;
+    }
+  }
+
+  section {
+    @extend .flexCol;
+    align-items: flex-start;
+    gap: 0.25rem;
+
+    h2 {
+      margin-top: 2rem;
+      font-size: 1.5rem;
+      line-height: 2rem;
+    }
+
+    p {
+      font-weight: 400;
+      font-size: 1.125rem;
+      line-height: 1.5rem;
+      color: #6b7280;
+
+      span {
+        color: #007bff;
+      }
+    }
+
+    ul {
+      list-style: none;
+      @extend .flexCol;
+      gap: 1rem;
+      padding: 1rem;
+
+      li h3 {
+        font-size: 1.25rem;
+        line-height: 1.75rem;
+      }
+    }
+  }
+
+  a {
+    color: #007bff;
+    font-weight: 600;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.darkAbout {
+  h1,
+  h2,
+  h3 {
+    color: #fff;
+  }
+
+  section {
+    p {
+      color: #9ca3af;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .about {
+    h1 {
+      font-size: 2rem;
+      line-height: 2.25rem;
+
+      span {
+        display: block;
+      }
+    }
+
+    section p {
+      font-size: 1rem;
+      line-height: 1.25rem;
+    }
+  }
+}

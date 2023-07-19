@@ -1,4 +1,5 @@
 import axios from "axios";
+import emailjs from "@emailjs/browser";
 
 const generateRandomString = (len: number) => {
   let result = "";
@@ -70,10 +71,31 @@ const handleDelLink = async (
   setIsLoading(false);
 };
 
+const sendEmail = (values: { name: string; email: string; msg: string }) => {
+  emailjs
+    .send(
+      //@ts-ignore
+      process.env.EMAIL_SERVICE_ID,
+      process.env.EMAIL_TEMPLATE_ID,
+      values,
+      process.env.EMAIL_PUBLIC_KEY
+    )
+    .then(
+      (response) => {
+        console.log("SUCCESS!", response.status, response.text);
+        alert("Your message sent successfully!");
+      },
+      (error) => {
+        console.log("FAILED...", error);
+      }
+    );
+};
+
 export {
   generateRandomString,
   validateUrl,
   isMobileDevice,
   shareShortLink,
   handleDelLink,
+  sendEmail,
 };

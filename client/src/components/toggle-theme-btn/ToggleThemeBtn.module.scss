@@ -6,6 +6,7 @@
   right: 0.625rem;
   cursor: pointer;
   z-index: 20;
+  transition: opacity 0.3s;
 
   .iconContainer {
     @extend .alignCen;
@@ -34,4 +35,8 @@
     background: #666;
     left: 61%;
   }
+}
+
+.hideBtn {
+  opacity: 0.3;
 }

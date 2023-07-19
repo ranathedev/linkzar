@@ -11,7 +11,9 @@
   max-width: 1280px;
   height: 3.5rem;
   padding: 8px 1rem;
+  border-radius: 0 0 0.5rem 0.5rem;
   backdrop-filter: blur(0.75rem);
+  box-shadow: 0 0.5px 2px #00000040;
   z-index: 10;
   transition: all 0.4s;
   overflow: hidden;
@@ -164,10 +166,12 @@
 }
 
 .expand {
-  height: 14.5rem;
+  height: 11.6rem;
 }
 
 .darkHeader {
+  box-shadow: 0 0.5px 2px rgb(55 65 81);
+
   .container {
     .logo {
       color: #fff;

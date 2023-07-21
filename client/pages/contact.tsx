@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import ContactPage from "components/contact-page";
+import ContactForm from "components/contact-form";
 import Layout from "components/layout";
 import ToggleThemeBtn from "components/toggle-theme-btn";
 
@@ -28,7 +28,7 @@ const Contact = () => {
         }
       />
       <Layout theme={theme} title="Contact">
-        <ContactPage theme={theme} />
+        <ContactForm theme={theme} />
       </Layout>
     </>
   );

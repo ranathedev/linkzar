@@ -3,6 +3,7 @@ import Image from "next/image";
 import clsx from "clsx";
 import { Formik, Form, Field } from "formik";
 
+import { sendEmail } from "lib/utils";
 import Button from "components/button";
 
 import ContactImage from "assets/contact-2.png";
@@ -37,7 +38,7 @@ const ContactForm = ({ theme }: Props) => {
         <Formik
           initialValues={{ name: "", email: "", msg: "" }}
           onSubmit={(values, actions) => {
-            console.log(values);
+            sendEmail(values);
             actions.resetForm();
           }}
         >

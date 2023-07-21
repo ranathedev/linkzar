@@ -8,10 +8,18 @@ interface Props {
   variant: string;
   icon?: React.ReactNode;
   theme: string;
+  type: "button" | "submit" | "reset";
   handleOnClick: () => void;
 }
 
-const Button = ({ label, variant, icon, theme, handleOnClick }: Props) => {
+const Button = ({
+  label,
+  variant,
+  icon,
+  theme,
+  type,
+  handleOnClick,
+}: Props) => {
   const [className, setClassName] = React.useState("");
 
   useEffect(() => {
@@ -28,6 +36,7 @@ const Button = ({ label, variant, icon, theme, handleOnClick }: Props) => {
     <button
       className={clsx(stl.btn, stl[`${variant}Btn`], className)}
       onClick={handleOnClick}
+      type={type}
     >
       {label}
       {icon}
@@ -38,6 +47,7 @@ const Button = ({ label, variant, icon, theme, handleOnClick }: Props) => {
 Button.defaultProps = {
   label: "Button",
   variant: "primary",
+  type: "button",
   handleOnClick: () => console.log("Clicked..."),
 };
 

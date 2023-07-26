@@ -1,25 +1,31 @@
-const express = require("express");
-const cors = require("cors");
 const { MongoClient } = require("mongodb");
 require("dotenv").config();
 
-const app = express();
-
-app.use(express.json());
+const fastify = require("fastify")({
+  logger: false,
+});
 
 const uri = `mongodb+srv://linkzar:${process.env.MONGO_KEY}@linkzar-cluster.2wcn1ji.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
 
-app.use(cors());
+fastify.get("/", function (req, res) {
+  const protocol = req.protocol;
 
-app.get("/", function (req, res) {
-  const fullUrl = `${req.protocol}://${req.get("host")}`;
+  // Get the hostname (e.g., localhost or example.com)
+  const hostname = req.hostname;
+
+  // Get the full URL path (e.g., /example?param=value)
+  const fullPath = req.raw.url;
+
+  // Concatenate the parts to get the full URL
+  const fullUrl = `${protocol}://${hostname}${fullPath}`;
+
   console.log("Server url is:", fullUrl);
   res.send("Server is running perfectly!");
 });
 
-app.get("/:shortURL", async (req, res) => {
-  const { shortURL } = req.params;
+fastify.get("/:shortURL", async (req, res) => {
+  const shortURL = req.params.shortURL;
 
   try {
     await client.connect();
@@ -42,6 +48,10 @@ app.get("/:shortURL", async (req, res) => {
   }
 });
 
-app.listen(3001, function () {
-  console.log(`Listening on port: 3001`);
+fastify.listen({ port: 3001, host: "0.0.0.0" }, function (err, address) {
+  if (err) {
+    console.error(err);
+    process.exit(1);
+  }
+  console.log(`Your app is listening on ${address}`);
 });

@@ -30,15 +30,16 @@ const About = ({ theme }: Props) => {
           <h2>Introduction</h2>
           <p>
             Welcome to Linkzar, your go-to URL Shortener designed to make link
-            sharing a breeze. We're excited to have you on board! Linkzar was
-            born out of a passion for streamlining the way we share URLs and the
-            belief that simplicity is the key to enhancing online experiences.
+            sharing a breeze. We&apos;re excited to have you on board! Linkzar
+            was born out of a passion for streamlining the way we share URLs and
+            the belief that simplicity is the key to enhancing online
+            experiences.
           </p>
         </div>
         <div>
           <h2>Meet the Creator</h2>
           <p>
-            I,{" "}
+            I,
             <Link href="https://linktr.ee/ranaintizar" target="_blank">
               Rana Intizar
             </Link>
@@ -55,7 +56,7 @@ const About = ({ theme }: Props) => {
             At Linkzar, we envision a world where sharing links is effortless
             and enjoyable. We strive to provide a service that anyone can use,
             from individuals to businesses, bloggers to developers. Whether
-            you're sharing links with friends, promoting your brand, or
+            you&apos;re sharing links with friends, promoting your brand, or
             optimizing your online presence, Linkzar is here to simplify the
             process.
           </p>
@@ -101,8 +102,8 @@ const About = ({ theme }: Props) => {
           <h2>Get Started</h2>
           <p>
             Start using Linkzar today and elevate your link sharing experience.
-            It's as simple as pasting your long URL and clicking the "Shorten
-            URL" button.
+            It&apos;s as simple as pasting your long URL and clicking the
+            &quot;Shorten URL&quot; button.
           </p>
         </div>
         <div>
@@ -110,8 +111,8 @@ const About = ({ theme }: Props) => {
           <p>
             We value your feedback and are dedicated to continuously improving
             Linkzar. If you have any questions, suggestions, or need assistance,
-            don't hesitate to <Link href="/contact">Get in Touch</Link>. Your
-            satisfaction is our priority.
+            don&apos;t hesitate to <Link href="/contact">Get in Touch</Link>.
+            Your satisfaction is our priority.
           </p>
         </div>
       </section>

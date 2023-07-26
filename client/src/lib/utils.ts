@@ -91,6 +91,59 @@ const sendEmail = (values: { name: string; email: string; msg: string }) => {
     );
 };
 
+const qas = [
+  {
+    que: "What is a URL shortener?",
+    ans: "A URL shortener is a web service that converts long URLs into shorter and more manageable links. It makes it easier to share links on social media and other platforms.",
+    id: "question0",
+  },
+  {
+    que: "How does a URL shortener work?",
+    ans: "When you enter a long URL into the URL shortener, it generates a unique and shorter alias for that link. When users click on the shortened link, they are redirected to the original long URL.",
+    id: "question1",
+  },
+  {
+    que: "Is it safe to use a URL shortener?",
+    ans: "Yes, most URL shorteners are safe to use. However, it's essential to use a reputable and trustworthy URL shortening service to avoid any potential security risks.",
+    id: "question2",
+  },
+  {
+    que: "Can I customize the shortened URLs?",
+    ans: "Some URL shorteners allow users to customize the shortened URLs with their desired text or keywords. This feature can make the link more descriptive and branded.",
+    id: "question3",
+  },
+  {
+    que: "How long do the shortened links stay active?",
+    ans: "The duration of the link's availability depends on the URL shortener service. Some may keep the links active indefinitely, while others might have an expiration period.",
+    id: "question4",
+  },
+  {
+    que: "Can I track the performance of my shortened links?",
+    ans: "Yes, many URL shortener services offer link tracking and analytics. You can monitor the number of clicks, geographic location of users, and other relevant data.",
+    id: "question5",
+  },
+  {
+    que: "Are there any limitations on the number of links I can shorten?",
+    ans: "The limitations on the number of links you can shorten might vary based on the URL shortener service's policies. Some may have restrictions for free users, while premium plans may offer more flexibility.",
+    id: "question6",
+  },
+  {
+    que: "Can I share shortened links on social media platforms?",
+    ans: "Yes, shortened links are commonly used on social media platforms, as they take up less character space and look cleaner in posts.",
+    id: "question7",
+  },
+  {
+    que: "Do I need an account to use a URL shortener?",
+    ans: "Many URL shortener services offer anonymous shortening, which means you don't need an account to generate shortened links. However, having an account may offer additional features and benefits.",
+    id: "question8",
+  },
+  {
+    que: "Are shortened links permanent?",
+    ans: "Shortened links can be permanent as long as the URL shortener service is active and maintains the links. However, it's always a good idea to have a backup of the original long URLs.",
+    id: "question9",
+  },
+];
+
 export {
   generateRandomString,
   validateUrl,
@@ -98,4 +151,5 @@ export {
   shareShortLink,
   handleDelLink,
   sendEmail,
+  qas,
 };

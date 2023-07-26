@@ -1,18 +1,19 @@
 import React, { useEffect } from "react";
+import Link from "next/link";
 import clsx from "clsx";
 
-import AddIcon from "assets/plus.svg";
-import MinusIcon from "assets/minus.svg";
+import FAQItem from "components/faq-item";
+import { qas } from "lib/utils";
+
+import ErrorIcon from "assets/error.svg";
 
 import stl from "./FAQSection.module.scss";
 
 interface Props {
-  data: Array<{ que: string; ans: string; id: string }>;
   theme: string;
 }
 
-const FAQSection = ({ data, theme }: Props) => {
-  const [expand, setExpand] = React.useState("none");
+const FAQSection = ({ theme }: Props) => {
   const [className, setClassName] = React.useState("");
 
   useEffect(() => {
@@ -25,77 +26,35 @@ const FAQSection = ({ data, theme }: Props) => {
     }
   }, [theme]);
 
-  const handleExpand = (id: string) => {
-    expand === id ? setExpand("none") : setExpand(id);
-  };
-
   return (
-    <section className={clsx(stl.faqSec, className)}>
-      <div className={stl.heading}>Frequently Asked Questions</div>
-      <ul className={stl.list}>
-        {data.map((item, i) => (
-          <li
-            key={i}
-            id={item.id}
-            className={expand === item.id ? stl.expand : ""}
-          >
-            <div className={stl.header}>
-              <span className={stl.question}>{item.que}</span>
-              <div className={stl.btnContainer}>
-                <button
-                  className={expand === item.id ? stl.secondary : stl.primary}
-                  onClick={() => handleExpand(item.id)}
-                >
-                  {expand === item.id ? <MinusIcon /> : <AddIcon />}
-                </button>
-              </div>
-            </div>
-            <p className={stl.answer}>{item.ans}</p>
-          </li>
-        ))}
-      </ul>
-    </section>
+    <div className={clsx(stl.faqSection, className)}>
+      <div className={stl.container}>
+        <div className={stl.heading}>Frequently asked questions</div>
+        <p className={stl.desc}>
+          We have put together some commonly asked questions
+        </p>
+        <div className={stl.QAContainer}>
+          {qas.map((item) => (
+            <FAQItem
+              key={item.id}
+              que={item.que}
+              ans={item.ans}
+              theme={theme}
+            />
+          ))}
+        </div>
+        <div className={stl.noteContainer}>
+          <span className={stl.icon}>
+            <ErrorIcon />
+          </span>
+          <div className={stl.text}>
+            <span>Didn&apos;t find the answer you are looking for?</span>
+            <Link href="/contact">Contact our support</Link>
+          </div>
+        </div>
+      </div>
+    </div>
   );
-};
-
-FAQSection.defaultProps = {
-  data: [
-    {
-      que: "What is Lorem Ipsum? What is Lorem Ipsum? What is Lorem Ipsum? What is Lorem Ipsum? What is Lorem Ipsum? What is Lorem Ipsum? What is Lorem Ipsum? What is Lorem Ipsum?",
-      ans: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Enim ducimus vel aspernatur molestias non magni magnam nesciunt quos, debitis nemo id quibusdam modi officiis inventore aut odio sapiente maiores et!",
-      id: "question0",
-    },
-    {
-      que: "What is Lorem Ipsum?",
-      ans: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Enim ducimus vel aspernatur molestias non magni magnam nesciunt quos, debitis nemo id quibusdam modi officiis inventore aut odio sapiente maiores et!",
-      id: "question1",
-    },
-    {
-      que: "What is Lorem Ipsum?",
-      ans: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Enim ducimus vel aspernatur molestias non magni magnam nesciunt quos, debitis nemo id quibusdam modi officiis inventore aut odio sapiente maiores et!",
-      id: "question2",
-    },
-    {
-      que: "What is Lorem Ipsum?",
-      ans: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Enim ducimus vel aspernatur molestias non magni magnam nesciunt quos, debitis nemo id quibusdam modi officiis inventore aut odio sapiente maiores et!",
-      id: "question3",
-    },
-    {
-      que: "What is Lorem Ipsum?",
-      ans: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Enim ducimus vel aspernatur molestias non magni magnam nesciunt quos, debitis nemo id quibusdam modi officiis inventore aut odio sapiente maiores et!",
-      id: "question4",
-    },
-    {
-      que: "What is Lorem Ipsum?",
-      ans: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Enim ducimus vel aspernatur molestias non magni magnam nesciunt quos, debitis nemo id quibusdam modi officiis inventore aut odio sapiente maiores et!",
-      id: "question5",
-    },
-    {
-      que: "What is Lorem Ipsum?",
-      ans: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Enim ducimus vel aspernatur molestias non magni magnam nesciunt quos, debitis nemo id quibusdam modi officiis inventore aut odio sapiente maiores et!",
-      id: "question6",
-    },
-  ],
 };
 
 export default FAQSection;

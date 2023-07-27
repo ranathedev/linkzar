@@ -127,6 +127,7 @@ const URLShortener = ({ theme }: Props) => {
                     handleOnClick={handleSubmit}
                   />
                   <Button
+                    isDisabled={true}
                     label="Goto Dashboard"
                     theme={theme}
                     variant="secondary"

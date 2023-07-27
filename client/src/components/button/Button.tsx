@@ -9,6 +9,7 @@ interface Props {
   icon?: React.ReactNode;
   theme: string;
   type: "button" | "submit" | "reset";
+  isDisabled: boolean;
   handleOnClick: () => void;
 }
 
@@ -18,6 +19,7 @@ const Button = ({
   icon,
   theme,
   type,
+  isDisabled,
   handleOnClick,
 }: Props) => {
   const [className, setClassName] = React.useState("");
@@ -34,6 +36,7 @@ const Button = ({
 
   return (
     <button
+      disabled={isDisabled}
       className={clsx(stl.btn, stl[`${variant}Btn`], className)}
       onClick={handleOnClick}
       type={type}
@@ -48,6 +51,7 @@ Button.defaultProps = {
   label: "Button",
   variant: "primary",
   type: "button",
+  isDisabled: false,
   handleOnClick: () => console.log("Clicked..."),
 };
 

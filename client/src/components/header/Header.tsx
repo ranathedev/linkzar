@@ -92,10 +92,9 @@ const Header = ({ links, theme }: Props) => {
 
 Header.defaultProps = {
   links: [
-    { name: "Overview", href: "#overview" },
-    { name: "Features", href: "#features" },
-    { name: "Pricing", href: "#pricing" },
-    { name: "About", href: "#about" },
+    { name: "Home", href: "/" },
+    { name: "Shorten URL", href: "/shorten" },
+    { name: "About", href: "/about" },
   ],
 };
 

@@ -2,7 +2,7 @@
 
 .footer {
   @extend .flexColCen;
-  gap: 1.5rem;
+  gap: 1.4rem;
   width: 100%;
   padding: 2rem 1rem;
   background: #fff;
@@ -12,12 +12,19 @@
   .logo {
     color: #010851;
     font-size: 2rem;
-    font-weight: 700;
+    font-weight: 600;
   }
 
   .about {
     max-width: 1024px;
+    font-weight: 300;
     text-align: center;
+    font-size: 1.1rem;
+  }
+
+  .copyright {
+    font-weight: 300;
+    font-size: 1.1rem;
   }
 
   .socials {
@@ -45,6 +52,14 @@
 
 @media screen and (max-width: 600px) {
   .footer {
-    font-size: 1.1rem;
+    .logo {
+      font-size: 1.5rem !important;
+    }
+
+    .about,
+    .copyright {
+      font-size: 1rem;
+      line-height: 1.4rem;
+    }
   }
 }

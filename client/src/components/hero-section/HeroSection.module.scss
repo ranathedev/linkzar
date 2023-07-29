@@ -23,8 +23,9 @@
 
     .desc {
       color: #6b7280;
-      font-size: calc(16px + 6 * ((100vw - 360px) / 1240));
-      line-height: calc(1.2rem + 10 * ((100vw - 360px) / 1240));
+      font-size: calc(16px + 2 * ((100vw - 360px) / 1240));
+      font-weight: 300;
+      line-height: calc(1.1rem + 10 * ((100vw - 360px) / 1240));
     }
 
     .btnContainer {
@@ -35,6 +36,7 @@
   .img {
     @extend .flexCenter;
     width: 50%;
+    max-width: 500px;
     background: none;
 
     img {
@@ -66,16 +68,17 @@
   .heroSec {
     flex-direction: column;
     gap: 2rem;
-    padding: 1rem 0.75rem 2rem;
+    padding: 1rem 1rem 2rem;
 
     .content,
     .img {
-      width: 95%;
-      max-width: 700px;
+      width: 100%;
+      max-width: 500px;
     }
 
     .content {
       order: 1;
+      max-width: 700px;
 
       .btnContainer {
         margin-top: 1rem;
@@ -100,9 +103,9 @@
       width: 100%;
     }
 
-    .content .desc {
-      font-size: 1.2rem;
-      line-height: 1.4rem;
+    .desc {
+      font-size: 1rem;
+      line-height: 1.4rem !important;
     }
   }
 }

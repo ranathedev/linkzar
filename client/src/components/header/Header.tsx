@@ -49,9 +49,9 @@ const Header = ({ links, theme }: Props) => {
   return (
     <header className={clsx(stl.header, expand ? stl.expand : "", className)}>
       <div className={stl.container}>
-        <a href="#" className={stl.logo}>
+        <Link href="/" className={stl.logo}>
           Linkzar
-        </a>
+        </Link>
         <div className={stl.menu}>
           {links.map((item, i: number) => (
             <Link

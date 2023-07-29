@@ -66,8 +66,18 @@ const Intro = ({ theme, customClass }: Props) => {
             world use Flowbite to simplify their payment stack.
           </p>
           <div className={stl.btnContainer}>
-            <Button label="Get Started" theme={theme} icon={<ArrowIcon />} />
-            <Button label="Try Demo" theme={theme} variant="secondary" />
+            <Button
+              label="Get Started"
+              theme={theme}
+              icon={<ArrowIcon />}
+              handleOnClick={() => (location.href = "/shorten")}
+            />
+            <Button
+              label="Try Demo"
+              theme={theme}
+              variant="secondary"
+              handleOnClick={() => (location.href = "/shorten")}
+            />
           </div>
         </div>
         <div className={stl.img}>

@@ -25,7 +25,7 @@ const insertDataObject = async (client, dataObject) => {
       await collection.insertOne(dataObject);
       const response = {
         originalURL: dataObject.originalURL,
-        shortURL: `http://urlzar.glitch.me/${dataObject.shortURL}`,
+        shortURL: `https://urlzar.glitch.me/${dataObject.shortURL}`,
       };
       return response;
     }

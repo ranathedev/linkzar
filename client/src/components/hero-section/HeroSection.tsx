@@ -14,7 +14,6 @@ interface Props {
   heading: string;
   desc: string;
   btnLabel: string;
-  btnOnClick: () => void;
   btnIcon: React.ReactNode;
   src: any;
   background?: string;
@@ -26,7 +25,6 @@ const HeroSection = ({
   heading,
   desc,
   btnLabel,
-  btnOnClick,
   btnIcon,
   src,
   background,
@@ -57,7 +55,7 @@ const HeroSection = ({
             label={btnLabel}
             theme={theme}
             icon={btnIcon}
-            handleOnClick={btnOnClick}
+            handleOnClick={() => (location.href = "/shorten")}
           />
         </div>
       </div>

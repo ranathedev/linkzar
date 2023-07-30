@@ -56,14 +56,14 @@ const ContactForm = ({ theme }: Props) => {
                   placeholder="admin@example.com"
                 />
               </div>
-              <div>
+              {/* <div>
                 <label htmlFor="message">Your message</label>
                 <Field
                   as="textarea"
                   name="msg"
                   placeholder="Leave a comment..."
                 />
-              </div>
+              </div> */}
               <div className={stl.btnContainer}>
                 <Button
                   theme="light"

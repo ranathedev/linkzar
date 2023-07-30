@@ -39,6 +39,7 @@ const ContactForm = ({ theme }: Props) => {
           initialValues={{ name: "", email: "", msg: "" }}
           onSubmit={(values, actions) => {
             // sendEmail(values);
+            console.log(values);
             actions.resetForm();
           }}
         >

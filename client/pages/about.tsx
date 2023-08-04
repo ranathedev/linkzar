@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import About from "components/privacy";
+import About from "components/about";
 import Layout from "components/layout";
 import ToggleThemeBtn from "components/toggle-theme-btn";
 

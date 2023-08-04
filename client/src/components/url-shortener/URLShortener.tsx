@@ -52,10 +52,9 @@ const URLShortener = ({ theme }: Props) => {
     const shortURL = alias === "" ? generateRandomString(5) : alias;
     const isValidURL = validateUrl(url);
     const minLength = 5;
-    const aliasLength = alias.length;
 
     if (isValidURL) {
-      if (aliasLength >= minLength) {
+      if (alias.length >= minLength || alias.length == 0) {
         const response = await axios.post("/api/shorten", {
           headers: {
             "Content-Type": "application/json",

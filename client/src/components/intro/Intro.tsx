@@ -81,7 +81,7 @@ const Intro = ({ theme, customClass }: Props) => {
           </div>
         </div>
         <div className={stl.img}>
-          <Image src={Img} alt="img" />
+          <Image src={Img} alt="img" priority />
         </div>
       </div>
     </section>

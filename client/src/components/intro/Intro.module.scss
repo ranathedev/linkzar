@@ -33,12 +33,12 @@
         overflow: hidden;
 
         .featureTransition {
-          height: 3rem;
+          height: 3.2rem;
           color: #007bff;
 
           .text {
             position: absolute;
-            top: 32%;
+            top: 31%;
             left: 0;
             @extend .alignCen;
             @include setSquare(100%);
@@ -176,11 +176,11 @@
 @media screen and (max-width: 454px) {
   .intro {
     .heading {
-      height: 10rem;
+      height: 10.2rem;
 
       .text {
         max-width: 20rem;
-        top: 25% !important;
+        top: 24.5% !important;
         line-height: 2.5rem !important;
       }
     }
@@ -190,10 +190,10 @@
 @media screen and (max-width: 397px) {
   .intro {
     .heading {
-      height: 12.5rem;
+      height: 12.6rem;
 
       .text {
-        top: 30% !important;
+        top: 29.5% !important;
       }
     }
   }

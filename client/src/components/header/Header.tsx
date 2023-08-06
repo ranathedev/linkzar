@@ -71,6 +71,7 @@ const Header = ({ links, theme }: Props) => {
           <button
             id="btn"
             onClick={() => setIsExpand(!expand)}
+            aria-label="Navigation"
             className={stl.expandBtn}
           >
             <span></span>

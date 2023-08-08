@@ -23,11 +23,9 @@ const validateUrl = (url: string) => {
 };
 
 const isMobileDevice = () => {
-  if (typeof window !== "undefined") {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent
-    );
-  }
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  );
 };
 
 const shareShortLink = (shortLink: string) => {
@@ -89,6 +87,10 @@ const sendEmail = (values: { name: string; email: string; msg: string }) => {
         console.log("FAILED...", error);
       }
     );
+};
+
+const isMac = () => {
+  return /Mac|iPod|iPhone|iPad/.test(navigator.userAgent);
 };
 
 const formatDate = (date: Date) => {
@@ -176,5 +178,6 @@ export {
   handleDelLink,
   sendEmail,
   formatDate,
+  isMac,
   qas,
 };

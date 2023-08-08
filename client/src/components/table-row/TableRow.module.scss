@@ -45,6 +45,10 @@
     max-width: 350px;
     padding: 0.5rem 0;
 
+    .domain {
+      color: #6b7280;
+    }
+
     .optContainer {
       @extend .justifyCen;
       z-index: -1;

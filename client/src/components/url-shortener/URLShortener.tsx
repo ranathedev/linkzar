@@ -32,6 +32,7 @@ const URLShortener = ({ theme }: Props) => {
   const [alias, setAlias] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
   const [className, setClassName] = React.useState("");
+  const [device, setDevice] = React.useState("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -42,6 +43,10 @@ const URLShortener = ({ theme }: Props) => {
       }
     }
   }, [theme]);
+
+  useEffect(() => {
+    isMobileDevice() ? setDevice("Mobile") : setDevice("");
+  }, []);
 
   const handleKeyDown = (e: any) => {
     e.keyCode === 13 && handleSubmit();
@@ -169,7 +174,7 @@ const URLShortener = ({ theme }: Props) => {
                       >
                         <OpenLinkIcon />
                       </button>
-                      {isMobileDevice() && (
+                      {device === "Mobile" && (
                         <button
                           className={stl.btn}
                           onClick={() => shareShortLink(shortURL)}

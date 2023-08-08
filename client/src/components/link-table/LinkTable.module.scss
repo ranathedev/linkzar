@@ -2,13 +2,16 @@
 
 .linkTable {
   width: 100%;
+  padding-left: 85px;
 
   .table {
     width: 95%;
+    padding: 0 5px;
     max-width: 1280px;
     margin: 0 auto;
     @extend .hideScrollbar;
     border-radius: 0.5rem;
+    box-shadow: #00000005 0px 1px 3px 0px, #1b1f2326 0px 0px 0px 1px;
 
     .header {
       @extend .alignCen;
@@ -33,7 +36,7 @@
       }
 
       .shortLink {
-        min-width: 200px;
+        min-width: 218px;
         width: 100%;
         max-width: 350px;
       }
@@ -45,13 +48,13 @@
       }
 
       .clicks {
-        min-width: 80px;
+        min-width: 120px;
         width: 100%;
         max-width: 120px;
       }
 
       .date {
-        min-width: 120px;
+        min-width: 150px;
         width: 100%;
         max-width: 150px;
       }
@@ -67,7 +70,7 @@
   }
 }
 
-@media screen and (max-width: 860px) {
+@media screen and (max-width: 940px) {
   .linkTable .table {
     overflow-x: scroll;
 
@@ -78,16 +81,21 @@
 }
 
 @media screen and (max-width: 640px) {
-  .linkTable .table {
-    overflow: hidden;
+  .linkTable {
+    padding-left: 60px;
 
-    .header {
-      span {
-        visibility: hidden;
-      }
+    .table {
+      width: 97%;
+      overflow: hidden;
 
-      &::after {
-        display: block !important;
+      .header {
+        span {
+          visibility: hidden;
+        }
+
+        &::after {
+          display: block !important;
+        }
       }
     }
   }

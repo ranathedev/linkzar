@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import clsx from "clsx";
 
-import { isMobileDevice, shareShortLink } from "lib/utils";
+// import { isMobileDevice, shareShortLink } from "lib/utils";
 
 import DownIcon from "assets/chevron-down.svg";
 import OpenLinkIcon from "assets/openLink.svg";
 import CopyIcon from "assets/copy.svg";
-import ShareIcon from "assets/share.svg";
+// import ShareIcon from "assets/share.svg";
 import DeleteIcon from "assets/delete.svg";
 
 import stl from "./TableRow.module.scss";
@@ -53,14 +53,14 @@ const TableRow = ({ link, theme }: Props) => {
             >
               <CopyIcon />
             </button>
-            {isMobileDevice() && (
+            {/* {isMobileDevice() && (
               <button
                 className={stl.btn}
                 onClick={() => shareShortLink(link.shortURL)}
               >
                 <ShareIcon />
               </button>
-            )}
+            )} */}
             <button
               className={stl.btn}
               // onClick={() =>
@@ -87,7 +87,7 @@ const TableRow = ({ link, theme }: Props) => {
 
 TableRow.defaultProps = {
   link: {
-    shortURL: "urlzar.glitch.me/rana",
+    shortURL: "urlzar.glitch.me/OOOOOOO",
     originalURL: "ranaintizar.com",
     clicks: 345,
     dateCreated: "Aug-10-2023",

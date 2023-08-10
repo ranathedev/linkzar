@@ -1,22 +1,24 @@
 import React, { useEffect } from "react";
 
-import LinkTable from "components/link-table";
+// import LinkTable from "components/link-table";
+import WelcomeBanner from "components/welcome-banner";
 
 export default function Home() {
-  useEffect(() => {
-    const searchInput = document.getElementById("searchInput");
+  // useEffect(() => {
+  //   const searchInput = document.getElementById("searchInput");
 
-    document.addEventListener("keydown", (event) => {
-      if ((event.ctrlKey || event.metaKey) && event.key === "k") {
-        event.preventDefault();
+  //   document.addEventListener("keydown", (event) => {
+  //     if ((event.ctrlKey || event.metaKey) && event.key === "k") {
+  //       event.preventDefault();
 
-        searchInput?.focus();
-      }
-    });
-  });
+  //       searchInput?.focus();
+  //     }
+  //   });
+  // });
+
   return (
     <main>
-      <LinkTable theme="light" />
+      <WelcomeBanner />
     </main>
   );
 }

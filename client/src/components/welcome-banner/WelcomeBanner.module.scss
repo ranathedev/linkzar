@@ -1,0 +1,73 @@
+.welcomeBanner {
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1280px;
+  max-height: 300px;
+  padding: 0 1rem;
+  margin: 0 auto;
+  background: #fff;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  border-radius: 1.5rem;
+
+  img {
+    width: 400px;
+    height: auto;
+  }
+
+  .content {
+    .heading {
+      margin-bottom: 1rem;
+      font-size: 1.875rem;
+      line-height: 2.25rem;
+      letter-spacing: -0.025em;
+      font-weight: 600;
+    }
+
+    .desc {
+      margin-bottom: 1.5rem;
+      font-weight: 400;
+      color: rgb(107 114 128);
+    }
+  }
+}
+
+.darkWelcomeBanner {
+  background: rgb(17 24 39);
+
+  .heading {
+    color: #fff;
+  }
+
+  .desc {
+    color: rgb(156 163 175);
+  }
+}
+
+@media (min-width: 1280px) {
+  .welcomeBanner {
+    gap: 4rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .welcomeBanner {
+    display: flex;
+
+    .content {
+      margin-top: 0;
+
+      .desc {
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+      }
+    }
+  }
+}
+
+@media (min-width: 640px) {
+  .welcomeBanner {
+    padding: 4rem 1.5rem;
+  }
+}

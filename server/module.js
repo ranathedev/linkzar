@@ -1,13 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-const { MongoClient } = require("mongodb");
-
-const uri = `mongodb+srv://linkzar:${process.env.MONGO_KEY}@linkzar-cluster.2wcn1ji.mongodb.net/?retryWrites=true&w=majority`;
-const client = new MongoClient(uri);
-
-const insertDataObject = async (dataObject: {
-  shortURL: string;
-  originalURL: string;
-}) => {
+const insertDataObject = async (client, dataObject) => {
   try {
     await client.connect();
     const database = client.db("linkzar");
@@ -46,19 +37,23 @@ const insertDataObject = async (dataObject: {
   }
 };
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === "POST") {
-    const url = req.body.url;
-    const shortURL = req.body.shortURL;
-    const dataObject = { shortURL, originalURL: url };
-    const response = await insertDataObject(dataObject);
-    response
-      ? res.send(response)
-      : res.send({ error: "This is error message." });
-  } else {
-    res.json({ error: "method is not found" });
-    console.log("Method is not POST");
+const deleteLink = async (client, originalURL) => {
+  try {
+    await client.connect();
+    const database = client.db("linkzar");
+    const collection = database.collection("links");
+
+    await collection.deleteOne({ originalURL });
+    return "Short URL Deleted successfully!";
+  } catch (error) {
+    console.log("Error deleting link:", error);
+    return false;
+  } finally {
+    client.close();
   }
 };
 
-export default handler;
+module.exports = {
+  insertDataObject,
+  deleteLink,
+};

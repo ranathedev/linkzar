@@ -55,13 +55,16 @@ const URLShortener = ({ theme }: Props) => {
 
     if (isValidURL) {
       if (alias.length >= minLength || alias.length == 0) {
-        const response = await axios.post("/api/shorten", {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          url,
-          shortURL,
-        });
+        const response = await axios.post(
+          "https://urlzar.glitch.me/api/shorten",
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            url,
+            shortURL,
+          }
+        );
 
         if (response.status === 200) {
           const data = response.data;

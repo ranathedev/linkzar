@@ -1,27 +1,32 @@
 const { MongoClient } = require("mongodb");
 require("dotenv").config();
+const { insertDataObject, deleteLink } = require("./module.js");
 
 const fastify = require("fastify")({
   logger: false,
 });
 
+fastify.register(require("@fastify/cors"), {});
+
 const uri = `mongodb+srv://linkzar:${process.env.MONGO_KEY}@linkzar-cluster.2wcn1ji.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
 
 fastify.get("/", function (req, res) {
-  const protocol = req.protocol;
+  res.redirect("https://linkzar.web.app");
+});
 
-  // Get the hostname (e.g., localhost or example.com)
-  const hostname = req.hostname;
+fastify.post("/api/shorten", async (req, res) => {
+  const url = req.body.url;
+  const shortURL = req.body.shortURL;
+  const dataObject = { shortURL, originalURL: url };
+  const response = await insertDataObject(client, dataObject);
+  response ? res.send(response) : res.send({ error: "This is error message." });
+});
 
-  // Get the full URL path (e.g., /example?param=value)
-  const fullPath = req.raw.url;
-
-  // Concatenate the parts to get the full URL
-  const fullUrl = `${protocol}://${hostname}${fullPath}`;
-
-  console.log("Server url is:", fullUrl);
-  res.send("Server is running perfectly!");
+fastify.post("/api/deleteLink", async (req, res) => {
+  const originalURL = req.body.originalURL;
+  const response = await deleteLink(client, originalURL);
+  res.send(response);
 });
 
 fastify.get("/:shortURL", async (req, res) => {
@@ -48,10 +53,13 @@ fastify.get("/:shortURL", async (req, res) => {
   }
 });
 
-fastify.listen({ port: 3001, host: "0.0.0.0" }, function (err, address) {
-  if (err) {
-    console.error(err);
-    process.exit(1);
+fastify.listen(
+  { port: process.env.PORT, host: "0.0.0.0" },
+  function (err, address) {
+    if (err) {
+      console.error(err);
+      process.exit(1);
+    }
+    console.log(`Your app is listening on ${address}`);
   }
-  console.log(`Your app is listening on ${address}`);
-});
+);

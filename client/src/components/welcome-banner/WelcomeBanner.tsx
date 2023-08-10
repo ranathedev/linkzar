@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
+import clsx from "clsx";
 
 import Button from "components/button";
 
@@ -7,15 +8,33 @@ import AnalyticsTrackingImg from "assets/track-links.png";
 
 import stl from "./WelcomeBanner.module.scss";
 
-const WelcomeBanner = () => {
+interface Props {
+  theme: string;
+}
+
+const WelcomeBanner = ({ theme }: Props) => {
+  const [className, setClassName] = React.useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (theme === "dark") {
+        setClassName(stl.darkWelcomeBanner);
+      } else {
+        setClassName("");
+      }
+    }
+  }, [theme]);
+
   return (
-    <div className={stl.welcomeBanner}>
+    <div className={clsx(stl.welcomeBanner, className)}>
       <div className={stl.content}>
         <h2 className={stl.heading}>Hello, Rana!</h2>
         <p className={stl.desc}>
-          Simplify your links and track their performance.
+          Welcome to your Dashboard! Here you can manage and track your links.
         </p>
-        <Button theme="light" label="Shorten Link" />
+        <div className={stl.btn}>
+          <Button theme="light" label="Shorten Link" />
+        </div>
       </div>
       <Image src={AnalyticsTrackingImg} alt="welcome-banner image" />
     </div>

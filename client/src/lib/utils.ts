@@ -93,6 +93,18 @@ const isMac = () => {
   return /Mac|iPod|iPhone|iPad/.test(navigator.userAgent);
 };
 
+const inputAutoFocusHandler = () => {
+  const searchInput = document.getElementById("searchInput");
+
+  document.addEventListener("keydown", (event) => {
+    if ((event.ctrlKey || event.metaKey) && event.key === "k") {
+      event.preventDefault();
+
+      searchInput?.focus();
+    }
+  });
+};
+
 const formatDate = (date: Date) => {
   const months = [
     "Jan",
@@ -179,5 +191,6 @@ export {
   sendEmail,
   formatDate,
   isMac,
+  inputAutoFocusHandler,
   qas,
 };

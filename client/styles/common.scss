@@ -9,10 +9,25 @@
   }
 }
 
+.flexRow {
+  display: flex;
+  flex-direction: row;
+}
+
+.flexCol {
+  display: flex;
+  flex-direction: column;
+}
+
 .flexCenter {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.flexColCen {
+  @extend .flexCenter;
+  flex-direction: column;
 }
 
 .alignCen {
@@ -23,16 +38,6 @@
 .alignStart {
   display: flex;
   align-items: flex-start;
-}
-
-.flexCol {
-  display: flex;
-  flex-direction: column;
-}
-
-.flexColCen {
-  @extend .flexCenter;
-  flex-direction: column;
 }
 
 .justifyCen {

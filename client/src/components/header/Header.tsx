@@ -47,7 +47,10 @@ const Header = ({ links, theme }: Props) => {
   }, []);
 
   return (
-    <header className={clsx(stl.header, expand ? stl.expand : "", className)}>
+    <header
+      style={expand ? { height: `${5.3 + links.length * 2}rem` } : {}}
+      className={clsx(stl.header, className)}
+    >
       <div className={stl.container}>
         <Link href="/" className={stl.logo}>
           Linkzar
@@ -65,8 +68,8 @@ const Header = ({ links, theme }: Props) => {
           ))}
         </div>
         <div className={stl.right}>
-          <Link href="/contact" className={stl.contactBtn}>
-            Contact
+          <Link href="/auth" className={stl.contactBtn}>
+            Signup
           </Link>
           <button
             id="btn"
@@ -96,6 +99,7 @@ Header.defaultProps = {
     { name: "Home", href: "/" },
     { name: "Shorten URL", href: "/shorten" },
     { name: "About", href: "/about" },
+    { name: "Contact", href: "/contact" },
   ],
 };
 

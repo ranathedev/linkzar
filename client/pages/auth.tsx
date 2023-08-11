@@ -78,7 +78,6 @@ const Auth = () => {
       <main className={clsx(stl.about, className)}>
         <div className={stl.formContainer}>
           <AuthForm
-            customClass={stl.form}
             theme={theme}
             formType={formType}
             setFormType={setFormType}

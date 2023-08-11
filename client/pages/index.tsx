@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 
-import AuthForm from "components/auth-form";
+import Overview from "./overview";
 
 export default function Home() {
-  const [formType, setFormType] = useState("sign up");
   return (
     <main>
-      <AuthForm theme="light" formType={formType} setFormType={setFormType} />
+      <Overview />
     </main>
   );
 }

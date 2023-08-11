@@ -27,13 +27,9 @@ const FAQItem = ({ que, ans, theme }: Props) => {
 
   return (
     <div className={clsx(stl.faqItem, className)}>
-      <div className={stl.header}>
+      <div className={stl.header} onClick={() => setExpand(!expand)}>
         <span className={stl.question}>{que}</span>
-        <PlusMinusIcon
-          isActive={expand}
-          handleOnClick={() => setExpand(!expand)}
-          theme={theme}
-        />
+        <PlusMinusIcon isActive={expand} theme={theme} />
       </div>
       <div className={clsx(stl.answer, expand ? stl.expand : "")}>{ans}</div>
     </div>

@@ -12,7 +12,7 @@ const uri = `mongodb+srv://linkzar:${process.env.MONGO_KEY}@linkzar-cluster.2wcn
 const client = new MongoClient(uri);
 
 fastify.get("/", function (req, res) {
-  const protocol = req.protocol;
+  res.redirect("https://linkzar.ranaintizar.com");
 });
 
 fastify.get("/:shortURL", async (req, res) => {

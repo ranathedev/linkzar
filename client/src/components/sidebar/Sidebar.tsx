@@ -18,7 +18,7 @@ interface Props {
 
 const Sidebar = ({ theme, list }: Props) => {
   const [className, setClassName] = React.useState("");
-  const [collapse, setCollapse] = React.useState(false);
+  const [collapse, setCollapse] = React.useState(true);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -62,11 +62,9 @@ const Sidebar = ({ theme, list }: Props) => {
           </div>
           <span className={stl.name}>John Doe</span>
         </div>
-        <div className={stl.left}>
-          <button>
-            <MoreIcon />
-          </button>
-        </div>
+        <button className={stl.moreBtn}>
+          <MoreIcon />
+        </button>
       </div>
     </div>
   );

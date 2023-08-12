@@ -1,0 +1,102 @@
+@import "styles/common";
+
+.linkTable {
+  width: 100%;
+  padding-left: 85px;
+
+  .table {
+    width: 95%;
+    padding: 0 5px;
+    max-width: 1280px;
+    margin: 0 auto;
+    @extend .hideScrollbar;
+    border-radius: 0.5rem;
+    box-shadow: #00000005 0px 1px 3px 0px, #1b1f2326 0px 0px 0px 1px;
+
+    .header {
+      @extend .alignCen;
+      gap: 0 0.5rem;
+      position: relative;
+      padding: 0 1rem;
+      background: #f9fafb;
+      color: #374151;
+      text-transform: uppercase;
+      font-weight: 600;
+      border-radius: 10px 10px 0px 0px;
+
+      &::after {
+        position: absolute;
+        content: "My Links";
+        padding: 1rem 0;
+        display: none;
+      }
+
+      span {
+        padding: 1rem 0;
+      }
+
+      .shortLink {
+        min-width: 218px;
+        width: 100%;
+        max-width: 350px;
+      }
+
+      .originalLink {
+        min-width: 350px;
+        width: 100%;
+        max-width: 598px;
+      }
+
+      .clicks {
+        min-width: 120px;
+        width: 100%;
+        max-width: 120px;
+      }
+
+      .date {
+        min-width: 150px;
+        width: 100%;
+        max-width: 150px;
+      }
+    }
+  }
+}
+
+.darkLinkTable .table {
+  .header {
+    background: #374151;
+    box-shadow: 0px 4px 10px 0px #0000001a;
+    color: #c9ced6;
+  }
+}
+
+@media screen and (max-width: 940px) {
+  .linkTable .table {
+    overflow-x: scroll;
+
+    .header {
+      width: max-content;
+    }
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .linkTable {
+    padding-left: 60px;
+
+    .table {
+      width: 97%;
+      overflow: hidden;
+
+      .header {
+        span {
+          visibility: hidden;
+        }
+
+        &::after {
+          display: block !important;
+        }
+      }
+    }
+  }
+}

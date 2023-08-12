@@ -3,6 +3,12 @@
   height: $value;
 }
 
+.hideScrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 .flexCenter {
   display: flex;
   align-items: center;

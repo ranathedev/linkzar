@@ -52,7 +52,7 @@ const shareShortLink = (shortLink: string) => {
 const handleDelLink = async (
   originalURL: string,
   setIsLoading: any,
-  handleReset: () => void
+  handleReset: any
 ) => {
   setIsLoading(true);
   const response = await axios.post("/api/deleteLink", {
@@ -89,6 +89,30 @@ const sendEmail = (values: { name: string; email: string; msg: string }) => {
         console.log("FAILED...", error);
       }
     );
+};
+
+const formatDate = (date: Date) => {
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const day = date.getDate();
+  const monthIndex = date.getMonth();
+  const year = date.getFullYear();
+
+  const formattedDate = `${months[monthIndex]}-${day}-${year}`;
+  return formattedDate;
 };
 
 const qas = [
@@ -151,5 +175,6 @@ export {
   shareShortLink,
   handleDelLink,
   sendEmail,
+  formatDate,
   qas,
 };

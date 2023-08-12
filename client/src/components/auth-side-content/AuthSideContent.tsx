@@ -24,7 +24,7 @@ const AuthSideContent = () => {
           behavior. Craft compelling calls-to-action, monitor engagement, and
           refine your strategy. Transform clicks into connections.
         </p>
-        <Link href="#">
+        <Link href="/shorten">
           Try Demo <ArrowRightIcon />
         </Link>
       </div>

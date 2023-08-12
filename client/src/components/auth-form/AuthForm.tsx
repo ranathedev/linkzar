@@ -115,7 +115,6 @@ const AuthForm = ({ theme, formType, setFormType }: Props) => {
           </button>
         </Form>
       </Formik>
-
       <div className={stl.authSwitch}>
         {formType === "sign up"
           ? "Already have an account? "

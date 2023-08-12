@@ -16,6 +16,7 @@ module.exports = {
     MESSAGINGSENDERID: process.env.MESSAGINGSENDERID,
     APPID: process.env.APPID,
     MEASUREMENTID: process.env.MEASUREMENTID,
+    TENANT_ID: process.env.TENANT_ID,
   },
   reactStrictMode: true,
   images: { unoptimized: true },

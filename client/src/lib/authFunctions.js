@@ -4,6 +4,10 @@ import {
   updateProfile,
   sendEmailVerification,
   signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  GithubAuthProvider,
+  OAuthProvider,
 } from "firebase/auth";
 
 const signupWithEmailPassword = async (fname, email, password) => {
@@ -50,4 +54,86 @@ const signinWithEmailPassword = async (email, password) => {
     });
 };
 
-export { signupWithEmailPassword, signinWithEmailPassword };
+const signinWithGoogle = async () => {
+  const provider = new GoogleAuthProvider();
+  provider.setCustomParameters({
+    prompt: "consent",
+  });
+
+  await signInWithPopup(auth, provider)
+    .then((result) => {
+      const user = result.user;
+      console.log("User :", user);
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMsg = error.message;
+      const email = error.customData.email;
+      const credential = GoogleAuthProvider.credentialFromError(error);
+
+      console.error("Error Code:", errorCode);
+      console.error("Error Msg:", errorMsg);
+      console.error("Email :", email);
+      console.error("Credential :", credential);
+    });
+};
+
+const signinWithGithub = async () => {
+  const provider = new GithubAuthProvider();
+  provider.setCustomParameters({
+    prompt: "consent",
+  });
+
+  signInWithPopup(auth, provider)
+    .then(async (result) => {
+      const user = result.user;
+      await sendEmailVerification(user).then(() => {
+        console.log("Verfication email sent successfully!");
+      });
+      console.log(user);
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMsg = error.message;
+      const email = error.customData.email;
+      const credential = GoogleAuthProvider.credentialFromError(error);
+
+      console.error("Error Code:", errorCode);
+      console.error("Error Msg:", errorMsg);
+      console.error("Email :", email);
+      console.error("Credential :", credential);
+    });
+};
+
+const signinWithMicrosoft = async () => {
+  const provider = new OAuthProvider("microsoft.com");
+
+  provider.setCustomParameters({
+    prompt: "consent",
+    tenant: "6b2aaabf-fc70-42aa-bf76-c493c61263fc",
+  });
+  signInWithPopup(auth, provider)
+    .then(async (result) => {
+      const user = result.user;
+      console.log(user);
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMsg = error.message;
+      const email = error.customData.email;
+      const credential = GoogleAuthProvider.credentialFromError(error);
+
+      console.error("Error Code:", errorCode);
+      console.error("Error Msg:", errorMsg);
+      console.error("Email :", email);
+      console.error("Credential :", credential);
+    });
+};
+
+export {
+  signupWithEmailPassword,
+  signinWithEmailPassword,
+  signinWithGoogle,
+  signinWithGithub,
+  signinWithMicrosoft,
+};

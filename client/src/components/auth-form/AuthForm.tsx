@@ -6,10 +6,16 @@ import { Formik, Form } from "formik";
 import {
   signupWithEmailPassword,
   signinWithEmailPassword,
+  signinWithGoogle,
+  signinWithGithub,
+  signinWithMicrosoft,
 } from "lib/authFunctions";
-import { getFields, getInitVals, socialMethods } from "lib/authFormData";
+import { getFields, getInitVals } from "lib/authFormData";
 import InputContainer from "components/input-container";
 
+import GoogleIcon from "assets/google.svg";
+import GithubIcon from "assets/github-2.svg";
+import MicrosoftIcon from "assets/microsoft.svg";
 import TickIcon from "assets/tick.svg";
 
 import stl from "./AuthForm.module.scss";
@@ -50,6 +56,25 @@ const AuthForm = ({ theme, formType, setFormType }: Props) => {
     //@ts-ignore
     setInitVals(initVals);
   }, [formType]);
+
+  const socialMethods = [
+    {
+      icon: <GoogleIcon />,
+      name: "google",
+      onClick: signinWithGoogle,
+      signinWithGithub,
+    },
+    {
+      icon: <GithubIcon />,
+      name: "github",
+      onClick: signinWithGithub,
+    },
+    {
+      icon: <MicrosoftIcon />,
+      name: "twitter",
+      onClick: signinWithMicrosoft,
+    },
+  ];
 
   return isLoading ? null : (
     <div className={clsx(stl.authForm, className)}>

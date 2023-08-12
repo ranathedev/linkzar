@@ -53,12 +53,15 @@ const handleDelLink = async (
   handleReset: any
 ) => {
   setIsLoading(true);
-  const response = await axios.post("/api/deleteLink", {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    originalURL,
-  });
+  const response = await axios.post(
+    "https://linkzar.glitch.me/api/deleteLink",
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      originalURL,
+    }
+  );
 
   if (response.status === 200) {
     const data = response.data;

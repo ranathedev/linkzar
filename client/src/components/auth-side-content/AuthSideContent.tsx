@@ -1,8 +1,7 @@
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 
-import Logo from "@/public/favicon/android-chrome-192x192.png";
+import Logo from "assets/logo.svg";
 import ArrowRightIcon from "assets/arrow-right.svg";
 
 import stl from "./AuthSideContent.module.scss";
@@ -12,7 +11,7 @@ const AuthSideContent = () => {
     <div className={stl.authSideContent}>
       <div className={stl.container}>
         <div className={stl.logoContainer}>
-          <Image src={Logo} alt="logo-image" />
+          <Logo />
           <h1 className={stl.logoText}>Linkzar</h1>
         </div>
         <h1 className={stl.headline}>

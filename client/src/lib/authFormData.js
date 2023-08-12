@@ -36,12 +36,13 @@ const signup = [
     type: "email",
   },
   { label: "Password", id: "pass", placeholder: "", type: "password" },
-  {
-    label: "Confirm password",
-    id: "confirmPass",
-    placeholder: "",
-    type: "password",
-  },
+  // for sign up testing
+  // {
+  //   label: "Confirm password",
+  //   id: "confirmPass",
+  //   placeholder: "",
+  //   type: "password",
+  // },
 ];
 
 const signin = [
@@ -64,8 +65,8 @@ const signupInitVals = {
   lname: "",
   email: "",
   pass: "",
-  confirmPass: "",
-  agreement: false,
+  // for sign up testing
+  // confirmPass: "",
 };
 
 const signinInitVals = {

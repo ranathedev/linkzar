@@ -3,6 +3,10 @@ import Link from "next/link";
 import clsx from "clsx";
 import { Formik, Form } from "formik";
 
+import {
+  signupWithEmailPassword,
+  signinWithEmailPassword,
+} from "lib/authFunctions";
 import { getFields, getInitVals, socialMethods } from "lib/authFormData";
 import InputContainer from "components/input-container";
 
@@ -17,7 +21,11 @@ interface Props {
 }
 
 const AuthForm = ({ theme, formType, setFormType }: Props) => {
-  const [initVals, setInitVals] = React.useState({});
+  const [initVals, setInitVals] = React.useState({
+    fname: "",
+    email: "",
+    pass: "",
+  });
   const [className, setClassName] = React.useState("");
   const [isChecked, setIsChecked] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -73,9 +81,17 @@ const AuthForm = ({ theme, formType, setFormType }: Props) => {
       <Formik
         initialValues={initVals}
         onSubmit={(values, actions) => {
-          if (isChecked) {
-            console.log(values);
+          if ((formType === "sign up" && isChecked) || formType === "sign in") {
+            (formType == "sign up" &&
+              signupWithEmailPassword(
+                values.fname,
+                values.email,
+                values.pass
+              )) ||
+              (formType === "sign in" &&
+                signinWithEmailPassword(values.email, values.pass));
             actions.resetForm();
+            setIsChecked(false);
           } else {
             alert("Agree to our terms and conditions to create account.");
           }

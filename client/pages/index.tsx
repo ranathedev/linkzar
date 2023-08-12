@@ -1,11 +1,11 @@
 import React from "react";
 
-import WelcomeBanner from "components/welcome-banner";
+import AuthForm from "components/auth-form";
 
 export default function Home() {
   return (
     <main>
-      <WelcomeBanner theme="light" />
+      <AuthForm theme="light" />
     </main>
   );
 }

@@ -1,11 +1,11 @@
 import React from "react";
 
-import Overview from "./overview";
+import LinkTable from "components/link-table";
 
 export default function Home() {
   return (
     <main>
-      <Overview />
+      <LinkTable theme="light" />
     </main>
   );
 }

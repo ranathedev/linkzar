@@ -36,7 +36,7 @@ const ToggleThemeBtn = ({ handleOnClick, theme, customClass }: Props) => {
   const handleHideBtn = () => {
     setTimeout(() => {
       setIsNoticed(false);
-    }, 1000);
+    }, 500);
   };
 
   return (

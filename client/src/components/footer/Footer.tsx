@@ -12,7 +12,7 @@ import stl from "./Footer.module.scss";
 
 interface Props {
   theme: string;
-  links: Array<{ icon: React.ReactNode; href: string }>;
+  links: Array<{ icon: React.ReactNode; href: string; ariaLabel: string }>;
 }
 
 const Footer = ({ theme, links }: Props) => {
@@ -42,7 +42,12 @@ const Footer = ({ theme, links }: Props) => {
       </span>
       <div className={stl.socials}>
         {links.map((item, i) => (
-          <Link key={i} href={item.href} target="_blank">
+          <Link
+            key={i}
+            href={item.href}
+            target="_blank"
+            aria-label={item.ariaLabel}
+          >
             {item.icon}
           </Link>
         ))}
@@ -56,11 +61,31 @@ const Footer = ({ theme, links }: Props) => {
 
 Footer.defaultProps = {
   links: [
-    { icon: <GithubIcon />, href: "https://github.com/ranaintizar" },
-    { icon: <FacebookIcon />, href: "https://www.facebook.com/ranathedev" },
-    { icon: <LinkedInIcon />, href: "https://linkedin.com/in/ranathedev" },
-    { icon: <TwitterIcon />, href: "https://twitter.com/ranathedev" },
-    { icon: <InstaIcon />, href: "https://instagram.com/ranathedev" },
+    {
+      icon: <GithubIcon />,
+      href: "https://github.com/ranaintizar",
+      ariaLabel: "Visit my Github Profile",
+    },
+    {
+      icon: <FacebookIcon />,
+      href: "https://www.facebook.com/ranathedev",
+      ariaLabel: "Visit my Facebook Profile",
+    },
+    {
+      icon: <LinkedInIcon />,
+      href: "https://linkedin.com/in/ranathedev",
+      ariaLabel: "Visit my Linkedin Profile",
+    },
+    {
+      icon: <TwitterIcon />,
+      href: "https://twitter.com/ranathedev",
+      ariaLabel: "Visit my Twitter Profile",
+    },
+    {
+      icon: <InstaIcon />,
+      href: "https://instagram.com/ranathedev",
+      ariaLabel: "Visit my Instagram Profile",
+    },
   ],
 };
 

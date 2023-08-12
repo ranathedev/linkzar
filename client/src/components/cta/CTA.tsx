@@ -32,7 +32,12 @@ const CTA = ({ theme }: Props) => {
           <p className={stl.desc}>
             Try Flowbite Platform for 30 days. No credit card required.
           </p>
-          <Button theme={theme} label="Get Started" icon={<ArrowIcon />} />
+          <Button
+            theme={theme}
+            label="Get Started"
+            icon={<ArrowIcon />}
+            handleOnClick={() => (location.href = "/shorten")}
+          />
         </div>
       </div>
     </section>

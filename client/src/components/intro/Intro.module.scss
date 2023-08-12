@@ -9,9 +9,10 @@
 
   .container {
     @extend .alignCen;
-    width: 100%;
+    width: 95%;
     min-height: 500px;
-    padding: 2rem 0 2rem 1rem;
+    padding: 2rem 0 1rem;
+    margin: 0 auto;
 
     .content {
       @extend .flexCol;
@@ -20,23 +21,24 @@
       place-self: center;
       width: 100%;
       margin-right: auto;
+      margin: 1rem 0;
 
       .heading {
         position: relative;
         max-width: 38rem;
-        font-size: 2.25rem;
-        line-height: 3rem;
-        font-weight: 800;
+        font-size: 2.5rem;
+        line-height: 1;
+        font-weight: 600;
         letter-spacing: -0.025em;
         overflow: hidden;
 
         .featureTransition {
-          height: 3.5rem;
+          height: 3.2rem;
           color: #007bff;
 
           .text {
             position: absolute;
-            top: 32%;
+            top: 31%;
             left: 0;
             @extend .alignCen;
             @include setSquare(100%);
@@ -55,6 +57,7 @@
       .desc {
         max-width: 38rem;
         font-weight: 300;
+        font-size: 1.2rem;
         color: #6b7280;
       }
 
@@ -88,14 +91,18 @@
 }
 
 @media screen and (min-width: 1280px) {
-  .intro .container {
-    gap: 0;
+  .intro {
+    .heading {
+      font-size: 2.5rem;
+      line-height: 1;
+    }
+  }
+}
 
-    .content {
-      .heading {
-        font-size: 3.75rem;
-        line-height: 1;
-      }
+@media screen and (max-width: 1200px) {
+  .intro {
+    .heading {
+      font-size: 2.5rem !important;
     }
   }
 }
@@ -105,8 +112,7 @@
     height: 700px;
 
     .container {
-      gap: 2rem;
-      padding: 1rem;
+      padding: 1rem 0;
 
       .content {
         .desc {
@@ -128,34 +134,67 @@
   }
 }
 
-@media screen and (max-width: 900px) {
-  .intro .container {
-    flex-direction: column;
-    gap: 2rem;
+@media screen and (max-width: 996px) {
+  .intro {
+    height: unset;
 
-    .content,
-    .img {
-      width: 95%;
-      max-width: 600px;
-    }
+    .container {
+      flex-direction: column;
+      gap: 2rem;
 
-    .content {
-      order: 1;
-      margin: 0 auto;
+      .content,
+      .img {
+        width: 100%;
+        max-width: 600px;
+      }
+
+      .content {
+        order: 1;
+        margin: 0 auto;
+      }
     }
   }
 }
 
-@media screen and (min-width: 768px) {
-  .intro .container .content {
+@media screen and (max-width: 640px) {
+  .intro {
     .heading {
-      font-size: 3rem;
-      line-height: 1;
-    }
+      font-size: 2.2rem !important;
+      line-height: 2.5rem !important;
 
+      .featureTransition {
+        height: 2.5rem !important;
+      }
+    }
     .desc {
-      font-size: 1.125rem;
-      line-height: 1.75rem;
+      font-size: 1rem !important;
+      line-height: 1.4rem;
+    }
+  }
+}
+
+@media screen and (max-width: 454px) {
+  .intro {
+    .heading {
+      height: 10.2rem;
+
+      .text {
+        max-width: 20rem;
+        top: 24.5% !important;
+        line-height: 2.5rem !important;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 397px) {
+  .intro {
+    .heading {
+      height: 12.6rem;
+
+      .text {
+        top: 29.5% !important;
+      }
     }
   }
 }

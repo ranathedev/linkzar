@@ -8,13 +8,12 @@
     justify-content: space-between;
     gap: 1rem;
     width: 100%;
-    padding: 1.25rem 0;
+    padding: 1rem 0 !important;
 
     .question {
-      font-size: 1.5rem;
-      line-height: 2rem;
+      font-size: 1.4rem;
       color: #010851;
-      font-weight: 700;
+      font-weight: 500;
     }
   }
 
@@ -23,9 +22,10 @@
     margin-bottom: 0;
     padding: 0 0.5rem;
     hyphens: auto;
-    font-size: 1.125rem;
+    font-size: 1.1rem;
     line-height: 1.75rem;
     color: #6b7280;
+    font-weight: 300;
     background: #f9fafb;
     border-radius: 0.5rem;
     overflow: hidden;
@@ -56,6 +56,20 @@
 
     .header {
       padding: 1.75rem 0;
+    }
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .faqItem {
+    .question {
+      font-size: 1.25rem !important;
+      line-height: 1.6rem !important;
+    }
+
+    .answer {
+      font-size: 1rem;
+      line-height: 1.5rem;
     }
   }
 }

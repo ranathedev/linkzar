@@ -39,7 +39,7 @@ const About = ({ theme }: Props) => {
         <div>
           <h2>Meet the Creator</h2>
           <p>
-            I,
+            I,&nbsp;
             <Link href="https://linktr.ee/ranaintizar" target="_blank">
               Rana Intizar
             </Link>

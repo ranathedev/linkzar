@@ -15,7 +15,7 @@ const insertDataObject = async (client, dataObject) => {
     if (urlData) {
       const response = {
         originalURL: urlData.originalURL,
-        shortURL: `https://urlzar.glitch.me/${urlData.shortURL}`,
+        shortURL: `https://linkzar.glitch.me/${urlData.shortURL}`,
       };
       return response;
     } else if (shortLink) {
@@ -25,7 +25,7 @@ const insertDataObject = async (client, dataObject) => {
       await collection.insertOne(dataObject);
       const response = {
         originalURL: dataObject.originalURL,
-        shortURL: `https://urlzar.glitch.me/${dataObject.shortURL}`,
+        shortURL: `https://linkzar.glitch.me/${dataObject.shortURL}`,
       };
       return response;
     }

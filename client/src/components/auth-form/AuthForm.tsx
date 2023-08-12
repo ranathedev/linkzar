@@ -36,14 +36,14 @@ const AuthForm = ({ theme, formType, setFormType }: Props) => {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-    }, 100);
+    }, 300);
     const initVals = getInitVals(formType);
 
     //@ts-ignore
     setInitVals(initVals);
   }, [formType]);
 
-  return (
+  return isLoading ? null : (
     <div className={clsx(stl.authForm, className)}>
       <h2 className={stl.heading}>
         {formType === "sign up"
@@ -69,53 +69,53 @@ const AuthForm = ({ theme, formType, setFormType }: Props) => {
         <span className={stl.text}>or</span>
         <span className={stl.line} />
       </div>
-      {isLoading ? null : (
-        <Formik
-          initialValues={initVals}
-          onSubmit={(values, actions) => {
-            if (isChecked) {
-              console.log(values);
-              actions.resetForm();
-            } else {
-              alert("Agree to our terms and conditions to create account.");
-            }
-          }}
-        >
-          <Form>
-            {getFields(formType)?.map((field, i) => (
-              <InputContainer
-                theme={theme}
-                key={i}
-                required={true}
-                id={field.id}
-                type={field.type}
-                label={field.label}
-                placeholder={field.placeholder}
-              />
-            ))}
-            {formType === "sign up" ? (
-              <div className={stl.checkboxContainer}>
-                <span
-                  className={clsx(stl.checkbox, isChecked ? stl.checked : "")}
-                  onClick={() => setIsChecked(!isChecked)}
-                >
-                  <TickIcon />
-                </span>
-                <label htmlFor="agreement">
-                  I agree to the <Link href="#">terms and conditions</Link>.
-                </label>
-              </div>
-            ) : (
-              <div className={stl.forgotPassword}>
-                <span>Forgot password?</span>
-              </div>
-            )}
-            <button className={stl.btn} type="submit">
-              {formType === "sign up" ? "Create an account" : "Log in"}
-            </button>
-          </Form>
-        </Formik>
-      )}
+
+      <Formik
+        initialValues={initVals}
+        onSubmit={(values, actions) => {
+          if (isChecked) {
+            console.log(values);
+            actions.resetForm();
+          } else {
+            alert("Agree to our terms and conditions to create account.");
+          }
+        }}
+      >
+        <Form>
+          {getFields(formType)?.map((field, i) => (
+            <InputContainer
+              theme={theme}
+              key={i}
+              required={true}
+              id={field.id}
+              type={field.type}
+              label={field.label}
+              placeholder={field.placeholder}
+            />
+          ))}
+          {formType === "sign up" ? (
+            <div className={stl.checkboxContainer}>
+              <span
+                className={clsx(stl.checkbox, isChecked ? stl.checked : "")}
+                onClick={() => setIsChecked(!isChecked)}
+              >
+                <TickIcon />
+              </span>
+              <label htmlFor="agreement">
+                I agree to the <Link href="#">terms and conditions</Link>.
+              </label>
+            </div>
+          ) : (
+            <div className={stl.forgotPassword}>
+              <span>Forgot password?</span>
+            </div>
+          )}
+          <button className={stl.btn} type="submit">
+            {formType === "sign up" ? "Create an account" : "Log in"}
+          </button>
+        </Form>
+      </Formik>
+
       <div className={stl.authSwitch}>
         {formType === "sign up"
           ? "Already have an account? "

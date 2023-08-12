@@ -36,13 +36,13 @@ const ToggleThemeBtn = ({ handleOnClick, theme, customClass }: Props) => {
   const handleHideBtn = () => {
     setTimeout(() => {
       setIsNoticed(false);
-    }, 3000);
+    }, 1000);
   };
 
   return (
     <div
       onMouseEnter={() => setIsNoticed(true)}
-      onMouseOut={handleHideBtn}
+      onMouseLeave={handleHideBtn}
       title="Toggle Theme"
       className={clsx(stl.toggleBtn, customClass, isNoticed ? "" : stl.hideBtn)}
       onClick={() => {

@@ -4,12 +4,11 @@ import clsx from "clsx";
 import stl from "./PlusMinus.module.scss";
 
 interface Props {
-  handleOnClick: () => void;
   isActive: Boolean;
   theme: string;
 }
 
-const PlusMinusIcon = ({ handleOnClick, isActive, theme }: Props) => {
+const PlusMinusIcon = ({ isActive, theme }: Props) => {
   const [className, setClassName] = React.useState("");
 
   useEffect(() => {
@@ -23,10 +22,7 @@ const PlusMinusIcon = ({ handleOnClick, isActive, theme }: Props) => {
   }, [theme]);
 
   return (
-    <div
-      className={clsx(stl.btn, isActive ? stl.active : "", className)}
-      onClick={handleOnClick}
-    />
+    <div className={clsx(stl.btn, isActive ? stl.active : "", className)} />
   );
 };
 

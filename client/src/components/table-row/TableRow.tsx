@@ -52,13 +52,13 @@ const TableRow = ({ link, theme }: Props) => {
     return () => window.removeEventListener("resize", measureWidth);
   }, []);
 
-  const domainUrl = "https://urlzar.glitch.me/";
+  const domainUrl = "https://linkzar.glitch.me/";
 
   return (
     <div className={clsx(stl.tableRow, expand ? stl.expand : "", className)}>
       <span className={stl.shortLink}>
         <div className={stl.short}>
-          <span className={stl.domain}>urlzar.glitch.me/</span>
+          <span className={stl.domain}>linkzar.glitch.me/</span>
           <span>{link.shortURL}</span>
         </div>
         <div className={stl.optContainer}>

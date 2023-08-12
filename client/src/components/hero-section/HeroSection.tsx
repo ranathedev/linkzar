@@ -67,8 +67,8 @@ const HeroSection = ({
 };
 
 HeroSection.defaultProps = {
-  heading: "Shorten Long URLs Effortlessly",
-  desc: "Say goodbye to long, clunky URLs and hello to simple and shareable links. Our friendly URL shortening platform makes it a breeze to transform lengthy web addresses into compact, easy-to-remember links. Whether you're sharing on social media, sending emails, or engaging with your audience, our user-friendly solution ensures that your links are streamlined and professional. Start shortening URLs effortlessly and share with confidence today!",
+  heading: "Simplifying Your Links",
+  desc: "Streamline your online experience with our link simplification tools. Shorten lengthy URLs into concise and shareable links that captivate your audience's attention. Customize these links with ease, personalize their destination, and gain valuable insights into their performance. Elevate engagement, enhance user experience, and optimize your digital strategy by simplifying your links with our powerful platform.",
   btnLabel: "Get Started",
   btnOnClick: () => console.log("Hero Section Button Clicked..."),
   btnIcon: <ArrowIcon />,

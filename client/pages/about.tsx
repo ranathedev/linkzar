@@ -4,7 +4,7 @@ import About from "components/about";
 import Layout from "components/layout";
 import ToggleThemeBtn from "components/toggle-theme-btn";
 
-const Overview = () => {
+const AboutPage = () => {
   const [theme, setTheme] = React.useState(() => {
     if (typeof window !== "undefined") {
       const storedTheme = localStorage.getItem("theme");
@@ -34,4 +34,4 @@ const Overview = () => {
   );
 };
 
-export default Overview;
+export default AboutPage;

@@ -62,8 +62,8 @@ const Intro = ({ theme, customClass }: Props) => {
             </div>
           </h1>
           <p className={stl.desc}>
-            From checkout to global sales tax compliance, companies around the
-            world use Flowbite to simplify their payment stack.
+            Elevate Your Online Experience: Making Link Management Smarter and
+            More Insightful Than Ever Before.
           </p>
           <div className={stl.btnContainer}>
             <Button

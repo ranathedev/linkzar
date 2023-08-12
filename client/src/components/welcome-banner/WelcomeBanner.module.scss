@@ -1,0 +1,80 @@
+@import "styles/common";
+
+.welcomeBanner {
+  @extend .flexColCen;
+  gap: 0.5rem;
+  width: 97%;
+  max-width: 500px;
+  padding: 2rem 0.5rem 0rem;
+  margin: 0 auto;
+  background: #fff;
+  box-shadow: #63636333 0px 2px 8px 0px;
+  border-radius: 1.5rem;
+
+  img {
+    width: 400px;
+    height: auto;
+  }
+
+  .content {
+    max-width: 500px;
+
+    .heading {
+      text-align: center;
+      margin-bottom: 1rem;
+      font-size: 1.875rem;
+      line-height: 2.25rem;
+      letter-spacing: -0.025em;
+      font-weight: 600;
+    }
+
+    .desc {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-weight: 400;
+      color: #6b7280;
+    }
+
+    .btn {
+      @extend .flexCenter;
+    }
+  }
+}
+
+.darkWelcomeBanner {
+  background: #111827;
+
+  .heading {
+    color: #fff;
+  }
+
+  .desc {
+    color: #9ca3af;
+  }
+}
+
+@media (min-width: 768px) {
+  .welcomeBanner {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.25rem 1.5rem;
+    gap: 2rem;
+    max-width: 1024px;
+
+    .content {
+      .heading {
+        text-align: left;
+      }
+
+      .desc {
+        text-align: left;
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+      }
+
+      .btn {
+        justify-content: flex-start;
+      }
+    }
+  }
+}

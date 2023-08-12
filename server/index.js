@@ -11,8 +11,22 @@ fastify.register(require("@fastify/cors"), {});
 const uri = `mongodb+srv://linkzar:${process.env.MONGO_KEY}@linkzar-cluster.2wcn1ji.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
 
-fastify.get("/", function (req, res) {
-  const protocol = req.protocol;
+fastify.get("/", (req, res) => {
+  res.redirect("https://linkzar.ranainitzar.com");
+});
+
+fastify.post("/api/shorten", async (req, res) => {
+  const url = req.body.url;
+  const shortURL = req.body.shortURL;
+  const dataObject = { shortURL, originalURL: url };
+  const response = await insertDataObject(client, dataObject);
+  response ? res.send(response) : res.send({ error: "This is error message." });
+});
+
+fastify.post("/api/deleteLink", async (req, res) => {
+  const originalURL = req.body.originalURL;
+  const response = await deleteLink(client, originalURL);
+  res.send(response);
 });
 
 fastify.get("/:shortURL", async (req, res) => {

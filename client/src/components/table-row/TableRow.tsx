@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import clsx from "clsx";
 
-// import { isMobileDevice, shareShortLink } from "lib/utils";
+import { isMobileDevice, shareShortLink } from "lib/utils";
 
 import DownIcon from "assets/chevron-down.svg";
 import OpenLinkIcon from "assets/openLink.svg";
 import CopyIcon from "assets/copy.svg";
-// import ShareIcon from "assets/share.svg";
+import ShareIcon from "assets/share.svg";
 import DeleteIcon from "assets/delete.svg";
 
 import stl from "./TableRow.module.scss";
@@ -24,6 +24,8 @@ interface Props {
 const TableRow = ({ link, theme }: Props) => {
   const [expand, setExpand] = React.useState(false);
   const [className, setClassName] = React.useState("");
+  const [width, setWidth] = React.useState(1000);
+  const [device, setDevice] = React.useState("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -35,32 +37,54 @@ const TableRow = ({ link, theme }: Props) => {
     }
   }, [theme]);
 
+  useEffect(() => {
+    width > 640 && setExpand(false);
+  }, [width]);
+
+  useEffect(() => {
+    isMobileDevice() ? setDevice("Mobile") : setDevice("");
+
+    function measureWidth() {
+      setWidth(document.body.clientWidth);
+    }
+    measureWidth();
+    window.addEventListener("resize", measureWidth);
+    return () => window.removeEventListener("resize", measureWidth);
+  }, []);
+
+  const domainUrl = "https://urlzar.glitch.me/";
+
   return (
     <div className={clsx(stl.tableRow, expand ? stl.expand : "", className)}>
       <span className={stl.shortLink}>
-        {link.shortURL}
+        <div className={stl.short}>
+          <span className={stl.domain}>urlzar.glitch.me/</span>
+          <span>{link.shortURL}</span>
+        </div>
         <div className={stl.optContainer}>
           <div className={stl.options}>
             <button
               className={stl.btn}
-              onClick={() => window.open(link.shortURL, "_blank")}
+              onClick={() => window.open(domainUrl + link.shortURL, "_blank")}
             >
               <OpenLinkIcon />
             </button>
             <button
               className={stl.btn}
-              onClick={() => navigator.clipboard.writeText(link.shortURL)}
+              onClick={() =>
+                navigator.clipboard.writeText(domainUrl + link.shortURL)
+              }
             >
               <CopyIcon />
             </button>
-            {/* {isMobileDevice() && (
+            {device === "Mobile" && (
               <button
                 className={stl.btn}
-                onClick={() => shareShortLink(link.shortURL)}
+                onClick={() => shareShortLink(domainUrl + link.shortURL)}
               >
                 <ShareIcon />
               </button>
-            )} */}
+            )}
             <button
               className={stl.btn}
               // onClick={() =>
@@ -87,8 +111,8 @@ const TableRow = ({ link, theme }: Props) => {
 
 TableRow.defaultProps = {
   link: {
-    shortURL: "urlzar.glitch.me/OOOOOOO",
-    originalURL: "ranaintizar.com",
+    shortURL: "OOOOOOO",
+    originalURL: "https://ranaintizar.com",
     clicks: 345,
     dateCreated: "Aug-10-2023",
   },

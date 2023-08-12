@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+@import "styles/common";
 
 * {
   box-sizing: border-box;
@@ -16,19 +17,15 @@ body {
   color: #010851;
   font-family: "Poppins", sans-serif;
 
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  @extend .hideScrollbar;
 
   main {
     position: relative;
     min-height: 100vh;
     width: 100vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: #f9f9f9;
+    @extend .flexColCen;
+    background: #fff;
+    // background: #030712;
 
     button {
       outline: none;

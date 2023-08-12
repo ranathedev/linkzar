@@ -49,7 +49,7 @@ const URLShortener = ({ theme }: Props) => {
 
   const handleSubmit = async () => {
     setIsLoading(true);
-    const shortURL = alias === "" ? generateRandomString(5) : alias;
+    const shortURL = alias === "" ? generateRandomString(7) : alias;
     const isValidURL = validateUrl(url);
     const minLength = 5;
 
@@ -159,15 +159,15 @@ const URLShortener = ({ theme }: Props) => {
                     <div className={stl.options}>
                       <button
                         className={stl.btn}
-                        onClick={() => window.open(shortURL, "_blank")}
-                      >
-                        <OpenLinkIcon />
-                      </button>
-                      <button
-                        className={stl.btn}
                         onClick={() => navigator.clipboard.writeText(shortURL)}
                       >
                         <CopyIcon />
+                      </button>
+                      <button
+                        className={stl.btn}
+                        onClick={() => window.open(shortURL, "_blank")}
+                      >
+                        <OpenLinkIcon />
                       </button>
                       {isMobileDevice() && (
                         <button

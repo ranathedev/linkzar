@@ -6,23 +6,13 @@ const fastify = require("fastify")({
   logger: false,
 });
 
+fastify.register(require("@fastify/cors"), {});
+
 const uri = `mongodb+srv://linkzar:${process.env.MONGO_KEY}@linkzar-cluster.2wcn1ji.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
 
 fastify.get("/", function (req, res) {
   const protocol = req.protocol;
-
-  // Get the hostname (e.g., localhost or example.com)
-  const hostname = req.hostname;
-
-  // Get the full URL path (e.g., /example?param=value)
-  const fullPath = req.raw.url;
-
-  // Concatenate the parts to get the full URL
-  const fullUrl = `${protocol}://${hostname}${fullPath}`;
-
-  console.log("Server url is:", fullUrl);
-  res.send("Server is running perfectly!");
 });
 
 fastify.get("/:shortURL", async (req, res) => {

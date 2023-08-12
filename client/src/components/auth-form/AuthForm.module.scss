@@ -1,0 +1,212 @@
+@import "styles/common";
+
+.authForm {
+  width: 97%;
+  max-width: 550px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  background: #fff;
+  font-size: 0.9rem;
+  line-height: 1.25rem;
+  border-radius: 0.75rem;
+  box-shadow: #00000029 0px 1px 4px;
+
+  &:hover {
+    box-shadow: #63636333 0px 2px 8px 0px;
+  }
+
+  .heading {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  .socialMethod {
+    @extend .flexCenter;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+
+    span {
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    .btns {
+      @extend .flexCenter;
+      gap: 1rem;
+
+      button {
+        @extend .flexCenter;
+        @include setSquare(45px);
+        border-radius: 50%;
+        cursor: pointer;
+
+        &:hover {
+          opacity: 0.75;
+        }
+      }
+
+      .googleBtn {
+        background: #e46f61;
+      }
+
+      .githubBtn {
+        background: #000;
+      }
+
+      .twitterBtn {
+        background: #77bdf1;
+      }
+
+      .linkedinBtn {
+        background: #007bb5;
+      }
+    }
+  }
+
+  .divider {
+    @extend .alignCen;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+
+    .line {
+      width: 100%;
+      height: 1.5px;
+      background: #e5e7eb;
+    }
+
+    .text {
+      color: #6b7280;
+    }
+  }
+
+  form {
+    @extend .flexCol;
+    gap: 1rem;
+    margin-top: 1rem;
+
+    .checkboxContainer {
+      @extend .alignCen;
+      gap: 0.75rem;
+
+      .checkbox {
+        @extend .flexCenter;
+        @include setSquare(1rem);
+        color: #f9fafb;
+        background: #f9fafb;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .checked {
+        background: #007bff;
+        border-color: #007bff;
+      }
+
+      label {
+        color: #6b7280;
+
+        a {
+          color: #1c64f2;
+          font-weight: 500;
+          text-underline-offset: 2px;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
+    .forgotPassword {
+      display: flex;
+      justify-content: flex-end;
+
+      span {
+        color: #1c64f2;
+        text-underline-offset: 2px;
+        font-weight: 500;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .btn {
+      margin-top: 0.5rem;
+      padding: 0.625rem 1.25rem;
+      background: #1c64f2;
+      color: #fff;
+      text-align: center;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      opacity: 1;
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+
+  .authSwitch {
+    margin-top: 1.25rem;
+
+    span {
+      color: #1c64f2;
+      font-weight: 500;
+      text-underline-offset: 2px;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.darkAuthForm {
+  background: #1f2937;
+
+  .heading {
+    color: #fff;
+  }
+
+  .socialMethod {
+    color: #d1d5db;
+  }
+
+  .divider {
+    color: #374151;
+
+    .line {
+      background: #374151;
+    }
+  }
+
+  form {
+    .checkboxContainer {
+      .checkbox {
+        background: #374151;
+        color: #374151;
+        border-color: #4b5563;
+      }
+
+      .checked {
+        background: #007bff;
+        border-color: #007bff;
+        color: #fff;
+      }
+
+      label {
+        color: #d1d5db;
+      }
+    }
+  }
+
+  .authSwitch {
+    color: #d1d5db;
+  }
+}

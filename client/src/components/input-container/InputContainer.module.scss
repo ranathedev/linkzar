@@ -1,0 +1,39 @@
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+
+  label {
+    font-weight: 500;
+  }
+
+  input {
+    color: #111827;
+    padding: 0.625rem;
+    background: #f9fafb;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    outline-color: #1c64f2;
+  }
+}
+
+.darkInputContainer {
+  label {
+    color: #fff;
+  }
+
+  input {
+    background: #374151;
+    color: #fff;
+    border-color: #4b5563;
+    outline: none;
+
+    &:focus {
+      outline: 2px solid #1c64f2;
+    }
+
+    &::placeholder {
+      color: #9ca3af;
+    }
+  }
+}

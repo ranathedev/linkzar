@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 
-import WelcomeBanner from "components/welcome-banner";
+import AuthForm from "components/auth-form";
 
 export default function Home() {
+  const [formType, setFormType] = useState("sign up");
   return (
     <main>
-      <WelcomeBanner theme="light" />
+      <AuthForm theme="light" formType={formType} setFormType={setFormType} />
     </main>
   );
 }

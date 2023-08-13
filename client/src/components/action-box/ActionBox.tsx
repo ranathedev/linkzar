@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import clsx from "clsx";
 
 import { isMobileDevice, shareShortLink } from "lib/utils";
+import useOnClickOutside from "lib/useClickOutside";
 
 import stl from "./ActionBox.module.scss";
 
@@ -37,10 +38,15 @@ const ActionBox = ({ theme, display, variant }: Props) => {
     isMobileDevice() ? setDevice("Mobile") : setDevice("");
   }, []);
 
+  const ref = useRef(null);
+
+  useOnClickOutside(() => setShowActionList(false), ref);
+
   const domainUrl = "https://linkzar.glitch.me/";
 
   return (
     <div
+      ref={ref}
       style={{ display }}
       className={clsx(stl.actionsBox, className, stl[variant])}
     >

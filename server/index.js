@@ -1,4 +1,4 @@
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 require("dotenv").config();
 const { insertDataObject, deleteLink } = require("./module.js");
 
@@ -11,8 +11,19 @@ fastify.register(require("@fastify/cors"), {});
 const uri = `mongodb+srv://linkzar:${process.env.MONGO_KEY}@linkzar-cluster.2wcn1ji.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
 
-fastify.get("/", (req, res) => {
+fastify.get("/", async (req, res) => {
   res.redirect("https://linkzar.ranainitzar.com");
+
+  // get All Documents
+  // await client.connect();
+  // const database = client.db("linkzar");
+  // const collection = database.collection("links");
+
+  // const cursor = collection.find();
+
+  // const allDocuments = await cursor.toArray();
+
+  // res.send({ allDocuments: allDocuments });
 });
 
 fastify.post("/api/shorten", async (req, res) => {
@@ -27,6 +38,40 @@ fastify.post("/api/deleteLink", async (req, res) => {
   const originalURL = req.body.originalURL;
   const response = await deleteLink(client, originalURL);
   res.send(response);
+});
+
+fastify.post("/api/editLink", async (req, res) => {
+  const documentId = req.body.id;
+
+  console.log("docId:", documentId);
+
+  try {
+    await client.connect();
+    const database = client.db("linkzar");
+    const collection = database.collection("links");
+
+    const filter = { _id: new ObjectId(documentId) };
+
+    const updateOperation = {
+      $set: {
+        shortURL: "videos",
+      },
+    };
+
+    const updateResult = await collection.updateOne(filter, updateOperation);
+
+    console.log(updateResult);
+
+    if (updateResult.modifiedCount === 1) {
+      console.log("Document updated successfully");
+    } else {
+      console.log("Document not found or not updated");
+    }
+  } catch (error) {
+    console.error("An error occurred:", error);
+  } finally {
+    await client.close();
+  }
 });
 
 fastify.get("/:shortURL", async (req, res) => {

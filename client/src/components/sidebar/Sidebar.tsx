@@ -1,6 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import clsx from "clsx";
+
+import useOnClickOutside from "lib/useClickOutside";
 
 import Logo from "@/public/favicon.ico";
 import SidebarCollapseIcon from "assets/sidebar-collapse.svg";
@@ -30,8 +32,15 @@ const Sidebar = ({ theme, list }: Props) => {
     }
   }, [theme]);
 
+  const ref = useRef(null);
+
+  useOnClickOutside(() => setCollapse(true), ref);
+
   return (
-    <div className={clsx(stl.sidebar, className, collapse ? stl.collapse : "")}>
+    <div
+      ref={ref}
+      className={clsx(stl.sidebar, className, collapse ? stl.collapse : "")}
+    >
       <div className={stl.container}>
         <div className={stl.header}>
           <div className={stl.logo}>

@@ -76,6 +76,10 @@
         justify-content: flex-start;
       }
     }
+
+    img {
+      user-select: none;
+    }
   }
 }
 

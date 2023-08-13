@@ -22,10 +22,12 @@ const insertDataObject = async (client, dataObject) => {
       const response = { err: "This alias is taken" };
       return response;
     } else {
-      await collection.insertOne(dataObject);
+      const addedDoc = await collection.insertOne(dataObject);
+      const docId = addedDoc.insertedId;
       const response = {
         originalURL: dataObject.originalURL,
         shortURL: `https://linkzar.glitch.me/${dataObject.shortURL}`,
+        docId,
       };
       return response;
     }

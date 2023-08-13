@@ -65,7 +65,8 @@ const handleDelLink = async (
 
   if (response.status === 200) {
     const data = response.data;
-    data && handleReset();
+    console.log(data);
+    handleReset("Link deleted successfuly!");
   } else {
     console.log("Error:", response.statusText);
   }

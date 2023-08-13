@@ -187,9 +187,9 @@ const URLShortener = ({ theme }: Props) => {
                       )}
                       <button
                         className={stl.btn}
-                        onClick={() =>
-                          handleDelLink(longURL, setIsLoading, handleReset)
-                        }
+                        // onClick={() =>
+                        //   handleDelLink(longURL, setIsLoading, handleReset)
+                        // }
                       >
                         <DeleteIcon />
                       </button>

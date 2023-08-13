@@ -62,7 +62,6 @@ const AuthForm = ({ theme, formType, setFormType }: Props) => {
       icon: <GoogleIcon />,
       name: "google",
       onClick: signinWithGoogle,
-      signinWithGithub,
     },
     {
       icon: <GithubIcon />,

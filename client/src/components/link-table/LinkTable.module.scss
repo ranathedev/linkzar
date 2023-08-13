@@ -4,7 +4,6 @@
   @extend .flexColCen;
   width: 100%;
   max-width: 1280px;
-  padding-left: 85px;
 
   .btn {
     @extend .alignCen;
@@ -59,27 +58,31 @@
       }
 
       .shortLink {
-        min-width: 218px;
+        min-width: 230px;
         width: 100%;
         max-width: 350px;
       }
 
       .originalLink {
-        min-width: 350px;
+        min-width: 250px;
         width: 100%;
         max-width: 598px;
       }
 
       .clicks {
-        min-width: 120px;
+        min-width: 80px;
         width: 100%;
         max-width: 120px;
       }
 
       .date {
-        min-width: 150px;
+        min-width: 120px;
         width: 100%;
         max-width: 150px;
+      }
+
+      .emptyBox {
+        min-width: 1.5rem;
       }
     }
 
@@ -133,8 +136,6 @@
 
 @media screen and (max-width: 640px) {
   .linkTable {
-    padding-left: 60px;
-
     .table {
       width: 97%;
       overflow: hidden;

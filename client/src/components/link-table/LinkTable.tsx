@@ -57,6 +57,7 @@ const LinkTable = ({ theme }: Props) => {
           <span className={stl.originalLink}>Original Link</span>
           <span className={stl.clicks}>Clicks</span>
           <span className={stl.date}>Date</span>
+          <div className={stl.emptyBox} />
         </div>
         {isRefreshing ? (
           <div className={stl.loadingContainer}>
@@ -64,6 +65,16 @@ const LinkTable = ({ theme }: Props) => {
           </div>
         ) : (
           <>
+            <TableRow theme={theme} />
+            <TableRow theme={theme} />
+            <TableRow theme={theme} />
+            <TableRow theme={theme} />
+            <TableRow theme={theme} />
+            <TableRow theme={theme} />
+            <TableRow theme={theme} />
+            <TableRow theme={theme} />
+            <TableRow theme={theme} />
+            <TableRow theme={theme} />
             <TableRow theme={theme} />
             <TableRow theme={theme} />
             <TableRow theme={theme} />

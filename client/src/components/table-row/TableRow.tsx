@@ -1,13 +1,9 @@
 import React, { useEffect } from "react";
 import clsx from "clsx";
 
-import { isMobileDevice, shareShortLink } from "lib/utils";
+import ActionBox from "components/action-box";
 
 import DownIcon from "assets/chevron-down.svg";
-import OpenLinkIcon from "assets/openLink.svg";
-import CopyIcon from "assets/copy.svg";
-import ShareIcon from "assets/share.svg";
-import DeleteIcon from "assets/delete.svg";
 
 import stl from "./TableRow.module.scss";
 
@@ -24,8 +20,8 @@ interface Props {
 const TableRow = ({ link, theme }: Props) => {
   const [expand, setExpand] = React.useState(false);
   const [className, setClassName] = React.useState("");
+  const [showActionList, setShowActionList] = React.useState(false);
   const [width, setWidth] = React.useState(1000);
-  const [device, setDevice] = React.useState("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -39,11 +35,10 @@ const TableRow = ({ link, theme }: Props) => {
 
   useEffect(() => {
     width > 640 && setExpand(false);
+    width < 640 ? setShowActionList(true) : setShowActionList(false);
   }, [width]);
 
   useEffect(() => {
-    isMobileDevice() ? setDevice("Mobile") : setDevice("");
-
     function measureWidth() {
       setWidth(document.body.clientWidth);
     }
@@ -52,60 +47,37 @@ const TableRow = ({ link, theme }: Props) => {
     return () => window.removeEventListener("resize", measureWidth);
   }, []);
 
-  const domainUrl = "https://linkzar.glitch.me/";
-
   return (
-    <div className={clsx(stl.tableRow, expand ? stl.expand : "", className)}>
-      <span className={stl.shortLink}>
-        <div className={stl.short}>
-          <span className={stl.domain}>linkzar.glitch.me/</span>
-          <span>{link.shortURL}</span>
-        </div>
-        <div className={stl.optContainer}>
-          <div className={stl.options}>
-            <button
-              className={stl.btn}
-              onClick={() => window.open(domainUrl + link.shortURL, "_blank")}
-            >
-              <OpenLinkIcon />
-            </button>
-            <button
-              className={stl.btn}
-              onClick={() =>
-                navigator.clipboard.writeText(domainUrl + link.shortURL)
-              }
-            >
-              <CopyIcon />
-            </button>
-            {device === "Mobile" && (
-              <button
-                className={stl.btn}
-                onClick={() => shareShortLink(domainUrl + link.shortURL)}
-              >
-                <ShareIcon />
-              </button>
-            )}
-            <button
-              className={stl.btn}
-              // onClick={() =>
-              //   handleDelLink(link.originalURL, setIsLoading, handleReset)
-              // }
-            >
-              <DeleteIcon />
-            </button>
+    <>
+      <ActionBox
+        display={showActionList ? "inline-flex" : "none"}
+        theme={theme}
+        variant="secondary"
+      />
+      <div className={clsx(stl.tableRow, expand ? stl.expand : "", className)}>
+        <span className={stl.shortLink}>
+          <div className={stl.short}>
+            <span className={stl.link}>
+              <span className={stl.domain}>linkzar.glitch.me/</span>
+              <span>{link.shortURL}</span>
+            </span>
           </div>
-        </div>
-      </span>
-      <span className={stl.divider} />
-      <span className={stl.originalLink}>{link.originalURL}</span>
-      <span className={stl.divider} />
-      <span className={stl.clicks}>{link.clicks}</span>
-      <span className={stl.divider} />
-      <span className={stl.date}>{link.dateCreated}</span>
-      <span className={stl.expandBtn} onClick={() => setExpand(!expand)}>
-        <DownIcon />
-      </span>
-    </div>
+        </span>
+        <span className={stl.divider} />
+        <span className={stl.originalLink}>{link.originalURL}</span>
+        <span className={stl.divider} />
+        <span className={stl.clicks}>{link.clicks}</span>
+        <span className={stl.divider} />
+        <span className={stl.date}>{link.dateCreated}</span>
+        <ActionBox
+          display={showActionList ? "none" : "inline-flex"}
+          theme={theme}
+        />
+        <span className={stl.expandBtn} onClick={() => setExpand(!expand)}>
+          <DownIcon />
+        </span>
+      </div>
+    </>
   );
 };
 

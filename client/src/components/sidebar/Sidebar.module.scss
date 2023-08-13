@@ -5,6 +5,7 @@
   justify-content: space-between;
   position: fixed;
   left: 10px;
+  top: 11px;
   width: 100%;
   max-width: 350px;
   height: 98%;
@@ -206,7 +207,9 @@
 
 @media screen and (max-width: 640px) {
   .sidebar {
-    left: 5px;
+    top: 0;
+    left: 0;
+    height: 100%;
 
     .container {
       .header {

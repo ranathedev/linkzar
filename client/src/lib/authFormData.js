@@ -1,31 +1,3 @@
-import GoogleIcon from "assets/google.svg";
-import GithubIcon from "assets/github-2.svg";
-import TwitterIcon from "assets/twitter-2.svg";
-import LinkedinIcon from "assets/linkedin-2.svg";
-
-const socialMethods = [
-  {
-    icon: <GoogleIcon />,
-    name: "google",
-    onClick: () => console.log(`Signing up with Google...`),
-  },
-  {
-    icon: <GithubIcon />,
-    name: "github",
-    onClick: () => console.log(`Signing up with Github...`),
-  },
-  {
-    icon: <TwitterIcon />,
-    name: "twitter",
-    onClick: () => console.log(`Signing up with Twitter...`),
-  },
-  {
-    icon: <LinkedinIcon />,
-    name: "linkedin",
-    onClick: () => console.log(`Signing up with Linkedin...`),
-  },
-];
-
 const signup = [
   { label: "First name", id: "fname", placeholder: "John", type: "text" },
   { label: "Last name", id: "lname", placeholder: "Doe", type: "text" },
@@ -90,4 +62,4 @@ const getInitVals = (formType) => {
   }
 };
 
-export { getFields, getInitVals, socialMethods };
+export { getFields, getInitVals };

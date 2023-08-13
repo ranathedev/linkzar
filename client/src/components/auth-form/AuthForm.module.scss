@@ -40,27 +40,12 @@
         @extend .flexCenter;
         @include setSquare(45px);
         border-radius: 50%;
+        background: #fff;
         cursor: pointer;
 
         &:hover {
-          opacity: 0.75;
+          box-shadow: #0000003d 0 0 8px;
         }
-      }
-
-      .googleBtn {
-        background: #e46f61;
-      }
-
-      .githubBtn {
-        background: #000;
-      }
-
-      .twitterBtn {
-        background: #77bdf1;
-      }
-
-      .linkedinBtn {
-        background: #007bb5;
       }
     }
   }
@@ -177,6 +162,14 @@
 
   .socialMethod {
     color: #d1d5db;
+
+    .btns button {
+      background: #374151;
+
+      &:hover {
+        box-shadow: #4b5563 0 0 8px;
+      }
+    }
   }
 
   .divider {

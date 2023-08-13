@@ -18,7 +18,7 @@
   .expandBtn {
     @extend .flexCenter;
     position: absolute;
-    top: 10.5px;
+    top: 7px;
     right: 5px;
     @include setSquare(2rem);
     border: none;
@@ -37,74 +37,18 @@
   }
 
   .shortLink {
-    @extend .alignCen;
-    justify-content: space-between;
-    position: relative;
-    min-width: 200px;
+    display: flex;
+    min-width: 230px;
     width: 100%;
     max-width: 350px;
-    padding: 0.5rem 0;
 
-    .domain {
+    .link .domain {
       color: #6b7280;
-    }
-
-    .optContainer {
-      @extend .justifyCen;
-      z-index: -1;
-      opacity: 0;
-      margin-top: 3px;
-
-      .options {
-        @extend .alignCen;
-
-        .btn {
-          @extend .flexCenter;
-          @include setSquare(2rem);
-          border-radius: 50%;
-          color: inherit;
-          cursor: pointer;
-
-          @media (hover: hover) {
-            &:hover {
-              background: #e5e7eb;
-            }
-          }
-        }
-      }
-    }
-
-    @media (hover: hover) {
-      &:hover {
-        .optContainer {
-          opacity: 1;
-          z-index: 0;
-        }
-      }
-    }
-
-    @media (hover: none) {
-      .optContainer {
-        opacity: 1;
-        z-index: 0;
-
-        .options {
-          gap: 0;
-
-          .btn {
-            @include setSquare(1.8rem);
-
-            svg {
-              transform: scale(0.85);
-            }
-          }
-        }
-      }
     }
   }
 
   .originalLink {
-    min-width: 350px;
+    min-width: 250px;
     width: 100%;
     max-width: 600px;
     overflow-x: scroll;
@@ -132,20 +76,16 @@
   .expandBtn {
     color: #c9ced6;
 
-    @media (hover: hover) {
-      &:hover {
-        background: #6b7280;
-      }
+    &:hover {
+      background: #6b7280;
     }
   }
 
   .shortLink .optContainer .options .btn {
     color: #c9ced6;
 
-    @media (hover: hover) {
-      &:hover {
-        background: #6b7280;
-      }
+    &:hover {
+      background: #6b7280;
     }
   }
 }
@@ -161,7 +101,7 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    height: 3rem;
+    height: 2.8rem;
     margin-top: 0.5rem;
     overflow: hidden;
     padding: 0 0.5rem;
@@ -172,28 +112,27 @@
       max-width: 100% !important;
     }
 
-    .shortLink {
-      gap: 0.5rem !important;
+    .divider {
+      all: unset;
+      width: 100%;
+      border-top: 1px solid #ccc;
     }
 
     .expandBtn {
       display: flex;
-    }
 
-    .shortLink {
-      justify-content: start;
-      gap: 0.75rem;
+      &:hover {
+        background: transparent;
+      }
     }
   }
 
-  .expand {
-    height: 190px;
+  .darkTableRow .shortLink .optContainer .options .btn {
+    background: #6b7280;
+  }
 
-    .divider {
-      all: unset !important;
-      width: 100% !important;
-      border-top: 1px solid #ccc !important;
-    }
+  .expand {
+    height: 11.5rem;
 
     .expandBtn {
       transform: rotate(-180deg);

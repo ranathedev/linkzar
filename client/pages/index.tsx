@@ -1,11 +1,11 @@
 import React from "react";
 
-import Overview from "./overview";
+import Dashboard from "components/dashboard";
 
 export default function Home() {
   return (
     <main>
-      <Overview />
+      <Dashboard theme="light" />
     </main>
   );
 }

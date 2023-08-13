@@ -1,0 +1,88 @@
+@import "styles/common";
+
+.actionsBox {
+  position: relative;
+  display: inline-block;
+
+  button {
+    @extend .flexCenter;
+    @include setSquare(1.5rem);
+    border-radius: 0.75rem;
+    cursor: pointer;
+    z-index: 2;
+
+    &:hover {
+      background: #f9fafb;
+    }
+  }
+
+  ul {
+    position: absolute;
+    top: 1.6rem;
+    right: 0.75rem;
+    list-style: none;
+    width: 12rem;
+    padding: 0.5rem 0.25rem;
+    border-radius: 0.5rem;
+    background: #fff;
+    box-shadow: #959da533 0px 8px 24px;
+    overflow: hidden;
+    transform: scale(0);
+    transform-origin: top right;
+    transition: all 0.25s;
+    z-index: 5;
+
+    li {
+      @extend .alignCen;
+      gap: 0.5rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 0.35rem;
+      font-size: 1rem;
+      cursor: pointer;
+
+      &:hover {
+        background: #f9fafb;
+      }
+    }
+  }
+  .actionList {
+    transform: scale(1);
+  }
+}
+
+.secondary {
+  width: 100%;
+
+  button {
+    position: absolute;
+    top: 1.6rem;
+    right: 2.25rem;
+  }
+
+  ul {
+    top: 3rem;
+    right: 3rem;
+  }
+}
+
+.darkActionBox {
+  button {
+    color: #c9ced6;
+
+    &:hover {
+      background: #6b7280;
+    }
+  }
+
+  ul {
+    background: #374151;
+
+    li {
+      color: #c9ced6;
+
+      &:hover {
+        background: #6b7280;
+      }
+    }
+  }
+}

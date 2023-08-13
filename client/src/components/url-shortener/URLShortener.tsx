@@ -7,7 +7,7 @@ import {
   validateUrl,
   isMobileDevice,
   shareShortLink,
-  handleDelLink,
+  // handleDelLink,
   generateRandomString,
 } from "lib/utils";
 import Button from "components/button";

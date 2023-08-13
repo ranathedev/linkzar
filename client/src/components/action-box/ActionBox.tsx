@@ -1,8 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import clsx from "clsx";
-import axios from "axios";
 
-import { isMobileDevice, shareShortLink, handleDelLink } from "lib/utils";
+import {
+  isMobileDevice,
+  shareShortLink,
+  handleDelLink,
+  inputFocus,
+} from "lib/utils";
 import useOnClickOutside from "lib/useClickOutside";
 
 import stl from "./ActionBox.module.scss";
@@ -25,9 +29,16 @@ interface Props {
     dateCreated: string;
     clicks: number;
   };
+  setShowEditor: (arg: boolean) => void;
 }
 
-const ActionBox = ({ theme, display, variant, linkData }: Props) => {
+const ActionBox = ({
+  theme,
+  display,
+  variant,
+  linkData,
+  setShowEditor,
+}: Props) => {
   const [showActionList, setShowActionList] = React.useState(false);
   const [device, setDevice] = React.useState("");
   const [className, setClassName] = React.useState("");
@@ -57,28 +68,30 @@ const ActionBox = ({ theme, display, variant, linkData }: Props) => {
 
   const domainUrl = "https://linkzar.glitch.me/";
 
-  const editLink = async () => {
-    const response = await axios.post("http://localhost:3001/api/editLink", {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      id: linkData.id,
-    });
-
-    const data = response.data;
-    console.log(data);
-
-    if (!data.err) {
-      console.log(data.err);
-    }
-  };
-
   const handleReset = (res: string) => {
     console.log(res);
   };
 
+  const openLink = (link: string) => {
+    window.open(link, "_blank");
+    setShowActionList(false);
+  };
+
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
+    console.log("Copied!");
+    setShowActionList(false);
+  };
+
+  const handleShare = (link: string) => {
+    shareShortLink(link);
+    setShowActionList(false);
+  };
+
+  const handleLinkEdit = () => {
+    setShowEditor(true);
+    inputFocus("editerInput");
+    setShowActionList(false);
   };
 
   return (
@@ -91,56 +104,26 @@ const ActionBox = ({ theme, display, variant, linkData }: Props) => {
         <MoreIcon />
       </button>
       <ul className={showActionList ? stl.actionList : ""}>
-        <li
-          onClick={() => {
-            window.open(domainUrl + linkData.shortURL, "_blank");
-            setShowActionList(false);
-          }}
-        >
+        <li onClick={() => openLink(domainUrl + linkData.shortURL)}>
           <OpenLinkIcon /> Open short link
         </li>
-        <li
-          onClick={() => {
-            window.open(linkData.originalURL, "_blank");
-            setShowActionList(false);
-          }}
-        >
+        <li onClick={() => openLink(linkData.originalURL)}>
           <OpenLinkIcon />
           Open original link
         </li>
-        <li
-          onClick={() => {
-            copyToClipboard(domainUrl + linkData.shortURL);
-            setShowActionList(false);
-          }}
-        >
+        <li onClick={() => copyToClipboard(domainUrl + linkData.shortURL)}>
           <CopyIcon /> Copy short link
         </li>
-        <li
-          onClick={() => {
-            copyToClipboard(linkData.originalURL);
-            setShowActionList(false);
-          }}
-        >
+        <li onClick={() => copyToClipboard(linkData.originalURL)}>
           <CopyIcon />
           Copy original link
         </li>
         {device === "Mobile" && (
-          <li
-            onClick={() => {
-              shareShortLink(domainUrl + linkData.shortURL);
-              setShowActionList(false);
-            }}
-          >
+          <li onClick={() => handleShare(domainUrl + linkData.shortURL)}>
             <ShareIcon /> Share
           </li>
         )}
-        <li
-          onClick={() => {
-            // editLink()
-            setShowActionList(false);
-          }}
-        >
+        <li onClick={handleLinkEdit}>
           <EditIcon /> Edit
         </li>
         <li

@@ -1,3 +1,5 @@
+const { ObjectId } = require("mongodb");
+
 const insertDataObject = async (client, dataObject) => {
   try {
     await client.connect();
@@ -55,7 +57,44 @@ const deleteLink = async (client, originalURL) => {
   }
 };
 
+const editLink = async (client, id, newValue) => {
+  try {
+    await client.connect();
+    const database = client.db("linkzar");
+    const collection = database.collection("links");
+
+    const filter = { _id: new ObjectId(id) };
+
+    const updateOperation = {
+      $set: {
+        shortURL: newValue,
+      },
+    };
+
+    const updateResult = await collection.updateOne(filter, updateOperation);
+
+    if (updateResult.modifiedCount === 1) {
+      const updatedDoc = await collection.findOne({
+        _id: new ObjectId(id),
+      });
+
+      if (updatedDoc) {
+        return updatedDoc;
+      } else {
+        return "Updated document not found";
+      }
+    } else {
+      console.log("Document not found or not updated");
+    }
+  } catch (error) {
+    console.error("An error occurred:", error);
+  } finally {
+    await client.close();
+  }
+};
+
 module.exports = {
   insertDataObject,
   deleteLink,
+  editLink,
 };

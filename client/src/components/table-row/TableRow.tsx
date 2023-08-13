@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import clsx from "clsx";
 
 import ActionBox from "components/action-box";
+import LinkEditor from "components/link-editor";
 
 import DownIcon from "assets/chevron-down.svg";
 
@@ -23,6 +24,7 @@ const TableRow = ({ linkData, theme }: Props) => {
   const [className, setClassName] = React.useState("");
   const [showActionList, setShowActionList] = React.useState(false);
   const [width, setWidth] = React.useState(1000);
+  const [showEditor, setShowEditor] = React.useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -55,6 +57,13 @@ const TableRow = ({ linkData, theme }: Props) => {
         theme={theme}
         variant="secondary"
         linkData={linkData}
+        setShowEditor={setShowEditor}
+      />
+      <LinkEditor
+        theme={theme}
+        linkId={linkData.id}
+        showEditor={showEditor}
+        setShowEditor={setShowEditor}
       />
       <div className={clsx(stl.tableRow, expand ? stl.expand : "", className)}>
         <span className={stl.shortLink}>
@@ -75,6 +84,7 @@ const TableRow = ({ linkData, theme }: Props) => {
           display={showActionList ? "none" : "inline-flex"}
           theme={theme}
           linkData={linkData}
+          setShowEditor={setShowEditor}
         />
         <span className={stl.expandBtn} onClick={() => setExpand(!expand)}>
           <DownIcon />
@@ -86,9 +96,9 @@ const TableRow = ({ linkData, theme }: Props) => {
 
 TableRow.defaultProps = {
   linkData: {
-    id: "64d9194e39bea922266829cf",
-    shortURL: "videos",
-    originalURL: "https://www.youtube.com",
+    id: "64afd1600bfe1e67c6b7ae71",
+    shortURL: "ranathat",
+    originalURL: "https://ranaintizar.com",
     clicks: 345,
     dateCreated: "Aug-10-2023",
   },

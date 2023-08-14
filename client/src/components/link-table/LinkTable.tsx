@@ -5,6 +5,8 @@ import TableRow from "components/table-row";
 import SearchBar from "components/search-bar";
 import LoadingSpinner from "components/loading-spinner";
 import Button from "components/button";
+import Modal from "components/modal";
+import URLShortener from "components/url-shortener";
 
 import RefreshIcon from "assets/refresh.svg";
 
@@ -17,6 +19,7 @@ interface Props {
 const LinkTable = ({ theme }: Props) => {
   const [className, setClassName] = React.useState("");
   const [isRefreshing, setIsRefreshing] = React.useState(false);
+  const [showModal, setShowModal] = React.useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -40,9 +43,24 @@ const LinkTable = ({ theme }: Props) => {
 
   return (
     <div className={clsx(stl.linkTable, className)}>
+      <Modal
+        isVisible={showModal}
+        theme={theme}
+        dialog={
+          <URLShortener
+            isVisible={showModal}
+            setShowModal={setShowModal}
+            theme={theme}
+          />
+        }
+      />
       <SearchBar theme={theme} />
       <div className={stl.btn}>
-        <Button label="Shorten link" theme={theme} />
+        <Button
+          label="Shorten link"
+          theme={theme}
+          handleOnClick={() => setShowModal(true)}
+        />
         <div
           className={clsx(stl.refresh, isRefreshing ? stl.animation : "")}
           onClick={refresh}

@@ -66,11 +66,27 @@ const handleDelLink = async (
   if (response.status === 200) {
     const data = response.data;
     console.log(data);
-    handleReset("Link deleted successfuly!");
+    handleReset(response);
   } else {
     console.log("Error:", response.statusText);
   }
   setIsLoading(false);
+};
+
+const editLink = async (id: string, value: string) => {
+  const response = await axios.post("https://linkzar.glitch.me/api/editLink", {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    id,
+    value,
+  });
+
+  if (response.status === 200) {
+    console.log("Link edited successfully!");
+    const data = response.data;
+    console.log(data);
+  }
 };
 
 const sendEmail = (values: { name: string; email: string; msg: string }) => {
@@ -97,16 +113,9 @@ const isMac = () => {
   return /Mac|iPod|iPhone|iPad/.test(navigator.userAgent);
 };
 
-const inputAutoFocusHandler = () => {
-  const searchInput = document.getElementById("searchInput");
-
-  document.addEventListener("keydown", (event) => {
-    if ((event.ctrlKey || event.metaKey) && event.key === "k") {
-      event.preventDefault();
-
-      searchInput?.focus();
-    }
-  });
+const inputFocus = (id: string) => {
+  const input = document.getElementById(id);
+  input?.focus();
 };
 
 const formatDate = (date: Date) => {
@@ -192,9 +201,10 @@ export {
   isMobileDevice,
   shareShortLink,
   handleDelLink,
+  editLink,
   sendEmail,
   formatDate,
   isMac,
-  inputAutoFocusHandler,
+  inputFocus,
   qas,
 };

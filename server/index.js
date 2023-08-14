@@ -1,6 +1,6 @@
-const { MongoClient, ObjectId } = require("mongodb");
+const { MongoClient } = require("mongodb");
 require("dotenv").config();
-const { insertDataObject, deleteLink } = require("./module.js");
+const { insertDataObject, deleteLink, editLink } = require("./module.js");
 
 const fastify = require("fastify")({
   logger: false,
@@ -31,7 +31,7 @@ fastify.post("/api/shorten", async (req, res) => {
   const shortURL = req.body.shortURL;
   const dataObject = { shortURL, originalURL: url };
   const response = await insertDataObject(client, dataObject);
-  response ? res.send(response) : res.send({ error: "This is error message." });
+  response ? res.send(response) : console.log("Error! while shortening link");
 });
 
 fastify.post("/api/deleteLink", async (req, res) => {
@@ -42,36 +42,9 @@ fastify.post("/api/deleteLink", async (req, res) => {
 
 fastify.post("/api/editLink", async (req, res) => {
   const documentId = req.body.id;
-
-  console.log("docId:", documentId);
-
-  try {
-    await client.connect();
-    const database = client.db("linkzar");
-    const collection = database.collection("links");
-
-    const filter = { _id: new ObjectId(documentId) };
-
-    const updateOperation = {
-      $set: {
-        shortURL: "videos",
-      },
-    };
-
-    const updateResult = await collection.updateOne(filter, updateOperation);
-
-    console.log(updateResult);
-
-    if (updateResult.modifiedCount === 1) {
-      console.log("Document updated successfully");
-    } else {
-      console.log("Document not found or not updated");
-    }
-  } catch (error) {
-    console.error("An error occurred:", error);
-  } finally {
-    await client.close();
-  }
+  const newValue = req.body.value;
+  const response = await editLink(client, documentId, newValue);
+  res.send(response);
 });
 
 fastify.get("/:shortURL", async (req, res) => {

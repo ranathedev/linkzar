@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import clsx from "clsx";
 
+import { inputFocus } from "lib/utils";
 import Sidebar from "components/sidebar";
 import WelcomeBanner from "components/welcome-banner";
 import LinkTable from "components/link-table";
@@ -23,6 +24,15 @@ const Dashboard = ({ theme }: Props) => {
       }
     }
   }, [theme]);
+
+  useEffect(() => {
+    document.addEventListener("keydown", (event) => {
+      if ((event.ctrlKey || event.metaKey) && event.key === "k") {
+        event.preventDefault();
+        inputFocus("searchInput");
+      }
+    });
+  }, []);
 
   return (
     <div className={clsx(stl.dashboard, className)}>

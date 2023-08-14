@@ -7,7 +7,7 @@ import {
   validateUrl,
   isMobileDevice,
   shareShortLink,
-  handleDelLink,
+  // handleDelLink,
   generateRandomString,
 } from "lib/utils";
 import Button from "components/button";
@@ -23,9 +23,11 @@ import stl from "./URLShortener.module.scss";
 
 interface Props {
   theme: string;
+  isVisible: boolean;
+  setShowModal: (arg: boolean) => void;
 }
 
-const URLShortener = ({ theme }: Props) => {
+const URLShortener = ({ theme, setShowModal, isVisible }: Props) => {
   const [url, setURL] = React.useState("");
   const [longURL, setLongURL] = React.useState("");
   const [shortURL, setShortURL] = React.useState("");
@@ -47,6 +49,15 @@ const URLShortener = ({ theme }: Props) => {
   useEffect(() => {
     isMobileDevice() ? setDevice("Mobile") : setDevice("");
   }, []);
+
+  useEffect(() => {
+    if (!isVisible) {
+      setLongURL("");
+      setURL("");
+      setShortURL("");
+      setAlias("");
+    }
+  }, [isVisible]);
 
   const handleKeyDown = (e: any) => {
     e.keyCode === 13 && handleSubmit();
@@ -100,119 +111,123 @@ const URLShortener = ({ theme }: Props) => {
   };
 
   return (
-    <div className={clsx(stl.urlShotener, className)}>
-      <div className={stl.container}>
-        {isLoading ? (
-          <Spinner />
-        ) : (
-          <>
-            <h2 className={stl.heading}>URL Shortener</h2>
-            {shortURL === "" && (
-              <div className={stl.searchBar}>
-                <div className={stl.searchIcon}>
-                  <LinkIcon />
-                </div>
-                <input
-                  value={url}
-                  placeholder="Enter link here"
-                  onChange={(e) => setURL(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  spellCheck={false}
-                />
-                <input
-                  value={alias}
-                  className={stl.alias}
-                  onChange={(e) => setAlias(e.target.value)}
-                  placeholder="Enter alias here (optional)"
-                  spellCheck={false}
-                />
-                <label>Alias must be 5 alphanumeric chars</label>
-                <div className={stl.btnContainer}>
-                  <Button
-                    label="Shorten URL"
-                    theme={theme}
-                    handleOnClick={handleSubmit}
-                  />
-                  <Button
-                    isDisabled={true}
-                    label="Goto Dashboard"
-                    theme={theme}
-                    variant="secondary"
-                  />
-                </div>
+    <div
+      className={clsx(stl.urlShortener, isVisible ? stl.show : "", className)}
+    >
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <>
+          <h2 className={stl.heading}>URL Shortener</h2>
+          {shortURL === "" && (
+            <div className={stl.searchBar}>
+              <div className={stl.searchIcon}>
+                <LinkIcon />
               </div>
-            )}
-            {longURL !== "" && (
-              <div className={stl.longURL}>
-                Long URL :{" "}
-                <Link href={longURL} target="_blank">
-                  {longURL}
-                  <span>
-                    <OpenLinkIcon />
-                  </span>
-                </Link>
+              <input
+                value={url}
+                placeholder="Enter link here"
+                onChange={(e) => setURL(e.target.value)}
+                onKeyDown={handleKeyDown}
+                spellCheck={false}
+              />
+              <input
+                value={alias}
+                className={stl.alias}
+                onChange={(e) => setAlias(e.target.value)}
+                placeholder="Enter alias here (optional)"
+                spellCheck={false}
+              />
+              <label>Alias must be 5 alphanumeric chars</label>
+              <div className={stl.btnContainer}>
+                <Button
+                  label="Shorten URL"
+                  theme={theme}
+                  handleOnClick={handleSubmit}
+                />
+                <Button
+                  label="Back to Dashboard"
+                  theme={theme}
+                  variant="secondary"
+                  handleOnClick={() => setShowModal(false)}
+                />
               </div>
-            )}
-            {shortURL !== "" && (
-              <div className={stl.shortURL}>
-                Short URL :{" "}
-                <div
-                  className={clsx(
-                    stl.link,
-                    isMobileDevice() ? "" : stl.hideOptions
-                  )}
-                >
-                  {shortURL}
-                  <div className={stl.optContainer}>
-                    <div className={stl.options}>
+            </div>
+          )}
+          {longURL !== "" && (
+            <div className={stl.longURL}>
+              Long URL :{" "}
+              <Link href={longURL} target="_blank">
+                {longURL}
+                <span>
+                  <OpenLinkIcon />
+                </span>
+              </Link>
+            </div>
+          )}
+          {shortURL !== "" && (
+            <div className={stl.shortURL}>
+              Short URL :{" "}
+              <div
+                className={clsx(
+                  stl.link,
+                  isMobileDevice() ? "" : stl.hideOptions
+                )}
+              >
+                {shortURL}
+                <div className={stl.optContainer}>
+                  <div className={stl.options}>
+                    <button
+                      className={stl.btn}
+                      onClick={() => navigator.clipboard.writeText(shortURL)}
+                    >
+                      <CopyIcon />
+                    </button>
+                    <button
+                      className={stl.btn}
+                      onClick={() => window.open(shortURL, "_blank")}
+                    >
+                      <OpenLinkIcon />
+                    </button>
+                    {device === "Mobile" && (
                       <button
                         className={stl.btn}
-                        onClick={() => navigator.clipboard.writeText(shortURL)}
+                        onClick={() => shareShortLink(shortURL)}
                       >
-                        <CopyIcon />
+                        <ShareIcon />
                       </button>
-                      <button
-                        className={stl.btn}
-                        onClick={() => window.open(shortURL, "_blank")}
-                      >
-                        <OpenLinkIcon />
-                      </button>
-                      {device === "Mobile" && (
-                        <button
-                          className={stl.btn}
-                          onClick={() => shareShortLink(shortURL)}
-                        >
-                          <ShareIcon />
-                        </button>
-                      )}
-                      <button
-                        className={stl.btn}
-                        // onClick={() =>
-                        //   handleDelLink(longURL, setIsLoading, handleReset)
-                        // }
-                      >
-                        <DeleteIcon />
-                      </button>
-                    </div>
+                    )}
+                    <button
+                      className={stl.btn}
+                      // onClick={() =>
+                      //   handleDelLink(longURL, setIsLoading, handleReset)
+                      // }
+                    >
+                      <DeleteIcon />
+                    </button>
                   </div>
                 </div>
               </div>
-            )}
-            <div className={stl.btnContainer}>
-              {shortURL !== "" && (
-                <Button
-                  label="Shorten another"
-                  icon={<LinkIcon />}
-                  theme={theme}
-                  handleOnClick={handleReset}
-                />
-              )}
             </div>
-          </>
-        )}
-      </div>
+          )}
+          <div className={stl.btnContainer}>
+            {shortURL !== "" && (
+              <Button
+                label="Shorten another"
+                icon={<LinkIcon />}
+                theme={theme}
+                // handleOnClick={handleReset}
+              />
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
+};
+
+URLShortener.defaultProps = {
+  isVisible: false,
 };
 
 export default URLShortener;

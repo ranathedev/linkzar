@@ -48,33 +48,28 @@ const shareShortLink = (shortLink: string) => {
 };
 
 const handleDelLink = async (
-  originalURL: string,
+  id: string,
   setIsLoading: any,
-  handleReset: any
+  sendResponse: (arg: any) => void
 ) => {
   setIsLoading(true);
-  const response = await axios.post(
-    "https://linkzar.glitch.me/api/deleteLink",
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      originalURL,
-    }
-  );
+  const response = await axios.post("http://localhost:3001/api/deleteLink", {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    id,
+  });
 
   if (response.status === 200) {
-    const data = response.data;
-    console.log(data);
-    handleReset(response);
+    sendResponse("Link deleted successfully!");
   } else {
-    console.log("Error:", response.statusText);
+    sendResponse(response.statusText);
   }
   setIsLoading(false);
 };
 
 const editLink = async (id: string, value: string) => {
-  const response = await axios.post("https://linkzar.glitch.me/api/editLink", {
+  const response = await axios.post("http://localhost:3001/api/editLink", {
     headers: {
       "Content-Type": "application/json",
     },

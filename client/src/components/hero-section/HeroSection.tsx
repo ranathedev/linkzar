@@ -17,7 +17,7 @@ interface Props {
   btnIcon: React.ReactNode;
   src: any;
   background?: string;
-  swap: Boolean;
+  swap: boolean;
 }
 
 const HeroSection = ({

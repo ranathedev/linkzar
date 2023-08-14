@@ -24,7 +24,7 @@ interface Props {
   variant: "primary" | "secondary";
   linkData: {
     id: string;
-    shortURL: string;
+    shortId: string;
     originalURL: string;
     dateCreated: string;
     clicks: number;
@@ -68,7 +68,7 @@ const ActionBox = ({
 
   const domainUrl = "https://linkzar.glitch.me/";
 
-  const handleReset = (res: string) => {
+  const getResponse = (res: string) => {
     console.log(res);
   };
 
@@ -104,14 +104,14 @@ const ActionBox = ({
         <MoreIcon />
       </button>
       <ul className={showActionList ? stl.actionList : ""}>
-        <li onClick={() => openLink(domainUrl + linkData.shortURL)}>
+        <li onClick={() => openLink(domainUrl + linkData.shortId)}>
           <OpenLinkIcon /> Open short link
         </li>
         <li onClick={() => openLink(linkData.originalURL)}>
           <OpenLinkIcon />
           Open original link
         </li>
-        <li onClick={() => copyToClipboard(domainUrl + linkData.shortURL)}>
+        <li onClick={() => copyToClipboard(domainUrl + linkData.shortId)}>
           <CopyIcon /> Copy short link
         </li>
         <li onClick={() => copyToClipboard(linkData.originalURL)}>
@@ -119,7 +119,7 @@ const ActionBox = ({
           Copy original link
         </li>
         {device === "Mobile" && (
-          <li onClick={() => handleShare(domainUrl + linkData.shortURL)}>
+          <li onClick={() => handleShare(domainUrl + linkData.shortId)}>
             <ShareIcon /> Share
           </li>
         )}
@@ -128,7 +128,7 @@ const ActionBox = ({
         </li>
         <li
           onClick={() => {
-            handleDelLink(linkData.originalURL, setIsLoading, handleReset);
+            handleDelLink(linkData.originalURL, setIsLoading, getResponse);
             setShowActionList(false);
           }}
         >

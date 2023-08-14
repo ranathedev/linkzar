@@ -4,7 +4,7 @@ import clsx from "clsx";
 import stl from "./PlusMinus.module.scss";
 
 interface Props {
-  isActive: Boolean;
+  isActive: boolean;
   theme: string;
 }
 

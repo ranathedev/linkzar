@@ -12,7 +12,7 @@ import stl from "./TableRow.module.scss";
 interface Props {
   linkData: {
     id: string;
-    shortURL: string;
+    shortId: string;
     originalURL: string;
     dateCreated: string;
     clicks: number;
@@ -77,7 +77,7 @@ const TableRow = ({ linkData, theme }: Props) => {
           <div className={stl.short}>
             <span className={stl.link}>
               <span className={stl.domain}>linkzar.glitch.me/</span>
-              <span>{linkData.shortURL}</span>
+              <span>{linkData.shortId}</span>
             </span>
           </div>
         </span>
@@ -104,7 +104,7 @@ const TableRow = ({ linkData, theme }: Props) => {
 TableRow.defaultProps = {
   linkData: {
     id: "64afd1600bfe1e67c6b7ae71",
-    shortURL: "ranathat",
+    shortId: "ranathat",
     originalURL: "https://ranaintizar.com",
     clicks: 345,
     dateCreated: "Aug-10-2023",

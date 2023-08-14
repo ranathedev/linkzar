@@ -9,7 +9,7 @@ interface Props {
   id: string;
   placeholder: string;
   type: string;
-  required: Boolean;
+  required: boolean;
   theme: string;
 }
 

@@ -23,13 +23,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "index.js",
-    "firebase",
-    "src/lib/utils.js"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "index.js", "firebase"],
   "exclude": ["node_modules"]
 }

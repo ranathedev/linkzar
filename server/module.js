@@ -42,15 +42,13 @@ const deleteLink = async (client, id) => {
     const database = client.db("linkzar");
     const collection = database.collection("links");
 
-    console.log(id);
-
     const filter = { _id: new ObjectId(id) };
     const deleteResult = await collection.deleteOne(filter);
 
     if (deleteResult.deletedCount === 1) {
       return "Link deleted successfully!";
     } else {
-      return { Error: "While deleting link." };
+      return { err: "Can't delete link." };
     }
   } catch (error) {
     console.log("Error deleting link:", error);

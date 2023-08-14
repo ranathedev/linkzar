@@ -1,13 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import clsx from "clsx";
 
-import {
-  isMobileDevice,
-  shareShortLink,
-  handleDelLink,
-  inputFocus,
-} from "lib/utils";
+import { isMobileDevice, shareShortLink, inputFocus } from "lib/utils";
 import useOnClickOutside from "lib/useClickOutside";
+import Modal from "components/modal";
+import DeleteDialog from "components/delete-dialog";
+import Spinner from "components/spinner";
 
 import stl from "./ActionBox.module.scss";
 
@@ -42,7 +40,8 @@ const ActionBox = ({
   const [showActionList, setShowActionList] = React.useState(false);
   const [device, setDevice] = React.useState("");
   const [className, setClassName] = React.useState("");
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState("");
+  const [showDialog, setShowDialog] = React.useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -57,10 +56,6 @@ const ActionBox = ({
   useEffect(() => {
     isMobileDevice() ? setDevice("Mobile") : setDevice("");
   }, []);
-
-  useEffect(() => {
-    isLoading ? console.log("Loading...") : console.log("Loading complete.");
-  }, [isLoading]);
 
   const ref = useRef(null);
 
@@ -94,48 +89,68 @@ const ActionBox = ({
     setShowActionList(false);
   };
 
+  const handleDelete = () => {
+    setShowDialog(true);
+    setShowActionList(false);
+  };
+
   return (
-    <div
-      ref={ref}
-      style={{ display }}
-      className={clsx(stl.actionsBox, className, stl[variant])}
-    >
-      <button onClick={() => setShowActionList(!showActionList)}>
-        <MoreIcon />
-      </button>
-      <ul className={showActionList ? stl.actionList : ""}>
-        <li onClick={() => openLink(domainUrl + linkData.shortId)}>
-          <OpenLinkIcon /> Open short link
-        </li>
-        <li onClick={() => openLink(linkData.originalURL)}>
-          <OpenLinkIcon />
-          Open original link
-        </li>
-        <li onClick={() => copyToClipboard(domainUrl + linkData.shortId)}>
-          <CopyIcon /> Copy short link
-        </li>
-        <li onClick={() => copyToClipboard(linkData.originalURL)}>
-          <CopyIcon />
-          Copy original link
-        </li>
-        {device === "Mobile" && (
-          <li onClick={() => handleShare(domainUrl + linkData.shortId)}>
-            <ShareIcon /> Share
+    <>
+      <Modal
+        isVisible={showDialog || loading !== ""}
+        theme={theme}
+        dialog={
+          loading !== "" ? (
+            <Spinner taskTitle={loading} variant="secondary" />
+          ) : (
+            <DeleteDialog
+              theme={theme}
+              isVisible={showDialog}
+              id={linkData.id}
+              getResponse={getResponse}
+              setLoading={setLoading}
+              setShowDialog={setShowDialog}
+            />
+          )
+        }
+      />
+      <div
+        ref={ref}
+        style={{ display }}
+        className={clsx(stl.actionsBox, className, stl[variant])}
+      >
+        <button onClick={() => setShowActionList(!showActionList)}>
+          <MoreIcon />
+        </button>
+        <ul className={showActionList ? stl.actionList : ""}>
+          <li onClick={() => openLink(domainUrl + linkData.shortId)}>
+            <OpenLinkIcon /> Open short link
           </li>
-        )}
-        <li onClick={handleLinkEdit}>
-          <EditIcon /> Edit
-        </li>
-        <li
-          onClick={() => {
-            handleDelLink(linkData.originalURL, setIsLoading, getResponse);
-            setShowActionList(false);
-          }}
-        >
-          <DeleteIcon /> Delete
-        </li>
-      </ul>
-    </div>
+          <li onClick={() => openLink(linkData.originalURL)}>
+            <OpenLinkIcon />
+            Open original link
+          </li>
+          <li onClick={() => copyToClipboard(domainUrl + linkData.shortId)}>
+            <CopyIcon /> Copy short link
+          </li>
+          <li onClick={() => copyToClipboard(linkData.originalURL)}>
+            <CopyIcon />
+            Copy original link
+          </li>
+          {device === "Mobile" && (
+            <li onClick={() => handleShare(domainUrl + linkData.shortId)}>
+              <ShareIcon /> Share
+            </li>
+          )}
+          <li onClick={handleLinkEdit}>
+            <EditIcon /> Edit
+          </li>
+          <li onClick={handleDelete}>
+            <DeleteIcon /> Delete
+          </li>
+        </ul>
+      </div>
+    </>
   );
 };
 

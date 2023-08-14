@@ -1,13 +1,11 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 import clsx from "clsx";
-import axios from "axios";
 
 import {
-  validateUrl,
   isMobileDevice,
+  createShortLink,
   shareShortLink,
-  generateRandomString,
   inputFocus,
 } from "lib/utils";
 import Button from "components/button";
@@ -38,7 +36,7 @@ const URLShortener = ({ theme, setShowModal, isVisible }: Props) => {
     originalURL: "",
     clickCounts: 0,
   });
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState("");
   const [className, setClassName] = React.useState("");
   const [device, setDevice] = React.useState("");
   const [showDialog, setShowDialog] = React.useState(false);
@@ -80,42 +78,8 @@ const URLShortener = ({ theme, setShowModal, isVisible }: Props) => {
     e.keyCode === 13 && handleSubmit();
   };
 
-  const handleSubmit = async () => {
-    setIsLoading(true);
-    const shortId = alias === "" ? generateRandomString(7) : alias;
-    const isValidURL = validateUrl(url);
-    const minLength = 5;
-
-    if (isValidURL) {
-      if (alias.length >= minLength || alias.length == 0) {
-        const response = await axios.post("http://localhost:3001/api/shorten", {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          url,
-          shortId,
-        });
-
-        if (response.status === 200) {
-          const data = response.data;
-          console.log(data);
-          if (!data.err) {
-            setLinkData(data);
-          } else {
-            console.error(data.err);
-          }
-        } else {
-          console.log("Error:", response.statusText);
-        }
-        setURL("");
-        setAlias("");
-      } else {
-        console.log("Alias must be at least 5 aphanumeric chars.");
-      }
-    } else {
-      console.log("URL is not Valid");
-    }
-    setIsLoading(false);
+  const handleSubmit = () => {
+    createShortLink(setLoading, alias, url, setLinkData, setAlias, setURL);
   };
 
   const getResponse = (res: string) => {
@@ -140,7 +104,7 @@ const URLShortener = ({ theme, setShowModal, isVisible }: Props) => {
             isVisible={showDialog}
             id={linkData._id}
             getResponse={getResponse}
-            setIsLoading={setIsLoading}
+            setLoading={setLoading}
             setShowDialog={setShowDialog}
           />
         }
@@ -148,8 +112,8 @@ const URLShortener = ({ theme, setShowModal, isVisible }: Props) => {
       <div
         className={clsx(stl.urlShortener, isVisible ? stl.show : "", className)}
       >
-        {isLoading ? (
-          <Spinner />
+        {loading !== "" ? (
+          <Spinner taskTitle={loading} />
         ) : (
           <>
             <h2 className={stl.heading}>URL Shortener</h2>
@@ -256,12 +220,20 @@ const URLShortener = ({ theme, setShowModal, isVisible }: Props) => {
             )}
             <div className={stl.btnContainer}>
               {linkData.shortId !== "" && (
-                <Button
-                  label="Shorten another"
-                  icon={<LinkIcon />}
-                  theme={theme}
-                  handleOnClick={handleReset}
-                />
+                <>
+                  <Button
+                    label="Shorten another"
+                    icon={<LinkIcon />}
+                    theme={theme}
+                    handleOnClick={handleReset}
+                  />
+                  <Button
+                    label="Back to Dashboard"
+                    variant="secondary"
+                    theme={theme}
+                    handleOnClick={() => setShowModal(false)}
+                  />
+                </>
               )}
             </div>
           </>

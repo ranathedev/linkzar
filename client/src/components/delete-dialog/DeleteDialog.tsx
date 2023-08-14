@@ -12,7 +12,7 @@ interface Props {
   id: string;
   setShowDialog: (arg: boolean) => void;
   getResponse: (arg: any) => void;
-  setIsLoading: (arg: boolean) => void;
+  setLoading: (arg: string) => void;
 }
 
 const DeleteDialog = ({
@@ -21,7 +21,7 @@ const DeleteDialog = ({
   id,
   setShowDialog,
   getResponse,
-  setIsLoading,
+  setLoading,
 }: Props) => {
   const [className, setClassName] = React.useState("");
 
@@ -36,7 +36,7 @@ const DeleteDialog = ({
   }, [theme]);
 
   const handleDelete = () => {
-    handleDelLink(id, setIsLoading, getResponse);
+    handleDelLink(id, setLoading, getResponse);
     setShowDialog(false);
   };
 

@@ -103,9 +103,10 @@ const TableRow = ({ linkData, theme }: Props) => {
 
 TableRow.defaultProps = {
   linkData: {
-    id: "64afd1600bfe1e67c6b7ae71",
-    shortId: "ranathat",
-    originalURL: "https://ranaintizar.com",
+    id: "64daac60bb1971f05d8fb145",
+    shortId: "babybaji",
+    originalURL:
+      "https://www.youtube.com/results?search_query=Baby+baji+episode+ep+1",
     clicks: 345,
     dateCreated: "Aug-10-2023",
   },

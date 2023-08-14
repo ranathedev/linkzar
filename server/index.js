@@ -28,15 +28,15 @@ fastify.get("/", async (req, res) => {
 
 fastify.post("/api/shorten", async (req, res) => {
   const url = req.body.url;
-  const shortURL = req.body.shortURL;
-  const dataObject = { shortURL, originalURL: url };
+  const shortId = req.body.shortId;
+  const dataObject = { shortId, originalURL: url };
   const response = await insertDataObject(client, dataObject);
   response ? res.send(response) : console.log("Error! while shortening link");
 });
 
 fastify.post("/api/deleteLink", async (req, res) => {
-  const originalURL = req.body.originalURL;
-  const response = await deleteLink(client, originalURL);
+  const id = req.body.id;
+  const response = await deleteLink(client, id);
   res.send(response);
 });
 
@@ -47,15 +47,15 @@ fastify.post("/api/editLink", async (req, res) => {
   res.send(response);
 });
 
-fastify.get("/:shortURL", async (req, res) => {
-  const shortURL = req.params.shortURL;
+fastify.get("/:shortId", async (req, res) => {
+  const shortId = req.params.shortId;
 
   try {
     await client.connect();
     const database = client.db("linkzar");
     const collection = database.collection("links");
 
-    const urlData = await collection.findOne({ shortURL });
+    const urlData = await collection.findOne({ shortId });
 
     if (urlData) {
       const originalURL = urlData.originalURL;

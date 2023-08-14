@@ -9,7 +9,7 @@ interface Props {
   progress: number;
   color: string;
   rotate: number;
-  loading: Boolean;
+  loading: boolean;
   customClass?: string;
 }
 

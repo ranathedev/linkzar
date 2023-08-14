@@ -11,27 +11,22 @@ const insertDataObject = async (client, dataObject) => {
     });
 
     const shortLink = await collection.findOne({
-      shortURL: dataObject.shortURL,
+      shortId: dataObject.shortId,
     });
 
     if (urlData) {
-      const response = {
-        originalURL: urlData.originalURL,
-        shortURL: `https://linkzar.glitch.me/${urlData.shortURL}`,
-      };
-      return response;
+      return urlData;
     } else if (shortLink) {
       const response = { err: "This alias is taken" };
       return response;
     } else {
       const addedDoc = await collection.insertOne(dataObject);
       const docId = addedDoc.insertedId;
-      const response = {
-        originalURL: dataObject.originalURL,
-        shortURL: `https://linkzar.glitch.me/${dataObject.shortURL}`,
-        docId,
-      };
-      return response;
+
+      const filter = { _id: new ObjectId(docId) };
+      const document = await collection.findOne(filter);
+
+      return document;
     }
   } catch (error) {
     console.error("Error inserting data object:", error);
@@ -41,17 +36,24 @@ const insertDataObject = async (client, dataObject) => {
   }
 };
 
-const deleteLink = async (client, originalURL) => {
+const deleteLink = async (client, id) => {
   try {
     await client.connect();
     const database = client.db("linkzar");
     const collection = database.collection("links");
 
-    await collection.deleteOne({ originalURL });
-    return "Short URL Deleted successfully!";
+    console.log(id);
+
+    const filter = { _id: new ObjectId(id) };
+    const deleteResult = await collection.deleteOne(filter);
+
+    if (deleteResult.deletedCount === 1) {
+      return "Link deleted successfully!";
+    } else {
+      return { Error: "While deleting link." };
+    }
   } catch (error) {
     console.log("Error deleting link:", error);
-    return false;
   } finally {
     client.close();
   }
@@ -67,7 +69,7 @@ const editLink = async (client, id, newValue) => {
 
     const updateOperation = {
       $set: {
-        shortURL: newValue,
+        shortId: newValue,
       },
     };
 

@@ -1,0 +1,28 @@
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #00000025;
+  backdrop-filter: blur(4px);
+  z-index: -1;
+  opacity: 0;
+  transition: all 0.05s;
+
+  h1 {
+    color: red;
+  }
+}
+
+.show {
+  opacity: 1;
+  z-index: 5;
+}
+
+.darkModal {
+  background: #ffffff25;
+}

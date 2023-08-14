@@ -3,6 +3,7 @@ import clsx from "clsx";
 
 import ActionBox from "components/action-box";
 import LinkEditor from "components/link-editor";
+import Modal from "components/modal";
 
 import DownIcon from "assets/chevron-down.svg";
 
@@ -52,17 +53,23 @@ const TableRow = ({ linkData, theme }: Props) => {
 
   return (
     <>
+      <Modal
+        isVisible={showEditor}
+        theme={theme}
+        dialog={
+          <LinkEditor
+            theme={theme}
+            linkId={linkData.id}
+            showEditor={showEditor}
+            setShowEditor={setShowEditor}
+          />
+        }
+      />
       <ActionBox
         display={showActionList ? "inline-flex" : "none"}
         theme={theme}
         variant="secondary"
         linkData={linkData}
-        setShowEditor={setShowEditor}
-      />
-      <LinkEditor
-        theme={theme}
-        linkId={linkData.id}
-        showEditor={showEditor}
         setShowEditor={setShowEditor}
       />
       <div className={clsx(stl.tableRow, expand ? stl.expand : "", className)}>

@@ -15,12 +15,14 @@ import Spinner from "components/spinner";
 import DeleteDialog from "components/delete-dialog";
 import Modal from "components/modal";
 import InputError from "components/input-error";
+import Tooltip from "components/tooltip";
 
 import LinkIcon from "assets/link.svg";
 import OpenLinkIcon from "assets/openLink.svg";
 import CopyIcon from "assets/copy.svg";
 import ShareIcon from "assets/share.svg";
 import DeleteIcon from "assets/delete.svg";
+import DoneIcon from "assets/done.svg";
 
 import stl from "./URLShortener.module.scss";
 
@@ -45,6 +47,7 @@ const URLShortener = ({ theme, setShowModal, isVisible }: Props) => {
   const [showDialog, setShowDialog] = React.useState(false);
   const [urlErr, setUrlErr] = React.useState("");
   const [aliasErr, setAliasErr] = React.useState("");
+  const [showTooltip, setShowTooltip] = React.useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -60,6 +63,22 @@ const URLShortener = ({ theme, setShowModal, isVisible }: Props) => {
     isMobileDevice() ? setDevice("Mobile") : setDevice("");
   }, []);
 
+  useEffect(() => {
+    if (showTooltip) {
+      setTimeout(() => {
+        setShowTooltip(false);
+      }, 1500);
+    }
+  }, [showTooltip]);
+
+  useEffect(() => {
+    if (isVisible) {
+      inputFocus("originalLink");
+    } else {
+      handleReset();
+    }
+  }, [isVisible]);
+
   const handleReset = () => {
     setURL("");
     setAlias("");
@@ -70,14 +89,6 @@ const URLShortener = ({ theme, setShowModal, isVisible }: Props) => {
       clickCounts: 0,
     });
   };
-
-  useEffect(() => {
-    if (isVisible) {
-      inputFocus("originalLink");
-    } else {
-      handleReset();
-    }
-  }, [isVisible]);
 
   const handleKeyDown = (e: any) => {
     setUrlErr("");
@@ -130,6 +141,11 @@ const URLShortener = ({ theme, setShowModal, isVisible }: Props) => {
     } else {
       console.error(res);
     }
+  };
+
+  const copyToClipboard = async (text: string) => {
+    await navigator.clipboard.writeText(text);
+    setShowTooltip(true);
   };
 
   const domainUrl = "http://localhost:3001";
@@ -222,12 +238,11 @@ const URLShortener = ({ theme, setShowModal, isVisible }: Props) => {
                       <button
                         className={stl.btn}
                         onClick={() =>
-                          navigator.clipboard.writeText(
-                            domainUrl + "/" + linkData.shortId
-                          )
+                          copyToClipboard(domainUrl + "/" + linkData.shortId)
                         }
                       >
-                        <CopyIcon />
+                        {showTooltip ? <DoneIcon /> : <CopyIcon />}
+                        <Tooltip theme={theme} isVisible={showTooltip} />
                       </button>
                       <button
                         className={stl.btn}

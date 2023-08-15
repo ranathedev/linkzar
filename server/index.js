@@ -58,6 +58,11 @@ fastify.get("/:shortId", async (req, res) => {
     const urlData = await collection.findOne({ shortId });
 
     if (urlData) {
+      await collection.updateOne(
+        { _id: urlData._id },
+        { $inc: { clickCounts: 1 } }
+      );
+
       const originalURL = urlData.originalURL;
       res.redirect(originalURL);
     } else {

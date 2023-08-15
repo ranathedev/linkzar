@@ -66,13 +66,18 @@
   .longURL {
     @extend .alignCen;
     gap: 0 10px;
+    white-space: nowrap;
     width: 100%;
 
     a {
       @extend .alignCen;
       gap: 10px;
+      padding: 0 2rem 0 0.5rem;
       color: #1e90ff;
       font-size: 1.2rem;
+      border: 1px solid #d1d5db;
+      overflow-x: scroll;
+      @extend .hideScrollbar;
 
       span {
         color: #d1d5db;

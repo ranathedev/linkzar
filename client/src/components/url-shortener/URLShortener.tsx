@@ -288,6 +288,7 @@ const URLShortener = ({ theme, setShowModal, isVisible }: Props) => {
 
 URLShortener.defaultProps = {
   isVisible: false,
+  setShowModal: () => true,
 };
 
 export default URLShortener;

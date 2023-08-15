@@ -4,6 +4,8 @@ import Layout from "components/layout";
 import ToggleThemeBtn from "components/toggle-theme-btn";
 import URLShortener from "components/url-shortener";
 
+import stl from "./index.module.scss";
+
 const Shorten = () => {
   const [theme, setTheme] = React.useState(() => {
     if (typeof window !== "undefined") {
@@ -28,7 +30,9 @@ const Shorten = () => {
         }
       />
       <Layout theme={theme} title="Overview">
-        <URLShortener theme={theme} />
+        <div className={stl.shorten}>
+          <URLShortener isVisible={true} theme={theme} />
+        </div>
       </Layout>
     </>
   );

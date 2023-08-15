@@ -204,3 +204,10 @@
     color: #d1d5db;
   }
 }
+
+@media screen and (max-width: 360px) {
+  .authForm {
+    width: 98%;
+    padding: 1rem 0.5rem;
+  }
+}

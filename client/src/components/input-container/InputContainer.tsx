@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Field } from "formik";
+import { Field, ErrorMessage } from "formik";
 import clsx from "clsx";
 
 import stl from "./InputContainer.module.scss";
@@ -9,18 +9,10 @@ interface Props {
   id: string;
   placeholder: string;
   type: string;
-  required: boolean;
   theme: string;
 }
 
-const InputContainer = ({
-  label,
-  id,
-  placeholder,
-  type,
-  required,
-  theme,
-}: Props) => {
+const InputContainer = ({ label, id, placeholder, type, theme }: Props) => {
   const [className, setClassName] = React.useState("");
 
   useEffect(() => {
@@ -36,12 +28,8 @@ const InputContainer = ({
   return (
     <div className={clsx(stl.inputContainer, className)}>
       <label htmlFor={id}>{label}</label>
-      <Field
-        type={type}
-        name={id}
-        placeholder={placeholder}
-        required={required}
-      />
+      <Field type={type} name={id} placeholder={placeholder} />
+      <ErrorMessage name={id} component="div" className={stl.error} />
     </div>
   );
 };

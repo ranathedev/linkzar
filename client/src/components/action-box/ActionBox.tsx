@@ -15,6 +15,7 @@ import CopyIcon from "assets/copy.svg";
 import ShareIcon from "assets/share.svg";
 import EditIcon from "assets/edit.svg";
 import DeleteIcon from "assets/delete.svg";
+import DoneIcon from "assets/done.svg";
 
 interface Props {
   display: string;
@@ -42,6 +43,8 @@ const ActionBox = ({
   const [className, setClassName] = React.useState("");
   const [loading, setLoading] = React.useState("");
   const [showDialog, setShowDialog] = React.useState(false);
+  const [showShortTooltip, setShowShortTooltip] = React.useState(false);
+  const [showLongTooltip, setShowLongTooltip] = React.useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -56,6 +59,18 @@ const ActionBox = ({
   useEffect(() => {
     isMobileDevice() ? setDevice("Mobile") : setDevice("");
   }, []);
+
+  useEffect(() => {
+    if (showShortTooltip) {
+      setTimeout(() => {
+        setShowShortTooltip(false);
+      }, 1500);
+    } else if (showLongTooltip) {
+      setTimeout(() => {
+        setShowLongTooltip(false);
+      }, 1500);
+    }
+  }, [showShortTooltip, showLongTooltip]);
 
   const ref = useRef(null);
 
@@ -72,10 +87,8 @@ const ActionBox = ({
     setShowActionList(false);
   };
 
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text);
-    console.log("Copied!");
-    setShowActionList(false);
+  const copyToClipboard = async (text: string) => {
+    await navigator.clipboard.writeText(text);
   };
 
   const handleShare = (link: string) => {
@@ -130,11 +143,21 @@ const ActionBox = ({
             <OpenLinkIcon />
             Open original link
           </li>
-          <li onClick={() => copyToClipboard(domainUrl + linkData.shortId)}>
-            <CopyIcon /> Copy short link
+          <li
+            onClick={() => {
+              copyToClipboard(domainUrl + linkData.shortId);
+              setShowShortTooltip(true);
+            }}
+          >
+            {showShortTooltip ? <DoneIcon /> : <CopyIcon />} Copy short link
           </li>
-          <li onClick={() => copyToClipboard(linkData.originalURL)}>
-            <CopyIcon />
+          <li
+            onClick={() => {
+              copyToClipboard(linkData.originalURL);
+              setShowLongTooltip(true);
+            }}
+          >
+            {showLongTooltip ? <DoneIcon /> : <CopyIcon />}
             Copy original link
           </li>
           {device === "Mobile" && (

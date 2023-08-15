@@ -20,6 +20,9 @@ const insertDataObject = async (client, dataObject) => {
       const response = { err: "This alias is taken" };
       return response;
     } else {
+      dataObject.clickCounts = 0;
+      dataObject.createdDate = new Date();
+
       const addedDoc = await collection.insertOne(dataObject);
       const docId = addedDoc.insertedId;
 

@@ -5,13 +5,16 @@ import clsx from "clsx";
 import {
   isMobileDevice,
   createShortLink,
+  generateRandomString,
   shareShortLink,
+  validateUrl,
   inputFocus,
 } from "lib/utils";
 import Button from "components/button";
 import Spinner from "components/spinner";
 import DeleteDialog from "components/delete-dialog";
 import Modal from "components/modal";
+import InputError from "components/input-error";
 
 import LinkIcon from "assets/link.svg";
 import OpenLinkIcon from "assets/openLink.svg";
@@ -40,6 +43,8 @@ const URLShortener = ({ theme, setShowModal, isVisible }: Props) => {
   const [className, setClassName] = React.useState("");
   const [device, setDevice] = React.useState("");
   const [showDialog, setShowDialog] = React.useState(false);
+  const [urlErr, setUrlErr] = React.useState("");
+  const [aliasErr, setAliasErr] = React.useState("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -75,11 +80,47 @@ const URLShortener = ({ theme, setShowModal, isVisible }: Props) => {
   }, [isVisible]);
 
   const handleKeyDown = (e: any) => {
+    setUrlErr("");
+    setAliasErr("");
     e.keyCode === 13 && handleSubmit();
   };
 
+  const handleChange = (e: any) => {
+    const input = e.target;
+    const inputVal = input.value;
+    const alphanumericRegex = /^[a-zA-Z0-9]*$/;
+    const isAlphanumeric = alphanumericRegex.test(inputVal);
+
+    if (inputVal.length <= 7) {
+      if (!isAlphanumeric) {
+        setAlias(inputVal.replace(/[^a-zA-Z0-9]/g, ""));
+        setAliasErr("Only alphanumeric characters are allowed.");
+      } else {
+        setAlias(inputVal);
+        setAliasErr("");
+      }
+    } else {
+      setAliasErr("Alias cannot be more than 7 chars.");
+    }
+  };
+
   const handleSubmit = () => {
-    createShortLink(setLoading, alias, url, setLinkData, setAlias, setURL);
+    const isValidURL = validateUrl(url);
+
+    if (url !== "") {
+      if (isValidURL) {
+        if (alias === "" || alias.length >= 5) {
+          const shortId = alias === "" ? generateRandomString(7) : alias;
+          createShortLink(setLoading, shortId, url, setLinkData);
+        } else {
+          setAliasErr("Alias cannot be less than 5 chars.");
+        }
+      } else {
+        setUrlErr("Url is not valid.");
+      }
+    } else {
+      setUrlErr("Url cannot be empty.");
+    }
   };
 
   const getResponse = (res: string) => {
@@ -130,14 +171,16 @@ const URLShortener = ({ theme, setShowModal, isVisible }: Props) => {
                   onKeyDown={handleKeyDown}
                   spellCheck={false}
                 />
+                <InputError theme={theme} error={urlErr} />
                 <input
                   value={alias}
                   className={stl.alias}
-                  onChange={(e) => setAlias(e.target.value)}
-                  placeholder="Enter alias here (optional)"
+                  onChange={handleChange}
+                  placeholder="Alias must be 5 chars. (optional)"
+                  onKeyDown={handleKeyDown}
                   spellCheck={false}
                 />
-                <label>Alias must be 5 alphanumeric chars</label>
+                <InputError theme={theme} error={aliasErr} />
                 <div className={stl.btnContainer}>
                   <Button
                     label="Shorten URL"

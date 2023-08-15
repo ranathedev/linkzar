@@ -28,6 +28,51 @@ const isMobileDevice = () => {
   );
 };
 
+const createShortLink = async (
+  setLoading: (arg: string) => void,
+  alias: string,
+  url: string,
+  setLinkData: (arg: any) => void,
+  setAlias: (arg: string) => void,
+  setURL: (arg: string) => void
+) => {
+  setLoading("Creating short link");
+  const shortId = alias === "" ? generateRandomString(7) : alias;
+  const isValidURL = validateUrl(url);
+  const minLength = 5;
+
+  if (isValidURL) {
+    if (alias.length >= minLength || alias.length == 0) {
+      const response = await axios.post("http://localhost:3001/api/shorten", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        url,
+        shortId,
+      });
+
+      if (response.status === 200) {
+        const data = response.data;
+        console.log(data);
+        if (!data.err) {
+          setLinkData(data);
+        } else {
+          console.error(data.err);
+        }
+      } else {
+        console.log("Error:", response.statusText);
+      }
+      setURL("");
+      setAlias("");
+    } else {
+      console.log("Alias must be at least 5 aphanumeric chars.");
+    }
+  } else {
+    console.log("URL is not Valid");
+  }
+  setLoading("");
+};
+
 const shareShortLink = (shortLink: string) => {
   if (navigator.share) {
     navigator
@@ -49,10 +94,10 @@ const shareShortLink = (shortLink: string) => {
 
 const handleDelLink = async (
   id: string,
-  setIsLoading: any,
+  setLoading: (arg: string) => void,
   sendResponse: (arg: any) => void
 ) => {
-  setIsLoading(true);
+  setLoading("Deleting link");
   const response = await axios.post("http://localhost:3001/api/deleteLink", {
     headers: {
       "Content-Type": "application/json",
@@ -61,11 +106,14 @@ const handleDelLink = async (
   });
 
   if (response.status === 200) {
-    sendResponse("Link deleted successfully!");
-  } else {
-    sendResponse(response.statusText);
+    const data = response.data;
+    if (!data.err) {
+      sendResponse("Link deleted successfully!");
+    } else {
+      sendResponse(data.err);
+    }
   }
-  setIsLoading(false);
+  setLoading("");
 };
 
 const editLink = async (id: string, value: string) => {
@@ -77,11 +125,8 @@ const editLink = async (id: string, value: string) => {
     value,
   });
 
-  if (response.status === 200) {
-    console.log("Link edited successfully!");
-    const data = response.data;
-    console.log(data);
-  }
+  const data = response.data;
+  console.log(data);
 };
 
 const sendEmail = (values: { name: string; email: string; msg: string }) => {
@@ -194,6 +239,7 @@ export {
   generateRandomString,
   validateUrl,
   isMobileDevice,
+  createShortLink,
   shareShortLink,
   handleDelLink,
   editLink,

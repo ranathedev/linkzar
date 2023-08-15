@@ -4,7 +4,7 @@
   @extend .justifyCen;
   align-items: flex-end;
   position: relative;
-  width: 4.5rem;
+  width: max-content;
   height: 5.625rem;
 
   div {
@@ -22,6 +22,10 @@
   span {
     font-size: 1.125rem;
     line-height: 1.75rem;
+  }
+
+  .secondary {
+    margin-bottom: -1.25rem;
   }
 }
 

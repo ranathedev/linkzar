@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 import clsx from "clsx";
 import { Formik, Form } from "formik";
+import * as Yup from "yup";
 
 import {
   signupWithEmailPassword,
@@ -29,8 +30,10 @@ interface Props {
 const AuthForm = ({ theme, formType, setFormType }: Props) => {
   const [initVals, setInitVals] = React.useState({
     fname: "",
+    lname: "",
     email: "",
     pass: "",
+    confirmPass: "",
   });
   const [className, setClassName] = React.useState("");
   const [isChecked, setIsChecked] = React.useState(false);
@@ -74,6 +77,38 @@ const AuthForm = ({ theme, formType, setFormType }: Props) => {
       onClick: signinWithMicrosoft,
     },
   ];
+  const signUpSchema = Yup.object().shape({
+    fname: Yup.string().required("First name is required"),
+    lname: Yup.string().required("Last name is required"),
+    email: Yup.string()
+      .email("Email is not valid")
+      .required("Email is required"),
+    pass: Yup.string()
+      .required("Password is required")
+      .matches(/(?=.*\d)/, "Password must contain at least 1 digit")
+      .matches(/(?=.*[A-Z])/, "Password must contain at least 1 capital letter")
+      .matches(
+        /(?=.*[a-z])/,
+        "Password must contain at least 1 lowercase letter"
+      )
+      .matches(
+        /(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-])/,
+        "Password must contain at least 1 special character"
+      )
+      .min(8, "Password must be at least 8 characters long"),
+    confirmPass: Yup.string()
+      .required("Confirm your Password")
+      //@ts-ignore
+      .oneOf([Yup.ref("pass"), null], "Passwords didn't matched")
+      .nullable()
+      .required("Confirm Password is required"),
+  });
+
+  const signInSchema = Yup.object().shape({
+    email: Yup.string()
+      .email("Email is not valid")
+      .required("Email is required"),
+  });
 
   return isLoading ? null : (
     <div className={clsx(stl.authForm, className)}>
@@ -104,6 +139,7 @@ const AuthForm = ({ theme, formType, setFormType }: Props) => {
 
       <Formik
         initialValues={initVals}
+        validationSchema={formType === "sign up" ? signUpSchema : signInSchema}
         onSubmit={(values, actions) => {
           if ((formType === "sign up" && isChecked) || formType === "sign in") {
             (formType == "sign up" &&
@@ -126,7 +162,6 @@ const AuthForm = ({ theme, formType, setFormType }: Props) => {
             <InputContainer
               theme={theme}
               key={i}
-              required={true}
               id={field.id}
               type={field.type}
               label={field.label}

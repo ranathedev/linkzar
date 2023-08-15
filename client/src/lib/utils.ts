@@ -30,46 +30,32 @@ const isMobileDevice = () => {
 
 const createShortLink = async (
   setLoading: (arg: string) => void,
-  alias: string,
+  shortId: string,
   url: string,
-  setLinkData: (arg: any) => void,
-  setAlias: (arg: string) => void,
-  setURL: (arg: string) => void
+  setLinkData: (arg: any) => void
 ) => {
   setLoading("Creating short link");
-  const shortId = alias === "" ? generateRandomString(7) : alias;
-  const isValidURL = validateUrl(url);
-  const minLength = 5;
 
-  if (isValidURL) {
-    if (alias.length >= minLength || alias.length == 0) {
-      const response = await axios.post("http://localhost:3001/api/shorten", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        url,
-        shortId,
-      });
+  const response = await axios.post("http://localhost:3001/api/shorten", {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    url,
+    shortId,
+  });
 
-      if (response.status === 200) {
-        const data = response.data;
-        console.log(data);
-        if (!data.err) {
-          setLinkData(data);
-        } else {
-          console.error(data.err);
-        }
-      } else {
-        console.log("Error:", response.statusText);
-      }
-      setURL("");
-      setAlias("");
+  if (response.status === 200) {
+    const data = response.data;
+    console.log(data);
+    if (!data.err) {
+      setLinkData(data);
     } else {
-      console.log("Alias must be at least 5 aphanumeric chars.");
+      console.error(data.err);
     }
   } else {
-    console.log("URL is not Valid");
+    console.log("Error:", response.statusText);
   }
+
   setLoading("");
 };
 

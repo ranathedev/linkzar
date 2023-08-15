@@ -3,6 +3,7 @@ import clsx from "clsx";
 
 import { editLink } from "lib/utils";
 import Button from "components/button";
+import InputError from "components/input-error";
 
 import stl from "./LinkEditor.module.scss";
 
@@ -38,19 +39,24 @@ const LinkEditor = ({ theme, showEditor, setShowEditor, linkId }: Props) => {
     const input = e.target;
     const inputVal = input.value;
     const alphanumericRegex = /^[a-zA-Z0-9]*$/;
-    const flag = alphanumericRegex.test(inputVal);
-    if (!flag) {
-      setValue(inputVal.replace(/[^a-zA-Z0-9]/g, ""));
-      setError("Only alphanumeric characters are allowed.");
+    const isAlphanumeric = alphanumericRegex.test(inputVal);
+
+    if (inputVal.length <= 7) {
+      if (!isAlphanumeric) {
+        setValue(inputVal.replace(/[^a-zA-Z0-9]/g, ""));
+        setError("Only alphanumeric characters are allowed.");
+      } else {
+        setValue(inputVal);
+        setError("");
+      }
     } else {
-      setValue(inputVal);
-      setError("");
+      setError("Alias cannot be more than 7 chars.");
     }
   };
 
   const handleSubmit = () => {
     if (value.length < 5) {
-      setError("Alias must be between 5 and 7 chars.");
+      setError("Alias cannot be less than 5 chars.");
     } else {
       setError("");
       setShowEditor(false);
@@ -59,10 +65,7 @@ const LinkEditor = ({ theme, showEditor, setShowEditor, linkId }: Props) => {
   };
 
   const handleKeyDown = (e: any) => {
-    if (e.keyCode === 13) {
-      e.preventDefault();
-      handleSubmit();
-    }
+    e.keyCode === 13 && handleSubmit();
   };
 
   return (
@@ -76,9 +79,7 @@ const LinkEditor = ({ theme, showEditor, setShowEditor, linkId }: Props) => {
         onKeyDown={handleKeyDown}
         value={value}
       />
-      <div className={stl.error}>
-        <span className={error !== "" ? stl.show : ""}>{error}</span>
-      </div>
+      <InputError theme={theme} error={error} />
       <div className={stl.btnContainer}>
         <Button
           theme={theme}

@@ -16,6 +16,7 @@ import DeleteDialog from "components/delete-dialog";
 import Modal from "components/modal";
 import InputError from "components/input-error";
 import Tooltip from "components/tooltip";
+import Toast from "components/toast";
 
 import LinkIcon from "assets/link.svg";
 import OpenLinkIcon from "assets/openLink.svg";
@@ -48,6 +49,8 @@ const URLShortener = ({ theme, setShowModal, isVisible }: Props) => {
   const [urlErr, setUrlErr] = React.useState("");
   const [aliasErr, setAliasErr] = React.useState("");
   const [showTooltip, setShowTooltip] = React.useState(false);
+  const [showToast, setShowToast] = React.useState(false);
+  const [toast, setToast] = React.useState({ variant: "", msg: "" });
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -115,14 +118,29 @@ const URLShortener = ({ theme, setShowModal, isVisible }: Props) => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const isValidURL = validateUrl(url);
 
     if (url !== "") {
       if (isValidURL) {
         if (alias === "" || alias.length >= 5) {
           const shortId = alias === "" ? generateRandomString(7) : alias;
-          createShortLink(setLoading, shortId, url, setLinkData);
+          const response = await createShortLink(
+            setLoading,
+            shortId,
+            url,
+            setLinkData
+          );
+
+          setShowToast(true);
+          if (response) {
+            setToast({
+              variant: "warn",
+              msg: "Can't create link. Alias is already taken.",
+            });
+          } else {
+            setToast({ variant: "success", msg: "Link created successfully!" });
+          }
         } else {
           setAliasErr("Alias cannot be less than 5 chars.");
         }
@@ -134,12 +152,14 @@ const URLShortener = ({ theme, setShowModal, isVisible }: Props) => {
     }
   };
 
-  const getResponse = (res: string) => {
-    if (res === "Link deleted successfully!") {
-      console.log(res);
+  const getResponse = (res: any) => {
+    if (!res.err) {
+      setShowToast(true);
+      setToast({ variant: "success", msg: "Link deleted successfully!" });
       handleReset();
     } else {
-      console.error(res);
+      setShowToast(true);
+      setToast({ variant: "danger", msg: "Error:" + " " + res.err });
     }
   };
 
@@ -166,6 +186,13 @@ const URLShortener = ({ theme, setShowModal, isVisible }: Props) => {
           />
         }
       />
+      <Toast
+        variant={toast.variant}
+        content={toast.msg}
+        theme={theme}
+        isVisible={showToast}
+        setShowToast={setShowToast}
+      />
       <div
         className={clsx(stl.urlShortener, isVisible ? stl.show : "", className)}
       >
@@ -173,7 +200,7 @@ const URLShortener = ({ theme, setShowModal, isVisible }: Props) => {
           <Spinner taskTitle={loading} />
         ) : (
           <>
-            <h2 className={stl.heading}>URL Shortener</h2>
+            <h2 className={stl.heading}>Shorten New Link</h2>
             {linkData.shortId === "" && (
               <div className={stl.searchBar}>
                 <div className={stl.searchIcon}>
@@ -199,15 +226,15 @@ const URLShortener = ({ theme, setShowModal, isVisible }: Props) => {
                 <InputError theme={theme} error={aliasErr} />
                 <div className={stl.btnContainer}>
                   <Button
-                    label="Shorten URL"
-                    theme={theme}
-                    handleOnClick={handleSubmit}
-                  />
-                  <Button
                     label="Back to Dashboard"
                     theme={theme}
                     variant="secondary"
                     handleOnClick={() => setShowModal(false)}
+                  />
+                  <Button
+                    label="Shorten URL"
+                    theme={theme}
+                    handleOnClick={handleSubmit}
                   />
                 </div>
               </div>

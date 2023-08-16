@@ -9,6 +9,7 @@ import Modal from "components/modal";
 import URLShortener from "components/url-shortener";
 
 import RefreshIcon from "assets/refresh.svg";
+import AddIcon from "assets/plus.svg";
 
 import stl from "./LinkTable.module.scss";
 
@@ -57,7 +58,8 @@ const LinkTable = ({ theme }: Props) => {
       <SearchBar theme={theme} />
       <div className={stl.btn}>
         <Button
-          label="Shorten link"
+          label="Create New"
+          icon={<AddIcon />}
           theme={theme}
           handleOnClick={() => setShowModal(true)}
         />

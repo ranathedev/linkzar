@@ -31,7 +31,7 @@ fastify.post("/api/shorten", async (req, res) => {
   const shortId = req.body.shortId;
   const dataObject = { shortId, originalURL: url };
   const response = await insertDataObject(client, dataObject);
-  response ? res.send(response) : console.log("Error! while shortening link");
+  response ? res.send(response) : res.send({ err: "Unexpected error occured" });
 });
 
 fastify.post("/api/deleteLink", async (req, res) => {

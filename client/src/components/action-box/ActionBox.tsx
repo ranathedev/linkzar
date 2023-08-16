@@ -6,8 +6,7 @@ import useOnClickOutside from "lib/useClickOutside";
 import Modal from "components/modal";
 import DeleteDialog from "components/delete-dialog";
 import Spinner from "components/spinner";
-
-import stl from "./ActionBox.module.scss";
+import Toast from "components/toast";
 
 import MoreIcon from "assets/more-icon.svg";
 import OpenLinkIcon from "assets/openLink.svg";
@@ -16,6 +15,8 @@ import ShareIcon from "assets/share.svg";
 import EditIcon from "assets/edit.svg";
 import DeleteIcon from "assets/delete.svg";
 import DoneIcon from "assets/done.svg";
+
+import stl from "./ActionBox.module.scss";
 
 interface Props {
   display: string;
@@ -45,6 +46,8 @@ const ActionBox = ({
   const [showDialog, setShowDialog] = React.useState(false);
   const [showShortTooltip, setShowShortTooltip] = React.useState(false);
   const [showLongTooltip, setShowLongTooltip] = React.useState(false);
+  const [showToast, setShowToast] = React.useState(false);
+  const [toast, setToast] = React.useState({ variant: "", msg: "" });
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -78,8 +81,14 @@ const ActionBox = ({
 
   const domainUrl = "https://linkzar.glitch.me/";
 
-  const getResponse = (res: string) => {
-    console.log(res);
+  const getResponse = (res: any) => {
+    if (!res.err) {
+      setShowToast(true);
+      setToast({ variant: "success", msg: "Link deleted successfully!" });
+    } else {
+      setShowToast(true);
+      setToast({ variant: "danger", msg: "Error:" + " " + res.err });
+    }
   };
 
   const openLink = (link: string) => {
@@ -100,6 +109,7 @@ const ActionBox = ({
     setShowEditor(true);
     inputFocus("editerInput");
     setShowActionList(false);
+    setShowToast(true);
   };
 
   const handleDelete = () => {
@@ -126,6 +136,13 @@ const ActionBox = ({
             />
           )
         }
+      />
+      <Toast
+        variant={toast.variant}
+        content={toast.msg}
+        theme={theme}
+        isVisible={showToast}
+        setShowToast={setShowToast}
       />
       <div
         ref={ref}

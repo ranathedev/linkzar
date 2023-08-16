@@ -17,8 +17,7 @@ const insertDataObject = async (client, dataObject) => {
     if (urlData) {
       return urlData;
     } else if (shortLink) {
-      const response = { err: "This alias is taken" };
-      return response;
+      return { err: "This alias is already taken" };
     } else {
       dataObject.clickCounts = 0;
       dataObject.createdDate = new Date();
@@ -49,7 +48,7 @@ const deleteLink = async (client, id) => {
     const deleteResult = await collection.deleteOne(filter);
 
     if (deleteResult.deletedCount === 1) {
-      return "Link deleted successfully!";
+      return true;
     } else {
       return { err: "Can't delete link." };
     }

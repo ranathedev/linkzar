@@ -46,7 +46,7 @@ const Toast = ({
         setShowToast(false);
       }, milliseconds);
     }
-  }, [isVisible]);
+  }, [isVisible, dismissTime]);
 
   return (
     <div

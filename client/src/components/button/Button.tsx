@@ -41,8 +41,8 @@ const Button = ({
       onClick={handleOnClick}
       type={type}
     >
-      {label}
-      {icon}
+      <span>{label}</span>
+      {icon && <span>{icon}</span>}
     </button>
   );
 };

@@ -13,6 +13,16 @@
     margin: 3.5rem 0 0.75rem;
     padding: 0 0.25rem;
 
+    button {
+      span:first-of-type {
+        order: 1;
+      }
+
+      span:last-of-type {
+        order: 0;
+      }
+    }
+
     .refresh {
       @extend .alignCen;
       gap: 0.5rem;

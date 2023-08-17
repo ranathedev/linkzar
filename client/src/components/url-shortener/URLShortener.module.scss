@@ -4,7 +4,7 @@
   @extend .flexColCen;
   gap: 2rem;
   width: 100%;
-  max-width: 768px;
+  max-width: 600px;
   padding: 2rem;
   background: #fff;
   border-radius: 0.75rem;
@@ -60,6 +60,10 @@
       gap: 1rem;
       margin-top: 1rem;
       margin-bottom: -2rem;
+
+      button {
+        width: 100%;
+      }
     }
   }
 

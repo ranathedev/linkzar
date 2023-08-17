@@ -18,7 +18,7 @@
     transform: translateX(-50%);
     @include setSquare(350px);
     border-radius: 50%;
-    background: #3b82f6;
+    background: #93c5fd;
   }
 
   .container {
@@ -54,7 +54,13 @@
   box-shadow: #1f2937 0px 6px 24px 0px, #374151 0px 0px 0px 1px;
 
   &::before {
-    background: #1e3a8a;
+    top: 40%;
+    @include setSquare(450px);
+    background: radial-gradient(
+      68.73% 68.73% at 54.87% 31.27%,
+      #007fff50 0,
+      #000 100%
+    );
   }
 
   .container .content {

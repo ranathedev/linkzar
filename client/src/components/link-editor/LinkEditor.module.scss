@@ -32,7 +32,7 @@
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    margin-top: 1rem;
+    margin-top: 1.25rem;
   }
 }
 
@@ -65,7 +65,7 @@
 @media screen and (max-width: 320px) {
   .LinkEditor {
     .btnContainer {
-      margin-top: 0.5rem;
+      margin-top: 0.75rem;
     }
   }
 }

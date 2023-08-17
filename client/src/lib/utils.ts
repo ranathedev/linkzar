@@ -50,7 +50,8 @@ const createShortLink = async (
     if (!data.err) {
       setLinkData(data);
     } else {
-      console.error(data.err);
+      setLoading("");
+      return data;
     }
   } else {
     console.log("Error:", response.statusText);
@@ -96,7 +97,7 @@ const handleDelLink = async (
     if (!data.err) {
       sendResponse("Link deleted successfully!");
     } else {
-      sendResponse(data.err);
+      sendResponse(data);
     }
   }
   setLoading("");

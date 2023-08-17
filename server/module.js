@@ -50,7 +50,7 @@ const deleteLink = async (client, id) => {
     if (deleteResult.deletedCount === 1) {
       return true;
     } else {
-      return { err: "Can't delete link." };
+      return { err: "Error: Can't delete link." };
     }
   } catch (error) {
     console.log("Error deleting link:", error);
@@ -67,26 +67,41 @@ const editLink = async (client, id, newValue) => {
 
     const filter = { _id: new ObjectId(id) };
 
-    const updateOperation = {
-      $set: {
+    const prevDoc = await collection.findOne(filter);
+
+    if (prevDoc) {
+      return prevDoc;
+    } else {
+      const shortLink = await collection.findOne({
         shortId: newValue,
-      },
-    };
-
-    const updateResult = await collection.updateOne(filter, updateOperation);
-
-    if (updateResult.modifiedCount === 1) {
-      const updatedDoc = await collection.findOne({
-        _id: new ObjectId(id),
       });
 
-      if (updatedDoc) {
-        return updatedDoc;
+      if (shortLink) {
+        return { error: "Error: Alias is already taken." };
       } else {
-        return "Updated document not found";
+        const updateOperation = {
+          $set: {
+            shortId: newValue,
+          },
+        };
+
+        const updateResult = await collection.updateOne(
+          filter,
+          updateOperation
+        );
+
+        if (updateResult.modifiedCount === 1) {
+          const updatedDoc = await collection.findOne({
+            _id: new ObjectId(id),
+          });
+
+          if (updatedDoc) {
+            return updatedDoc;
+          }
+        } else {
+          return { err: "Error: Can't update the Link." };
+        }
       }
-    } else {
-      console.log("Document not found or not updated");
     }
   } catch (error) {
     console.error("An error occurred:", error);

@@ -15,9 +15,10 @@ import stl from "./LinkTable.module.scss";
 
 interface Props {
   theme: string;
+  domainUrl: string;
 }
 
-const LinkTable = ({ theme }: Props) => {
+const LinkTable = ({ theme, domainUrl }: Props) => {
   const [className, setClassName] = React.useState("");
   const [isRefreshing, setIsRefreshing] = React.useState(false);
   const [showModal, setShowModal] = React.useState(false);
@@ -49,6 +50,7 @@ const LinkTable = ({ theme }: Props) => {
         theme={theme}
         dialog={
           <URLShortener
+            domainUrl={domainUrl}
             isVisible={showModal}
             setShowModal={setShowModal}
             theme={theme}
@@ -85,21 +87,21 @@ const LinkTable = ({ theme }: Props) => {
           </div>
         ) : (
           <>
-            <TableRow theme={theme} />
-            <TableRow theme={theme} />
-            <TableRow theme={theme} />
-            <TableRow theme={theme} />
-            <TableRow theme={theme} />
-            <TableRow theme={theme} />
-            <TableRow theme={theme} />
-            <TableRow theme={theme} />
-            <TableRow theme={theme} />
-            <TableRow theme={theme} />
-            <TableRow theme={theme} />
-            <TableRow theme={theme} />
-            <TableRow theme={theme} />
-            <TableRow theme={theme} />
-            <TableRow theme={theme} />
+            <TableRow domainUrl={domainUrl} theme={theme} />
+            {/* <TableRow domainUrl={domainUrl} theme={theme} />
+            <TableRow domainUrl={domainUrl} theme={theme} />
+            <TableRow domainUrl={domainUrl} theme={theme} />
+            <TableRow domainUrl={domainUrl} theme={theme} />
+            <TableRow domainUrl={domainUrl} theme={theme} />
+            <TableRow domainUrl={domainUrl} theme={theme} />
+            <TableRow domainUrl={domainUrl} theme={theme} />
+            <TableRow domainUrl={domainUrl} theme={theme} />
+            <TableRow domainUrl={domainUrl} theme={theme} />
+            <TableRow domainUrl={domainUrl} theme={theme} />
+            <TableRow domainUrl={domainUrl} theme={theme} />
+            <TableRow domainUrl={domainUrl} theme={theme} />
+            <TableRow domainUrl={domainUrl} theme={theme} />
+            <TableRow domainUrl={domainUrl} theme={theme} /> */}
           </>
         )}
       </div>

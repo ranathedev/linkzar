@@ -28,7 +28,12 @@ const InputContainer = ({ label, id, placeholder, type, theme }: Props) => {
   return (
     <div className={clsx(stl.inputContainer, className)}>
       <label htmlFor={id}>{label}</label>
-      <Field type={type} name={id} placeholder={placeholder} />
+      <Field
+        type={type}
+        name={id}
+        placeholder={placeholder}
+        spellCheck={false}
+      />
       <ErrorMessage name={id} component="div" className={stl.error} />
     </div>
   );

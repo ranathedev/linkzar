@@ -73,7 +73,7 @@ const Toast = ({
 Toast.defaultProps = {
   content: "Item moved successfully.",
   variant: "success",
-  isVisible: true,
+  isVisible: false,
   dismissTime: 5,
 };
 

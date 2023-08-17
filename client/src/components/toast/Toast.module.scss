@@ -3,6 +3,7 @@
 .toast {
   position: fixed;
   top: 0;
+  display: none;
   @extend .alignCen;
   width: 100%;
   max-width: 20rem;
@@ -13,7 +14,7 @@
   margin-top: 2rem;
   background: #fff;
   border-radius: 0.5rem;
-  box-shadow: 0 1px 3px 0 #0000001a, 0 1px 2px -1px #0000001a;
+  box-shadow: 0 0 5px #0000001a, 0 0 5px #0000001a;
   overflow: hidden;
 
   .progressBar {

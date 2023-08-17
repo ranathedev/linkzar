@@ -22,6 +22,7 @@ interface Props {
   display: string;
   theme: string;
   variant: "primary" | "secondary";
+  domainUrl: string;
   linkData: {
     id: string;
     shortId: string;
@@ -30,14 +31,17 @@ interface Props {
     clicks: number;
   };
   setShowEditor: (arg: boolean) => void;
+  setShowModal: (arg: boolean) => void;
 }
 
 const ActionBox = ({
   theme,
   display,
   variant,
+  domainUrl,
   linkData,
   setShowEditor,
+  setShowModal,
 }: Props) => {
   const [showActionList, setShowActionList] = React.useState(false);
   const [device, setDevice] = React.useState("");
@@ -79,8 +83,6 @@ const ActionBox = ({
 
   useOnClickOutside(() => setShowActionList(false), ref);
 
-  const domainUrl = "https://linkzar.glitch.me/";
-
   const getResponse = (res: any) => {
     if (!res.err) {
       setShowToast(true);
@@ -106,10 +108,10 @@ const ActionBox = ({
   };
 
   const handleLinkEdit = () => {
+    setShowModal(true);
     setShowEditor(true);
     inputFocus("editerInput");
     setShowActionList(false);
-    setShowToast(true);
   };
 
   const handleDelete = () => {

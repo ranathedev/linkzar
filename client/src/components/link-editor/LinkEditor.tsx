@@ -10,11 +10,28 @@ import stl from "./LinkEditor.module.scss";
 interface Props {
   theme: string;
   showEditor: boolean;
+  linkData: {
+    id: string;
+    shortId: string;
+    originalURL: string;
+    dateCreated: string;
+    clicks: number;
+  };
   setShowEditor: (arg: boolean) => void;
-  linkId: string;
+  sendResponse: (arg: any) => void;
+  setLoading: (arg: string) => void;
+  setShowModal: (arg: boolean) => void;
 }
 
-const LinkEditor = ({ theme, showEditor, setShowEditor, linkId }: Props) => {
+const LinkEditor = ({
+  theme,
+  showEditor,
+  linkData,
+  setShowEditor,
+  sendResponse,
+  setLoading,
+  setShowModal,
+}: Props) => {
   const [error, setError] = React.useState("");
   const [value, setValue] = React.useState("");
   const [className, setClassName] = React.useState("");
@@ -35,6 +52,10 @@ const LinkEditor = ({ theme, showEditor, setShowEditor, linkId }: Props) => {
     }
   }, [showEditor]);
 
+  useEffect(() => {
+    setValue(linkData.shortId);
+  }, [linkData.shortId]);
+
   const isAlphanumeric = (e: any) => {
     const input = e.target;
     const inputVal = input.value;
@@ -54,30 +75,41 @@ const LinkEditor = ({ theme, showEditor, setShowEditor, linkId }: Props) => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    setLoading("Editing link");
+
     if (value.length < 5) {
       setError("Alias cannot be less than 5 chars.");
     } else {
       setError("");
       setShowEditor(false);
-      editLink(linkId, value);
+      const response = await editLink(linkData.id, value);
+      sendResponse(response);
     }
+
+    setLoading("");
   };
 
   const handleKeyDown = (e: any) => {
     e.keyCode === 13 && handleSubmit();
   };
 
+  const handleCancel = () => {
+    setShowEditor(false);
+    setShowModal(false);
+  };
+
   return (
     <div
-      className={clsx(stl.LinkEditor, showEditor ? stl.show : "", className)}
+      className={clsx(stl.linkEditor, showEditor ? stl.show : "", className)}
     >
       <input
         id="editerInput"
-        placeholder="Alias must be 5 char long."
+        placeholder="Enter new alias."
         onChange={isAlphanumeric}
         onKeyDown={handleKeyDown}
         value={value}
+        spellCheck={false}
       />
       <InputError theme={theme} error={error} />
       <div className={stl.btnContainer}>
@@ -85,7 +117,7 @@ const LinkEditor = ({ theme, showEditor, setShowEditor, linkId }: Props) => {
           theme={theme}
           label="Cancel"
           variant="secondary"
-          handleOnClick={() => setShowEditor(false)}
+          handleOnClick={handleCancel}
         />
         <Button
           theme={theme}
@@ -100,7 +132,13 @@ const LinkEditor = ({ theme, showEditor, setShowEditor, linkId }: Props) => {
 
 LinkEditor.defaultProps = {
   showEditor: false,
-  linkId: "",
+  linkData: {
+    id: "1234567890",
+    shortId: "aftab",
+    originalURL: "https://www.google.com/",
+    clickCounts: 300,
+    dateCreated: "10-Aug-2023",
+  },
 };
 
 export default LinkEditor;

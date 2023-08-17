@@ -30,10 +30,11 @@ import stl from "./URLShortener.module.scss";
 interface Props {
   theme: string;
   isVisible: boolean;
+  domainUrl: string;
   setShowModal: (arg: boolean) => void;
 }
 
-const URLShortener = ({ theme, setShowModal, isVisible }: Props) => {
+const URLShortener = ({ theme, isVisible, domainUrl, setShowModal }: Props) => {
   const [url, setURL] = React.useState("");
   const [alias, setAlias] = React.useState("");
   const [linkData, setLinkData] = React.useState({
@@ -159,7 +160,7 @@ const URLShortener = ({ theme, setShowModal, isVisible }: Props) => {
       handleReset();
     } else {
       setShowToast(true);
-      setToast({ variant: "danger", msg: "Error:" + " " + res.err });
+      setToast({ variant: "danger", msg: res.err });
     }
   };
 
@@ -167,8 +168,6 @@ const URLShortener = ({ theme, setShowModal, isVisible }: Props) => {
     await navigator.clipboard.writeText(text);
     setShowTooltip(true);
   };
-
-  const domainUrl = "http://localhost:3001";
 
   return (
     <>
@@ -259,13 +258,13 @@ const URLShortener = ({ theme, setShowModal, isVisible }: Props) => {
                     isMobileDevice() ? "" : stl.hideOptions
                   )}
                 >
-                  {domainUrl + "/" + linkData.shortId}
+                  {domainUrl + linkData.shortId}
                   <div className={stl.optContainer}>
                     <div className={stl.options}>
                       <button
                         className={stl.btn}
                         onClick={() =>
-                          copyToClipboard(domainUrl + "/" + linkData.shortId)
+                          copyToClipboard(domainUrl + linkData.shortId)
                         }
                       >
                         {showTooltip ? <DoneIcon /> : <CopyIcon />}
@@ -274,10 +273,7 @@ const URLShortener = ({ theme, setShowModal, isVisible }: Props) => {
                       <button
                         className={stl.btn}
                         onClick={() =>
-                          window.open(
-                            domainUrl + "/" + linkData.shortId,
-                            "_blank"
-                          )
+                          window.open(domainUrl + linkData.shortId, "_blank")
                         }
                       >
                         <OpenLinkIcon />
@@ -286,7 +282,7 @@ const URLShortener = ({ theme, setShowModal, isVisible }: Props) => {
                         <button
                           className={stl.btn}
                           onClick={() =>
-                            shareShortLink(domainUrl + "/" + linkData.shortId)
+                            shareShortLink(domainUrl + linkData.shortId)
                           }
                         >
                           <ShareIcon />

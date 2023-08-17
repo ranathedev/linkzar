@@ -113,7 +113,7 @@ const editLink = async (id: string, value: string) => {
   });
 
   const data = response.data;
-  console.log(data);
+  return data;
 };
 
 const sendEmail = (values: { name: string; email: string; msg: string }) => {

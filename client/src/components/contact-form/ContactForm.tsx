@@ -46,7 +46,7 @@ const ContactForm = ({ theme }: Props) => {
             <Form action="#" className={stl.form}>
               <div>
                 <label htmlFor="name">Your name</label>
-                <Field name="name" placeholder="John Doe" />
+                <Field name="name" placeholder="John Doe" spellCheck={false} />
               </div>
               <div>
                 <label htmlFor="subject">Your email</label>

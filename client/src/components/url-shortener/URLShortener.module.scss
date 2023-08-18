@@ -3,7 +3,7 @@
 .urlShortener {
   @extend .flexColCen;
   gap: 2rem;
-  width: 100%;
+  width: 97%;
   max-width: 600px;
   padding: 2rem;
   background: #fff;
@@ -76,10 +76,10 @@
     a {
       @extend .alignCen;
       gap: 10px;
+      width: 100%;
       padding: 0 2rem 0 0.5rem;
       color: #1e90ff;
       font-size: 1.2rem;
-      border: 1px solid #d1d5db;
       overflow-x: scroll;
       @extend .hideScrollbar;
 

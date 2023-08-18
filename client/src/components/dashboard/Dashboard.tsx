@@ -10,9 +10,10 @@ import stl from "./Dashboard.module.scss";
 
 interface Props {
   theme: string;
+  domainUrl: string;
 }
 
-const Dashboard = ({ theme }: Props) => {
+const Dashboard = ({ theme, domainUrl }: Props) => {
   const [className, setClassName] = React.useState("");
 
   useEffect(() => {
@@ -39,7 +40,7 @@ const Dashboard = ({ theme }: Props) => {
       <Sidebar theme={theme} />
       <div className={stl.container}>
         <WelcomeBanner theme={theme} />
-        <LinkTable theme={theme} />
+        <LinkTable theme={theme} domainUrl={domainUrl} />
       </div>
     </div>
   );

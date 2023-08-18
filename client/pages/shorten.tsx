@@ -21,6 +21,8 @@ const Shorten = () => {
     }
   }, [theme]);
 
+  const domainUrl = "http://localhost:3001/";
+
   return (
     <>
       <ToggleThemeBtn
@@ -31,7 +33,7 @@ const Shorten = () => {
       />
       <Layout theme={theme} title="Overview">
         <div className={stl.shorten}>
-          <URLShortener isVisible={true} theme={theme} />
+          <URLShortener domainUrl={domainUrl} isVisible={true} theme={theme} />
         </div>
       </Layout>
     </>

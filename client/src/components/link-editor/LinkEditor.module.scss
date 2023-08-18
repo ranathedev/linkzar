@@ -1,7 +1,7 @@
-.LinkEditor {
+.linkEditor {
   width: 95%;
-  max-width: 768px;
-  padding: 2rem;
+  max-width: 600px;
+  padding: 2rem 1.5rem;
   padding-bottom: 1.5rem;
   background: #fff;
   border-radius: 0.75rem;
@@ -30,9 +30,10 @@
   .btnContainer {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
     gap: 1rem;
-    margin-top: 1.25rem;
+    margin-top: 1.5rem;
   }
 }
 
@@ -57,15 +58,19 @@
 }
 
 @media screen and (max-width: 640px) {
-  .LinkEditor {
+  .linkEditor {
     padding: 1rem 0.75rem;
   }
 }
 
-@media screen and (max-width: 320px) {
-  .LinkEditor {
+@media screen and (max-width: 450px) {
+  .linkEditor {
     .btnContainer {
-      margin-top: 0.75rem;
+      justify-content: center;
+
+      button {
+        width: 45%;
+      }
     }
   }
 }

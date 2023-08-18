@@ -37,7 +37,12 @@ const SearchBar = ({ theme }: Props) => {
       <div className={stl.hint}>
         {device === "Mac" ? <>&#8984;</> : "Ctrl"} K
       </div>
-      <input type="search" id="searchInput" placeholder="Search" />
+      <input
+        type="search"
+        id="searchInput"
+        placeholder="Search"
+        spellCheck={false}
+      />
       <button>Search</button>
     </div>
   );

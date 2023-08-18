@@ -163,6 +163,11 @@
   .btnContainer {
     @extend .justifyCen;
     gap: 1rem;
+    width: 100%;
+
+    button {
+      width: 100%;
+    }
   }
 }
 

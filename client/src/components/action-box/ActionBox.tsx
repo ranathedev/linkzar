@@ -24,14 +24,15 @@ interface Props {
   variant: "primary" | "secondary";
   domainUrl: string;
   linkData: {
-    id: string;
+    _id: string;
     shortId: string;
     originalURL: string;
-    dateCreated: string;
-    clicks: number;
+    createdDate: string;
+    clickCounts: number;
   };
   setShowEditor: (arg: boolean) => void;
   setShowModal: (arg: boolean) => void;
+  sendDeleteId: (arg: string) => void;
 }
 
 const ActionBox = ({
@@ -42,6 +43,7 @@ const ActionBox = ({
   linkData,
   setShowEditor,
   setShowModal,
+  sendDeleteId,
 }: Props) => {
   const [showActionList, setShowActionList] = React.useState(false);
   const [device, setDevice] = React.useState("");
@@ -87,6 +89,7 @@ const ActionBox = ({
     if (!res.err) {
       setShowToast(true);
       setToast({ variant: "success", msg: "Link deleted successfully!" });
+      sendDeleteId(linkData._id);
     } else {
       setShowToast(true);
       setToast({ variant: "danger", msg: "Error:" + " " + res.err });
@@ -110,8 +113,8 @@ const ActionBox = ({
   const handleLinkEdit = () => {
     setShowModal(true);
     setShowEditor(true);
-    inputFocus("editerInput");
     setShowActionList(false);
+    inputFocus("editerInput");
   };
 
   const handleDelete = () => {
@@ -131,7 +134,7 @@ const ActionBox = ({
             <DeleteDialog
               theme={theme}
               isVisible={showDialog}
-              id={linkData.id}
+              id={linkData._id}
               getResponse={getResponse}
               setLoading={setLoading}
               setShowDialog={setShowDialog}

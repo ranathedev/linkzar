@@ -32,9 +32,16 @@ interface Props {
   isVisible: boolean;
   domainUrl: string;
   setShowModal: (arg: boolean) => void;
+  sendNewLink: (arg: any) => void;
 }
 
-const URLShortener = ({ theme, isVisible, domainUrl, setShowModal }: Props) => {
+const URLShortener = ({
+  theme,
+  isVisible,
+  domainUrl,
+  setShowModal,
+  sendNewLink,
+}: Props) => {
   const [url, setURL] = React.useState("");
   const [alias, setAlias] = React.useState("");
   const [linkData, setLinkData] = React.useState({
@@ -126,21 +133,18 @@ const URLShortener = ({ theme, isVisible, domainUrl, setShowModal }: Props) => {
       if (isValidURL) {
         if (alias === "" || alias.length >= 5) {
           const shortId = alias === "" ? generateRandomString(7) : alias;
-          const response = await createShortLink(
-            setLoading,
-            shortId,
-            url,
-            setLinkData
-          );
+          const response = await createShortLink(setLoading, shortId, url);
 
           setShowToast(true);
-          if (response) {
+          if (response.err) {
             setToast({
               variant: "warn",
-              msg: "Can't create link. Alias is already taken.",
+              msg: response.err,
             });
           } else {
+            setLinkData(response);
             setToast({ variant: "success", msg: "Link created successfully!" });
+            sendNewLink(response);
           }
         } else {
           setAliasErr("Alias cannot be less than 5 chars.");
@@ -303,16 +307,16 @@ const URLShortener = ({ theme, isVisible, domainUrl, setShowModal }: Props) => {
               {linkData.shortId !== "" && (
                 <>
                   <Button
-                    label="Shorten another"
-                    icon={<LinkIcon />}
-                    theme={theme}
-                    handleOnClick={handleReset}
-                  />
-                  <Button
                     label="Back to Dashboard"
                     variant="secondary"
                     theme={theme}
                     handleOnClick={() => setShowModal(false)}
+                  />
+                  <Button
+                    label="Shorten another"
+                    icon={<LinkIcon />}
+                    theme={theme}
+                    handleOnClick={handleReset}
                   />
                 </>
               )}

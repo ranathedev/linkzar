@@ -11,11 +11,11 @@ interface Props {
   theme: string;
   showEditor: boolean;
   linkData: {
-    id: string;
+    _id: string;
     shortId: string;
     originalURL: string;
-    dateCreated: string;
-    clicks: number;
+    createdDate: string;
+    clickCounts: number;
   };
   setShowEditor: (arg: boolean) => void;
   sendResponse: (arg: any) => void;
@@ -52,10 +52,6 @@ const LinkEditor = ({
     }
   }, [showEditor]);
 
-  useEffect(() => {
-    setValue(linkData.shortId);
-  }, [linkData.shortId]);
-
   const isAlphanumeric = (e: any) => {
     const input = e.target;
     const inputVal = input.value;
@@ -83,7 +79,7 @@ const LinkEditor = ({
     } else {
       setError("");
       setShowEditor(false);
-      const response = await editLink(linkData.id, value);
+      const response = await editLink(linkData._id, value);
       sendResponse(response);
     }
 
@@ -105,7 +101,7 @@ const LinkEditor = ({
     >
       <input
         id="editerInput"
-        placeholder="Enter new alias."
+        placeholder={linkData.shortId}
         onChange={isAlphanumeric}
         onKeyDown={handleKeyDown}
         value={value}
@@ -137,7 +133,7 @@ LinkEditor.defaultProps = {
     shortId: "aftab",
     originalURL: "https://www.google.com/",
     clickCounts: 300,
-    dateCreated: "10-Aug-2023",
+    createdDate: "10-Aug-2023",
   },
 };
 

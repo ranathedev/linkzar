@@ -1,5 +1,20 @@
 const { ObjectId } = require("mongodb");
 
+const getLinks = async (client) => {
+  try {
+    await client.connect();
+    const database = client.db("linkzar");
+    const collection = database.collection("links");
+
+    const cursor = collection.find();
+    const allDocuments = await cursor.toArray();
+
+    return allDocuments;
+  } catch (error) {
+    return { err: error };
+  }
+};
+
 const insertDataObject = async (client, dataObject) => {
   try {
     await client.connect();
@@ -69,7 +84,7 @@ const editLink = async (client, id, newValue) => {
 
     const prevDoc = await collection.findOne(filter);
 
-    if (prevDoc) {
+    if (prevDoc.shortId == newValue) {
       return prevDoc;
     } else {
       const shortLink = await collection.findOne({
@@ -111,6 +126,7 @@ const editLink = async (client, id, newValue) => {
 };
 
 module.exports = {
+  getLinks,
   insertDataObject,
   deleteLink,
   editLink,

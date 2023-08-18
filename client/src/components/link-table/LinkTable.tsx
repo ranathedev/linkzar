@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import clsx from "clsx";
 
+import { getLinks } from "lib/utils";
 import TableRow from "components/table-row";
 import SearchBar from "components/search-bar";
 import LoadingSpinner from "components/loading-spinner";
@@ -18,8 +19,17 @@ interface Props {
   domainUrl: string;
 }
 
+interface LinkType {
+  _id: string;
+  shortId: string;
+  originalURL: string;
+  createdDate: string;
+  clickCounts: number;
+}
+
 const LinkTable = ({ theme, domainUrl }: Props) => {
   const [className, setClassName] = React.useState("");
+  const [listOfLinks, setListOfLinks] = React.useState<LinkType[]>([]);
   const [isRefreshing, setIsRefreshing] = React.useState(false);
   const [showModal, setShowModal] = React.useState(false);
 
@@ -33,14 +43,41 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
     }
   }, [theme]);
 
-  const refresh = () => {
-    setIsRefreshing(true);
-    console.log("Refreshing the list...");
+  useEffect(() => {
+    const linksData = localStorage.getItem("links");
+    //@ts-ignore
+    const links = JSON.parse(linksData);
+    setListOfLinks(links);
+  }, []);
 
-    setTimeout(() => {
-      setIsRefreshing(false);
-      console.log("List refreshed.");
-    }, 3000);
+  const refresh = async () => {
+    const links = await getLinks(setIsRefreshing);
+
+    setListOfLinks(links);
+  };
+
+  const addNewLink = async (newLink: any) => {
+    const updatedList = [...listOfLinks];
+    updatedList.unshift(newLink);
+
+    setListOfLinks(updatedList);
+    await localStorage.setItem("links", JSON.stringify(updatedList));
+  };
+
+  const removeLink = async (linkId: string) => {
+    const updatedList = listOfLinks.filter((link) => link._id !== linkId);
+
+    setListOfLinks(updatedList);
+    await localStorage.setItem("links", JSON.stringify(updatedList));
+  };
+
+  const updateLinkInList = async (updatedLink: any) => {
+    const updatedListOfLinks = listOfLinks.map((link) =>
+      link._id === updatedLink._id ? updatedLink : link
+    );
+
+    setListOfLinks(updatedListOfLinks);
+    await localStorage.setItem("links", JSON.stringify(updatedListOfLinks));
   };
 
   return (
@@ -52,6 +89,7 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
           <URLShortener
             domainUrl={domainUrl}
             isVisible={showModal}
+            sendNewLink={addNewLink}
             setShowModal={setShowModal}
             theme={theme}
           />
@@ -87,21 +125,16 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
           </div>
         ) : (
           <>
-            <TableRow domainUrl={domainUrl} theme={theme} />
-            {/* <TableRow domainUrl={domainUrl} theme={theme} />
-            <TableRow domainUrl={domainUrl} theme={theme} />
-            <TableRow domainUrl={domainUrl} theme={theme} />
-            <TableRow domainUrl={domainUrl} theme={theme} />
-            <TableRow domainUrl={domainUrl} theme={theme} />
-            <TableRow domainUrl={domainUrl} theme={theme} />
-            <TableRow domainUrl={domainUrl} theme={theme} />
-            <TableRow domainUrl={domainUrl} theme={theme} />
-            <TableRow domainUrl={domainUrl} theme={theme} />
-            <TableRow domainUrl={domainUrl} theme={theme} />
-            <TableRow domainUrl={domainUrl} theme={theme} />
-            <TableRow domainUrl={domainUrl} theme={theme} />
-            <TableRow domainUrl={domainUrl} theme={theme} />
-            <TableRow domainUrl={domainUrl} theme={theme} /> */}
+            {listOfLinks.map((linkItem, i) => (
+              <TableRow
+                key={i}
+                domainUrl={domainUrl}
+                theme={theme}
+                sendDeleteId={removeLink}
+                sendUpdatedLinks={updateLinkInList}
+                linkData={linkItem}
+              />
+            ))}
           </>
         )}
       </div>

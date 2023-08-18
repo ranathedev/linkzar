@@ -28,11 +28,26 @@ const isMobileDevice = () => {
   );
 };
 
+const getLinks = async (setIsRefreshing: (arg: boolean) => void) => {
+  setIsRefreshing(true);
+  const response = await axios.get("http://localhost:3001/api/getLinks");
+  const data = response.data;
+
+  if (!data.err) {
+    const revData = data.reverse();
+    await localStorage.setItem("links", JSON.stringify(data));
+    setIsRefreshing(false);
+    return revData;
+  } else {
+    console.log(data.err);
+    setIsRefreshing(false);
+  }
+};
+
 const createShortLink = async (
   setLoading: (arg: string) => void,
   shortId: string,
-  url: string,
-  setLinkData: (arg: any) => void
+  url: string
 ) => {
   setLoading("Creating short link");
 
@@ -44,20 +59,9 @@ const createShortLink = async (
     shortId,
   });
 
-  if (response.status === 200) {
-    const data = response.data;
-    console.log(data);
-    if (!data.err) {
-      setLinkData(data);
-    } else {
-      setLoading("");
-      return data;
-    }
-  } else {
-    console.log("Error:", response.statusText);
-  }
-
+  const data = response.data;
   setLoading("");
+  return data;
 };
 
 const shareShortLink = (shortLink: string) => {
@@ -140,7 +144,7 @@ const isMac = () => {
   return /Mac|iPod|iPhone|iPad/.test(navigator.userAgent);
 };
 
-const inputFocus = (id: string) => {
+const inputFocus = async (id: string) => {
   const input = document.getElementById(id);
   input?.focus();
 };
@@ -226,6 +230,7 @@ export {
   generateRandomString,
   validateUrl,
   isMobileDevice,
+  getLinks,
   createShortLink,
   shareShortLink,
   handleDelLink,

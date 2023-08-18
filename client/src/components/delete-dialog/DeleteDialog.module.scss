@@ -18,6 +18,10 @@
     @extend .alignCen;
     justify-content: flex-end;
     gap: 1rem;
+
+    button {
+      max-height: 2.5rem;
+    }
   }
 }
 

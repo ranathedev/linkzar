@@ -33,7 +33,12 @@ const Shorten = () => {
       />
       <Layout theme={theme} title="Overview">
         <div className={stl.shorten}>
-          <URLShortener domainUrl={domainUrl} isVisible={true} theme={theme} />
+          <URLShortener
+            domainUrl={domainUrl}
+            isVisible={true}
+            theme={theme}
+            sendNewLink={() => {}}
+          />
         </div>
       </Layout>
     </>

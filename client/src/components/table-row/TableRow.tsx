@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import clsx from "clsx";
 
+import { formatDate } from "lib/utils";
+
 import ActionBox from "components/action-box";
 import LinkEditor from "components/link-editor";
 import Modal from "components/modal";
@@ -14,16 +16,24 @@ import stl from "./TableRow.module.scss";
 interface Props {
   domainUrl: string;
   linkData: {
-    id: string;
+    _id: string;
     shortId: string;
     originalURL: string;
-    dateCreated: string;
-    clicks: number;
+    createdDate: string;
+    clickCounts: number;
   };
   theme: string;
+  sendDeleteId: (arg: string) => void;
+  sendUpdatedLinks: (arg: any) => void;
 }
 
-const TableRow = ({ domainUrl, linkData, theme }: Props) => {
+const TableRow = ({
+  domainUrl,
+  linkData,
+  theme,
+  sendDeleteId,
+  sendUpdatedLinks,
+}: Props) => {
   const [expand, setExpand] = React.useState(false);
   const [className, setClassName] = React.useState("");
   const [showActionList, setShowActionList] = React.useState(false);
@@ -33,6 +43,7 @@ const TableRow = ({ domainUrl, linkData, theme }: Props) => {
   const [loading, setLoading] = React.useState("");
   const [showToast, setShowToast] = React.useState(false);
   const [toast, setToast] = React.useState({ variant: "", msg: "" });
+  const [shortId, setShortId] = React.useState("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -59,7 +70,6 @@ const TableRow = ({ domainUrl, linkData, theme }: Props) => {
   }, []);
 
   const getResponse = (res: any) => {
-    console.log(res);
     setShowToast(true);
     if (res.error) {
       setToast({ variant: "warn", msg: res.error });
@@ -67,6 +77,8 @@ const TableRow = ({ domainUrl, linkData, theme }: Props) => {
       setToast({ variant: "danger", msg: res.err });
     } else {
       setToast({ variant: "success", msg: "Link updated successfully!" });
+      setShortId(res.shortId);
+      sendUpdatedLinks(res);
     }
     setShowModal(false);
   };
@@ -100,6 +112,7 @@ const TableRow = ({ domainUrl, linkData, theme }: Props) => {
         linkData={linkData}
         setShowModal={setShowModal}
         setShowEditor={setShowEditor}
+        sendDeleteId={sendDeleteId}
       />
       <Toast
         theme={theme}
@@ -113,16 +126,18 @@ const TableRow = ({ domainUrl, linkData, theme }: Props) => {
           <div className={stl.short}>
             <span className={stl.link}>
               <span className={stl.domain}>linkzar.glitch.me/</span>
-              <span>{linkData.shortId}</span>
+              <span>{shortId === "" ? linkData.shortId : shortId}</span>
             </span>
           </div>
         </span>
         <span className={stl.divider} />
         <span className={stl.originalLink}>{linkData.originalURL}</span>
         <span className={stl.divider} />
-        <span className={stl.clicks}>{linkData.clicks}</span>
+        <span className={stl.clicks}>{linkData.clickCounts}</span>
         <span className={stl.divider} />
-        <span className={stl.date}>{linkData.dateCreated}</span>
+        <span className={stl.date}>
+          {formatDate(new Date(linkData.createdDate))}
+        </span>
         <ActionBox
           display={showActionList ? "none" : "inline-flex"}
           domainUrl={domainUrl}
@@ -130,6 +145,7 @@ const TableRow = ({ domainUrl, linkData, theme }: Props) => {
           linkData={linkData}
           setShowEditor={setShowEditor}
           setShowModal={setShowModal}
+          sendDeleteId={sendDeleteId}
         />
         <span className={stl.expandBtn} onClick={() => setExpand(!expand)}>
           <DownIcon />
@@ -141,11 +157,11 @@ const TableRow = ({ domainUrl, linkData, theme }: Props) => {
 
 TableRow.defaultProps = {
   linkData: {
-    id: "64dcac9194d3a3336afe917d",
+    _id: "64dcac9194d3a3336afe917d",
     shortId: "aftaab",
     originalURL: "https://www.youtube.com/watch?v=I7EDAR2GRVo",
-    clicks: 345,
-    dateCreated: "Aug-10-2023",
+    clickCounts: 345,
+    createdDate: "Aug-10-2023",
   },
 };
 

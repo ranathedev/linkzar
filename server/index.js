@@ -1,6 +1,11 @@
 const { MongoClient } = require("mongodb");
 require("dotenv").config();
-const { insertDataObject, deleteLink, editLink } = require("./module.js");
+const {
+  getLinks,
+  insertDataObject,
+  deleteLink,
+  editLink,
+} = require("./module.js");
 
 const fastify = require("fastify")({
   logger: false,
@@ -13,17 +18,11 @@ const client = new MongoClient(uri);
 
 fastify.get("/", async (req, res) => {
   res.redirect("https://linkzar.ranainitzar.com");
+});
 
-  // get All Documents
-  // await client.connect();
-  // const database = client.db("linkzar");
-  // const collection = database.collection("links");
-
-  // const cursor = collection.find();
-
-  // const allDocuments = await cursor.toArray();
-
-  // res.send({ allDocuments: allDocuments });
+fastify.get("/api/getLinks", async (req, res) => {
+  const response = await getLinks(client);
+  res.send(response);
 });
 
 fastify.post("/api/shorten", async (req, res) => {

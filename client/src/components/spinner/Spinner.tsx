@@ -1,15 +1,17 @@
 import React from "react";
+import clsx from "clsx";
 
 import stl from "./Spinner.module.scss";
 
 interface Props {
   taskTitle: string;
   variant: "primary" | "secondary";
+  customClass?: string;
 }
 
-const Spinner = ({ taskTitle, variant }: Props) => {
+const Spinner = ({ taskTitle, variant, customClass }: Props) => {
   return (
-    <div className={stl.spinner}>
+    <div className={clsx(stl.spinner, customClass)}>
       <div />
       <div />
       <div />

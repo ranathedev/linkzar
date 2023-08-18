@@ -12,6 +12,7 @@ import {
   signinWithMicrosoft,
 } from "lib/authFunctions";
 import { getFields, getInitVals } from "lib/authFormData";
+import VerificationDialog from "components/verification-dialog";
 import InputContainer from "components/input-container";
 
 import GoogleIcon from "assets/google.svg";
@@ -38,6 +39,7 @@ const AuthForm = ({ theme, formType, setFormType }: Props) => {
   const [className, setClassName] = React.useState("");
   const [isChecked, setIsChecked] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [user, setUser] = React.useState(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -110,7 +112,7 @@ const AuthForm = ({ theme, formType, setFormType }: Props) => {
       .required("Email is required"),
   });
 
-  return isLoading ? null : (
+  return isLoading ? null : user === null ? (
     <div className={clsx(stl.authForm, className)}>
       <h2 className={stl.heading}>
         {formType === "sign up"
@@ -146,7 +148,8 @@ const AuthForm = ({ theme, formType, setFormType }: Props) => {
               signupWithEmailPassword(
                 values.fname,
                 values.email,
-                values.pass
+                values.pass,
+                setUser
               )) ||
               (formType === "sign in" &&
                 signinWithEmailPassword(values.email, values.pass));
@@ -207,6 +210,8 @@ const AuthForm = ({ theme, formType, setFormType }: Props) => {
         </span>
       </div>
     </div>
+  ) : (
+    <VerificationDialog theme={theme} user={user} />
   );
 };
 

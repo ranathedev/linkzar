@@ -1,0 +1,35 @@
+@import "styles/common";
+
+.verifyDialog {
+  @extend .flexColCen;
+  align-items: flex-start;
+  gap: 1rem;
+  width: 97%;
+  max-width: 500px;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 0.75rem;
+  box-shadow: #64646f33 0px 7px 29px 0px;
+
+  .resendContainer span {
+    color: #2563eb;
+    font-weight: 500;
+    text-underline-offset: 2px;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .loadingContainer {
+    @extend .justifyCen;
+    width: 100%;
+    padding: 1rem 0;
+  }
+}
+
+.darkVerifyDialog {
+  background: #111827;
+  color: #9ca3af;
+}

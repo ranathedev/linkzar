@@ -10,7 +10,7 @@ import {
   OAuthProvider,
 } from "firebase/auth";
 
-const signupWithEmailPassword = async (fname, email, password) => {
+const signupWithEmailPassword = async (fname, email, password, setUser) => {
   await createUserWithEmailAndPassword(auth, email, password)
     .then(async (userCredential) => {
       const user = userCredential.user;
@@ -19,9 +19,15 @@ const signupWithEmailPassword = async (fname, email, password) => {
         photoURL: "https://i.postimg.cc/Mp7gnttP/default-Pic.jpg",
       })
         .then(async () => {
-          await sendEmailVerification(user).then(() => {
+          const actionCodeSettings = {
+            url: "http://localhost:3000/",
+            handleCodeInApp: true,
+          };
+
+          await sendEmailVerification(user, actionCodeSettings).then(() => {
             console.log("Verification Email sent!");
             console.log(user);
+            setUser(user);
           });
         })
         .catch((error) => {
@@ -87,9 +93,7 @@ const signinWithGithub = async () => {
   signInWithPopup(auth, provider)
     .then(async (result) => {
       const user = result.user;
-      await sendEmailVerification(user).then(() => {
-        console.log("Verfication email sent successfully!");
-      });
+
       console.log(user);
     })
     .catch((error) => {
@@ -130,10 +134,24 @@ const signinWithMicrosoft = async () => {
     });
 };
 
+const sendVerificationEmail = async (user) => {
+  const actionCodeSettings = {
+    url: "http://localhost:3000/",
+    handleCodeInApp: true,
+  };
+
+  await sendEmailVerification(user, actionCodeSettings)
+    .then(() => {
+      alert("Verification email sent");
+    })
+    .catch((err) => console.log(err));
+};
+
 export {
   signupWithEmailPassword,
   signinWithEmailPassword,
   signinWithGoogle,
   signinWithGithub,
   signinWithMicrosoft,
+  sendVerificationEmail,
 };

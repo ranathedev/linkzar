@@ -56,19 +56,23 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
     setListOfLinks(links);
   };
 
+  const saveDataToLocalStorage = async (data: any) => {
+    await localStorage.setItem("links", JSON.stringify(data));
+  };
+
   const addNewLink = async (newLink: any) => {
     const updatedList = [...listOfLinks];
     updatedList.unshift(newLink);
 
     setListOfLinks(updatedList);
-    await localStorage.setItem("links", JSON.stringify(updatedList));
+    saveDataToLocalStorage(updatedList);
   };
 
   const removeLink = async (linkId: string) => {
     const updatedList = listOfLinks.filter((link) => link._id !== linkId);
 
     setListOfLinks(updatedList);
-    await localStorage.setItem("links", JSON.stringify(updatedList));
+    saveDataToLocalStorage(updatedList);
   };
 
   const updateLinkInList = async (updatedLink: any) => {
@@ -77,7 +81,7 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
     );
 
     setListOfLinks(updatedListOfLinks);
-    await localStorage.setItem("links", JSON.stringify(updatedListOfLinks));
+    saveDataToLocalStorage(updatedListOfLinks);
   };
 
   return (

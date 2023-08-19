@@ -1,0 +1,18 @@
+.loadingScreen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+
+  .spinner {
+    div {
+      width: 4.5rem;
+      height: 4.5rem;
+    }
+
+    span {
+      display: none;
+    }
+  }
+}

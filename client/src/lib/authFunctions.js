@@ -8,9 +8,17 @@ import {
   GoogleAuthProvider,
   GithubAuthProvider,
   OAuthProvider,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 
-const signupWithEmailPassword = async (fname, email, password, setUser) => {
+const signupWithEmailPassword = async (
+  fname,
+  email,
+  password,
+  setUser,
+  setIsLoading
+) => {
+  setIsLoading(true);
   await createUserWithEmailAndPassword(auth, email, password)
     .then(async (userCredential) => {
       const user = userCredential.user;
@@ -28,6 +36,7 @@ const signupWithEmailPassword = async (fname, email, password, setUser) => {
             console.log("Verification Email sent!");
             console.log(user);
             setUser(user);
+            setIsLoading(false);
           });
         })
         .catch((error) => {
@@ -42,6 +51,7 @@ const signupWithEmailPassword = async (fname, email, password, setUser) => {
       const errorMessage = error.message;
       console.log("Error Code:", errorCode);
       console.log("Error Message:", errorMessage);
+      setIsLoading(false);
     });
 };
 
@@ -147,6 +157,24 @@ const sendVerificationEmail = async (user) => {
     .catch((err) => console.log(err));
 };
 
+const sendResetPasswordEmail = async (email) => {
+  const actionCodeSettings = {
+    url: "http://localhost:3000/auth",
+    handleCodeInApp: true,
+  };
+  await sendPasswordResetEmail(auth, email, actionCodeSettings)
+    .then(() => {
+      console.log("Password reset email sent!");
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMsg = error.message;
+
+      console.error("Error Code:", errorCode);
+      console.error("Error Msg:", errorMsg);
+    });
+};
+
 export {
   signupWithEmailPassword,
   signinWithEmailPassword,
@@ -154,4 +182,5 @@ export {
   signinWithGithub,
   signinWithMicrosoft,
   sendVerificationEmail,
+  sendResetPasswordEmail,
 };

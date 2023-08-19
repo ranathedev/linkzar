@@ -36,7 +36,7 @@ const CTA = ({ theme }: Props) => {
             theme={theme}
             label="Get Started"
             icon={<ArrowIcon />}
-            handleOnClick={() => (location.href = "/shorten")}
+            handleOnClick={() => (location.href = "/auth")}
           />
         </div>
       </div>

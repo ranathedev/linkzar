@@ -14,6 +14,8 @@ import {
 import { getFields, getInitVals } from "lib/authFormData";
 import VerificationDialog from "components/verification-dialog";
 import InputContainer from "components/input-container";
+import FgtPassDialog from "components/fgt-pass-dialog";
+import Spinner from "components/spinner";
 
 import GoogleIcon from "assets/google.svg";
 import GithubIcon from "assets/github-2.svg";
@@ -40,6 +42,7 @@ const AuthForm = ({ theme, formType, setFormType }: Props) => {
   const [isChecked, setIsChecked] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [user, setUser] = React.useState(null);
+  const [resetPass, setResetPass] = React.useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -112,7 +115,23 @@ const AuthForm = ({ theme, formType, setFormType }: Props) => {
       .required("Email is required"),
   });
 
-  return isLoading ? null : user === null ? (
+  const changeFormType = () => {
+    if (formType === "sign up") {
+      setIsLoading(true);
+      setFormType("sign in");
+      setIsLoading(false);
+    } else {
+      setIsLoading(true);
+      setIsLoading(false);
+      setFormType("sign up");
+    }
+  };
+
+  return isLoading ? (
+    <Spinner customClass={stl.spinner} />
+  ) : resetPass === true ? (
+    <FgtPassDialog theme={theme} setResetPass={setResetPass} />
+  ) : user === null ? (
     <div className={clsx(stl.authForm, className)}>
       <h2 className={stl.heading}>
         {formType === "sign up"
@@ -138,7 +157,6 @@ const AuthForm = ({ theme, formType, setFormType }: Props) => {
         <span className={stl.text}>or</span>
         <span className={stl.line} />
       </div>
-
       <Formik
         initialValues={initVals}
         validationSchema={formType === "sign up" ? signUpSchema : signInSchema}
@@ -149,7 +167,8 @@ const AuthForm = ({ theme, formType, setFormType }: Props) => {
                 values.fname,
                 values.email,
                 values.pass,
-                setUser
+                setUser,
+                setIsLoading
               )) ||
               (formType === "sign in" &&
                 signinWithEmailPassword(values.email, values.pass));
@@ -185,7 +204,7 @@ const AuthForm = ({ theme, formType, setFormType }: Props) => {
             </div>
           ) : (
             <div className={stl.forgotPassword}>
-              <span>Forgot password?</span>
+              <span onClick={() => setResetPass(true)}>Forgot password?</span>
             </div>
           )}
           <button className={stl.btn} type="submit">
@@ -197,15 +216,7 @@ const AuthForm = ({ theme, formType, setFormType }: Props) => {
         {formType === "sign up"
           ? "Already have an account? "
           : "Don't have an account yet? "}
-        <span
-          onClick={() => {
-            if (formType === "sign up") {
-              setFormType("sign in");
-            } else {
-              setFormType("sign up");
-            }
-          }}
-        >
+        <span onClick={changeFormType}>
           {formType === "sign up" ? "Sign in" : "Sign up for an account"}
         </span>
       </div>

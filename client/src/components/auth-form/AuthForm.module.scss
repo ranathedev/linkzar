@@ -1,5 +1,9 @@
 @import "styles/common";
 
+.spinner span {
+  display: none;
+}
+
 .authForm {
   width: 97%;
   max-width: 450px;

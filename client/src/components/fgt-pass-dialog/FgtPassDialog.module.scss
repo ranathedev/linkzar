@@ -1,0 +1,106 @@
+.fgtPassDialog {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 97%;
+  max-width: 500px;
+  padding: 1.75rem;
+  background: #fff;
+  border-radius: 0.75rem;
+  box-shadow: #64646f33 0px 7px 29px 0px;
+
+  .content {
+    margin: 0 auto;
+
+    .heading {
+      font-size: 1.5rem;
+      line-height: 2rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .headline {
+      color: #9ca3af;
+      text-align: center;
+    }
+  }
+
+  .inputContainer {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 350px;
+
+    label {
+      display: block;
+      font-weight: 500;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      background: #fff;
+      color: #111827;
+      font-size: 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.5rem;
+      outline-color: #1c64f2;
+
+      &:focus {
+        outline: 2px solid #1c64f2;
+      }
+    }
+  }
+
+  .btnContainer {
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
+
+    button:first-of-type {
+      margin-bottom: 0.5rem;
+    }
+
+    button {
+      width: 100%;
+
+      span:first-of-type {
+        order: 1;
+      }
+
+      span:last-of-type {
+        order: 0;
+      }
+    }
+  }
+}
+
+.darkFgtPassDialog {
+  background: #1f2937;
+
+  .content .heading {
+    color: #fff;
+  }
+
+  .inputContainer {
+    label {
+      color: #fff;
+    }
+
+    input {
+      background: #374151;
+      color: #fff;
+      border-color: #4b5563;
+      outline: none;
+
+      &:focus {
+        outline: 2px solid #1c64f2;
+      }
+
+      &::placeholder {
+        color: #9ca3af;
+      }
+    }
+  }
+}

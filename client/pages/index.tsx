@@ -1,13 +1,11 @@
 import React from "react";
 
-import Dashboard from "components/dashboard";
+import AvatarHandler from "components/avatar-handler";
 
 export default function Home() {
-  const domainUrl = "http://localhost:3001/";
-
   return (
     <main>
-      <Dashboard theme="light" domainUrl={domainUrl} />
+      <AvatarHandler theme="light" />
     </main>
   );
 }

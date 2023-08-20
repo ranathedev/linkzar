@@ -54,7 +54,7 @@ const HeroSection = ({
           <Button
             label={btnLabel}
             theme={theme}
-            icon={btnIcon}
+            rightIcon={btnIcon}
             handleOnClick={() => (location.href = "/shorten")}
           />
         </div>

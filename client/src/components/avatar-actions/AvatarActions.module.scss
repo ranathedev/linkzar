@@ -1,0 +1,77 @@
+@import "styles/common";
+
+.avatarActions {
+  @extend .flexColCen;
+  gap: 1.5rem;
+  width: 97%;
+  max-width: 350px;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: #64646f33 0px 7px 29px 0px;
+  transform: scale(0);
+  transition: all 0.2s;
+
+  .header {
+    @extend .alignCen;
+    width: 100%;
+
+    .title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      text-align: center;
+      width: 100%;
+    }
+
+    .closeBtn {
+      @extend .flexCenter;
+      @include setSquare(2.2rem);
+      border-radius: 50%;
+      cursor: pointer;
+
+      &:hover {
+        background: #e5e7eb;
+      }
+    }
+  }
+
+  img {
+    @include setSquare(14rem);
+    border-radius: 50%;
+    user-select: none;
+  }
+
+  .btnContainer {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+
+    button {
+      width: 100%;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+  }
+}
+
+.show {
+  transform: scale(1);
+}
+
+.darkAvatarActions {
+  background: #1f2937;
+
+  .header {
+    color: #fff;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .avatarActions {
+    padding: 1.5rem 1rem;
+
+    img {
+      @include setSquare(13rem);
+    }
+  }
+}

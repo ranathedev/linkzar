@@ -7,6 +7,7 @@ import { sendEmail } from "lib/utils";
 import Button from "components/button";
 
 import ContactImage from "assets/contact-2.png";
+import SendIcon from "assets/send.svg";
 
 import stl from "./ContactForm.module.scss";
 
@@ -68,6 +69,7 @@ const ContactForm = ({ theme }: Props) => {
                 <Button
                   theme="light"
                   label="Send message"
+                  leftIcon={<SendIcon />}
                   handleOnClick={() => props.submitForm()}
                 />
               </div>

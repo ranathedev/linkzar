@@ -6,7 +6,8 @@ import stl from "./Button.module.scss";
 interface Props {
   label: string;
   variant: string;
-  icon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
+  leftIcon?: React.ReactNode;
   theme: string;
   type: "button" | "submit" | "reset";
   isDisabled: boolean;
@@ -16,7 +17,8 @@ interface Props {
 const Button = ({
   label,
   variant,
-  icon,
+  rightIcon,
+  leftIcon,
   theme,
   type,
   isDisabled,
@@ -41,8 +43,9 @@ const Button = ({
       onClick={handleOnClick}
       type={type}
     >
+      {leftIcon && <span>{leftIcon}</span>}
       <span>{label}</span>
-      {icon && <span>{icon}</span>}
+      {rightIcon && <span>{rightIcon}</span>}
     </button>
   );
 };

@@ -314,7 +314,7 @@ const URLShortener = ({
                   />
                   <Button
                     label="Shorten another"
-                    icon={<LinkIcon />}
+                    rightIcon={<LinkIcon />}
                     theme={theme}
                     handleOnClick={handleReset}
                   />

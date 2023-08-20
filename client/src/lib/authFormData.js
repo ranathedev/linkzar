@@ -45,17 +45,17 @@ const signinInitVals = {
 };
 
 const getFields = (formType) => {
-  if (formType === "sign up") {
+  if (formType === "signup") {
     return signup;
-  } else if (formType === "sign in") {
+  } else if (formType === "signin") {
     return signin;
   }
 };
 
 const getInitVals = (formType) => {
-  if (formType === "sign up") {
+  if (formType === "signup") {
     return signupInitVals;
-  } else if (formType === "sign in") {
+  } else if (formType === "signin") {
     return signinInitVals;
   }
 };

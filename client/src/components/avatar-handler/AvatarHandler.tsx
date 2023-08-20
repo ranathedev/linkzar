@@ -9,6 +9,7 @@ import AvatarActions from "components/avatar-actions";
 import EditIcon from "assets/edit.svg";
 import DeleteIcon from "assets/delete.svg";
 import CameraIcon from "assets/camera.svg";
+import InfoIcon from "assets/info.svg";
 
 import stl from "./AvatarHandler.module.scss";
 
@@ -66,7 +67,7 @@ const AvatarHandler = ({ theme }: Props) => {
           />
         </div>
         <div className={stl.note}>
-          Maximum upload size is <b>1 MB</b>.
+          <InfoIcon /> Maximum upload size is <b>1 MB</b>.
         </div>
       </div>
     </>

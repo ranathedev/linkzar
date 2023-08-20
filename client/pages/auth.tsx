@@ -9,7 +9,6 @@ import AuthSideContent from "components/auth-side-content";
 import stl from "./index.module.scss";
 
 const Auth = () => {
-  const [formType, setFormType] = React.useState("sign up");
   const [className, setClassName] = React.useState("");
   const [theme, setTheme] = React.useState(() => {
     if (typeof window !== "undefined") {
@@ -77,11 +76,7 @@ const Auth = () => {
       />
       <main className={clsx(stl.about, className)}>
         <div className={stl.formContainer}>
-          <AuthForm
-            theme={theme}
-            formType={formType}
-            setFormType={setFormType}
-          />
+          <AuthForm theme={theme} />
         </div>
         <AuthSideContent />
       </main>

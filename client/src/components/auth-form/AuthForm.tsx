@@ -26,11 +26,9 @@ import stl from "./AuthForm.module.scss";
 
 interface Props {
   theme: string;
-  formType: string;
-  setFormType: (arg: string) => void;
 }
 
-const AuthForm = ({ theme, formType, setFormType }: Props) => {
+const AuthForm = ({ theme }: Props) => {
   const [initVals, setInitVals] = React.useState({
     fname: "",
     lname: "",
@@ -39,8 +37,9 @@ const AuthForm = ({ theme, formType, setFormType }: Props) => {
     confirmPass: "",
   });
   const [className, setClassName] = React.useState("");
+  const [formType, setFormType] = React.useState("signup");
   const [isChecked, setIsChecked] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
   const [user, setUser] = React.useState(null);
   const [resetPass, setResetPass] = React.useState(false);
 
@@ -55,15 +54,24 @@ const AuthForm = ({ theme, formType, setFormType }: Props) => {
   }, [theme]);
 
   useEffect(() => {
-    setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-    }, 300);
-    const initVals = getInitVals(formType);
+    }, 1000);
+  }, []);
 
-    //@ts-ignore
-    setInitVals(initVals);
-  }, [formType]);
+  useEffect(() => {
+    const currentUrl = new URL(location.href);
+
+    if (currentUrl) {
+      const type = currentUrl.searchParams.get("type");
+      if (type) {
+        setFormType(type);
+        const initVals = getInitVals(type);
+        //@ts-ignore
+        setInitVals(initVals);
+      }
+    }
+  }, []);
 
   const socialMethods = [
     {
@@ -116,15 +124,20 @@ const AuthForm = ({ theme, formType, setFormType }: Props) => {
   });
 
   const changeFormType = () => {
-    if (formType === "sign up") {
-      setIsLoading(true);
-      setFormType("sign in");
-      setIsLoading(false);
-    } else {
-      setIsLoading(true);
-      setIsLoading(false);
-      setFormType("sign up");
+    let newType = "";
+    if (formType === "signup") {
+      newType = "signin";
+    } else if (formType === "signin") {
+      newType = "signup";
     }
+
+    const currentUrl = new URL(location.href);
+
+    currentUrl.searchParams.set("type", newType);
+
+    window.history.replaceState({}, "", currentUrl.toString());
+
+    location.reload();
   };
 
   return isLoading ? (
@@ -134,12 +147,12 @@ const AuthForm = ({ theme, formType, setFormType }: Props) => {
   ) : user === null ? (
     <div className={clsx(stl.authForm, className)}>
       <h2 className={stl.heading}>
-        {formType === "sign up"
+        {formType === "signup"
           ? "Create your Free Account"
           : "Log in to your Account"}
       </h2>
       <div className={stl.socialMethod}>
-        <span>Sign {formType === "sign up" ? "up" : "in"} with</span>
+        <span>Sign {formType === "signup" ? "up" : "in"} with</span>
         <div className={stl.btns}>
           {socialMethods.map((item, i) => (
             <button
@@ -159,10 +172,10 @@ const AuthForm = ({ theme, formType, setFormType }: Props) => {
       </div>
       <Formik
         initialValues={initVals}
-        validationSchema={formType === "sign up" ? signUpSchema : signInSchema}
+        validationSchema={formType === "signup" ? signUpSchema : signInSchema}
         onSubmit={(values, actions) => {
-          if ((formType === "sign up" && isChecked) || formType === "sign in") {
-            (formType == "sign up" &&
+          if ((formType === "signup" && isChecked) || formType === "signin") {
+            (formType === "signup" &&
               signupWithEmailPassword(
                 values.fname,
                 values.email,
@@ -170,9 +183,10 @@ const AuthForm = ({ theme, formType, setFormType }: Props) => {
                 setUser,
                 setIsLoading
               )) ||
-              (formType === "sign in" &&
+              (formType === "signin" &&
                 signinWithEmailPassword(values.email, values.pass));
             actions.resetForm();
+
             setIsChecked(false);
           } else {
             alert("Agree to our terms and conditions to create account.");
@@ -190,7 +204,7 @@ const AuthForm = ({ theme, formType, setFormType }: Props) => {
               placeholder={field.placeholder}
             />
           ))}
-          {formType === "sign up" ? (
+          {formType === "signup" ? (
             <div className={stl.checkboxContainer}>
               <span
                 className={clsx(stl.checkbox, isChecked ? stl.checked : "")}
@@ -208,16 +222,16 @@ const AuthForm = ({ theme, formType, setFormType }: Props) => {
             </div>
           )}
           <button className={stl.btn} type="submit">
-            {formType === "sign up" ? "Create an account" : "Log in"}
+            {formType === "signup" ? "Create an account" : "Log in"}
           </button>
         </Form>
       </Formik>
       <div className={stl.authSwitch}>
-        {formType === "sign up"
+        {formType === "signup"
           ? "Already have an account? "
           : "Don't have an account yet? "}
         <span onClick={changeFormType}>
-          {formType === "sign up" ? "Sign in" : "Sign up for an account"}
+          {formType === "signup" ? "Sign in" : "Sign up for an account"}
         </span>
       </div>
     </div>
@@ -227,7 +241,7 @@ const AuthForm = ({ theme, formType, setFormType }: Props) => {
 };
 
 AuthForm.defaultProps = {
-  formType: "sign up",
+  formType: "signup",
 };
 
 export default AuthForm;

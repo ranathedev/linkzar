@@ -28,7 +28,7 @@ const signupWithEmailPassword = async (
       })
         .then(async () => {
           const actionCodeSettings = {
-            url: "http://localhost:3000/",
+            url: "http://localhost:3000/dashboard",
             handleCodeInApp: true,
           };
 
@@ -146,7 +146,7 @@ const signinWithMicrosoft = async () => {
 
 const sendVerificationEmail = async (user) => {
   const actionCodeSettings = {
-    url: "http://localhost:3000/",
+    url: "http://localhost:3000/dashboard",
     handleCodeInApp: true,
   };
 
@@ -159,7 +159,7 @@ const sendVerificationEmail = async (user) => {
 
 const sendResetPasswordEmail = async (email) => {
   const actionCodeSettings = {
-    url: "http://localhost:3000/auth",
+    url: "http://localhost:3000/auth?type=signin",
     handleCodeInApp: true,
   };
   await sendPasswordResetEmail(auth, email, actionCodeSettings)

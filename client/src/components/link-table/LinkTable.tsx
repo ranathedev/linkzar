@@ -103,7 +103,7 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
       <div className={stl.btn}>
         <Button
           label="Create New"
-          icon={<AddIcon />}
+          leftIcon={<AddIcon />}
           theme={theme}
           handleOnClick={() => setShowModal(true)}
         />

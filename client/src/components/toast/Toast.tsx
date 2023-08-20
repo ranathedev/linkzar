@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import clsx from "clsx";
 
 import CheckIcon from "assets/check.svg";
-import CrossIcon from "assets/cross-2.svg";
+import CrossIcon from "assets/cross.svg";
 import WarnIcon from "assets/alert.svg";
 import CloseIcon from "assets/close.svg";
 

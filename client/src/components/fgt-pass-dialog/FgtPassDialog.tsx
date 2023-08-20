@@ -66,7 +66,7 @@ const FgtPassDialog = ({ theme, setResetPass }: Props) => {
         />
         <Button
           theme={theme}
-          icon={<ArrowIcon />}
+          leftIcon={<ArrowIcon />}
           label="Back to log in"
           variant="secondary"
           handleOnClick={() => setResetPass(false)}

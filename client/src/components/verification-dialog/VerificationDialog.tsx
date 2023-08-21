@@ -38,11 +38,12 @@ const VerificationDialog = ({ theme, user }: Props) => {
           <p>
             <b>Congratulations!</b>&nbsp;Your account has been created
             successfully. To get started, please check your email inbox and
-            click on the verification link we've sent you. Once your email is
-            verified, you'll be able to access all the features of our app.
+            click on the verification link we&apos;ve sent you. Once your email
+            is verified, you&apos;ll be able to access all the features of our
+            app.
           </p>
           <span className={stl.resendContainer}>
-            Didn't get the Verification link?{" "}
+            Didn&apos;t get the Verification link?
             <span onClick={handleResend}>Resend</span>
           </span>
         </>

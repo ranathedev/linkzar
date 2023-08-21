@@ -1,11 +1,11 @@
 import React from "react";
 
-import AvatarContainer from "components/avatar-container";
+import Overview from "./overview";
 
 export default function Home() {
   return (
     <main>
-      <AvatarContainer theme="light" />
+      <Overview />
     </main>
   );
 }

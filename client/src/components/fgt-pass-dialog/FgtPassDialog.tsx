@@ -44,7 +44,7 @@ const FgtPassDialog = ({ theme, setResetPass }: Props) => {
       <div className={stl.content}>
         <div className={stl.heading}>Forgot password?</div>
         <span className={stl.headline}>
-          No worries, we'll send you reset instructions.
+          No worries, we&apos;ll send you reset instructions.
         </span>
       </div>
       <div className={stl.inputContainer}>

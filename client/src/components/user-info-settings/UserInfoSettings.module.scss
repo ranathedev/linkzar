@@ -9,6 +9,7 @@
 
   h1 {
     text-align: center;
+    letter-spacing: 0.5px;
   }
 
   .container {
@@ -143,8 +144,39 @@
   }
 }
 
+@media screen and (max-width: 768px) {
+  .userInfoSettings .container {
+    .nameContainer,
+    .emailContainer,
+    .passContainer {
+      button {
+        margin-left: 75%;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .userInfoSettings h1 {
+    font-size: 1.7rem;
+    font-weight: 700;
+  }
+}
+
 @media screen and (max-width: 500px) {
   .userInfoSettings {
     padding: 2rem 1rem;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .userInfoSettings .container {
+    .nameContainer,
+    .emailContainer,
+    .passContainer {
+      button {
+        margin-left: 60%;
+      }
+    }
   }
 }

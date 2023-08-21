@@ -1,11 +1,11 @@
 import React from "react";
 
-import AvatarHandler from "components/avatar-handler";
+import UserInfoSettings from "components/user-info-settings";
 
 export default function Home() {
   return (
     <main>
-      <AvatarHandler theme="light" />
+      <UserInfoSettings theme="light" />
     </main>
   );
 }

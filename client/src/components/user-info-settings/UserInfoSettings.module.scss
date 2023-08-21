@@ -1,0 +1,182 @@
+@import "styles/common";
+
+.userInfoSettings {
+  width: 97%;
+  max-width: 768px;
+  padding: 2rem 1.5rem;
+  box-shadow: #64646f33 0px 7px 29px 0px;
+  border-radius: 1.5rem;
+
+  h1 {
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
+
+  .container {
+    @extend .flexColCen;
+    gap: 2rem;
+    margin-top: 4rem;
+
+    .nameContainer,
+    .emailContainer,
+    .passContainer {
+      @extend .flexColCen;
+      gap: 1rem;
+      position: relative;
+      width: 100%;
+      border: 1px solid #ccc;
+      padding: 2rem 1rem 1rem;
+
+      button {
+        margin-left: 85%;
+        display: none;
+      }
+
+      &::after {
+        position: absolute;
+        top: -1.2rem;
+        left: 15%;
+        background: #fff;
+        padding: 0.25rem 0.5rem;
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+    }
+
+    .nameContainer::after {
+      content: "Name";
+    }
+
+    .emailContainer::after {
+      content: "Email";
+    }
+
+    .passContainer::after {
+      content: "Password";
+    }
+
+    .show button {
+      display: block;
+      animation: animate 0.25s forwards;
+    }
+
+    .inputContainer {
+      margin: 0 auto;
+      width: 100%;
+      max-width: 450px;
+
+      label {
+        display: block;
+        padding-left: 5px;
+        margin-bottom: 0.15rem;
+        font-size: 1rem;
+        font-weight: 500;
+      }
+
+      input {
+        width: 100%;
+        padding: 0.75rem;
+        background: #fff;
+        color: #111827;
+        font-size: 1rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+        outline-color: #1c64f2;
+
+        &:focus {
+          outline: 1.5px solid #1c64f2;
+        }
+      }
+    }
+  }
+}
+
+.darkUserInforSet {
+  background: #1f2937;
+  color: #fff;
+
+  .container {
+    .nameContainer,
+    .emailContainer,
+    .passContainer {
+      border: 1px solid #6b7280;
+
+      &::after {
+        background: #1f2937;
+      }
+    }
+
+    .inputContainer {
+      label {
+        color: #fff;
+      }
+
+      input {
+        background: #374151;
+        color: #fff;
+        border-color: #4b5563;
+
+        &:focus {
+          outline: 1px solid #1c64f2;
+        }
+
+        &::placeholder {
+          color: #9ca3af;
+        }
+      }
+    }
+  }
+}
+
+@keyframes animate {
+  0% {
+    z-index: -1;
+    transform: translateY(100px);
+  }
+
+  50% {
+    z-index: -1;
+  }
+
+  100% {
+    z-index: 1;
+    transform: translateY(0);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .userInfoSettings .container {
+    .nameContainer,
+    .emailContainer,
+    .passContainer {
+      button {
+        margin-left: 75%;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .userInfoSettings h1 {
+    font-size: 1.7rem;
+    font-weight: 700;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .userInfoSettings {
+    padding: 2rem 1rem;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .userInfoSettings .container {
+    .nameContainer,
+    .emailContainer,
+    .passContainer {
+      button {
+        margin-left: 60%;
+      }
+    }
+  }
+}

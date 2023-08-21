@@ -7,7 +7,7 @@ import Dashboard from "components/dashboard";
 import LoadingScreen from "components/loading-screen";
 import ToggleThemeBtn from "components/toggle-theme-btn";
 
-export default function DashboardContainer() {
+const DashboardPage = () => {
   const [loading, setLoading] = React.useState(true);
   const [user, setUser] = React.useState<firebase.User | null>(null);
   const [theme, setTheme] = React.useState(() => {
@@ -63,4 +63,6 @@ export default function DashboardContainer() {
       )}
     </main>
   );
-}
+};
+
+export default DashboardPage;

@@ -2,11 +2,12 @@ import React, { useEffect } from "react";
 
 import Layout from "components/layout";
 import ToggleThemeBtn from "components/toggle-theme-btn";
-import URLShortener from "components/url-shortener";
+import AvatarHandler from "components/avatar-handler";
+import UserInfoSettings from "components/user-info-settings";
 
 import stl from "./index.module.scss";
 
-const Shorten = () => {
+const SettingsPage = () => {
   const [theme, setTheme] = React.useState(() => {
     if (typeof window !== "undefined") {
       const storedTheme = localStorage.getItem("theme");
@@ -21,8 +22,6 @@ const Shorten = () => {
     }
   }, [theme]);
 
-  const domainUrl = "http://localhost:3001/";
-
   return (
     <>
       <ToggleThemeBtn
@@ -31,18 +30,16 @@ const Shorten = () => {
           setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"))
         }
       />
-      <Layout theme={theme} title="Shorten">
-        <div className={stl.shorten}>
-          <URLShortener
-            domainUrl={domainUrl}
-            isVisible={true}
-            theme={theme}
-            sendNewLink={() => {}}
-          />
+      <Layout theme={theme} title="Overview">
+        <div className={stl.settings}>
+          <div className={stl.container}>
+            <AvatarHandler theme={theme} customClass={stl.avatarHandler} />
+            <UserInfoSettings theme={theme} />
+          </div>
         </div>
       </Layout>
     </>
   );
 };
 
-export default Shorten;
+export default SettingsPage;

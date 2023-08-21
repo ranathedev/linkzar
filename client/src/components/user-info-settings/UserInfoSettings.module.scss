@@ -3,6 +3,7 @@
 .userInfoSettings {
   width: 97%;
   max-width: 768px;
+  min-height: 52.3rem;
   padding: 2rem 1.5rem;
   box-shadow: #64646f33 0px 7px 29px 0px;
   border-radius: 1.5rem;
@@ -17,6 +18,11 @@
     gap: 2rem;
     margin-top: 4rem;
 
+    .avatar {
+      display: none;
+      margin-bottom: 3rem;
+    }
+
     .nameContainer,
     .emailContainer,
     .passContainer {
@@ -27,9 +33,20 @@
       border: 1px solid #ccc;
       padding: 2rem 1rem 1rem;
 
-      button {
-        margin-left: 85%;
-        display: none;
+      .btnContainer {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+        max-width: 450px;
+
+        button {
+          display: none;
+        }
+      }
+
+      .show button {
+        display: block;
+        animation: animate 0.25s forwards;
       }
 
       &::after {
@@ -53,11 +70,6 @@
 
     .passContainer::after {
       content: "Password";
-    }
-
-    .show button {
-      display: block;
-      animation: animate 0.25s forwards;
     }
 
     .inputContainer {
@@ -146,6 +158,12 @@
 
 @media screen and (max-width: 768px) {
   .userInfoSettings .container {
+    margin-top: 3rem;
+
+    .avatar {
+      display: block;
+    }
+
     .nameContainer,
     .emailContainer,
     .passContainer {

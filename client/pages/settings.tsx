@@ -8,6 +8,7 @@ import UserInfoSettings from "components/user-info-settings";
 import stl from "./index.module.scss";
 
 const SettingsPage = () => {
+  const [user, setUser] = React.useState({});
   const [theme, setTheme] = React.useState(() => {
     if (typeof window !== "undefined") {
       const storedTheme = localStorage.getItem("theme");
@@ -22,6 +23,13 @@ const SettingsPage = () => {
     }
   }, [theme]);
 
+  useEffect(() => {
+    const data = localStorage.getItem("user");
+    //@ts-ignore
+    const user = JSON.parse(data);
+    setUser(user);
+  }, []);
+
   return (
     <>
       <ToggleThemeBtn
@@ -30,11 +38,15 @@ const SettingsPage = () => {
           setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"))
         }
       />
-      <Layout theme={theme} title="Overview">
+      <Layout theme={theme} title="Settings">
         <div className={stl.settings}>
           <div className={stl.container}>
-            <AvatarHandler theme={theme} customClass={stl.avatarHandler} />
-            <UserInfoSettings theme={theme} />
+            <AvatarHandler
+              theme={theme}
+              customClass={stl.avatarHandler}
+              user={user}
+            />
+            <UserInfoSettings theme={theme} user={user} />
           </div>
         </div>
       </Layout>

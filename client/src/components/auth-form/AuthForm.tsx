@@ -178,6 +178,7 @@ const AuthForm = ({ theme }: Props) => {
             (formType === "signup" &&
               signupWithEmailPassword(
                 values.fname,
+                values.lname,
                 values.email,
                 values.pass,
                 setUser,

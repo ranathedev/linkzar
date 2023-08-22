@@ -12,10 +12,11 @@ import stl from "./AvatarHandler.module.scss";
 
 interface Props {
   theme: string;
+  user: any;
   customClass?: string;
 }
 
-const AvatarHandler = ({ theme, customClass }: Props) => {
+const AvatarHandler = ({ theme, user, customClass }: Props) => {
   const [className, setClassName] = React.useState("");
 
   useEffect(() => {
@@ -31,7 +32,7 @@ const AvatarHandler = ({ theme, customClass }: Props) => {
   return (
     <div className={clsx(stl.avatarHandler, className, customClass)}>
       <div className={stl.name}>Rao Intizar</div>
-      <AvatarContainer theme={theme} />
+      <AvatarContainer theme={theme} user={user} />
       <div className={stl.btnContainer}>
         <Button theme={theme} label="Change Avatar" leftIcon={<EditIcon />} />
         <Button

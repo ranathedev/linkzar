@@ -13,6 +13,7 @@ import {
 
 const signupWithEmailPassword = async (
   fname,
+  lname,
   email,
   password,
   setUser,
@@ -23,7 +24,7 @@ const signupWithEmailPassword = async (
     .then(async (userCredential) => {
       const user = userCredential.user;
       await updateProfile(user, {
-        displayName: fname,
+        displayName: fname + " " + lname,
         photoURL: "https://i.postimg.cc/Mp7gnttP/default-Pic.jpg",
       })
         .then(async () => {
@@ -32,12 +33,16 @@ const signupWithEmailPassword = async (
             handleCodeInApp: true,
           };
 
-          await sendEmailVerification(user, actionCodeSettings).then(() => {
-            console.log("Verification Email sent!");
-            console.log(user);
-            setUser(user);
-            setIsLoading(false);
-          });
+          await sendEmailVerification(user, actionCodeSettings).then(
+            async () => {
+              const newObject = { ...user, fname, lname };
+              setUser(newObject);
+              await localStorage.setItem("user", JSON.stringify(newObject));
+              setIsLoading(false);
+              console.log(user);
+              console.log("Verification Email sent!");
+            }
+          );
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -57,10 +62,10 @@ const signupWithEmailPassword = async (
 
 const signinWithEmailPassword = async (email, password) => {
   await signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
+    .then(async (userCredential) => {
       const user = userCredential.user;
-      console.log("User signed in Successfuly!");
       console.log(user);
+      console.log("User signed in Successfuly!");
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -77,20 +82,19 @@ const signinWithGoogle = async () => {
   });
 
   await signInWithPopup(auth, provider)
-    .then((result) => {
+    .then(async (result) => {
       const user = result.user;
-      console.log("User :", user);
+      const newObject = { ...user, fname: "", lname: "" };
+      console.log("User :", newObject);
+      await localStorage.setItem("user", JSON.stringify(newObject));
+      location.href = "/dashboard";
     })
     .catch((error) => {
       const errorCode = error.code;
       const errorMsg = error.message;
-      const email = error.customData.email;
-      const credential = GoogleAuthProvider.credentialFromError(error);
 
       console.error("Error Code:", errorCode);
       console.error("Error Msg:", errorMsg);
-      console.error("Email :", email);
-      console.error("Credential :", credential);
     });
 };
 
@@ -103,8 +107,9 @@ const signinWithGithub = async () => {
   signInWithPopup(auth, provider)
     .then(async (result) => {
       const user = result.user;
-
-      console.log(user);
+      const newObject = { ...user, fname: "", lname: "" };
+      await localStorage.setItem("user", JSON.stringify(newObject));
+      console.log(newObject);
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -129,7 +134,9 @@ const signinWithMicrosoft = async () => {
   signInWithPopup(auth, provider)
     .then(async (result) => {
       const user = result.user;
-      console.log(user);
+      const newObject = { ...user, fname: "", lname: "" };
+      await localStorage.setItem("user", JSON.stringify(newObject));
+      console.log(newObject);
     })
     .catch((error) => {
       const errorCode = error.code;

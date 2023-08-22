@@ -8,9 +8,10 @@ import stl from "./UserInfoSettings.module.scss";
 
 interface Props {
   theme: string;
+  user: any;
 }
 
-const UserInfoSettings = ({ theme }: Props) => {
+const UserInfoSettings = ({ theme, user }: Props) => {
   const [className, setClassName] = React.useState("");
   const [fname, setFname] = React.useState("");
   const [lname, setLname] = React.useState("");
@@ -51,13 +52,16 @@ const UserInfoSettings = ({ theme }: Props) => {
     <div className={clsx(stl.userInfoSettings, className)}>
       <h1 className={stl.heading}>Edit Profile</h1>
       <div className={stl.container}>
-        <AvatarContainer theme={theme} customClass={stl.avatar} />
+        <AvatarContainer theme={theme} user={user} customClass={stl.avatar} />
         <div className={stl.nameContainer}>
           <div className={stl.inputContainer}>
             <label htmlFor="fname">First name</label>
             <input
               name="fname"
-              placeholder="John"
+              placeholder={
+                (user && (user.fname !== "" ? user.fname : user.displayName)) ||
+                "John"
+              }
               onChange={(e) => setFname(e.target.value)}
               value={fname}
             />
@@ -66,7 +70,7 @@ const UserInfoSettings = ({ theme }: Props) => {
             <label htmlFor="lname">Last name</label>
             <input
               name="lname"
-              placeholder="Doe"
+              placeholder={(user && user.lname) || "Doe"}
               onChange={(e) => setLname(e.target.value)}
               value={lname}
             />
@@ -86,7 +90,7 @@ const UserInfoSettings = ({ theme }: Props) => {
             <input
               type="email"
               name="email"
-              placeholder="johndoe@gmail.com"
+              placeholder={(user && user.email) || "johndoe@gmail.com"}
               onChange={(e) => setEmail(e.target.value)}
               value={email}
             />
@@ -123,6 +127,24 @@ const UserInfoSettings = ({ theme }: Props) => {
             )}
           >
             <Button theme={theme} label="Save" handleOnClick={changePass} />
+          </div>
+        </div>
+        <div className={stl.delContainer}>
+          <div className={stl.inputContainer}>
+            <label>Logout</label>
+            <div className={stl.msg}>Log out from account?</div>
+          </div>
+          <div className={clsx(stl.btnContainer, stl.logoutBtn)}>
+            <Button theme={theme} label="Log out" handleOnClick={changePass} />
+          </div>
+          <div className={stl.inputContainer}>
+            <label>Delete this account</label>
+            <div className={stl.msg}>
+              Your data will be lost and cannot be recovered.
+            </div>
+          </div>
+          <div className={clsx(stl.btnContainer, stl.delBtn)}>
+            <Button theme={theme} label="Delete" handleOnClick={changePass} />
           </div>
         </div>
       </div>

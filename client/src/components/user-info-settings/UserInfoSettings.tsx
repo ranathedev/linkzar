@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import clsx from "clsx";
 
 import Button from "components/button";
+import AvatarContainer from "components/avatar-container";
 
 import stl from "./UserInfoSettings.module.scss";
 
@@ -50,12 +51,8 @@ const UserInfoSettings = ({ theme }: Props) => {
     <div className={clsx(stl.userInfoSettings, className)}>
       <h1 className={stl.heading}>Edit Profile</h1>
       <div className={stl.container}>
-        <div
-          className={clsx(
-            stl.nameContainer,
-            fname !== "" || lname !== "" ? stl.show : ""
-          )}
-        >
+        <AvatarContainer theme={theme} customClass={stl.avatar} />
+        <div className={stl.nameContainer}>
           <div className={stl.inputContainer}>
             <label htmlFor="fname">First name</label>
             <input
@@ -74,9 +71,16 @@ const UserInfoSettings = ({ theme }: Props) => {
               value={lname}
             />
           </div>
-          <Button theme={theme} label="Save" handleOnClick={changeName} />
+          <div
+            className={clsx(
+              stl.btnContainer,
+              fname !== "" || lname !== "" ? stl.show : ""
+            )}
+          >
+            <Button theme={theme} label="Save" handleOnClick={changeName} />
+          </div>
         </div>
-        <div className={clsx(stl.emailContainer, email !== "" ? stl.show : "")}>
+        <div className={stl.emailContainer}>
           <div className={stl.inputContainer}>
             <label htmlFor="email">Your email</label>
             <input
@@ -87,14 +91,11 @@ const UserInfoSettings = ({ theme }: Props) => {
               value={email}
             />
           </div>
-          <Button theme={theme} label="Save" handleOnClick={changeEmail} />
+          <div className={clsx(stl.btnContainer, email !== "" ? stl.show : "")}>
+            <Button theme={theme} label="Save" handleOnClick={changeEmail} />
+          </div>
         </div>
-        <div
-          className={clsx(
-            stl.passContainer,
-            currentPass !== "" && newPass !== "" ? stl.show : ""
-          )}
-        >
+        <div className={stl.passContainer}>
           <div className={stl.inputContainer}>
             <label htmlFor="currentPass">Current Password</label>
             <input
@@ -115,7 +116,14 @@ const UserInfoSettings = ({ theme }: Props) => {
               value={newPass}
             />
           </div>
-          <Button theme={theme} label="Save" handleOnClick={changePass} />
+          <div
+            className={clsx(
+              stl.btnContainer,
+              currentPass !== "" && newPass !== "" ? stl.show : ""
+            )}
+          >
+            <Button theme={theme} label="Save" handleOnClick={changePass} />
+          </div>
         </div>
       </div>
     </div>

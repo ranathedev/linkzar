@@ -1,11 +1,11 @@
 import React from "react";
 
-import UserInfoSettings from "components/user-info-settings";
+import Overview from "./overview";
 
 export default function Home() {
   return (
     <main>
-      <UserInfoSettings theme="light" />
+      <Overview />
     </main>
   );
 }

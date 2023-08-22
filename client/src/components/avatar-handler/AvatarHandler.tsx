@@ -31,7 +31,7 @@ const AvatarHandler = ({ theme, user, customClass }: Props) => {
 
   return (
     <div className={clsx(stl.avatarHandler, className, customClass)}>
-      <div className={stl.name}>Rao Intizar</div>
+      <div className={stl.name}>{user.displayName}</div>
       <AvatarContainer theme={theme} user={user} />
       <div className={stl.btnContainer}>
         <Button theme={theme} label="Change Avatar" leftIcon={<EditIcon />} />

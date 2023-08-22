@@ -68,7 +68,7 @@ const Header = ({ links, theme }: Props) => {
           ))}
         </div>
         <div className={stl.right}>
-          <Link href="/auth" className={stl.contactBtn}>
+          <Link href="/auth?type=signup" className={stl.contactBtn}>
             Signup
           </Link>
           <button

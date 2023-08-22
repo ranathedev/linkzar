@@ -70,7 +70,7 @@ const Intro = ({ theme, customClass }: Props) => {
               label="Get Started"
               theme={theme}
               rightIcon={<ArrowIcon />}
-              handleOnClick={() => (location.href = "/auth")}
+              handleOnClick={() => (location.href = "/auth?type=signup")}
             />
             <Button
               label="Try Demo"

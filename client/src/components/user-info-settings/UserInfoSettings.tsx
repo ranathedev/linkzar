@@ -58,7 +58,10 @@ const UserInfoSettings = ({ theme, user }: Props) => {
             <label htmlFor="fname">First name</label>
             <input
               name="fname"
-              placeholder={user.fname !== "" ? user.fname : user.displayName}
+              placeholder={
+                (user && (user.fname !== "" ? user.fname : user.displayName)) ||
+                "John"
+              }
               onChange={(e) => setFname(e.target.value)}
               value={fname}
             />
@@ -67,7 +70,7 @@ const UserInfoSettings = ({ theme, user }: Props) => {
             <label htmlFor="lname">Last name</label>
             <input
               name="lname"
-              placeholder={user.lname}
+              placeholder={(user && user.lname) || "Doe"}
               onChange={(e) => setLname(e.target.value)}
               value={lname}
             />
@@ -87,7 +90,7 @@ const UserInfoSettings = ({ theme, user }: Props) => {
             <input
               type="email"
               name="email"
-              placeholder={user.email}
+              placeholder={(user && user.email) || "johndoe@gmail.com"}
               onChange={(e) => setEmail(e.target.value)}
               value={email}
             />

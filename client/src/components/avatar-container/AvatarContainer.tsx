@@ -36,7 +36,10 @@ const AvatarContainer = ({ theme, user, customClass }: Props) => {
         onClick={() => setShowModal(true)}
       >
         <Image
-          src={user.photoURL}
+          src={
+            (user && user.photoURL) ||
+            "https://i.postimg.cc/Mp7gnttP/default-Pic.jpg"
+          }
           alt="profile-avatar"
           width={500}
           height={500}

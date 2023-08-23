@@ -12,10 +12,11 @@ import stl from "./AvatarContainer.module.scss";
 interface Props {
   theme: string;
   user: any;
+  setUser: (arg: any) => void;
   customClass?: string;
 }
 
-const AvatarContainer = ({ theme, user, customClass }: Props) => {
+const AvatarContainer = ({ theme, user, setUser, customClass }: Props) => {
   const [showModal, setShowModal] = React.useState(false);
 
   return (
@@ -28,6 +29,8 @@ const AvatarContainer = ({ theme, user, customClass }: Props) => {
             theme={theme}
             isVisible={showModal}
             setIsVisible={setShowModal}
+            user={user}
+            setUser={setUser}
           />
         }
       />
@@ -36,10 +39,7 @@ const AvatarContainer = ({ theme, user, customClass }: Props) => {
         onClick={() => setShowModal(true)}
       >
         <Image
-          src={
-            (user && user.photoURL) ||
-            "https://i.postimg.cc/Mp7gnttP/default-Pic.jpg"
-          }
+          src={user.photoURL}
           alt="profile-avatar"
           width={500}
           height={500}

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import clsx from "clsx";
 
+import { updatePhoto, deletePhoto } from "lib/authFunctions";
 import Button from "components/button";
 import AvatarContainer from "components/avatar-container";
 
@@ -13,10 +14,11 @@ import stl from "./AvatarHandler.module.scss";
 interface Props {
   theme: string;
   user: any;
+  setUser: (arg: any) => void;
   customClass?: string;
 }
 
-const AvatarHandler = ({ theme, user, customClass }: Props) => {
+const AvatarHandler = ({ theme, user, setUser, customClass }: Props) => {
   const [className, setClassName] = React.useState("");
 
   useEffect(() => {
@@ -29,17 +31,46 @@ const AvatarHandler = ({ theme, user, customClass }: Props) => {
     }
   }, [theme]);
 
+  const handleUpdatePhoto = async (e: any) => {
+    await updatePhoto(e, setUser);
+  };
+
+  const handleSelectFile = () => {
+    const fileInput = document.getElementById("file");
+    fileInput?.click();
+  };
+
+  const handleDelete = async () => {
+    await deletePhoto(setUser);
+  };
+
   return (
     <div className={clsx(stl.avatarHandler, className, customClass)}>
       <div className={stl.name}>{user.displayName}</div>
-      <AvatarContainer theme={theme} user={user} />
+      <AvatarContainer theme={theme} user={user} setUser={setUser} />
       <div className={stl.btnContainer}>
-        <Button theme={theme} label="Change Avatar" leftIcon={<EditIcon />} />
+        <input
+          id="file"
+          type="file"
+          accept="image/*"
+          style={{ display: "none" }}
+          onChange={handleUpdatePhoto}
+        />
         <Button
           theme={theme}
+          label="Change Avatar"
+          leftIcon={<EditIcon />}
+          handleOnClick={handleSelectFile}
+        />
+        <Button
+          theme={theme}
+          isDisabled={
+            user.photoURL === "https://i.postimg.cc/Mp7gnttP/default-Pic.jpg"
+          }
           label="Delete Avatar"
           variant="secondary"
           leftIcon={<DeleteIcon />}
+          handleOnClick={handleDelete}
         />
       </div>
       <div className={stl.note}>

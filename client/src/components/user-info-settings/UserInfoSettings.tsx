@@ -14,15 +14,11 @@ import stl from "./UserInfoSettings.module.scss";
 
 interface Props {
   theme: string;
+  user: any;
+  setUser: (arg: any) => void;
 }
 
-const UserInfoSettings = ({ theme }: Props) => {
-  const [user, setUser] = React.useState({
-    fname: "John",
-    lname: "Doe",
-    email: "johndoe@gmail.com",
-    displayName: "",
-  });
+const UserInfoSettings = ({ theme, user, setUser }: Props) => {
   const [className, setClassName] = React.useState("");
   const [fname, setFname] = React.useState("");
   const [lname, setLname] = React.useState("");
@@ -38,14 +34,6 @@ const UserInfoSettings = ({ theme }: Props) => {
       }
     }
   }, [theme]);
-
-  useEffect(() => {
-    const data = localStorage.getItem("user");
-    //@ts-ignore
-    const user = JSON.parse(data);
-
-    setUser(user);
-  }, [fname, lname, email]);
 
   const changeName = async () => {
     if (fname === "") {
@@ -104,7 +92,12 @@ const UserInfoSettings = ({ theme }: Props) => {
     <div className={clsx(stl.userInfoSettings, className)}>
       <h1 className={stl.heading}>Edit Profile</h1>
       <div className={stl.container}>
-        <AvatarContainer theme={theme} user={user} customClass={stl.avatar} />
+        <AvatarContainer
+          theme={theme}
+          user={user}
+          setUser={setUser}
+          customClass={stl.avatar}
+        />
         <div className={stl.nameContainer}>
           <div className={stl.inputContainer}>
             <label htmlFor="fname">First name</label>

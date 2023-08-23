@@ -17,6 +17,7 @@ module.exports = {
     APPID: process.env.APPID,
     MEASUREMENTID: process.env.MEASUREMENTID,
     TENANT_ID: process.env.TENANT_ID,
+    BUCKET: process.env.BUCKET,
   },
   reactStrictMode: true,
   images: { unoptimized: true },

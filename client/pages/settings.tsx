@@ -8,7 +8,13 @@ import UserInfoSettings from "components/user-info-settings";
 import stl from "./index.module.scss";
 
 const SettingsPage = () => {
-  const [user, setUser] = React.useState({});
+  const [user, setUser] = React.useState({
+    fname: "John",
+    lname: "Doe",
+    email: "johndoe@gmail.com",
+    displayName: "",
+    photoURL: "https://i.postimg.cc/Mp7gnttP/default-Pic.jpg",
+  });
   const [theme, setTheme] = React.useState(() => {
     if (typeof window !== "undefined") {
       const storedTheme = localStorage.getItem("theme");
@@ -45,8 +51,11 @@ const SettingsPage = () => {
               theme={theme}
               customClass={stl.avatarHandler}
               user={user}
+              setUser={setUser}
             />
-            <UserInfoSettings theme={theme} />
+            <div className={stl.wrapper}>
+              <UserInfoSettings theme={theme} user={user} setUser={setUser} />
+            </div>
           </div>
         </div>
       </Layout>

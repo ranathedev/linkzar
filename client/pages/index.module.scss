@@ -36,11 +36,13 @@
 
     .wrapper {
       @extend .flexCenter;
+      align-items: flex-start;
       width: 100%;
-      height: calc(100vh - 7rem);
-      overflow-y: scroll;
-      @extend .hideScrollbar;
+      height: calc(100vh - 10rem);
       box-shadow: #64646f33 0px 7px 29px 0px;
+      border-radius: 1rem;
+      @extend .hideScrollbar;
+      overflow-y: scroll;
     }
   }
 }

@@ -4,6 +4,7 @@ import clsx from "clsx";
 
 import { updatePhoto, deletePhoto } from "lib/authFunctions";
 import Button from "components/button";
+import Spinner from "components/spinner";
 
 import CloseIcon from "assets/close.svg";
 import EditIcon from "assets/edit.svg";
@@ -27,6 +28,7 @@ const AvatarActions = ({
   setUser,
 }: Props) => {
   const [className, setClassName] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -39,11 +41,11 @@ const AvatarActions = ({
   }, [theme]);
 
   const handleUpdatePhoto = async (e: any) => {
-    await updatePhoto(e, setUser);
+    await updatePhoto(e, setUser, setIsLoading);
   };
 
   const handleSelectFile = () => {
-    const fileInput = document.getElementById("file");
+    const fileInput = document.getElementById("fileInput-2");
     fileInput?.click();
   };
 
@@ -61,15 +63,19 @@ const AvatarActions = ({
           <CloseIcon />
         </span>
       </div>
-      <Image
-        src={user.photoURL}
-        alt="profile-avatar"
-        width={240}
-        height={240}
-      />
+      {isLoading ? (
+        <Spinner taskTitle="" />
+      ) : (
+        <Image
+          src={user.photoURL}
+          alt="profile-avatar"
+          width={240}
+          height={240}
+        />
+      )}
       <div className={stl.btnContainer}>
         <input
-          id="file"
+          id="fileInput-2"
           type="file"
           accept="image/*"
           style={{ display: "none" }}

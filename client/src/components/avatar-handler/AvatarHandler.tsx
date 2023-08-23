@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { updatePhoto, deletePhoto } from "lib/authFunctions";
 import Button from "components/button";
 import AvatarContainer from "components/avatar-container";
+import Spinner from "components/spinner";
 
 import EditIcon from "assets/edit.svg";
 import DeleteIcon from "assets/delete.svg";
@@ -20,6 +21,7 @@ interface Props {
 
 const AvatarHandler = ({ theme, user, setUser, customClass }: Props) => {
   const [className, setClassName] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -32,11 +34,11 @@ const AvatarHandler = ({ theme, user, setUser, customClass }: Props) => {
   }, [theme]);
 
   const handleUpdatePhoto = async (e: any) => {
-    await updatePhoto(e, setUser);
+    await updatePhoto(e, setUser, setIsLoading);
   };
 
   const handleSelectFile = () => {
-    const fileInput = document.getElementById("file");
+    const fileInput = document.getElementById("fileInput-1");
     fileInput?.click();
   };
 
@@ -47,10 +49,16 @@ const AvatarHandler = ({ theme, user, setUser, customClass }: Props) => {
   return (
     <div className={clsx(stl.avatarHandler, className, customClass)}>
       <div className={stl.name}>{user.displayName}</div>
-      <AvatarContainer theme={theme} user={user} setUser={setUser} />
+      {isLoading ? (
+        <div className={stl.loading}>
+          <Spinner taskTitle="" />
+        </div>
+      ) : (
+        <AvatarContainer theme={theme} user={user} setUser={setUser} />
+      )}
       <div className={stl.btnContainer}>
         <input
-          id="file"
+          id="fileInput-1"
           type="file"
           accept="image/*"
           style={{ display: "none" }}

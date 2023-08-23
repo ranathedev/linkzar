@@ -272,11 +272,11 @@ const handleUpdatePass = async (newPassword) => {
     });
 };
 
-const updatePhoto = async (e, setUser) => {
+const updatePhoto = async (e, setUser, setIsLoading) => {
+  setIsLoading(true);
   const file = e.target.files[0];
   const uid = auth.currentUser?.uid;
   const profilePicRef = ref(storage, `${process.env.BUCKET}/${uid}/profilePic`);
-
   await deleteObject(profilePicRef)
     .then(() => console.log("File Deleted Successfully!"))
     .catch((err) => console.log("Error while deleting file:", err));
@@ -295,15 +295,15 @@ const updatePhoto = async (e, setUser) => {
       console.log(error);
     },
     async () => {
-      await getDownloadURL(uploadTask.snapshot.ref).then(
-        async (downloadURL) => {
+      await getDownloadURL(uploadTask.snapshot.ref)
+        .then(async (downloadURL) => {
           console.log("File available at", downloadURL);
+          const user = await auth.currentUser;
 
-          await updateProfile(auth.currentUser, { photoURL: downloadURL }).then(
-            async () => {
-              const user = auth.currentUser;
+          await updateProfile(user, { photoURL: downloadURL })
+            .then(async () => {
+              console.log("Profile updated");
               const existingData = await localStorage.getItem("user");
-              //@ts-ignore
               const parsedData = JSON.parse(existingData);
               parsedData.photoURL = downloadURL;
 
@@ -311,10 +311,14 @@ const updatePhoto = async (e, setUser) => {
               await localStorage.setItem("user", updatedData);
 
               setUser(parsedData);
-            }
-          );
-        }
-      );
+              setIsLoading(false);
+            })
+            .catch((error) => console.log(error));
+        })
+        .catch((error) => {
+          setIsLoading(false);
+          console.log(error);
+        });
     }
   );
 };
@@ -327,7 +331,6 @@ const deletePhoto = async (setUser) => {
     .then(async () => {
       const photoURL = "https://i.postimg.cc/Mp7gnttP/default-Pic.jpg";
       const existingData = await localStorage.getItem("user");
-      //@ts-ignore
       const parsedData = JSON.parse(existingData);
       parsedData.photoURL = photoURL;
 

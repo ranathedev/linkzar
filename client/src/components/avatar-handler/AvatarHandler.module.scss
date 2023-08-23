@@ -17,6 +17,11 @@
     margin-bottom: 2rem;
   }
 
+  .loading {
+    @extend .flexCenter;
+    @include setSquare(15rem);
+  }
+
   .btnContainer {
     width: 100%;
     margin-top: 1.5rem;
@@ -61,5 +66,9 @@
   .avatarHandler {
     max-width: 19rem;
     padding: 2rem 1rem;
+
+    .loading {
+      @include setSquare(12rem);
+    }
   }
 }

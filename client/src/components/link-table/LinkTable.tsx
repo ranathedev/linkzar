@@ -95,6 +95,7 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
             isVisible={showModal}
             sendNewLink={addNewLink}
             setShowModal={setShowModal}
+            sendDeleteId={removeLink}
             theme={theme}
           />
         }

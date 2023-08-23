@@ -12,6 +12,7 @@ import {
   updateEmail,
   signOut,
   updatePassword,
+  deleteUser,
 } from "firebase/auth";
 import {
   ref,
@@ -347,6 +348,24 @@ const deletePhoto = async (setUser) => {
     .catch((err) => console.log("Error while deleting file:", err));
 };
 
+const deleteAccount = async () => {
+  const user = auth.currentUser;
+
+  await deleteUser(user)
+    .then(() => {
+      console.log("Account is deleted.");
+      location.href = "/auth?type=signup";
+      localStorage.removeItem("user");
+    })
+    .catch((error) => {
+      if (error.code === "auth/requires-recent-login") {
+        console.log("Sign in again to do this.");
+      } else {
+        console.log(error);
+      }
+    });
+};
+
 const logOut = () => {
   signOut(auth)
     .then(() => {
@@ -369,5 +388,6 @@ export {
   handleUpdatePass,
   updatePhoto,
   deletePhoto,
+  deleteAccount,
   logOut,
 };

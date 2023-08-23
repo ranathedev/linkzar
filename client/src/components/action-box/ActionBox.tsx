@@ -1,7 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import clsx from "clsx";
 
-import { isMobileDevice, shareShortLink, inputFocus } from "lib/utils";
+import {
+  isMobileDevice,
+  shareShortLink,
+  inputFocus,
+  handleDelLink,
+} from "lib/utils";
 import useOnClickOutside from "lib/useClickOutside";
 import Modal from "components/modal";
 import DeleteDialog from "components/delete-dialog";
@@ -117,9 +122,14 @@ const ActionBox = ({
     inputFocus("editerInput");
   };
 
-  const handleDelete = () => {
+  const showDeleteDialog = () => {
     setShowDialog(true);
     setShowActionList(false);
+  };
+
+  const handleDelete = () => {
+    handleDelLink(linkData._id, setLoading, getResponse);
+    setShowDialog(false);
   };
 
   return (
@@ -134,10 +144,8 @@ const ActionBox = ({
             <DeleteDialog
               theme={theme}
               isVisible={showDialog}
-              id={linkData._id}
-              getResponse={getResponse}
-              setLoading={setLoading}
-              setShowDialog={setShowDialog}
+              handleDelete={handleDelete}
+              handleCancel={() => setShowDialog(false)}
             />
           )
         }
@@ -190,7 +198,7 @@ const ActionBox = ({
           <li onClick={handleLinkEdit}>
             <EditIcon /> Edit
           </li>
-          <li onClick={handleDelete}>
+          <li onClick={showDeleteDialog}>
             <DeleteIcon /> Delete
           </li>
         </ul>

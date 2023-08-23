@@ -9,6 +9,9 @@ import {
   GithubAuthProvider,
   OAuthProvider,
   sendPasswordResetEmail,
+  updateEmail,
+  signOut,
+  updatePassword,
 } from "firebase/auth";
 
 const signupWithEmailPassword = async (
@@ -22,6 +25,7 @@ const signupWithEmailPassword = async (
   setIsLoading(true);
   await createUserWithEmailAndPassword(auth, email, password)
     .then(async (userCredential) => {
+      await localStorage.setItem("credentials", JSON.stringify(userCredential));
       const user = userCredential.user;
       await updateProfile(user, {
         displayName: fname + " " + lname,
@@ -63,9 +67,11 @@ const signupWithEmailPassword = async (
 const signinWithEmailPassword = async (email, password) => {
   await signInWithEmailAndPassword(auth, email, password)
     .then(async (userCredential) => {
+      await localStorage.setItem("credentials", JSON.stringify(userCredential));
       const user = userCredential.user;
       console.log(user);
       console.log("User signed in Successfuly!");
+      location.href = "/dashboard";
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -82,11 +88,22 @@ const signinWithGoogle = async () => {
   });
 
   await signInWithPopup(auth, provider)
-    .then(async (result) => {
-      const user = result.user;
-      const newObject = { ...user, fname: "", lname: "" };
-      console.log("User :", newObject);
-      await localStorage.setItem("user", JSON.stringify(newObject));
+    .then(async (userCredential) => {
+      await localStorage.setItem("credentials", JSON.stringify(userCredential));
+      const user = userCredential.user;
+      const userData = userCredential._tokenResponse;
+
+      const existingData = await localStorage.getItem("user");
+      if (!existingData) {
+        const newObject = {
+          ...user,
+          fname: userData.firstName,
+          lname: userData.lastName,
+        };
+        console.log("User :", newObject);
+        await localStorage.setItem("user", JSON.stringify(newObject));
+      }
+
       location.href = "/dashboard";
     })
     .catch((error) => {
@@ -105,11 +122,20 @@ const signinWithGithub = async () => {
   });
 
   signInWithPopup(auth, provider)
-    .then(async (result) => {
-      const user = result.user;
-      const newObject = { ...user, fname: "", lname: "" };
-      await localStorage.setItem("user", JSON.stringify(newObject));
-      console.log(newObject);
+    .then(async (userCredential) => {
+      await localStorage.setItem("credentials", JSON.stringify(userCredential));
+      const user = userCredential.user;
+      const userData = userCredential._tokenResponse;
+      const existingData = await localStorage.getItem("user");
+      if (!existingData) {
+        const newObject = {
+          ...user,
+          fname: userData.firstName,
+          lname: userData.lastName,
+        };
+        console.log("User :", newObject);
+        await localStorage.setItem("user", JSON.stringify(newObject));
+      }
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -132,11 +158,20 @@ const signinWithMicrosoft = async () => {
     tenant: "6b2aaabf-fc70-42aa-bf76-c493c61263fc",
   });
   signInWithPopup(auth, provider)
-    .then(async (result) => {
-      const user = result.user;
-      const newObject = { ...user, fname: "", lname: "" };
-      await localStorage.setItem("user", JSON.stringify(newObject));
-      console.log(newObject);
+    .then(async (userCredential) => {
+      await localStorage.setItem("credentials", JSON.stringify(userCredential));
+      const user = userCredential.user;
+      const userData = userCredential._tokenResponse;
+      const existingData = await localStorage.getItem("user");
+      if (!existingData) {
+        const newObject = {
+          ...user,
+          fname: userData.firstName,
+          lname: userData.lastName,
+        };
+        console.log("User :", newObject);
+        await localStorage.setItem("user", JSON.stringify(newObject));
+      }
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -182,6 +217,61 @@ const sendResetPasswordEmail = async (email) => {
     });
 };
 
+const updateName = async (name) => {
+  const user = await auth.currentUser;
+  await updateProfile(user, {
+    displayName: name,
+  })
+    .then(async () => {
+      console.log("Name updated!");
+      const user = await auth.currentUser;
+      console.log(user);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+const handleUpdateEmail = async (email) => {
+  const actionCodeSettings = {
+    url: "http://localhost:3000/settings",
+    handleCodeInApp: true,
+  };
+  await updateEmail(auth.currentUser, email)
+    .then(() => {
+      const user = auth.currentUser;
+      sendEmailVerification(user, actionCodeSettings)
+        .then(() => console.log("Verification email sent to:", email))
+        .catch((error) => console.log(error));
+      console.log("Email updated!");
+      console.log(user);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+const handleUpdatePass = async (newPassword) => {
+  const user = auth.currentUser;
+
+  await updatePassword(user, newPassword)
+    .then(() => {
+      console.log("Password updated!");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+const logOut = () => {
+  signOut(auth)
+    .then(() => {
+      location.href = "/auth?type=signin";
+      console.log("User signed out!");
+    })
+    .catch((error) => console.log(error));
+};
+
 export {
   signupWithEmailPassword,
   signinWithEmailPassword,
@@ -190,4 +280,8 @@ export {
   signinWithMicrosoft,
   sendVerificationEmail,
   sendResetPasswordEmail,
+  updateName,
+  handleUpdateEmail,
+  handleUpdatePass,
+  logOut,
 };

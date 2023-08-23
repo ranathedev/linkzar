@@ -31,7 +31,7 @@ const DashboardPage = () => {
       setUser(user);
       setLoading(false);
       if (!user) {
-        router.push("/auth");
+        router.push("/auth?type=signin");
       }
     });
 

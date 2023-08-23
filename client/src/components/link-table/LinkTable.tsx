@@ -129,16 +129,17 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
           </div>
         ) : (
           <>
-            {listOfLinks.map((linkItem, i) => (
-              <TableRow
-                key={i}
-                domainUrl={domainUrl}
-                theme={theme}
-                sendDeleteId={removeLink}
-                sendUpdatedLinks={updateLinkInList}
-                linkData={linkItem}
-              />
-            ))}
+            {listOfLinks &&
+              listOfLinks.map((linkItem, i) => (
+                <TableRow
+                  key={i}
+                  domainUrl={domainUrl}
+                  theme={theme}
+                  sendDeleteId={removeLink}
+                  sendUpdatedLinks={updateLinkInList}
+                  linkData={linkItem}
+                />
+              ))}
           </>
         )}
       </div>

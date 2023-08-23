@@ -46,7 +46,7 @@ const SettingsPage = () => {
               customClass={stl.avatarHandler}
               user={user}
             />
-            <UserInfoSettings theme={theme} user={user} />
+            <UserInfoSettings theme={theme} />
           </div>
         </div>
       </Layout>

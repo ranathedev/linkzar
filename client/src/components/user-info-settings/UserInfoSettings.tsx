@@ -1,6 +1,12 @@
 import React, { useEffect } from "react";
 import clsx from "clsx";
 
+import {
+  updateName,
+  handleUpdateEmail,
+  handleUpdatePass,
+  logOut,
+} from "lib/authFunctions";
 import Button from "components/button";
 import AvatarContainer from "components/avatar-container";
 
@@ -8,15 +14,19 @@ import stl from "./UserInfoSettings.module.scss";
 
 interface Props {
   theme: string;
-  user: any;
 }
 
-const UserInfoSettings = ({ theme, user }: Props) => {
+const UserInfoSettings = ({ theme }: Props) => {
+  const [user, setUser] = React.useState({
+    fname: "John",
+    lname: "Doe",
+    email: "johndoe@gmail.com",
+    displayName: "",
+  });
   const [className, setClassName] = React.useState("");
   const [fname, setFname] = React.useState("");
   const [lname, setLname] = React.useState("");
   const [email, setEmail] = React.useState("");
-  const [currentPass, setCurrentPass] = React.useState("");
   const [newPass, setNewPass] = React.useState("");
 
   useEffect(() => {
@@ -29,22 +39,64 @@ const UserInfoSettings = ({ theme, user }: Props) => {
     }
   }, [theme]);
 
-  const changeName = () => {
-    console.log("Fname:", fname);
-    console.log("Lname:", lname);
+  useEffect(() => {
+    const data = localStorage.getItem("user");
+    //@ts-ignore
+    const user = JSON.parse(data);
+
+    setUser(user);
+  }, [fname, lname, email]);
+
+  const changeName = async () => {
+    if (fname === "") {
+      await updateName(lname);
+    } else if (lname === "") {
+      await updateName(fname);
+    } else {
+      await updateName(fname + " " + lname);
+    }
+
+    const existingData = await localStorage.getItem("user");
+    //@ts-ignore
+    const parsedData = JSON.parse(existingData);
+    parsedData.fname = fname;
+    parsedData.lname = lname;
+
+    setUser(parsedData);
+
+    const updatedData = JSON.stringify(parsedData);
+    await localStorage.setItem("user", updatedData);
     setFname("");
     setLname("");
   };
 
-  const changeEmail = () => {
-    console.log("Email:", email);
+  const changeEmail = async () => {
+    const validateEmail = () => {
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailPattern.test(email);
+    };
+
+    if (validateEmail()) {
+      await handleUpdateEmail(email);
+      const existingData = await localStorage.getItem("user");
+      //@ts-ignore
+      const parsedData = JSON.parse(existingData);
+      parsedData.email = email;
+
+      setUser(parsedData);
+
+      const updatedData = JSON.stringify(parsedData);
+      await localStorage.setItem("user", updatedData);
+    } else {
+      console.log("Email address is not valid.");
+    }
+
     setEmail("");
   };
 
-  const changePass = () => {
-    console.log("Current pass:", currentPass);
-    console.log("New pass:", newPass);
-    setCurrentPass("");
+  const changePass = async () => {
+    await handleUpdatePass(newPass);
+
     setNewPass("");
   };
 
@@ -58,10 +110,7 @@ const UserInfoSettings = ({ theme, user }: Props) => {
             <label htmlFor="fname">First name</label>
             <input
               name="fname"
-              placeholder={
-                (user && (user.fname !== "" ? user.fname : user.displayName)) ||
-                "John"
-              }
+              placeholder={user.fname !== "" ? user.fname : user.displayName}
               onChange={(e) => setFname(e.target.value)}
               value={fname}
             />
@@ -70,7 +119,7 @@ const UserInfoSettings = ({ theme, user }: Props) => {
             <label htmlFor="lname">Last name</label>
             <input
               name="lname"
-              placeholder={(user && user.lname) || "Doe"}
+              placeholder={user.lname}
               onChange={(e) => setLname(e.target.value)}
               value={lname}
             />
@@ -90,7 +139,7 @@ const UserInfoSettings = ({ theme, user }: Props) => {
             <input
               type="email"
               name="email"
-              placeholder={(user && user.email) || "johndoe@gmail.com"}
+              placeholder={user.email}
               onChange={(e) => setEmail(e.target.value)}
               value={email}
             />
@@ -100,16 +149,6 @@ const UserInfoSettings = ({ theme, user }: Props) => {
           </div>
         </div>
         <div className={stl.passContainer}>
-          <div className={stl.inputContainer}>
-            <label htmlFor="currentPass">Current Password</label>
-            <input
-              type="password"
-              name="currentPass"
-              placeholder="Enter your current password"
-              onChange={(e) => setCurrentPass(e.target.value)}
-              value={currentPass}
-            />
-          </div>
           <div className={stl.inputContainer}>
             <label htmlFor="newPass">New Password</label>
             <input
@@ -121,10 +160,7 @@ const UserInfoSettings = ({ theme, user }: Props) => {
             />
           </div>
           <div
-            className={clsx(
-              stl.btnContainer,
-              currentPass !== "" && newPass !== "" ? stl.show : ""
-            )}
+            className={clsx(stl.btnContainer, newPass !== "" ? stl.show : "")}
           >
             <Button theme={theme} label="Save" handleOnClick={changePass} />
           </div>
@@ -135,7 +171,7 @@ const UserInfoSettings = ({ theme, user }: Props) => {
             <div className={stl.msg}>Log out from account?</div>
           </div>
           <div className={clsx(stl.btnContainer, stl.logoutBtn)}>
-            <Button theme={theme} label="Log out" handleOnClick={changePass} />
+            <Button theme={theme} label="Log out" handleOnClick={logOut} />
           </div>
           <div className={stl.inputContainer}>
             <label>Delete this account</label>
@@ -144,7 +180,11 @@ const UserInfoSettings = ({ theme, user }: Props) => {
             </div>
           </div>
           <div className={clsx(stl.btnContainer, stl.delBtn)}>
-            <Button theme={theme} label="Delete" handleOnClick={changePass} />
+            <Button
+              theme={theme}
+              label="Delete"
+              handleOnClick={() => console.log("Deleteng...")}
+            />
           </div>
         </div>
       </div>

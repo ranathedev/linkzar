@@ -13,6 +13,15 @@ import {
   signOut,
   updatePassword,
 } from "firebase/auth";
+import {
+  ref,
+  deleteObject,
+  uploadBytesResumable,
+  getDownloadURL,
+  getStorage,
+} from "firebase/storage";
+
+const storage = getStorage();
 
 const signupWithEmailPassword = async (
   fname,
@@ -263,6 +272,81 @@ const handleUpdatePass = async (newPassword) => {
     });
 };
 
+const updatePhoto = async (e, setUser, setIsLoading) => {
+  setIsLoading(true);
+  const file = e.target.files[0];
+  const uid = auth.currentUser?.uid;
+  const profilePicRef = ref(storage, `${process.env.BUCKET}/${uid}/profilePic`);
+  await deleteObject(profilePicRef)
+    .then(() => console.log("File Deleted Successfully!"))
+    .catch((err) => console.log("Error while deleting file:", err));
+
+  const storageRef = ref(storage, `${process.env.BUCKET}/${uid}/profilePic`);
+
+  const uploadTask = uploadBytesResumable(storageRef, file);
+
+  uploadTask.on(
+    "state_changed",
+    (snapshot) => {
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log("Upload is " + progress + "% done");
+    },
+    (error) => {
+      console.log(error);
+    },
+    async () => {
+      await getDownloadURL(uploadTask.snapshot.ref)
+        .then(async (downloadURL) => {
+          console.log("File available at", downloadURL);
+          const user = await auth.currentUser;
+
+          await updateProfile(user, { photoURL: downloadURL })
+            .then(async () => {
+              console.log("Profile updated");
+              const existingData = await localStorage.getItem("user");
+              const parsedData = JSON.parse(existingData);
+              parsedData.photoURL = downloadURL;
+
+              const updatedData = JSON.stringify(parsedData);
+              await localStorage.setItem("user", updatedData);
+
+              setUser(parsedData);
+              setIsLoading(false);
+            })
+            .catch((error) => console.log(error));
+        })
+        .catch((error) => {
+          setIsLoading(false);
+          console.log(error);
+        });
+    }
+  );
+};
+
+const deletePhoto = async (setUser) => {
+  const uid = auth.currentUser?.uid;
+  const profilePicRef = ref(storage, `${process.env.BUCKET}/${uid}/profilePic`);
+
+  await deleteObject(profilePicRef)
+    .then(async () => {
+      const photoURL = "https://i.postimg.cc/Mp7gnttP/default-Pic.jpg";
+      const existingData = await localStorage.getItem("user");
+      const parsedData = JSON.parse(existingData);
+      parsedData.photoURL = photoURL;
+
+      const updatedData = JSON.stringify(parsedData);
+      await localStorage.setItem("user", updatedData);
+
+      await updateProfile(auth.currentUser, { photoURL })
+        .then(() => {
+          setUser(parsedData);
+          console.log("File Deleted Successfully!");
+        })
+        .catch((error) => console.log(error));
+    })
+    .catch((err) => console.log("Error while deleting file:", err));
+};
+
 const logOut = () => {
   signOut(auth)
     .then(() => {
@@ -283,5 +367,7 @@ export {
   updateName,
   handleUpdateEmail,
   handleUpdatePass,
+  updatePhoto,
+  deletePhoto,
   logOut,
 };

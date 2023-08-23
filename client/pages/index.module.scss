@@ -33,6 +33,17 @@
     width: 97%;
     margin-top: 3.5rem;
     padding: 3rem 0;
+
+    .wrapper {
+      @extend .flexCenter;
+      align-items: flex-start;
+      width: 100%;
+      height: calc(100vh - 8rem);
+      box-shadow: #64646f33 0px 7px 29px 0px;
+      border-radius: 1rem;
+      @extend .hideScrollbar;
+      overflow-y: scroll;
+    }
   }
 }
 
@@ -62,7 +73,13 @@
 }
 
 @media screen and (max-width: 768px) {
-  .settings .container .avatarHandler {
-    display: none;
+  .settings .container {
+    .wrapper {
+      height: 100%;
+    }
+
+    .avatarHandler {
+      display: none;
+    }
   }
 }

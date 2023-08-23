@@ -16,7 +16,9 @@ const Spinner = ({ taskTitle, variant, customClass }: Props) => {
       <div />
       <div />
       <div />
-      <span className={stl[variant]}>{taskTitle}&nbsp;...</span>
+      {taskTitle !== "" && (
+        <span className={stl[variant]}>{taskTitle}&nbsp;...</span>
+      )}
     </div>
   );
 };

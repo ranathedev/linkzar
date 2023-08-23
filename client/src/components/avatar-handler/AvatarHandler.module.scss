@@ -17,6 +17,11 @@
     margin-bottom: 2rem;
   }
 
+  .loading {
+    @extend .flexCenter;
+    @include setSquare(15rem);
+  }
+
   .btnContainer {
     width: 100%;
     margin-top: 1.5rem;
@@ -33,7 +38,7 @@
   .note {
     @extend .flexCenter;
     gap: 0.25rem;
-    width: 100%;
+    width: 255px;
     margin-top: 40%;
     padding: 1rem 0.5rem;
     background: #f9f9f9;
@@ -61,5 +66,9 @@
   .avatarHandler {
     max-width: 19rem;
     padding: 2rem 1rem;
+
+    .loading {
+      @include setSquare(12rem);
+    }
   }
 }

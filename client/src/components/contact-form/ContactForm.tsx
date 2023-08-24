@@ -47,21 +47,28 @@ const ContactForm = ({ theme }: Props) => {
             <Form action="#" className={stl.form}>
               <div>
                 <label htmlFor="name">Your name</label>
-                <Field name="name" placeholder="John Doe" spellCheck={false} />
+                <Field
+                  name="name"
+                  id="name"
+                  placeholder="John Doe"
+                  spellCheck={false}
+                />
               </div>
               <div>
-                <label htmlFor="subject">Your email</label>
+                <label htmlFor="email">Your email</label>
                 <Field
                   type="email"
                   name="email"
+                  id="email"
                   placeholder="admin@example.com"
                 />
               </div>
               <div>
-                <label htmlFor="message">Your message</label>
+                <label htmlFor="msg">Your message</label>
                 <Field
                   as="textarea"
                   name="msg"
+                  id="msg"
                   placeholder="Leave a comment..."
                 />
               </div>

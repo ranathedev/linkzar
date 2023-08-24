@@ -15,13 +15,12 @@
   backdrop-filter: blur(0.75rem);
   box-shadow: 0 0.5px 2px #00000040;
   z-index: 10;
-  transition: all 0.4s;
-  overflow: hidden;
+  transition: all 0.3s;
 
   .container {
     @extend .alignCen;
     justify-content: space-between;
-    gap: 4rem;
+    gap: 3rem;
     transition: all 0.25s;
 
     .logo {
@@ -146,6 +145,8 @@
     font-weight: 500;
     font-size: 1rem;
     list-style: none;
+    transform-origin: top;
+    transition: all 0.25s;
 
     a {
       position: relative;

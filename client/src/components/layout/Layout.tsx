@@ -1,8 +1,11 @@
 import React, { useEffect } from "react";
 import Head from "next/head";
+import firebase from "firebase/auth";
 
+import auth from "lib/firebase";
 import Header from "components/header";
 import Footer from "components/footer";
+import LoadingScreen from "components/loading-screen";
 
 import stl from "./Layout.module.scss";
 
@@ -10,10 +13,24 @@ interface Props {
   theme: string;
   children: React.ReactNode;
   title: string;
+  setTheme: (arg: any) => void;
 }
 
-const Layout = ({ theme, children, title }: Props) => {
+const Layout = ({ theme, children, title, setTheme }: Props) => {
+  const [loading, setLoading] = React.useState(true);
+  const [user, setUser] = React.useState<firebase.User | null>(null);
   const [className, setClassName] = React.useState("");
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user);
+      setLoading(false);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -59,11 +76,15 @@ const Layout = ({ theme, children, title }: Props) => {
           href="favicon/favicon-16x16.png"
         />
       </Head>
-      <main className={className}>
-        <Header theme={theme} />
-        {children}
-        <Footer theme={theme} />
-      </main>
+      {loading ? (
+        <LoadingScreen />
+      ) : (
+        <main className={className}>
+          <Header theme={theme} setTheme={setTheme} user={user} />
+          {children}
+          <Footer theme={theme} />
+        </main>
+      )}
     </>
   );
 };

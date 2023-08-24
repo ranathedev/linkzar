@@ -2,14 +2,18 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 import clsx from "clsx";
 
+import UserMenu from "components/user-menu";
+
 import stl from "./Header.module.scss";
 
 interface Props {
   links: Array<{ name: string; href: string }>;
   theme: string;
+  setTheme: (arg: any) => void;
+  user: any;
 }
 
-const Header = ({ links, theme }: Props) => {
+const Header = ({ links, theme, setTheme, user }: Props) => {
   const [expand, setIsExpand] = React.useState(false);
   const [width, setWidth] = React.useState(500);
   const [active, setIsActive] = React.useState("Overview");
@@ -68,9 +72,13 @@ const Header = ({ links, theme }: Props) => {
           ))}
         </div>
         <div className={stl.right}>
-          <Link href="/auth?type=signup" className={stl.contactBtn}>
-            Signup
-          </Link>
+          {user ? (
+            <UserMenu theme={theme} setTheme={setTheme} user={user} />
+          ) : (
+            <Link href="/auth?type=signup" className={stl.contactBtn}>
+              Signup
+            </Link>
+          )}
           <button
             id="btn"
             onClick={() => setIsExpand(!expand)}
@@ -83,7 +91,10 @@ const Header = ({ links, theme }: Props) => {
           </button>
         </div>
       </div>
-      <ul className={stl.list}>
+      <ul
+        style={expand ? { transform: "scaleY(1)" } : { transform: "scaleY(0)" }}
+        className={stl.list}
+      >
         {links.map((item, i) => (
           <li key={i}>
             <Link href={item.href}>{item.name}</Link>

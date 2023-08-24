@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 
 import Homepage from "components/homepage";
 import Layout from "components/layout";
-import ToggleThemeBtn from "components/toggle-theme-btn";
 
 const Overview = () => {
   const [theme, setTheme] = React.useState(() => {
@@ -20,17 +19,9 @@ const Overview = () => {
   }, [theme]);
 
   return (
-    <>
-      <ToggleThemeBtn
-        theme={theme}
-        handleOnClick={() =>
-          setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"))
-        }
-      />
-      <Layout theme={theme} setTheme={setTheme} title="Overview">
-        <Homepage theme={theme} />
-      </Layout>
-    </>
+    <Layout theme={theme} setTheme={setTheme} title="Overview">
+      <Homepage theme={theme} />
+    </Layout>
   );
 };
 

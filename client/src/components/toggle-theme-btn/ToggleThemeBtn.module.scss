@@ -1,27 +1,25 @@
 @import "styles/common";
 
 .toggleBtn {
-  position: fixed;
-  bottom: 0.625rem;
-  right: 0.625rem;
-  cursor: pointer;
+  position: relative;
   z-index: 20;
   transition: opacity 0.3s;
+  cursor: pointer;
 
   .iconContainer {
     @extend .alignCen;
     justify-content: space-between;
-    width: 70px;
+    width: 3.5rem;
     border-radius: 1rem;
-    background: #fff;
-    padding: 5px;
+    background: #eee;
+    padding: 0.25rem;
   }
 
   .dotBtn {
     position: absolute;
-    top: 15%;
+    top: 10%;
     left: 6%;
-    @include setSquare(23px);
+    @include setSquare(1.25rem);
     border-radius: 50%;
     background: #ccc;
     transition: all 0.3s;
@@ -35,8 +33,4 @@
     background: #666;
     left: 61%;
   }
-}
-
-.hideBtn {
-  opacity: 0.3;
 }

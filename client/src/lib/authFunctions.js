@@ -242,6 +242,7 @@ const updateName = async (
   } else {
     displayName = fname + " " + lname;
   }
+
   const user = await auth.currentUser;
   await updateProfile(user, {
     displayName,
@@ -251,19 +252,20 @@ const updateName = async (
       const parsedData = JSON.parse(existingData);
       parsedData.fname = fname;
       parsedData.lname = lname;
+      parsedData.displayName = displayName;
 
       setUser(parsedData);
 
       const updatedData = JSON.stringify(parsedData);
       await localStorage.setItem("user", updatedData);
 
+      const user = auth.currentUser;
+
       setShowToast(true);
       setToastOpts({
         variant: "success",
         msg: "Name updated successfully.",
       });
-
-      console.log("Name updated!");
     })
     .catch((error) => {
       setShowToast(true);

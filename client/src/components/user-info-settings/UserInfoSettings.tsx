@@ -43,7 +43,7 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
   }, [theme]);
 
   const changeName = async () => {
-    await updateName(fname + " " + lname, setUser, setShowToast, setToastOpts);
+    await updateName(fname, lname, setUser, setShowToast, setToastOpts);
 
     setFname("");
     setLname("");

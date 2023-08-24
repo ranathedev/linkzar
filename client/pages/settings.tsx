@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
 
 import Layout from "components/layout";
-import ToggleThemeBtn from "components/toggle-theme-btn";
 import AvatarHandler from "components/avatar-handler";
 import UserInfoSettings from "components/user-info-settings";
+import LoadingScreen from "components/loading-screen";
 
 import stl from "./index.module.scss";
-import LoadingScreen from "components/loading-screen";
 
 const SettingsPage = () => {
   const [isLoading, setIsLoading] = React.useState(true);
@@ -41,33 +40,25 @@ const SettingsPage = () => {
   }, []);
 
   return (
-    <>
-      <ToggleThemeBtn
-        theme={theme}
-        handleOnClick={() =>
-          setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"))
-        }
-      />
-      <Layout theme={theme} setTheme={setTheme} title="Settings">
-        {isLoading ? (
-          <LoadingScreen />
-        ) : (
-          <div className={stl.settings}>
-            <div className={stl.container}>
-              <AvatarHandler
-                theme={theme}
-                customClass={stl.avatarHandler}
-                user={user}
-                setUser={setUser}
-              />
-              <div className={stl.wrapper}>
-                <UserInfoSettings theme={theme} user={user} setUser={setUser} />
-              </div>
+    <Layout theme={theme} setTheme={setTheme} title="Settings">
+      {isLoading ? (
+        <LoadingScreen />
+      ) : (
+        <div className={stl.settings}>
+          <div className={stl.container}>
+            <AvatarHandler
+              theme={theme}
+              customClass={stl.avatarHandler}
+              user={user}
+              setUser={setUser}
+            />
+            <div className={stl.wrapper}>
+              <UserInfoSettings theme={theme} user={user} setUser={setUser} />
             </div>
           </div>
-        )}
-      </Layout>
-    </>
+        </div>
+      )}
+    </Layout>
   );
 };
 

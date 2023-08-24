@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import clsx from "clsx";
 
 import { inputFocus } from "lib/utils";
-import Sidebar from "components/sidebar";
 import WelcomeBanner from "components/welcome-banner";
 import LinkTable from "components/link-table";
 
@@ -11,9 +10,10 @@ import stl from "./Dashboard.module.scss";
 interface Props {
   theme: string;
   domainUrl: string;
+  user: any;
 }
 
-const Dashboard = ({ theme, domainUrl }: Props) => {
+const Dashboard = ({ theme, domainUrl, user }: Props) => {
   const [className, setClassName] = React.useState("");
 
   useEffect(() => {
@@ -37,9 +37,8 @@ const Dashboard = ({ theme, domainUrl }: Props) => {
 
   return (
     <div className={clsx(stl.dashboard, className)}>
-      <Sidebar theme={theme} />
       <div className={stl.container}>
-        <WelcomeBanner theme={theme} />
+        <WelcomeBanner theme={theme} name={user.displayName} />
         <LinkTable theme={theme} domainUrl={domainUrl} />
       </div>
     </div>

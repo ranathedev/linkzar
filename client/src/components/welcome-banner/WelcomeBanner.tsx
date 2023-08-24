@@ -10,9 +10,10 @@ import stl from "./WelcomeBanner.module.scss";
 
 interface Props {
   theme: string;
+  name: string;
 }
 
-const WelcomeBanner = ({ theme }: Props) => {
+const WelcomeBanner = ({ theme, name }: Props) => {
   const [className, setClassName] = React.useState("");
 
   useEffect(() => {
@@ -28,7 +29,7 @@ const WelcomeBanner = ({ theme }: Props) => {
   return (
     <div className={clsx(stl.welcomeBanner, className)}>
       <div className={stl.content}>
-        <h2 className={stl.heading}>Hello, Rana!</h2>
+        <h2 className={stl.heading}>Hello, {name}!</h2>
         <p className={stl.desc}>
           Welcome to your Dashboard! Here you can manage and track your links.
         </p>

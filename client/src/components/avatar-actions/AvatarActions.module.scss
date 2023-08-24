@@ -35,6 +35,11 @@
     }
   }
 
+  .loading {
+    @extend .flexCenter;
+    @include setSquare(14rem);
+  }
+
   img {
     @include setSquare(14rem);
     border-radius: 50%;
@@ -70,7 +75,8 @@
   .avatarActions {
     padding: 1.5rem 1rem;
 
-    img {
+    img,
+    .loading {
       @include setSquare(12rem);
     }
   }

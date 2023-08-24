@@ -58,7 +58,7 @@ const ActionBox = ({
   const [showShortTooltip, setShowShortTooltip] = React.useState(false);
   const [showLongTooltip, setShowLongTooltip] = React.useState(false);
   const [showToast, setShowToast] = React.useState(false);
-  const [toast, setToast] = React.useState({ variant: "", msg: "" });
+  const [toastOpts, setToastOpts] = React.useState({ variant: "", msg: "" });
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -93,11 +93,11 @@ const ActionBox = ({
   const getResponse = (res: any) => {
     if (!res.err) {
       setShowToast(true);
-      setToast({ variant: "success", msg: "Link deleted successfully!" });
+      setToastOpts({ variant: "success", msg: "Link deleted successfully!" });
       sendDeleteId(linkData._id);
     } else {
       setShowToast(true);
-      setToast({ variant: "danger", msg: "Error:" + " " + res.err });
+      setToastOpts({ variant: "danger", msg: "Error:" + " " + res.err });
     }
   };
 
@@ -151,8 +151,8 @@ const ActionBox = ({
         }
       />
       <Toast
-        variant={toast.variant}
-        content={toast.msg}
+        variant={toastOpts.variant}
+        content={toastOpts.msg}
         theme={theme}
         isVisible={showToast}
         setShowToast={setShowToast}

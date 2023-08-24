@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import clsx from "clsx";
 
-import { handleDelLink } from "lib/utils";
 import Button from "components/button";
 
 import stl from "./DeleteDialog.module.scss";
@@ -9,19 +8,17 @@ import stl from "./DeleteDialog.module.scss";
 interface Props {
   theme: string;
   isVisible: boolean;
-  id: string;
-  setShowDialog: (arg: boolean) => void;
-  getResponse: (arg: any) => void;
-  setLoading: (arg: string) => void;
+  msg: string;
+  handleDelete: () => void;
+  handleCancel: () => void;
 }
 
 const DeleteDialog = ({
   theme,
   isVisible,
-  id,
-  setShowDialog,
-  getResponse,
-  setLoading,
+  msg,
+  handleDelete,
+  handleCancel,
 }: Props) => {
   const [className, setClassName] = React.useState("");
 
@@ -35,20 +32,15 @@ const DeleteDialog = ({
     }
   }, [theme]);
 
-  const handleDelete = () => {
-    handleDelLink(id, setLoading, getResponse);
-    setShowDialog(false);
-  };
-
   return (
     <div className={clsx(stl.delDialog, isVisible ? stl.show : "", className)}>
-      <span>Are you sure you want to delete this link?</span>
+      <span>Are you sure you want to delete {msg}</span>
       <div className={stl.btnContainer}>
         <Button
           variant="secondary"
           theme={theme}
           label="Cancel"
-          handleOnClick={() => setShowDialog(false)}
+          handleOnClick={handleCancel}
         />
         <Button
           theme={theme}
@@ -58,6 +50,10 @@ const DeleteDialog = ({
       </div>
     </div>
   );
+};
+
+DeleteDialog.defaultProps = {
+  msg: "this link?",
 };
 
 export default DeleteDialog;

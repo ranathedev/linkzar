@@ -9,6 +9,7 @@ import {
   shareShortLink,
   validateUrl,
   inputFocus,
+  handleDelLink,
 } from "lib/utils";
 import Button from "components/button";
 import Spinner from "components/spinner";
@@ -33,6 +34,7 @@ interface Props {
   domainUrl: string;
   setShowModal: (arg: boolean) => void;
   sendNewLink: (arg: any) => void;
+  sendDeleteId: (arg: string) => void;
 }
 
 const URLShortener = ({
@@ -41,6 +43,7 @@ const URLShortener = ({
   domainUrl,
   setShowModal,
   sendNewLink,
+  sendDeleteId,
 }: Props) => {
   const [url, setURL] = React.useState("");
   const [alias, setAlias] = React.useState("");
@@ -162,6 +165,7 @@ const URLShortener = ({
       setShowToast(true);
       setToast({ variant: "success", msg: "Link deleted successfully!" });
       handleReset();
+      sendDeleteId(linkData._id);
     } else {
       setShowToast(true);
       setToast({ variant: "danger", msg: res.err });
@@ -173,6 +177,11 @@ const URLShortener = ({
     setShowTooltip(true);
   };
 
+  const handleDelete = () => {
+    handleDelLink(linkData._id, setLoading, getResponse);
+    setShowDialog(false);
+  };
+
   return (
     <>
       <Modal
@@ -182,10 +191,8 @@ const URLShortener = ({
           <DeleteDialog
             theme={theme}
             isVisible={showDialog}
-            id={linkData._id}
-            getResponse={getResponse}
-            setLoading={setLoading}
-            setShowDialog={setShowDialog}
+            handleDelete={handleDelete}
+            handleCancel={() => setShowDialog(false)}
           />
         }
       />

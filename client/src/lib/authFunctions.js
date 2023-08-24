@@ -227,22 +227,61 @@ const sendResetPasswordEmail = async (email) => {
     });
 };
 
-const updateName = async (name) => {
+const updateName = async (
+  fname,
+  lname,
+  setUser,
+  setShowToast,
+  setToastOpts
+) => {
+  let displayName;
+  if (fname === "") {
+    displayName = lname;
+  } else if (lname === "") {
+    displayName = fname;
+  } else {
+    displayName = fname + " " + lname;
+  }
   const user = await auth.currentUser;
   await updateProfile(user, {
-    displayName: name,
+    displayName,
   })
     .then(async () => {
+      const existingData = await localStorage.getItem("user");
+      const parsedData = JSON.parse(existingData);
+      parsedData.fname = fname;
+      parsedData.lname = lname;
+
+      setUser(parsedData);
+
+      const updatedData = JSON.stringify(parsedData);
+      await localStorage.setItem("user", updatedData);
+
+      setShowToast(true);
+      setToastOpts({
+        variant: "success",
+        msg: "Name updated successfully.",
+      });
+
       console.log("Name updated!");
-      const user = await auth.currentUser;
-      console.log(user);
     })
     .catch((error) => {
+      setShowToast(true);
+      setToastOpts({
+        variant: "danger",
+        msg: "Can't update Name.",
+      });
+
       console.log(error);
     });
 };
 
-const handleUpdateEmail = async (email) => {
+const handleUpdateEmail = async (
+  email,
+  setUser,
+  setShowToast,
+  setToastOpts
+) => {
   const actionCodeSettings = {
     url: "http://localhost:3000/settings",
     handleCodeInApp: true,
@@ -251,29 +290,86 @@ const handleUpdateEmail = async (email) => {
     .then(() => {
       const user = auth.currentUser;
       sendEmailVerification(user, actionCodeSettings)
-        .then(() => console.log("Verification email sent to:", email))
-        .catch((error) => console.log(error));
+        .then(async () => {
+          const existingData = await localStorage.getItem("user");
+          const parsedData = JSON.parse(existingData);
+          parsedData.email = email;
+
+          setUser(parsedData);
+
+          const updatedData = JSON.stringify(parsedData);
+          await localStorage.setItem("user", updatedData);
+
+          setShowToast(true);
+          setToastOpts({
+            variant: "success",
+            msg: "Email updated successfully.",
+          });
+
+          console.log("Verification email sent to:", email);
+        })
+        .catch((error) => {
+          setShowToast(true);
+          setToastOpts({
+            variant: "danger",
+            msg: "Can't update Email.",
+          });
+
+          console.log(error);
+        });
+
       console.log("Email updated!");
-      console.log(user);
     })
     .catch((error) => {
-      console.log(error);
+      setShowToast(true);
+      setToastOpts({
+        variant: "danger",
+        msg: "Can't update Email.",
+      });
+
+      if (error.code === "auth/requires-recent-login") {
+        console.log("Sign in again to do this.");
+      } else {
+        console.log(error);
+      }
     });
 };
 
-const handleUpdatePass = async (newPassword) => {
+const handleUpdatePass = async (newPassword, setShowToast, setToastOpts) => {
   const user = auth.currentUser;
 
   await updatePassword(user, newPassword)
     .then(() => {
+      setShowToast(true);
+      setToastOpts({
+        variant: "success",
+        msg: "Password updated successfully.",
+      });
+
       console.log("Password updated!");
     })
     .catch((error) => {
-      console.log(error);
+      setShowToast(true);
+      setToastOpts({
+        variant: "danger",
+        msg: "Can't update Password.",
+      });
+
+      if (error.code === "auth/requires-recent-login") {
+        console.log("Sign in again to do this.");
+      } else {
+        console.log(error);
+      }
     });
 };
 
-const updatePhoto = async (e, setUser, setIsLoading) => {
+const updatePhoto = async (
+  e,
+  setUser,
+  setIsLoading,
+  setShowToast,
+  setToastOpts
+) => {
   setIsLoading(true);
   const file = e.target.files[0];
   const uid = auth.currentUser?.uid;
@@ -313,18 +409,37 @@ const updatePhoto = async (e, setUser, setIsLoading) => {
 
               setUser(parsedData);
               setIsLoading(false);
+              setShowToast(true);
+              setToastOpts({
+                variant: "success",
+                msg: "Profile photo updated.",
+              });
             })
-            .catch((error) => console.log(error));
+            .catch((error) => {
+              setShowToast(true);
+              setToastOpts({
+                variant: "danger",
+                msg: "Can't update Profile photo.",
+              });
+
+              console.log(error);
+            });
         })
         .catch((error) => {
           setIsLoading(false);
+          setShowToast(true);
+          setToastOpts({
+            variant: "danger",
+            msg: "Can't update Profile photo.",
+          });
+
           console.log(error);
         });
     }
   );
 };
 
-const deletePhoto = async (setUser) => {
+const deletePhoto = async (setUser, setShowToast, setToastOpts) => {
   const uid = auth.currentUser?.uid;
   const profilePicRef = ref(storage, `${process.env.BUCKET}/${uid}/profilePic`);
 
@@ -341,11 +456,33 @@ const deletePhoto = async (setUser) => {
       await updateProfile(auth.currentUser, { photoURL })
         .then(() => {
           setUser(parsedData);
+          setShowToast(true);
+          setToastOpts({
+            variant: "success",
+            msg: "Profile photo deleted.",
+          });
+
           console.log("File Deleted Successfully!");
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          setShowToast(true);
+          setToastOpts({
+            variant: "danger",
+            msg: "Can't update Profile photo.",
+          });
+
+          console.log(error);
+        });
     })
-    .catch((err) => console.log("Error while deleting file:", err));
+    .catch((err) => {
+      setShowToast(true);
+      setToastOpts({
+        variant: "danger",
+        msg: "Can't update Profile photo.",
+      });
+
+      console.log("Error while deleting file:", err);
+    });
 };
 
 const deleteAccount = async () => {

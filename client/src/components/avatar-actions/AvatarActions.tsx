@@ -18,6 +18,8 @@ interface Props {
   setIsVisible: (arg: boolean) => void;
   user: any;
   setUser: (arg: any) => void;
+  setShowToast: (arg: boolean) => void;
+  setToastOpts: (arg: { variant: string; msg: string }) => void;
 }
 
 const AvatarActions = ({
@@ -26,6 +28,8 @@ const AvatarActions = ({
   setIsVisible,
   user,
   setUser,
+  setShowToast,
+  setToastOpts,
 }: Props) => {
   const [className, setClassName] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
@@ -41,7 +45,7 @@ const AvatarActions = ({
   }, [theme]);
 
   const handleUpdatePhoto = async (e: any) => {
-    await updatePhoto(e, setUser, setIsLoading);
+    await updatePhoto(e, setUser, setIsLoading, setShowToast, setToastOpts);
   };
 
   const handleSelectFile = () => {
@@ -50,7 +54,7 @@ const AvatarActions = ({
   };
 
   const handleDelete = async () => {
-    await deletePhoto(setUser);
+    await deletePhoto(setUser, setShowToast, setToastOpts);
   };
 
   return (
@@ -64,7 +68,9 @@ const AvatarActions = ({
         </span>
       </div>
       {isLoading ? (
-        <Spinner taskTitle="" />
+        <div className={stl.loading}>
+          <Spinner taskTitle="" />
+        </div>
       ) : (
         <Image
           src={user.photoURL}

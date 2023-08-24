@@ -42,7 +42,7 @@ const TableRow = ({
   const [showEditor, setShowEditor] = React.useState(false);
   const [loading, setLoading] = React.useState("");
   const [showToast, setShowToast] = React.useState(false);
-  const [toast, setToast] = React.useState({ variant: "", msg: "" });
+  const [toastOpts, setToastOpts] = React.useState({ variant: "", msg: "" });
   const [shortId, setShortId] = React.useState("");
 
   useEffect(() => {
@@ -72,11 +72,11 @@ const TableRow = ({
   const getResponse = (res: any) => {
     setShowToast(true);
     if (res.error) {
-      setToast({ variant: "warn", msg: res.error });
+      setToastOpts({ variant: "warn", msg: res.error });
     } else if (res.err) {
-      setToast({ variant: "danger", msg: res.err });
+      setToastOpts({ variant: "danger", msg: res.err });
     } else {
-      setToast({ variant: "success", msg: "Link updated successfully!" });
+      setToastOpts({ variant: "success", msg: "Link updated successfully!" });
       setShortId(res.shortId);
       sendUpdatedLinks(res);
     }
@@ -117,8 +117,8 @@ const TableRow = ({
       <Toast
         theme={theme}
         isVisible={showToast}
-        variant={toast.variant}
-        content={toast.msg}
+        variant={toastOpts.variant}
+        content={toastOpts.msg}
         setShowToast={setShowToast}
       />
       <div className={clsx(stl.tableRow, expand ? stl.expand : "", className)}>

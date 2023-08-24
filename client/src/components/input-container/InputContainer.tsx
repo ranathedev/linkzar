@@ -31,6 +31,7 @@ const InputContainer = ({ label, id, placeholder, type, theme }: Props) => {
       <Field
         type={type}
         name={id}
+        id={id}
         placeholder={placeholder}
         spellCheck={false}
       />

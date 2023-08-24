@@ -13,10 +13,19 @@ interface Props {
   theme: string;
   user: any;
   setUser: (arg: any) => void;
+  setShowToast: (arg: boolean) => void;
+  setToastOpts: (arg: { variant: string; msg: string }) => void;
   customClass?: string;
 }
 
-const AvatarContainer = ({ theme, user, setUser, customClass }: Props) => {
+const AvatarContainer = ({
+  theme,
+  user,
+  setUser,
+  setShowToast,
+  setToastOpts,
+  customClass,
+}: Props) => {
   const [showModal, setShowModal] = React.useState(false);
 
   return (
@@ -31,6 +40,8 @@ const AvatarContainer = ({ theme, user, setUser, customClass }: Props) => {
             setIsVisible={setShowModal}
             user={user}
             setUser={setUser}
+            setShowToast={setShowToast}
+            setToastOpts={setToastOpts}
           />
         }
       />

@@ -16,6 +16,7 @@
   border-radius: 0.5rem;
   box-shadow: 0 0 5px #0000001a, 0 0 5px #0000001a;
   overflow: hidden;
+  z-index: 10;
 
   .progressBar {
     position: absolute;

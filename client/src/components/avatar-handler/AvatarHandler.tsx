@@ -5,6 +5,7 @@ import { updatePhoto, deletePhoto } from "lib/authFunctions";
 import Button from "components/button";
 import AvatarContainer from "components/avatar-container";
 import Spinner from "components/spinner";
+import Toast from "components/toast";
 
 import EditIcon from "assets/edit.svg";
 import DeleteIcon from "assets/delete.svg";
@@ -22,6 +23,8 @@ interface Props {
 const AvatarHandler = ({ theme, user, setUser, customClass }: Props) => {
   const [className, setClassName] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
+  const [showToast, setShowToast] = React.useState(false);
+  const [toastOpts, setToastOpts] = React.useState({ variant: "", msg: "" });
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -34,7 +37,7 @@ const AvatarHandler = ({ theme, user, setUser, customClass }: Props) => {
   }, [theme]);
 
   const handleUpdatePhoto = async (e: any) => {
-    await updatePhoto(e, setUser, setIsLoading);
+    await updatePhoto(e, setUser, setIsLoading, setShowToast, setToastOpts);
   };
 
   const handleSelectFile = () => {
@@ -43,48 +46,63 @@ const AvatarHandler = ({ theme, user, setUser, customClass }: Props) => {
   };
 
   const handleDelete = async () => {
-    await deletePhoto(setUser);
+    await deletePhoto(setUser, setShowToast, setToastOpts);
   };
 
   return (
-    <div className={clsx(stl.avatarHandler, className, customClass)}>
-      <div className={stl.name}>{user.displayName}</div>
-      {isLoading ? (
-        <div className={stl.loading}>
-          <Spinner taskTitle="" />
+    <>
+      <Toast
+        theme={theme}
+        isVisible={showToast}
+        variant={toastOpts.variant}
+        content={toastOpts.msg}
+        setShowToast={setShowToast}
+      />
+      <div className={clsx(stl.avatarHandler, className, customClass)}>
+        <div className={stl.name}>{user.displayName}</div>
+        {isLoading ? (
+          <div className={stl.loading}>
+            <Spinner taskTitle="" />
+          </div>
+        ) : (
+          <AvatarContainer
+            theme={theme}
+            user={user}
+            setUser={setUser}
+            setShowToast={setShowToast}
+            setToastOpts={setToastOpts}
+          />
+        )}
+        <div className={stl.btnContainer}>
+          <input
+            id="fileInput-1"
+            type="file"
+            accept="image/*"
+            style={{ display: "none" }}
+            onChange={handleUpdatePhoto}
+          />
+          <Button
+            theme={theme}
+            label="Change Avatar"
+            leftIcon={<EditIcon />}
+            handleOnClick={handleSelectFile}
+          />
+          <Button
+            theme={theme}
+            isDisabled={
+              user.photoURL === "https://i.postimg.cc/Mp7gnttP/default-Pic.jpg"
+            }
+            label="Delete Avatar"
+            variant="secondary"
+            leftIcon={<DeleteIcon />}
+            handleOnClick={handleDelete}
+          />
         </div>
-      ) : (
-        <AvatarContainer theme={theme} user={user} setUser={setUser} />
-      )}
-      <div className={stl.btnContainer}>
-        <input
-          id="fileInput-1"
-          type="file"
-          accept="image/*"
-          style={{ display: "none" }}
-          onChange={handleUpdatePhoto}
-        />
-        <Button
-          theme={theme}
-          label="Change Avatar"
-          leftIcon={<EditIcon />}
-          handleOnClick={handleSelectFile}
-        />
-        <Button
-          theme={theme}
-          isDisabled={
-            user.photoURL === "https://i.postimg.cc/Mp7gnttP/default-Pic.jpg"
-          }
-          label="Delete Avatar"
-          variant="secondary"
-          leftIcon={<DeleteIcon />}
-          handleOnClick={handleDelete}
-        />
+        <div className={stl.note}>
+          <InfoIcon /> Maximum upload size is <b>1 MB</b>.
+        </div>
       </div>
-      <div className={stl.note}>
-        <InfoIcon /> Maximum upload size is <b>1 MB</b>.
-      </div>
-    </div>
+    </>
   );
 };
 

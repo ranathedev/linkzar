@@ -6,8 +6,10 @@ import AvatarHandler from "components/avatar-handler";
 import UserInfoSettings from "components/user-info-settings";
 
 import stl from "./index.module.scss";
+import LoadingScreen from "components/loading-screen";
 
 const SettingsPage = () => {
+  const [isLoading, setIsLoading] = React.useState(true);
   const [user, setUser] = React.useState({
     fname: "John",
     lname: "Doe",
@@ -34,6 +36,8 @@ const SettingsPage = () => {
     //@ts-ignore
     const user = JSON.parse(data);
     setUser(user);
+
+    setTimeout(() => setIsLoading(false), 300);
   }, []);
 
   return (
@@ -45,19 +49,23 @@ const SettingsPage = () => {
         }
       />
       <Layout theme={theme} title="Settings">
-        <div className={stl.settings}>
-          <div className={stl.container}>
-            <AvatarHandler
-              theme={theme}
-              customClass={stl.avatarHandler}
-              user={user}
-              setUser={setUser}
-            />
-            <div className={stl.wrapper}>
-              <UserInfoSettings theme={theme} user={user} setUser={setUser} />
+        {isLoading ? (
+          <LoadingScreen />
+        ) : (
+          <div className={stl.settings}>
+            <div className={stl.container}>
+              <AvatarHandler
+                theme={theme}
+                customClass={stl.avatarHandler}
+                user={user}
+                setUser={setUser}
+              />
+              <div className={stl.wrapper}>
+                <UserInfoSettings theme={theme} user={user} setUser={setUser} />
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </Layout>
     </>
   );

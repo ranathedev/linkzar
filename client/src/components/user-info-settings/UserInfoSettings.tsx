@@ -12,6 +12,7 @@ import Button from "components/button";
 import AvatarContainer from "components/avatar-container";
 import Modal from "components/modal";
 import DeleteDialog from "components/delete-dialog";
+import Toast from "components/toast";
 
 import stl from "./UserInfoSettings.module.scss";
 
@@ -28,6 +29,8 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
   const [email, setEmail] = React.useState("");
   const [newPass, setNewPass] = React.useState("");
   const [showDialog, setShowDialog] = React.useState(false);
+  const [showToast, setShowToast] = React.useState(false);
+  const [toastOpts, setToastOpts] = React.useState({ variant: "", msg: "" });
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -40,24 +43,8 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
   }, [theme]);
 
   const changeName = async () => {
-    if (fname === "") {
-      await updateName(lname);
-    } else if (lname === "") {
-      await updateName(fname);
-    } else {
-      await updateName(fname + " " + lname);
-    }
+    await updateName(fname + " " + lname, setUser, setShowToast, setToastOpts);
 
-    const existingData = await localStorage.getItem("user");
-    //@ts-ignore
-    const parsedData = JSON.parse(existingData);
-    parsedData.fname = fname;
-    parsedData.lname = lname;
-
-    setUser(parsedData);
-
-    const updatedData = JSON.stringify(parsedData);
-    await localStorage.setItem("user", updatedData);
     setFname("");
     setLname("");
   };
@@ -69,16 +56,7 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
     };
 
     if (validateEmail()) {
-      await handleUpdateEmail(email);
-      const existingData = await localStorage.getItem("user");
-      //@ts-ignore
-      const parsedData = JSON.parse(existingData);
-      parsedData.email = email;
-
-      setUser(parsedData);
-
-      const updatedData = JSON.stringify(parsedData);
-      await localStorage.setItem("user", updatedData);
+      await handleUpdateEmail(email, setUser, setShowToast, setToastOpts);
     } else {
       console.log("Email address is not valid.");
     }
@@ -87,7 +65,7 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
   };
 
   const changePass = async () => {
-    await handleUpdatePass(newPass);
+    await handleUpdatePass(newPass, setShowToast, setToastOpts);
 
     setNewPass("");
   };
@@ -112,6 +90,13 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
           />
         }
       />
+      <Toast
+        theme={theme}
+        isVisible={showToast}
+        variant={toastOpts.variant}
+        content={toastOpts.msg}
+        setShowToast={setShowToast}
+      />
       <div className={clsx(stl.userInfoSettings, className)}>
         <h1 className={stl.heading}>Edit Profile</h1>
         <div className={stl.container}>
@@ -119,6 +104,8 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
             theme={theme}
             user={user}
             setUser={setUser}
+            setShowToast={setShowToast}
+            setToastOpts={setToastOpts}
             customClass={stl.avatar}
           />
           <div className={stl.nameContainer}>

@@ -61,7 +61,7 @@ const URLShortener = ({
   const [aliasErr, setAliasErr] = React.useState("");
   const [showTooltip, setShowTooltip] = React.useState(false);
   const [showToast, setShowToast] = React.useState(false);
-  const [toast, setToast] = React.useState({ variant: "", msg: "" });
+  const [toastOpts, setToastOpts] = React.useState({ variant: "", msg: "" });
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -140,13 +140,16 @@ const URLShortener = ({
 
           setShowToast(true);
           if (response.err) {
-            setToast({
+            setToastOpts({
               variant: "warn",
               msg: response.err,
             });
           } else {
             setLinkData(response);
-            setToast({ variant: "success", msg: "Link created successfully!" });
+            setToastOpts({
+              variant: "success",
+              msg: "Link created successfully!",
+            });
             sendNewLink(response);
           }
         } else {
@@ -163,12 +166,12 @@ const URLShortener = ({
   const getResponse = (res: any) => {
     if (!res.err) {
       setShowToast(true);
-      setToast({ variant: "success", msg: "Link deleted successfully!" });
+      setToastOpts({ variant: "success", msg: "Link deleted successfully!" });
       handleReset();
       sendDeleteId(linkData._id);
     } else {
       setShowToast(true);
-      setToast({ variant: "danger", msg: res.err });
+      setToastOpts({ variant: "danger", msg: res.err });
     }
   };
 
@@ -197,8 +200,8 @@ const URLShortener = ({
         }
       />
       <Toast
-        variant={toast.variant}
-        content={toast.msg}
+        variant={toastOpts.variant}
+        content={toastOpts.msg}
         theme={theme}
         isVisible={showToast}
         setShowToast={setShowToast}

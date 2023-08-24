@@ -27,7 +27,7 @@ const AboutPage = () => {
           setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"))
         }
       />
-      <Layout theme={theme} title="About">
+      <Layout theme={theme} setTheme={setTheme} title="About">
         <About theme={theme} />
       </Layout>
     </>

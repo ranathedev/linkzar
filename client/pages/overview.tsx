@@ -27,7 +27,7 @@ const Overview = () => {
           setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"))
         }
       />
-      <Layout theme={theme} title="Overview">
+      <Layout theme={theme} setTheme={setTheme} title="Overview">
         <Homepage theme={theme} />
       </Layout>
     </>

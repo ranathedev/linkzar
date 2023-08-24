@@ -27,7 +27,7 @@ const Contact = () => {
           setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"))
         }
       />
-      <Layout theme={theme} title="Contact">
+      <Layout theme={theme} setTheme={setTheme} title="Contact">
         <ContactForm theme={theme} />
       </Layout>
     </>

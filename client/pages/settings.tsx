@@ -48,7 +48,7 @@ const SettingsPage = () => {
           setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"))
         }
       />
-      <Layout theme={theme} title="Settings">
+      <Layout theme={theme} setTheme={setTheme} title="Settings">
         {isLoading ? (
           <LoadingScreen />
         ) : (

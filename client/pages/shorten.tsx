@@ -31,13 +31,14 @@ const Shorten = () => {
           setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"))
         }
       />
-      <Layout theme={theme} title="Shorten">
+      <Layout theme={theme} setTheme={setTheme} title="Shorten">
         <div className={stl.shorten}>
           <URLShortener
             domainUrl={domainUrl}
             isVisible={true}
             theme={theme}
             sendNewLink={() => {}}
+            sendDeleteId={() => {}}
           />
         </div>
       </Layout>

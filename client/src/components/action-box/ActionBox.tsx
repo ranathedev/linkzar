@@ -38,6 +38,8 @@ interface Props {
   setShowEditor: (arg: boolean) => void;
   setShowModal: (arg: boolean) => void;
   sendDeleteId: (arg: string) => void;
+  increaseClickCount: (arg: string) => void;
+  uid: string;
 }
 
 const ActionBox = ({
@@ -49,6 +51,8 @@ const ActionBox = ({
   setShowEditor,
   setShowModal,
   sendDeleteId,
+  increaseClickCount,
+  uid,
 }: Props) => {
   const [showActionList, setShowActionList] = React.useState(false);
   const [device, setDevice] = React.useState("");
@@ -128,7 +132,7 @@ const ActionBox = ({
   };
 
   const handleDelete = () => {
-    handleDelLink(linkData._id, setLoading, getResponse);
+    handleDelLink(linkData._id, setLoading, getResponse, uid);
     setShowDialog(false);
   };
 
@@ -166,7 +170,12 @@ const ActionBox = ({
           <MoreIcon />
         </button>
         <ul className={showActionList ? stl.actionList : ""}>
-          <li onClick={() => openLink(domainUrl + linkData.shortId)}>
+          <li
+            onClick={() => {
+              openLink(domainUrl + linkData.shortId);
+              increaseClickCount(linkData._id);
+            }}
+          >
             <OpenLinkIcon /> Open short link
           </li>
           <li onClick={() => openLink(linkData.originalURL)}>

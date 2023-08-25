@@ -35,6 +35,7 @@ interface Props {
   setShowModal: (arg: boolean) => void;
   sendNewLink: (arg: any) => void;
   sendDeleteId: (arg: string) => void;
+  uid: string;
 }
 
 const URLShortener = ({
@@ -44,6 +45,7 @@ const URLShortener = ({
   setShowModal,
   sendNewLink,
   sendDeleteId,
+  uid,
 }: Props) => {
   const [url, setURL] = React.useState("");
   const [alias, setAlias] = React.useState("");
@@ -136,7 +138,7 @@ const URLShortener = ({
       if (isValidURL) {
         if (alias === "" || alias.length >= 5) {
           const shortId = alias === "" ? generateRandomString(7) : alias;
-          const response = await createShortLink(setLoading, shortId, url);
+          const response = await createShortLink(setLoading, shortId, url, uid);
 
           setShowToast(true);
           if (response.err) {
@@ -181,7 +183,7 @@ const URLShortener = ({
   };
 
   const handleDelete = () => {
-    handleDelLink(linkData._id, setLoading, getResponse);
+    handleDelLink(linkData._id, setLoading, getResponse, uid);
     setShowDialog(false);
   };
 

@@ -1,6 +1,8 @@
 const { MongoClient } = require("mongodb");
 require("dotenv").config();
 const {
+  createCollection,
+  deleteCollection,
   getLinks,
   insertDataObject,
   deleteLink,
@@ -17,32 +19,46 @@ const uri = `mongodb+srv://linkzar:${process.env.MONGO_KEY}@linkzar-cluster.2wcn
 const client = new MongoClient(uri);
 
 fastify.get("/", async (req, res) => {
-  res.redirect("https://linkzar.ranainitzar.com");
+  res.redirect("https://linkzar.ranaintizar.com");
 });
 
-fastify.get("/api/getLinks", async (req, res) => {
-  const response = await getLinks(client);
+fastify.post("/api/getLinks", async (req, res) => {
+  const uid = req.body.uid;
+  const response = await getLinks(client, uid);
   res.send(response);
 });
 
+fastify.post("/createColl", async (req, res) => {
+  const uid = req.body.uid;
+  await createCollection(client, uid, res);
+});
+
+fastify.post("/deleteColl", async (req, res) => {
+  const uid = req.body.uid;
+  await deleteCollection(client, uid, res);
+});
+
 fastify.post("/api/shorten", async (req, res) => {
+  const uid = req.body.uid;
   const url = req.body.url;
   const shortId = req.body.shortId;
   const dataObject = { shortId, originalURL: url };
-  const response = await insertDataObject(client, dataObject);
+  const response = await insertDataObject(client, dataObject, uid);
   response ? res.send(response) : res.send({ err: "Unexpected error occured" });
 });
 
 fastify.post("/api/deleteLink", async (req, res) => {
+  const uid = req.body.uid;
   const id = req.body.id;
-  const response = await deleteLink(client, id);
+  const response = await deleteLink(client, id, uid);
   res.send(response);
 });
 
 fastify.post("/api/editLink", async (req, res) => {
+  const uid = req.body.uid;
   const documentId = req.body.id;
   const newValue = req.body.value;
-  const response = await editLink(client, documentId, newValue);
+  const response = await editLink(client, documentId, newValue, uid);
   res.send(response);
 });
 
@@ -52,21 +68,27 @@ fastify.get("/:shortId", async (req, res) => {
   try {
     await client.connect();
     const database = client.db("linkzar");
-    const collection = database.collection("links");
+    const userCollections = database.listCollections();
 
-    const urlData = await collection.findOne({ shortId });
+    while (await userCollections.hasNext()) {
+      const collectionInfo = await userCollections.next();
+      const userCollection = database.collection(collectionInfo.name);
 
-    if (urlData) {
-      await collection.updateOne(
-        { _id: urlData._id },
-        { $inc: { clickCounts: 1 } }
-      );
+      const urlData = await userCollection.findOne({ shortId });
 
-      const originalURL = urlData.originalURL;
-      res.redirect(originalURL);
-    } else {
-      res.status(404).send("URL Data not found");
+      if (urlData) {
+        await userCollection.updateOne(
+          { _id: urlData._id },
+          { $inc: { clickCounts: 1 } }
+        );
+
+        const originalURL = urlData.originalURL;
+        res.redirect(originalURL);
+        return;
+      }
     }
+
+    res.status(404).send("URL Data not found");
   } catch (error) {
     console.error("Error retrieving URL:", error);
     res.status(500).send("Internal Server Error");

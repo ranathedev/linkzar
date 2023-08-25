@@ -1,9 +1,10 @@
 @import "styles/common";
 
 .about {
-  @extend .flexRow;
+  @extend .flexCenter;
   width: 100%;
-  min-height: 100vh;
+  min-height: calc(100vh - 3.5rem);
+  margin-top: 3.5rem;
   background: #fff;
 
   .formContainer {
@@ -31,6 +32,7 @@
     align-items: flex-start;
     gap: 2.5rem;
     width: 97%;
+    max-width: 1280px;
     margin-top: 3.5rem;
     padding: 3rem 0;
 

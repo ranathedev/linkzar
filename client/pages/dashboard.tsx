@@ -4,11 +4,9 @@ import firebase from "firebase/auth";
 
 import auth from "lib/firebase";
 import Dashboard from "components/dashboard";
-import LoadingScreen from "components/loading-screen";
-import ToggleThemeBtn from "components/toggle-theme-btn";
+import Layout from "components/layout";
 
 const DashboardPage = () => {
-  const [loading, setLoading] = React.useState(true);
   const [user, setUser] = React.useState<firebase.User | null>(null);
   const [theme, setTheme] = React.useState(() => {
     if (typeof window !== "undefined") {
@@ -29,7 +27,6 @@ const DashboardPage = () => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setUser(user);
-      setLoading(false);
       if (!user) {
         router.push("/auth?type=signin");
       }
@@ -43,25 +40,9 @@ const DashboardPage = () => {
   const domainUrl = "http://localhost:3001/";
 
   return (
-    <main>
-      {!loading ? (
-        user !== null && (
-          <>
-            <ToggleThemeBtn
-              theme={theme}
-              handleOnClick={() =>
-                setTheme((prevTheme) =>
-                  prevTheme === "light" ? "dark" : "light"
-                )
-              }
-            />
-            <Dashboard theme={theme} domainUrl={domainUrl} />
-          </>
-        )
-      ) : (
-        <LoadingScreen />
-      )}
-    </main>
+    <Layout theme={theme} setTheme={setTheme} title="Dashboard">
+      <Dashboard theme={theme} domainUrl={domainUrl} user={user} />
+    </Layout>
   );
 };
 

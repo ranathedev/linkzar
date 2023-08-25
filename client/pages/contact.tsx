@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 
-import ContactForm from "components/contact-form";
 import Layout from "components/layout";
-import ToggleThemeBtn from "components/toggle-theme-btn";
+import ContactForm from "components/contact-form";
 
 const Contact = () => {
   const [theme, setTheme] = React.useState(() => {
@@ -20,17 +19,9 @@ const Contact = () => {
   }, [theme]);
 
   return (
-    <>
-      <ToggleThemeBtn
-        theme={theme}
-        handleOnClick={() =>
-          setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"))
-        }
-      />
-      <Layout theme={theme} setTheme={setTheme} title="Contact">
-        <ContactForm theme={theme} />
-      </Layout>
-    </>
+    <Layout theme={theme} setTheme={setTheme} title="Contact">
+      <ContactForm theme={theme} />
+    </Layout>
   );
 };
 

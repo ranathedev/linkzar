@@ -12,9 +12,7 @@ interface Props {
   customClass?: string;
 }
 
-const ToggleThemeBtn = ({ handleOnClick, theme, customClass }: Props) => {
-  const [isNoticed, setIsNoticed] = React.useState(true);
-
+const ToggleThemeBtn = ({ handleOnClick, theme }: Props) => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const btn = document.getElementById("toggleBtn");
@@ -29,22 +27,10 @@ const ToggleThemeBtn = ({ handleOnClick, theme, customClass }: Props) => {
     }
   }, [theme]);
 
-  useEffect(() => {
-    handleHideBtn();
-  }, []);
-
-  const handleHideBtn = () => {
-    setTimeout(() => {
-      setIsNoticed(false);
-    }, 500);
-  };
-
   return (
     <div
-      onMouseEnter={() => setIsNoticed(true)}
-      onMouseLeave={handleHideBtn}
       title="Toggle Theme"
-      className={clsx(stl.toggleBtn, customClass, isNoticed ? "" : stl.hideBtn)}
+      className={clsx(stl.toggleBtn)}
       onClick={() => {
         handleOnClick();
       }}

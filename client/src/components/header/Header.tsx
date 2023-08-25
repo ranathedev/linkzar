@@ -3,6 +3,7 @@ import Link from "next/link";
 import clsx from "clsx";
 
 import UserMenu from "components/user-menu";
+import ToggleThemeBtn from "components/toggle-theme-btn";
 
 import stl from "./Header.module.scss";
 
@@ -18,6 +19,7 @@ const Header = ({ links, theme, setTheme, user }: Props) => {
   const [width, setWidth] = React.useState(500);
   const [active, setIsActive] = React.useState("Overview");
   const [className, setClassName] = React.useState("");
+  const [isAuthPage, setIsAuthPage] = React.useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -42,6 +44,14 @@ const Header = ({ links, theme, setTheme, user }: Props) => {
   }, [width]);
 
   useEffect(() => {
+    const path = location.pathname;
+
+    if (path === "/auth") {
+      setIsAuthPage(true);
+    } else {
+      setIsAuthPage(false);
+    }
+
     function measureWidth() {
       setWidth(document.body.clientWidth);
     }
@@ -75,9 +85,22 @@ const Header = ({ links, theme, setTheme, user }: Props) => {
           {user ? (
             <UserMenu theme={theme} setTheme={setTheme} user={user} />
           ) : (
-            <Link href="/auth?type=signup" className={stl.contactBtn}>
-              Signup
-            </Link>
+            <>
+              <ToggleThemeBtn
+                customClass={stl.toggleBtn}
+                theme={theme}
+                handleOnClick={() =>
+                  setTheme((prevTheme: string) =>
+                    prevTheme === "light" ? "dark" : "light"
+                  )
+                }
+              />
+              {isAuthPage ? undefined : (
+                <Link href="/auth?type=signup" className={stl.signupBtn}>
+                  Sign Up
+                </Link>
+              )}
+            </>
           )}
           <button
             id="btn"

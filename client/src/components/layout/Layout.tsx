@@ -45,7 +45,7 @@ const Layout = ({ theme, children, title, setTheme }: Props) => {
   return (
     <>
       <Head>
-        <title>{`Linkzar | ${title}`}</title>
+        <title>{`${title} | Linkzar`}</title>
         <meta name="description" content="URL Shortener" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link

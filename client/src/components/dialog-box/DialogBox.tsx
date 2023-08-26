@@ -3,21 +3,25 @@ import clsx from "clsx";
 
 import Button from "components/button";
 
-import stl from "./DeleteDialog.module.scss";
+import stl from "./DialogBox.module.scss";
 
 interface Props {
   theme: string;
   isVisible: boolean;
   msg: string;
-  handleDelete: () => void;
+  primaryBtnLabel: string;
+  secondaryBtnLabel: string;
+  handleAction: () => void;
   handleCancel: () => void;
 }
 
-const DeleteDialog = ({
+const DialogBox = ({
   theme,
   isVisible,
   msg,
-  handleDelete,
+  primaryBtnLabel,
+  secondaryBtnLabel,
+  handleAction,
   handleCancel,
 }: Props) => {
   const [className, setClassName] = React.useState("");
@@ -34,26 +38,28 @@ const DeleteDialog = ({
 
   return (
     <div className={clsx(stl.delDialog, isVisible ? stl.show : "", className)}>
-      <span>Are you sure you want to delete {msg}</span>
+      <span>{msg}</span>
       <div className={stl.btnContainer}>
         <Button
           variant="secondary"
           theme={theme}
-          label="Cancel"
+          label={secondaryBtnLabel}
           handleOnClick={handleCancel}
         />
         <Button
           theme={theme}
-          label="Yes, Delete"
-          handleOnClick={handleDelete}
+          label={primaryBtnLabel}
+          handleOnClick={handleAction}
         />
       </div>
     </div>
   );
 };
 
-DeleteDialog.defaultProps = {
-  msg: "this link?",
+DialogBox.defaultProps = {
+  msg: "Are you sure you want to delete this link?",
+  secondaryBtnLabel: "Cancel",
+  primaryBtnLabel: "Yes, Delete",
 };
 
-export default DeleteDialog;
+export default DialogBox;

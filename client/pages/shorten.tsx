@@ -31,6 +31,7 @@ const Shorten = () => {
           theme={theme}
           sendNewLink={() => {}}
           sendDeleteId={() => {}}
+          uid=""
         />
       </div>
     </Layout>

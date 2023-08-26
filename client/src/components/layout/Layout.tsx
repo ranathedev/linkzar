@@ -25,6 +25,11 @@ const Layout = ({ theme, children, title, setTheme }: Props) => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setUser(user);
       setLoading(false);
+      if (user && !user.emailVerified) {
+        console.log("Your email is not verified");
+      } else {
+        console.log("Your email is verified");
+      }
     });
 
     return () => {

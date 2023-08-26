@@ -13,7 +13,7 @@ import {
 } from "lib/utils";
 import Button from "components/button";
 import Spinner from "components/spinner";
-import DeleteDialog from "components/delete-dialog";
+import DialogBox from "components/dialog-box";
 import Modal from "components/modal";
 import InputError from "components/input-error";
 import Tooltip from "components/tooltip";
@@ -193,10 +193,10 @@ const URLShortener = ({
         isVisible={showDialog}
         theme={theme}
         dialog={
-          <DeleteDialog
+          <DialogBox
             theme={theme}
             isVisible={showDialog}
-            handleDelete={handleDelete}
+            handleAction={handleDelete}
             handleCancel={() => setShowDialog(false)}
           />
         }

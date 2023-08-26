@@ -130,7 +130,8 @@
   .container {
     .nameContainer,
     .emailContainer,
-    .passContainer {
+    .passContainer,
+    .delContainer {
       border: 1px solid #6b7280;
 
       &::after {
@@ -143,7 +144,8 @@
         color: #fff;
       }
 
-      input {
+      input,
+      .msg {
         background: #374151;
         color: #fff;
         border-color: #4b5563;

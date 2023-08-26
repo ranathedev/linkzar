@@ -9,7 +9,7 @@ import {
 } from "lib/utils";
 import useOnClickOutside from "lib/useClickOutside";
 import Modal from "components/modal";
-import DeleteDialog from "components/delete-dialog";
+import DialogBox from "components/dialog-box";
 import Spinner from "components/spinner";
 import Toast from "components/toast";
 
@@ -145,10 +145,10 @@ const ActionBox = ({
           loading !== "" ? (
             <Spinner taskTitle={loading} variant="secondary" />
           ) : (
-            <DeleteDialog
+            <DialogBox
               theme={theme}
               isVisible={showDialog}
-              handleDelete={handleDelete}
+              handleAction={handleDelete}
               handleCancel={() => setShowDialog(false)}
             />
           )

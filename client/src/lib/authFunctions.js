@@ -1,5 +1,6 @@
 import axios from "axios";
 import auth from "./firebase";
+import firebase from "firebase/app";
 import {
   createUserWithEmailAndPassword,
   updateProfile,
@@ -14,6 +15,7 @@ import {
   signOut,
   updatePassword,
   deleteUser,
+  reauthenticateWithPopup,
 } from "firebase/auth";
 import {
   ref,
@@ -22,6 +24,7 @@ import {
   getDownloadURL,
   getStorage,
 } from "firebase/storage";
+import handleAuthErrs from "./handleAuthErrs";
 
 const storage = getStorage();
 
@@ -38,6 +41,7 @@ const signupWithEmailPassword = async (
     .then(async (userCredential) => {
       await localStorage.setItem("credentials", JSON.stringify(userCredential));
       const user = userCredential.user;
+
       await updateProfile(user, {
         displayName: fname + " " + lname,
         photoURL: "https://i.postimg.cc/Mp7gnttP/default-Pic.jpg",
@@ -48,8 +52,8 @@ const signupWithEmailPassword = async (
             handleCodeInApp: true,
           };
 
-          await sendEmailVerification(user, actionCodeSettings).then(
-            async () => {
+          await sendEmailVerification(user, actionCodeSettings)
+            .then(async () => {
               const newObject = { ...user, fname, lname };
               setUser(newObject);
 
@@ -63,21 +67,14 @@ const signupWithEmailPassword = async (
 
               setIsLoading(false);
               console.log("Verification Email sent!");
-            }
-          );
+            })
+            .catch((err) => handleAuthErrs(err));
         })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log("Error Code:", errorCode);
-          console.log("Error Message:", errorMessage);
-        });
+        .catch((err) => handleAuthErrs(err));
     })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log("Error Code:", errorCode);
-      console.log("Error Message:", errorMessage);
+    .catch((err) => {
+      handleAuthErrs(err);
+
       setIsLoading(false);
     });
 };
@@ -90,12 +87,7 @@ const signinWithEmailPassword = async (email, password) => {
       console.log("User signed in Successfuly!");
       location.href = "/dashboard";
     })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log("Error Code:", errorCode);
-      console.log("Error Message:", errorMessage);
-    });
+    .catch((err) => handleAuthErrs(err));
 };
 
 const signinWithGoogle = async () => {
@@ -129,13 +121,7 @@ const signinWithGoogle = async () => {
 
       location.href = "/dashboard";
     })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMsg = error.message;
-
-      console.error("Error Code:", errorCode);
-      console.error("Error Msg:", errorMsg);
-    });
+    .catch((err) => handleAuthErrs(err));
 };
 
 const signinWithGithub = async () => {
@@ -166,17 +152,7 @@ const signinWithGithub = async () => {
         });
       }
     })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMsg = error.message;
-      const email = error.customData.email;
-      const credential = GoogleAuthProvider.credentialFromError(error);
-
-      console.error("Error Code:", errorCode);
-      console.error("Error Msg:", errorMsg);
-      console.error("Email :", email);
-      console.error("Credential :", credential);
-    });
+    .catch((err) => handleAuthErrs(err));
 };
 
 const signinWithMicrosoft = async () => {
@@ -208,17 +184,7 @@ const signinWithMicrosoft = async () => {
         });
       }
     })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMsg = error.message;
-      const email = error.customData.email;
-      const credential = GoogleAuthProvider.credentialFromError(error);
-
-      console.error("Error Code:", errorCode);
-      console.error("Error Msg:", errorMsg);
-      console.error("Email :", email);
-      console.error("Credential :", credential);
-    });
+    .catch((err) => handleAuthErrs(err));
 };
 
 const sendVerificationEmail = async (user) => {
@@ -231,7 +197,7 @@ const sendVerificationEmail = async (user) => {
     .then(() => {
       alert("Verification email sent");
     })
-    .catch((err) => console.log(err));
+    .catch((err) => handleAuthErrs(err));
 };
 
 const sendResetPasswordEmail = async (email) => {
@@ -243,13 +209,7 @@ const sendResetPasswordEmail = async (email) => {
     .then(() => {
       console.log("Password reset email sent!");
     })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMsg = error.message;
-
-      console.error("Error Code:", errorCode);
-      console.error("Error Msg:", errorMsg);
-    });
+    .catch((err) => handleAuthErrs(err));
 };
 
 const updateName = async (
@@ -292,14 +252,14 @@ const updateName = async (
         msg: "Name updated successfully.",
       });
     })
-    .catch((error) => {
+    .catch((err) => {
+      handleAuthErrs(err);
+
       setShowToast(true);
       setToastOpts({
         variant: "danger",
         msg: "Can't update Name.",
       });
-
-      console.log(error);
     });
 };
 
@@ -307,16 +267,15 @@ const handleUpdateEmail = async (
   email,
   setUser,
   setShowToast,
-  setToastOpts
+  setToastOpts,
+  setShowDialog,
+  setDialogOpts
 ) => {
-  const actionCodeSettings = {
-    url: "http://localhost:3000/settings",
-    handleCodeInApp: true,
-  };
+  const user = auth.currentUser;
+
   await updateEmail(auth.currentUser, email)
-    .then(() => {
-      const user = auth.currentUser;
-      sendEmailVerification(user, actionCodeSettings)
+    .then(async () => {
+      await sendEmailVerification(user)
         .then(async () => {
           const existingData = await localStorage.getItem("user");
           const parsedData = JSON.parse(existingData);
@@ -335,34 +294,92 @@ const handleUpdateEmail = async (
 
           console.log("Verification email sent to:", email);
         })
-        .catch((error) => {
+        .catch((err) => {
+          handleAuthErrs(err);
+
           setShowToast(true);
           setToastOpts({
             variant: "danger",
             msg: "Can't update Email.",
           });
-
-          console.log(error);
         });
-
-      console.log("Email updated!");
     })
-    .catch((error) => {
-      setShowToast(true);
-      setToastOpts({
-        variant: "danger",
-        msg: "Can't update Email.",
-      });
+    .catch((err) => {
+      if (err.code === "auth/requires-recent-login") {
+        console.log("Re-authentication started");
+        if (user !== null) {
+          user.providerData.forEach(async (profile) => {
+            const providerId = profile.providerId;
 
-      if (error.code === "auth/requires-recent-login") {
-        console.log("Sign in again to do this.");
+            let provider;
+            if (providerId === "google.com") {
+              provider = new GoogleAuthProvider();
+            } else if (providerId === "github.com") {
+              provider = new GithubAuthProvider();
+            } else if (providerId === "microsoft.com") {
+              provider = new OAuthProvider("microsoft.com");
+            }
+
+            if (providerId !== "password") {
+              await reauthenticateWithPopup(user, provider)
+                .then(async (result) => {
+                  console.log("Re-authentication done.");
+                  const user = result.user;
+                  await sendEmailVerification(user)
+                    .then(async () => {
+                      const existingData = await localStorage.getItem("user");
+                      const parsedData = JSON.parse(existingData);
+                      parsedData.email = email;
+
+                      setUser(parsedData);
+
+                      const updatedData = JSON.stringify(parsedData);
+                      await localStorage.setItem("user", updatedData);
+
+                      setShowToast(true);
+                      setToastOpts({
+                        variant: "success",
+                        msg: "Email updated successfully.",
+                      });
+
+                      console.log("Verification email sent to:", email);
+                    })
+                    .catch((err) => {
+                      handleAuthErrs(err);
+
+                      setShowToast(true);
+                      setToastOpts({
+                        variant: "danger",
+                        msg: "Can't update Email.",
+                      });
+                    });
+                })
+                .catch((err) => console.log(err));
+            }
+
+            if (providerId === "password") {
+              setShowDialog(true);
+              setDialogOpts({
+                primaryBtnLabel: "Go to Log In",
+                msg: "You will have to log in again to perform this action.",
+                handleAction: () => (location.href = "/auth?type=signin"),
+              });
+            }
+          });
+        }
       } else {
-        console.log(error);
+        handleAuthErrs(err);
       }
     });
 };
 
-const handleUpdatePass = async (newPassword, setShowToast, setToastOpts) => {
+const handleUpdatePass = async (
+  newPassword,
+  setShowToast,
+  setToastOpts,
+  setShowDialog,
+  setDialogOpts
+) => {
   const user = auth.currentUser;
 
   await updatePassword(user, newPassword)
@@ -375,17 +392,59 @@ const handleUpdatePass = async (newPassword, setShowToast, setToastOpts) => {
 
       console.log("Password updated!");
     })
-    .catch((error) => {
-      setShowToast(true);
-      setToastOpts({
-        variant: "danger",
-        msg: "Can't update Password.",
-      });
+    .catch((err) => {
+      if (err.code === "auth/requires-recent-login") {
+        console.log("Re-authentication started");
+        if (user !== null) {
+          user.providerData.forEach(async (profile) => {
+            const providerId = profile.providerId;
 
-      if (error.code === "auth/requires-recent-login") {
-        console.log("Sign in again to do this.");
+            let provider;
+            if (providerId === "google.com") {
+              provider = new GoogleAuthProvider();
+            } else if (providerId === "github.com") {
+              provider = new GithubAuthProvider();
+            } else if (providerId === "microsoft.com") {
+              provider = new OAuthProvider("microsoft.com");
+            }
+            if (providerId !== "password") {
+              await reauthenticateWithPopup(user, provider)
+                .then(async (result) => {
+                  console.log("Re-authentication done.");
+                  const user = result.user;
+                  await updatePassword(user, newPassword)
+                    .then(() => {
+                      setShowToast(true);
+                      setToastOpts({
+                        variant: "success",
+                        msg: "Password updated successfully.",
+                      });
+
+                      console.log("Password updated!");
+                    })
+                    .catch((err) => console.log(err));
+                })
+                .catch((err) => console.log(err));
+            }
+
+            if (providerId === "password") {
+              setDialogOpts({
+                primaryBtnLabel: "Go to Log In",
+                msg: "You will have to log in again to perform this action.",
+                handleAction: () => (location.href = "/auth?type=signin"),
+              });
+              setShowDialog(true);
+            }
+          });
+        }
       } else {
-        console.log(error);
+        handleAuthErrs(err);
+
+        setShowToast(true);
+        setToastOpts({
+          variant: "danger",
+          msg: "Can't update Password.",
+        });
       }
     });
 };
@@ -442,25 +501,25 @@ const updatePhoto = async (
                 msg: "Profile photo updated.",
               });
             })
-            .catch((error) => {
+            .catch((err) => {
+              handleAuthErrs(err);
+
               setShowToast(true);
               setToastOpts({
                 variant: "danger",
                 msg: "Can't update Profile photo.",
               });
-
-              console.log(error);
             });
         })
-        .catch((error) => {
+        .catch((err) => {
+          handleAuthErrs(err);
+
           setIsLoading(false);
           setShowToast(true);
           setToastOpts({
             variant: "danger",
             msg: "Can't update Profile photo.",
           });
-
-          console.log(error);
         });
     }
   );
@@ -491,14 +550,14 @@ const deletePhoto = async (setUser, setShowToast, setToastOpts) => {
 
           console.log("File Deleted Successfully!");
         })
-        .catch((error) => {
+        .catch((err) => {
+          handleAuthErrs(err);
+
           setShowToast(true);
           setToastOpts({
             variant: "danger",
             msg: "Can't update Profile photo.",
           });
-
-          console.log(error);
         });
     })
     .catch((err) => {
@@ -507,12 +566,10 @@ const deletePhoto = async (setUser, setShowToast, setToastOpts) => {
         variant: "danger",
         msg: "Can't update Profile photo.",
       });
-
-      console.log("Error while deleting file:", err);
     });
 };
 
-const deleteAccount = async () => {
+const deleteAccount = async (setShowDialog, setDialogOpts) => {
   const user = auth.currentUser;
 
   await deleteUser(user)
@@ -524,28 +581,74 @@ const deleteAccount = async () => {
         uid: user.uid,
       });
 
+      location.href = "/auth?type=signup";
+
       await localStorage.removeItem("user");
       await localStorage.removeItem("credentials");
 
       console.log("Account is deleted.");
-      location.href = "/auth?type=signup";
     })
-    .catch((error) => {
-      if (error.code === "auth/requires-recent-login") {
-        console.log("Sign in again to do this.");
+    .catch((err) => {
+      if (err.code === "auth/requires-recent-login") {
+        console.log("Re-authentication started");
+        if (user !== null) {
+          user.providerData.forEach(async (profile) => {
+            const providerId = profile.providerId;
+
+            let provider;
+            if (providerId === "google.com") {
+              provider = new GoogleAuthProvider();
+            } else if (providerId === "github.com") {
+              provider = new GithubAuthProvider();
+            } else if (providerId === "microsoft.com") {
+              provider = new OAuthProvider("microsoft.com");
+            }
+
+            if (providerId !== "password") {
+              await reauthenticateWithPopup(user, provider)
+                .then(async (result) => {
+                  console.log("Re-authentication done.");
+                  const user = result.user;
+                  await deleteUser(user)
+                    .then(async () => {
+                      await axios.post("http://localhost:3001/deleteColl", {
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        uid: user.uid,
+                      });
+
+                      await localStorage.removeItem("user");
+                      await localStorage.removeItem("credentials");
+
+                      console.log("Account is deleted.");
+                      location.href = "/auth?type=signup";
+                    })
+                    .catch((err) => console.log(err));
+                })
+                .catch((err) => console.log("Error:", err));
+            }
+
+            if (providerId === "password") {
+              setDialogOpts({
+                primaryBtnLabel: "Go to Log In",
+                msg: "You will have to Log In again to perform this action.",
+                handleAction: () => (location.href = "/auth?type=signin"),
+              });
+              setShowDialog(true);
+            }
+          });
+        }
       } else {
-        console.log(error);
+        handleAuthErrs(err);
       }
     });
 };
 
 const logOut = () => {
   signOut(auth)
-    .then(() => {
-      location.href = "/auth?type=signin";
-      console.log("User signed out!");
-    })
-    .catch((error) => console.log(error));
+    .then(() => console.log("User signed out!"))
+    .catch((err) => handleAuthErrs(err));
 };
 
 export {

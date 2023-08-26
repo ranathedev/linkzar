@@ -1,10 +1,44 @@
 const { ObjectId } = require("mongodb");
 
-const getLinks = async (client) => {
+const createCollection = async (client, uid, res) => {
   try {
     await client.connect();
     const database = client.db("linkzar");
-    const collection = database.collection("links");
+
+    await database.createCollection(uid);
+
+    res.send({ message: "User collection created." }).status(200);
+    console.log("Collection created.");
+  } catch (error) {
+    console.error("Error creating user collection:", error);
+    res.send({ error: "Internal Server Error" }).status(500);
+  } finally {
+    await client.close();
+  }
+};
+
+const deleteCollection = async (client, uid, res) => {
+  try {
+    await client.connect();
+    const database = client.db("linkzar");
+
+    await database.dropCollection(uid);
+
+    res.send({ message: "User collection deleted." }).status(200);
+    console.log("Collection Deleted.");
+  } catch (error) {
+    console.error("Error deleting user collection:", error);
+    res.send({ error: "Internal Server Error" }).status(500);
+  } finally {
+    await client.close();
+  }
+};
+
+const getLinks = async (client, uid) => {
+  try {
+    await client.connect();
+    const database = client.db("linkzar");
+    const collection = database.collection(uid);
 
     const cursor = collection.find();
     const allDocuments = await cursor.toArray();
@@ -15,11 +49,11 @@ const getLinks = async (client) => {
   }
 };
 
-const insertDataObject = async (client, dataObject) => {
+const insertDataObject = async (client, dataObject, uid) => {
   try {
     await client.connect();
     const database = client.db("linkzar");
-    const collection = database.collection("links");
+    const collection = database.collection(uid);
 
     const urlData = await collection.findOne({
       originalURL: dataObject.originalURL,
@@ -53,11 +87,11 @@ const insertDataObject = async (client, dataObject) => {
   }
 };
 
-const deleteLink = async (client, id) => {
+const deleteLink = async (client, id, uid) => {
   try {
     await client.connect();
     const database = client.db("linkzar");
-    const collection = database.collection("links");
+    const collection = database.collection(uid);
 
     const filter = { _id: new ObjectId(id) };
     const deleteResult = await collection.deleteOne(filter);
@@ -74,11 +108,11 @@ const deleteLink = async (client, id) => {
   }
 };
 
-const editLink = async (client, id, newValue) => {
+const editLink = async (client, id, newValue, uid) => {
   try {
     await client.connect();
     const database = client.db("linkzar");
-    const collection = database.collection("links");
+    const collection = database.collection(uid);
 
     const filter = { _id: new ObjectId(id) };
 
@@ -126,6 +160,8 @@ const editLink = async (client, id, newValue) => {
 };
 
 module.exports = {
+  createCollection,
+  deleteCollection,
   getLinks,
   insertDataObject,
   deleteLink,

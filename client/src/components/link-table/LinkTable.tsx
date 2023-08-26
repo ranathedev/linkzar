@@ -32,6 +32,7 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
   const [listOfLinks, setListOfLinks] = React.useState<LinkType[]>([]);
   const [isRefreshing, setIsRefreshing] = React.useState(false);
   const [showModal, setShowModal] = React.useState(false);
+  const [uid, setUid] = React.useState("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -48,10 +49,22 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
     //@ts-ignore
     const links = JSON.parse(linksData);
     setListOfLinks(links);
+
+    const data = localStorage.getItem("user");
+    //@ts-ignore
+    const user = JSON.parse(data);
+    const uid = user?.uid;
+    setUid(uid);
   }, []);
 
   const refresh = async () => {
-    const links = await getLinks(setIsRefreshing);
+    const links = await getLinks(setIsRefreshing, uid);
+
+    if (links.length > 0) {
+      console.log(
+        "You haven't added any links yet. Let's start building your collection."
+      );
+    }
 
     setListOfLinks(links);
   };
@@ -84,6 +97,19 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
     saveDataToLocalStorage(updatedListOfLinks);
   };
 
+  const increaseClickCount = (linkId: string) => {
+    const linkIndex = listOfLinks.findIndex((link) => link._id === linkId);
+
+    if (linkIndex !== -1) {
+      const updatedLinks = [...listOfLinks];
+
+      updatedLinks[linkIndex].clickCounts += 1;
+
+      setListOfLinks(updatedLinks);
+      saveDataToLocalStorage(updatedLinks);
+    }
+  };
+
   return (
     <div className={clsx(stl.linkTable, className)}>
       <Modal
@@ -97,6 +123,7 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
             setShowModal={setShowModal}
             sendDeleteId={removeLink}
             theme={theme}
+            uid={uid}
           />
         }
       />
@@ -138,7 +165,9 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
                   theme={theme}
                   sendDeleteId={removeLink}
                   sendUpdatedLinks={updateLinkInList}
+                  increaseClickCount={increaseClickCount}
                   linkData={linkItem}
+                  uid={uid}
                 />
               ))}
           </>

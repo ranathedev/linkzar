@@ -1,3 +1,4 @@
+import axios from "axios";
 import auth from "./firebase";
 import {
   createUserWithEmailAndPassword,
@@ -51,9 +52,16 @@ const signupWithEmailPassword = async (
             async () => {
               const newObject = { ...user, fname, lname };
               setUser(newObject);
+
               await localStorage.setItem("user", JSON.stringify(newObject));
+              await axios.post("http://localhost:3001/createColl", {
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                uid: newObject.uid,
+              });
+
               setIsLoading(false);
-              console.log(user);
               console.log("Verification Email sent!");
             }
           );
@@ -79,7 +87,6 @@ const signinWithEmailPassword = async (email, password) => {
     .then(async (userCredential) => {
       await localStorage.setItem("credentials", JSON.stringify(userCredential));
       const user = userCredential.user;
-      console.log(user);
       console.log("User signed in Successfuly!");
       location.href = "/dashboard";
     })
@@ -110,8 +117,14 @@ const signinWithGoogle = async () => {
           fname: userData.firstName,
           lname: userData.lastName,
         };
-        console.log("User :", newObject);
+
         await localStorage.setItem("user", JSON.stringify(newObject));
+        await axios.post("http://localhost:3001/createColl", {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          uid: newObject.uid,
+        });
       }
 
       location.href = "/dashboard";
@@ -143,8 +156,14 @@ const signinWithGithub = async () => {
           fname: userData.firstName,
           lname: userData.lastName,
         };
-        console.log("User :", newObject);
+
         await localStorage.setItem("user", JSON.stringify(newObject));
+        await axios.post("http://localhost:3001/createColl", {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          uid: newObject.uid,
+        });
       }
     })
     .catch((error) => {
@@ -179,8 +198,14 @@ const signinWithMicrosoft = async () => {
           fname: userData.firstName,
           lname: userData.lastName,
         };
-        console.log("User :", newObject);
+
         await localStorage.setItem("user", JSON.stringify(newObject));
+        await axios.post("http://localhost:3001/createColl", {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          uid: newObject.uid,
+        });
       }
     })
     .catch((error) => {
@@ -491,10 +516,19 @@ const deleteAccount = async () => {
   const user = auth.currentUser;
 
   await deleteUser(user)
-    .then(() => {
+    .then(async () => {
+      await axios.post("http://localhost:3001/deleteColl", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        uid: user.uid,
+      });
+
+      await localStorage.removeItem("user");
+      await localStorage.removeItem("credentials");
+
       console.log("Account is deleted.");
       location.href = "/auth?type=signup";
-      localStorage.removeItem("user");
     })
     .catch((error) => {
       if (error.code === "auth/requires-recent-login") {

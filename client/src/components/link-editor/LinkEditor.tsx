@@ -21,6 +21,7 @@ interface Props {
   sendResponse: (arg: any) => void;
   setLoading: (arg: string) => void;
   setShowModal: (arg: boolean) => void;
+  uid: string;
 }
 
 const LinkEditor = ({
@@ -31,6 +32,7 @@ const LinkEditor = ({
   sendResponse,
   setLoading,
   setShowModal,
+  uid,
 }: Props) => {
   const [error, setError] = React.useState("");
   const [value, setValue] = React.useState("");
@@ -79,7 +81,7 @@ const LinkEditor = ({
     } else {
       setError("");
       setShowEditor(false);
-      const response = await editLink(linkData._id, value);
+      const response = await editLink(linkData._id, value, uid);
       sendResponse(response);
     }
 

@@ -28,9 +28,18 @@ const isMobileDevice = () => {
   );
 };
 
-const getLinks = async (setIsRefreshing: (arg: boolean) => void) => {
+const getLinks = async (
+  setIsRefreshing: (arg: boolean) => void,
+  uid: string
+) => {
   setIsRefreshing(true);
-  const response = await axios.get("http://localhost:3001/api/getLinks");
+  const response = await axios.post("http://localhost:3001/api/getLinks", {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    uid,
+  });
+
   const data = response.data;
 
   if (!data.err) {
@@ -47,7 +56,8 @@ const getLinks = async (setIsRefreshing: (arg: boolean) => void) => {
 const createShortLink = async (
   setLoading: (arg: string) => void,
   shortId: string,
-  url: string
+  url: string,
+  uid: string
 ) => {
   setLoading("Creating short link");
 
@@ -55,6 +65,7 @@ const createShortLink = async (
     headers: {
       "Content-Type": "application/json",
     },
+    uid,
     url,
     shortId,
   });
@@ -86,13 +97,15 @@ const shareShortLink = (shortLink: string) => {
 const handleDelLink = async (
   id: string,
   setLoading: (arg: string) => void,
-  sendResponse: (arg: any) => void
+  sendResponse: (arg: any) => void,
+  uid: string
 ) => {
   setLoading("Deleting link");
   const response = await axios.post("http://localhost:3001/api/deleteLink", {
     headers: {
       "Content-Type": "application/json",
     },
+    uid,
     id,
   });
 
@@ -107,11 +120,12 @@ const handleDelLink = async (
   setLoading("");
 };
 
-const editLink = async (id: string, value: string) => {
+const editLink = async (id: string, value: string, uid: string) => {
   const response = await axios.post("http://localhost:3001/api/editLink", {
     headers: {
       "Content-Type": "application/json",
     },
+    uid,
     id,
     value,
   });

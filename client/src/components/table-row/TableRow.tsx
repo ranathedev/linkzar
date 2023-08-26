@@ -25,6 +25,8 @@ interface Props {
   theme: string;
   sendDeleteId: (arg: string) => void;
   sendUpdatedLinks: (arg: any) => void;
+  increaseClickCount: (arg: string) => void;
+  uid: string;
 }
 
 const TableRow = ({
@@ -33,6 +35,8 @@ const TableRow = ({
   theme,
   sendDeleteId,
   sendUpdatedLinks,
+  increaseClickCount,
+  uid,
 }: Props) => {
   const [expand, setExpand] = React.useState(false);
   const [className, setClassName] = React.useState("");
@@ -98,6 +102,7 @@ const TableRow = ({
               setShowEditor={setShowEditor}
               setShowModal={setShowModal}
               sendResponse={getResponse}
+              uid={uid}
             />
           ) : (
             <Spinner taskTitle={loading} />
@@ -113,6 +118,8 @@ const TableRow = ({
         setShowModal={setShowModal}
         setShowEditor={setShowEditor}
         sendDeleteId={sendDeleteId}
+        increaseClickCount={increaseClickCount}
+        uid={uid}
       />
       <Toast
         theme={theme}
@@ -146,6 +153,8 @@ const TableRow = ({
           setShowEditor={setShowEditor}
           setShowModal={setShowModal}
           sendDeleteId={sendDeleteId}
+          increaseClickCount={increaseClickCount}
+          uid={uid}
         />
         <span className={stl.expandBtn} onClick={() => setExpand(!expand)}>
           <DownIcon />

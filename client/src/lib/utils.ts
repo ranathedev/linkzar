@@ -143,7 +143,7 @@ const sendEmail = (
       process.env.EMAIL_PUBLIC_KEY
     )
     .then(
-      (response) => {
+      () => {
         setShowToast(true);
         setToastOpts({ variant: "sucess", msg: "Message sent!" });
       },

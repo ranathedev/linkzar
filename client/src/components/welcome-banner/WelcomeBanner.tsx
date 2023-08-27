@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 import Image from "next/image";
 import clsx from "clsx";
 
-import Button from "components/button";
-
 import AnalyticsTrackingImg from "assets/track-links.png";
 
 import stl from "./WelcomeBanner.module.scss";

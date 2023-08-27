@@ -182,9 +182,9 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
                 ))
               ) : (
                 <p className={stl.note}>
-                  You haven't added any links yet. Let's start building your
-                  collection. Click the <b>Create New</b> button to add your
-                  first link.
+                  You haven&apos;t added any links yet. Let&apos;s start
+                  building your collection. Click the <b>Create New</b> button
+                  to add your first link.
                 </p>
               )}
             </>

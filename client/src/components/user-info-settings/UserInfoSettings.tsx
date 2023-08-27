@@ -11,7 +11,7 @@ import {
 import Button from "components/button";
 import AvatarContainer from "components/avatar-container";
 import Modal from "components/modal";
-import DeleteDialog from "components/delete-dialog";
+import DialogBox from "components/dialog-box";
 import Toast from "components/toast";
 
 import stl from "./UserInfoSettings.module.scss";
@@ -29,6 +29,11 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
   const [email, setEmail] = React.useState("");
   const [newPass, setNewPass] = React.useState("");
   const [showDialog, setShowDialog] = React.useState(false);
+  const [dialogOpts, setDialogOpts] = React.useState({
+    primaryBtnLabel: "Yes, Delete",
+    msg: "Are you sure want to delete your account?",
+    handleAction: () => {},
+  });
   const [showToast, setShowToast] = React.useState(false);
   const [toastOpts, setToastOpts] = React.useState({ variant: "", msg: "" });
 
@@ -56,7 +61,14 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
     };
 
     if (validateEmail()) {
-      await handleUpdateEmail(email, setUser, setShowToast, setToastOpts);
+      await handleUpdateEmail(
+        email,
+        setUser,
+        setShowToast,
+        setToastOpts,
+        setShowDialog,
+        setDialogOpts
+      );
     } else {
       console.log("Email address is not valid.");
     }
@@ -65,13 +77,28 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
   };
 
   const changePass = async () => {
-    await handleUpdatePass(newPass, setShowToast, setToastOpts);
+    await handleUpdatePass(
+      newPass,
+      setShowToast,
+      setToastOpts,
+      setShowDialog,
+      setDialogOpts
+    );
 
     setNewPass("");
   };
 
+  const showDeleteDialog = () => {
+    setDialogOpts({
+      primaryBtnLabel: "Yes, Delete",
+      msg: "Are you sure want to delete your account?",
+      handleAction: handleDelete,
+    });
+    setShowDialog(true);
+  };
+
   const handleDelete = () => {
-    deleteAccount();
+    deleteAccount(setShowDialog, setDialogOpts);
     setShowDialog(false);
   };
 
@@ -81,12 +108,13 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
         theme={theme}
         isVisible={showDialog}
         dialog={
-          <DeleteDialog
+          <DialogBox
             theme={theme}
             isVisible={showDialog}
-            handleDelete={handleDelete}
+            handleAction={dialogOpts.handleAction}
             handleCancel={() => setShowDialog(false)}
-            msg="your account?"
+            msg={dialogOpts.msg}
+            primaryBtnLabel={dialogOpts.primaryBtnLabel}
           />
         }
       />
@@ -188,7 +216,7 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
               <Button
                 theme={theme}
                 label="Delete"
-                handleOnClick={() => setShowDialog(true)}
+                handleOnClick={showDeleteDialog}
               />
             </div>
           </div>

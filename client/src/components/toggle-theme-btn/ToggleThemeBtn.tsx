@@ -31,9 +31,7 @@ const ToggleThemeBtn = ({ handleOnClick, theme }: Props) => {
     <div
       title="Toggle Theme"
       className={clsx(stl.toggleBtn)}
-      onClick={() => {
-        handleOnClick();
-      }}
+      onClick={handleOnClick}
     >
       <div id="toggleBtn" className={stl.iconContainer}>
         <MoonIcon />
@@ -42,6 +40,10 @@ const ToggleThemeBtn = ({ handleOnClick, theme }: Props) => {
       <span id="dotBtn" className={stl.dotBtn} />
     </div>
   );
+};
+
+ToggleThemeBtn.defaultProps = {
+  handleOnClick: () => console.log("Change theme."),
 };
 
 export default ToggleThemeBtn;

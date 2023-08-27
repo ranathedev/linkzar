@@ -46,7 +46,8 @@
 
     .theme,
     .logout,
-    .settings {
+    .settings,
+    .dashboard {
       @extend .alignCen;
       justify-content: space-between;
       padding: 0.35rem 0.5rem;
@@ -93,11 +94,12 @@
 
   .menu {
     background: #374151;
-    box-shadow: #666 0px 7px 29px 0px;
+    box-shadow: #444 0px 7px 29px 0px;
 
     .theme,
     .logout,
-    .settings {
+    .settings,
+    .dashboard {
       &:hover {
         background: #6b7280;
       }

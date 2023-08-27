@@ -13,7 +13,7 @@ const SettingsPage = () => {
     fname: "John",
     lname: "Doe",
     email: "johndoe@gmail.com",
-    displayName: "",
+    displayName: "John Doe",
     photoURL: "https://i.postimg.cc/Mp7gnttP/default-Pic.jpg",
   });
   const [theme, setTheme] = React.useState(() => {
@@ -34,7 +34,9 @@ const SettingsPage = () => {
     const data = localStorage.getItem("user");
     //@ts-ignore
     const user = JSON.parse(data);
-    setUser(user);
+    if (user) {
+      setUser(user);
+    }
 
     setTimeout(() => setIsLoading(false), 300);
   }, []);

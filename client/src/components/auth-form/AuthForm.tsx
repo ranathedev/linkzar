@@ -16,6 +16,7 @@ import VerificationDialog from "components/verification-dialog";
 import InputContainer from "components/input-container";
 import FgtPassDialog from "components/fgt-pass-dialog";
 import Spinner from "components/spinner";
+import Toast from "components/toast";
 
 import GoogleIcon from "assets/google.svg";
 import GithubIcon from "assets/github-2.svg";
@@ -42,6 +43,8 @@ const AuthForm = ({ theme }: Props) => {
   const [isLoading, setIsLoading] = React.useState(true);
   const [user, setUser] = React.useState(null);
   const [resetPass, setResetPass] = React.useState(false);
+  const [showToast, setShowToast] = React.useState(false);
+  const [toastOpts, setToastOpts] = React.useState({ variant: "", msg: "" });
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -77,17 +80,17 @@ const AuthForm = ({ theme }: Props) => {
     {
       icon: <GoogleIcon />,
       name: "google",
-      onClick: signinWithGoogle,
+      onClick: () => signinWithGoogle(setShowToast, setShowToast),
     },
     {
       icon: <GithubIcon />,
       name: "github",
-      onClick: signinWithGithub,
+      onClick: () => signinWithGithub(setShowToast, setShowToast),
     },
     {
       icon: <MicrosoftIcon />,
       name: "twitter",
-      onClick: signinWithMicrosoft,
+      onClick: () => signinWithMicrosoft(setShowToast, setShowToast),
     },
   ];
   const signUpSchema = Yup.object().shape({
@@ -145,97 +148,112 @@ const AuthForm = ({ theme }: Props) => {
   ) : resetPass === true ? (
     <FgtPassDialog theme={theme} setResetPass={setResetPass} />
   ) : user === null ? (
-    <div className={clsx(stl.authForm, className)}>
-      <h2 className={stl.heading}>
-        {formType === "signup"
-          ? "Create your Free Account"
-          : "Log in to your Account"}
-      </h2>
-      <div className={stl.socialMethod}>
-        <span>Sign {formType === "signup" ? "up" : "in"} with</span>
-        <div className={stl.btns}>
-          {socialMethods.map((item, i) => (
-            <button
-              key={i}
-              className={stl[`${item.name}Btn`]}
-              onClick={item.onClick}
-            >
-              {item.icon}
+    <>
+      <Toast
+        theme={theme}
+        isVisible={showToast}
+        setShowToast={setShowToast}
+        variant={toastOpts.variant}
+        content={toastOpts.msg}
+      />
+      <div className={clsx(stl.authForm, className)}>
+        <h2 className={stl.heading}>
+          {formType === "signup"
+            ? "Create your Free Account"
+            : "Log in to your Account"}
+        </h2>
+        <div className={stl.socialMethod}>
+          <span>Sign {formType === "signup" ? "up" : "in"} with</span>
+          <div className={stl.btns}>
+            {socialMethods.map((item, i) => (
+              <button
+                key={i}
+                className={stl[`${item.name}Btn`]}
+                onClick={item.onClick}
+              >
+                {item.icon}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className={stl.divider}>
+          <span className={stl.line} />
+          <span className={stl.text}>or</span>
+          <span className={stl.line} />
+        </div>
+        <Formik
+          initialValues={initVals}
+          validationSchema={formType === "signup" ? signUpSchema : signInSchema}
+          onSubmit={(values, actions) => {
+            if ((formType === "signup" && isChecked) || formType === "signin") {
+              (formType === "signup" &&
+                signupWithEmailPassword(
+                  values.fname,
+                  values.lname,
+                  values.email,
+                  values.pass,
+                  setUser,
+                  setIsLoading,
+                  setShowToast,
+                  setToastOpts
+                )) ||
+                (formType === "signin" &&
+                  signinWithEmailPassword(
+                    values.email,
+                    values.pass,
+                    setShowToast,
+                    setToastOpts
+                  ));
+              actions.resetForm();
+              setIsChecked(false);
+            } else {
+              alert("Agree to our terms and conditions to create account.");
+            }
+          }}
+        >
+          <Form>
+            {getFields(formType)?.map((field, i) => (
+              <InputContainer
+                theme={theme}
+                key={i}
+                id={field.id}
+                type={field.type}
+                label={field.label}
+                placeholder={field.placeholder}
+              />
+            ))}
+            {formType === "signup" ? (
+              <div className={stl.checkboxContainer}>
+                <span
+                  className={clsx(stl.checkbox, isChecked ? stl.checked : "")}
+                  onClick={() => setIsChecked(!isChecked)}
+                >
+                  <TickIcon />
+                </span>
+                <label htmlFor="agreement">
+                  I agree to the <Link href="#">terms and conditions</Link>.
+                </label>
+              </div>
+            ) : (
+              <div className={stl.forgotPassword}>
+                <span onClick={() => setResetPass(true)}>Forgot password?</span>
+              </div>
+            )}
+            <button className={stl.btn} type="submit">
+              {formType === "signup" ? "Create an account" : "Log in"}
             </button>
-          ))}
+          </Form>
+        </Formik>
+        <div className={stl.authSwitch}>
+          {formType === "signup"
+            ? "Already have an account? "
+            : "Don't have an account yet? "}
+          <span onClick={changeFormType}>
+            {formType === "signup" ? "Sign in" : "Sign up for an account"}
+          </span>
         </div>
       </div>
-      <div className={stl.divider}>
-        <span className={stl.line} />
-        <span className={stl.text}>or</span>
-        <span className={stl.line} />
-      </div>
-      <Formik
-        initialValues={initVals}
-        validationSchema={formType === "signup" ? signUpSchema : signInSchema}
-        onSubmit={(values, actions) => {
-          if ((formType === "signup" && isChecked) || formType === "signin") {
-            (formType === "signup" &&
-              signupWithEmailPassword(
-                values.fname,
-                values.lname,
-                values.email,
-                values.pass,
-                setUser,
-                setIsLoading
-              )) ||
-              (formType === "signin" &&
-                signinWithEmailPassword(values.email, values.pass));
-            actions.resetForm();
-
-            setIsChecked(false);
-          } else {
-            alert("Agree to our terms and conditions to create account.");
-          }
-        }}
-      >
-        <Form>
-          {getFields(formType)?.map((field, i) => (
-            <InputContainer
-              theme={theme}
-              key={i}
-              id={field.id}
-              type={field.type}
-              label={field.label}
-              placeholder={field.placeholder}
-            />
-          ))}
-          {formType === "signup" ? (
-            <div className={stl.checkboxContainer}>
-              <span
-                className={clsx(stl.checkbox, isChecked ? stl.checked : "")}
-                onClick={() => setIsChecked(!isChecked)}
-              >
-                <TickIcon />
-              </span>
-              <label htmlFor="agreement">
-                I agree to the <Link href="#">terms and conditions</Link>.
-              </label>
-            </div>
-          ) : (
-            <div className={stl.forgotPassword}>
-              <span onClick={() => setResetPass(true)}>Forgot password?</span>
-            </div>
-          )}
-          <button className={stl.btn} type="submit">
-            {formType === "signup" ? "Create an account" : "Log in"}
-          </button>
-        </Form>
-      </Formik>
-      <div className={stl.authSwitch}>
-        {formType === "signup"
-          ? "Already have an account? "
-          : "Don't have an account yet? "}
-        <span onClick={changeFormType}>
-          {formType === "signup" ? "Sign in" : "Sign up for an account"}
-        </span>
-      </div>
-    </div>
+    </>
   ) : (
     <VerificationDialog theme={theme} user={user} />
   );

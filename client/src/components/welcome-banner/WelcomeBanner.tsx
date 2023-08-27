@@ -33,9 +33,6 @@ const WelcomeBanner = ({ theme, name }: Props) => {
         <p className={stl.desc}>
           Welcome to your Dashboard! Here you can manage and track your links.
         </p>
-        <div className={stl.btn}>
-          <Button theme="light" label="Shorten Link" />
-        </div>
       </div>
       <Image src={AnalyticsTrackingImg} alt="welcome-banner image" />
     </div>

@@ -48,8 +48,8 @@ const getLinks = async (
     setIsRefreshing(false);
     return revData;
   } else {
-    console.log(data.err);
     setIsRefreshing(false);
+    return data;
   }
 };
 
@@ -83,14 +83,9 @@ const shareShortLink = (shortLink: string) => {
         text: "Check out this short link:",
         url: shortLink,
       })
-      .then(() => {
-        console.log("Shared successfully");
-      })
       .catch((error) => {
         console.error("Error sharing:", error);
       });
-  } else {
-    console.log("Web Share API is not supported on this device");
   }
 };
 
@@ -134,7 +129,11 @@ const editLink = async (id: string, value: string, uid: string) => {
   return data;
 };
 
-const sendEmail = (values: { name: string; email: string; msg: string }) => {
+const sendEmail = (
+  values: { name: string; email: string; msg: string },
+  setShowToast: (arg: boolean) => void,
+  setToastOpts: (arg: { variant: string; msg: string }) => void
+) => {
   emailjs
     .send(
       //@ts-ignore
@@ -145,10 +144,12 @@ const sendEmail = (values: { name: string; email: string; msg: string }) => {
     )
     .then(
       (response) => {
-        console.log("SUCCESS!", response.status, response.text);
-        alert("Your message sent successfully!");
+        setShowToast(true);
+        setToastOpts({ variant: "sucess", msg: "Message sent!" });
       },
       (error) => {
+        setShowToast(true);
+        setToastOpts({ variant: "danger", msg: "Can't send message" });
         console.log("FAILED...", error);
       }
     );

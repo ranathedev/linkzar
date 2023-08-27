@@ -4,6 +4,7 @@ import * as Yup from "yup";
 
 import { sendResetPasswordEmail } from "lib/authFunctions";
 import Button from "components/button";
+import Toast from "components/toast";
 
 import ArrowIcon from "assets/arrow-left.svg";
 
@@ -17,6 +18,8 @@ interface Props {
 const FgtPassDialog = ({ theme, setResetPass }: Props) => {
   const [className, setClassName] = React.useState("");
   const [email, setEmail] = React.useState("");
+  const [showToast, setShowToast] = React.useState(false);
+  const [toastOpts, setToastOpts] = React.useState({ variant: "", msg: "" });
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -31,48 +34,58 @@ const FgtPassDialog = ({ theme, setResetPass }: Props) => {
   const handleSubmit = async () => {
     try {
       await Yup.string().email().validate(email);
-      sendResetPasswordEmail(email);
+      sendResetPasswordEmail(email, setShowToast, setToastOpts);
     } catch (error) {
-      console.log("Invalid email address");
+      setShowToast(true);
+      setToastOpts({ variant: "warn", msg: "Invaild email!" });
     }
 
     setEmail("");
   };
 
   return (
-    <div className={clsx(stl.fgtPassDialog, className)}>
-      <div className={stl.content}>
-        <div className={stl.heading}>Forgot password?</div>
-        <span className={stl.headline}>
-          No worries, we&apos;ll send you reset instructions.
-        </span>
+    <>
+      <Toast
+        theme={theme}
+        isVisible={showToast}
+        setShowToast={setShowToast}
+        variant={toastOpts.variant}
+        content={toastOpts.msg}
+      />
+      <div className={clsx(stl.fgtPassDialog, className)}>
+        <div className={stl.content}>
+          <div className={stl.heading}>Forgot password?</div>
+          <span className={stl.headline}>
+            No worries, we&apos;ll send you reset instructions.
+          </span>
+        </div>
+        <div className={stl.inputContainer}>
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+          />
+        </div>
+        <div className={stl.btnContainer}>
+          <Button
+            theme={theme}
+            label="Reset password"
+            type="submit"
+            handleOnClick={handleSubmit}
+          />
+          <Button
+            theme={theme}
+            leftIcon={<ArrowIcon />}
+            label="Back to log in"
+            variant="secondary"
+            handleOnClick={() => setResetPass(false)}
+          />
+        </div>
       </div>
-      <div className={stl.inputContainer}>
-        <label htmlFor="email">Email</label>
-        <input
-          type="email"
-          name="email"
-          placeholder="Enter your email"
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-        />
-      </div>
-      <div className={stl.btnContainer}>
-        <Button
-          theme={theme}
-          label="Reset password"
-          type="submit"
-          handleOnClick={handleSubmit}
-        />
-        <Button
-          theme={theme}
-          leftIcon={<ArrowIcon />}
-          label="Back to log in"
-          variant="secondary"
-          handleOnClick={() => setResetPass(false)}
-        />
-      </div>
-    </div>
+    </>
   );
 };
 

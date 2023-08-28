@@ -18,6 +18,7 @@ import Modal from "components/modal";
 import InputError from "components/input-error";
 import Tooltip from "components/tooltip";
 import Toast from "components/toast";
+import ShareMenu from "components/share-menu";
 
 import LinkIcon from "assets/link.svg";
 import OpenLinkIcon from "assets/openLink.svg";
@@ -65,6 +66,7 @@ const URLShortener = ({
   const [showToast, setShowToast] = React.useState(false);
   const [toastOpts, setToastOpts] = React.useState({ variant: "", msg: "" });
   const [linksCount, setLinksCount] = React.useState(0);
+  const [showShareMenu, setShowShareMenu] = React.useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -86,7 +88,7 @@ const URLShortener = ({
       }
     }
     isMobileDevice() ? setDevice("Mobile") : setDevice("");
-  }, []);
+  }, [uid]);
 
   useEffect(() => {
     if (showTooltip) {
@@ -173,11 +175,11 @@ const URLShortener = ({
               variant: "warn",
               msg: response.err,
             });
-          } else {
-            setLinkData(response);
+          } else if (response.count) {
+            setLinkData(response.document);
             if (uid === "links") {
               if (linksCount < 3) {
-                const updatedLinkCount = linksCount + 1;
+                const updatedLinkCount = linksCount + response.count;
                 setLinksCount(updatedLinkCount);
                 localStorage.setItem(
                   "linksCount",
@@ -185,6 +187,13 @@ const URLShortener = ({
                 );
               }
             }
+            setToastOpts({
+              variant: "success",
+              msg: "Link created successfully!",
+            });
+            sendNewLink(response.document);
+          } else {
+            setLinkData(response);
             setToastOpts({
               variant: "success",
               msg: "Link created successfully!",
@@ -331,7 +340,7 @@ const URLShortener = ({
                       >
                         <OpenLinkIcon />
                       </button>
-                      {device === "Mobile" && (
+                      {device === "Mobile" ? (
                         <button
                           className={stl.btn}
                           onClick={() =>
@@ -340,6 +349,20 @@ const URLShortener = ({
                         >
                           <ShareIcon />
                         </button>
+                      ) : (
+                        <>
+                          <button
+                            className={clsx(stl.btn, stl.shareBtn)}
+                            onClick={() => setShowShareMenu(true)}
+                          >
+                            <ShareIcon />
+                          </button>
+                          <ShareMenu
+                            theme={theme}
+                            isVisible={showShareMenu}
+                            setShowShareMenu={setShowShareMenu}
+                          />
+                        </>
                       )}
                       <button
                         className={stl.btn}

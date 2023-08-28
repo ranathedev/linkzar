@@ -13,6 +13,7 @@ import AvatarContainer from "components/avatar-container";
 import Modal from "components/modal";
 import DialogBox from "components/dialog-box";
 import Toast from "components/toast";
+import Spinner from "components/spinner";
 
 import stl from "./UserInfoSettings.module.scss";
 
@@ -24,13 +25,13 @@ interface Props {
 
 const UserInfoSettings = ({ theme, user, setUser }: Props) => {
   const [className, setClassName] = React.useState("");
-  const [fname, setFname] = React.useState("");
-  const [lname, setLname] = React.useState("");
+  const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [newPass, setNewPass] = React.useState("");
   const [showDialog, setShowDialog] = React.useState(false);
   const [showToast, setShowToast] = React.useState(false);
   const [toastOpts, setToastOpts] = React.useState({ variant: "", msg: "" });
+  const [loading, setLoading] = React.useState("");
   const [dialogOpts, setDialogOpts] = React.useState({
     primaryBtnLabel: "Yes, Delete",
     msg: "Are you sure want to delete your account?",
@@ -48,10 +49,9 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
   }, [theme]);
 
   const changeName = async () => {
-    await updateName(fname, lname, setUser, setShowToast, setToastOpts);
+    await updateName(name, setUser, setShowToast, setToastOpts, setLoading);
 
-    setFname("");
-    setLname("");
+    setName("");
   };
 
   const changeEmail = async () => {
@@ -67,7 +67,8 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
         setShowToast,
         setToastOpts,
         setShowDialog,
-        setDialogOpts
+        setDialogOpts,
+        setLoading
       );
     } else {
       setShowToast(true);
@@ -83,7 +84,8 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
       setShowToast,
       setToastOpts,
       setShowDialog,
-      setDialogOpts
+      setDialogOpts,
+      setLoading
     );
 
     setNewPass("");
@@ -137,92 +139,109 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
             setToastOpts={setToastOpts}
             customClass={stl.avatar}
           />
-          <div className={stl.nameContainer}>
-            <div className={stl.inputContainer}>
-              <label htmlFor="fname">First name</label>
-              <input
-                name="fname"
-                placeholder={user.fname !== "" ? user.fname : user.displayName}
-                onChange={(e) => setFname(e.target.value)}
-                value={fname}
-              />
-            </div>
-            <div className={stl.inputContainer}>
-              <label htmlFor="lname">Last name</label>
-              <input
-                name="lname"
-                placeholder={user.lname}
-                onChange={(e) => setLname(e.target.value)}
-                value={lname}
-              />
-            </div>
-            <div
-              className={clsx(
-                stl.btnContainer,
-                fname !== "" || lname !== "" ? stl.show : ""
-              )}
-            >
-              <Button theme={theme} label="Save" handleOnClick={changeName} />
-            </div>
+          <div className={stl.basicInfo}>
+            {loading === "Updating Name" ? (
+              <Spinner taskTitle={loading} />
+            ) : (
+              <div className={stl.inputContainer}>
+                <label htmlFor="name">Name</label>
+                <input
+                  name="name"
+                  placeholder={user.displayName}
+                  onChange={(e) => setName(e.target.value)}
+                  value={name}
+                />
+                <div
+                  className={clsx(
+                    stl.btnContainer,
+                    name !== "" ? stl.show : ""
+                  )}
+                >
+                  <Button
+                    theme={theme}
+                    label="Change Name"
+                    handleOnClick={changeName}
+                  />
+                </div>
+              </div>
+            )}
+            {loading === "Updating Email" ? (
+              <Spinner taskTitle={loading} />
+            ) : (
+              <div className={stl.inputContainer}>
+                <label htmlFor="email">Your email</label>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder={user.email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  value={email}
+                />
+                <div
+                  className={clsx(
+                    stl.btnContainer,
+                    email !== "" ? stl.show : ""
+                  )}
+                >
+                  <Button
+                    theme={theme}
+                    label="Change Email"
+                    handleOnClick={changeEmail}
+                  />
+                </div>
+              </div>
+            )}
+            {loading === "Updating Password" ? (
+              <Spinner taskTitle={loading} />
+            ) : (
+              <div className={stl.inputContainer}>
+                <label htmlFor="newPass">New Password</label>
+                <input
+                  type="password"
+                  name="newPass"
+                  placeholder="Enter your new password"
+                  onChange={(e) => setNewPass(e.target.value)}
+                  value={newPass}
+                />
+                <div
+                  className={clsx(
+                    stl.btnContainer,
+                    newPass !== "" ? stl.show : ""
+                  )}
+                >
+                  <Button
+                    theme={theme}
+                    label="Change Password"
+                    handleOnClick={changePass}
+                  />
+                </div>
+              </div>
+            )}
           </div>
-          <div className={stl.emailContainer}>
-            <div className={stl.inputContainer}>
-              <label htmlFor="email">Your email</label>
-              <input
-                type="email"
-                name="email"
-                placeholder={user.email}
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
-              />
-            </div>
-            <div
-              className={clsx(stl.btnContainer, email !== "" ? stl.show : "")}
-            >
-              <Button theme={theme} label="Save" handleOnClick={changeEmail} />
-            </div>
-          </div>
-          <div className={stl.passContainer}>
-            <div className={stl.inputContainer}>
-              <label htmlFor="newPass">New Password</label>
-              <input
-                type="password"
-                name="newPass"
-                placeholder="Enter your new password"
-                onChange={(e) => setNewPass(e.target.value)}
-                value={newPass}
-              />
-            </div>
-            <div
-              className={clsx(stl.btnContainer, newPass !== "" ? stl.show : "")}
-            >
-              <Button theme={theme} label="Save" handleOnClick={changePass} />
-            </div>
-          </div>
-          <div className={stl.delContainer}>
+          <div className={stl.accContainer}>
             <div className={stl.inputContainer}>
               <label>Logout</label>
               <div className={stl.msg}>Log out from account?</div>
-            </div>
-            <div className={clsx(stl.btnContainer, stl.logoutBtn)}>
-              <Button
-                theme={theme}
-                label="Log out"
-                handleOnClick={() => logOut(setShowToast, setToastOpts)}
-              />
+              <div className={clsx(stl.btnContainer, stl.logoutBtn)}>
+                <Button
+                  theme={theme}
+                  label="Log out"
+                  handleOnClick={() => logOut(setShowToast, setToastOpts)}
+                />
+              </div>
             </div>
             <div className={stl.inputContainer}>
               <label>Delete this account</label>
               <div className={stl.msg}>
                 Your data will be lost and cannot be recovered.
               </div>
-            </div>
-            <div className={clsx(stl.btnContainer, stl.delBtn)}>
-              <Button
-                theme={theme}
-                label="Delete"
-                handleOnClick={showDeleteDialog}
-              />
+              <div className={clsx(stl.btnContainer, stl.delBtn)}>
+                <Button
+                  theme={theme}
+                  label="Delete"
+                  handleOnClick={showDeleteDialog}
+                />
+              </div>
             </div>
           </div>
         </div>

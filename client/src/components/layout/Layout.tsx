@@ -1,11 +1,8 @@
 import React, { useEffect } from "react";
 import Head from "next/head";
-import firebase from "firebase/auth";
 
-import auth from "lib/firebase";
 import Header from "components/header";
 import Footer from "components/footer";
-import LoadingScreen from "components/loading-screen";
 
 import stl from "./Layout.module.scss";
 
@@ -14,28 +11,11 @@ interface Props {
   children: React.ReactNode;
   title: string;
   setTheme: (arg: any) => void;
+  user: any;
 }
 
-const Layout = ({ theme, children, title, setTheme }: Props) => {
-  const [loading, setLoading] = React.useState(true);
-  const [user, setUser] = React.useState<firebase.User | null>(null);
+const Layout = ({ theme, children, title, setTheme, user }: Props) => {
   const [className, setClassName] = React.useState("");
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user);
-      setLoading(false);
-      if (user && !user.emailVerified) {
-        console.log("Your email is not verified");
-      } else {
-        console.log("Your email is verified");
-      }
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -81,17 +61,17 @@ const Layout = ({ theme, children, title, setTheme }: Props) => {
           href="favicon/favicon-16x16.png"
         />
       </Head>
-      {loading ? (
-        <LoadingScreen />
-      ) : (
-        <main className={className}>
-          <Header theme={theme} setTheme={setTheme} user={user} />
-          {children}
-          <Footer theme={theme} />
-        </main>
-      )}
+      <main className={className}>
+        <Header theme={theme} setTheme={setTheme} user={user} />
+        {children}
+        <Footer theme={theme} />
+      </main>
     </>
   );
+};
+
+Layout.defaultProps = {
+  user: null,
 };
 
 export default Layout;

@@ -33,7 +33,6 @@ const signupWithEmailPassword = async (
   lname,
   email,
   password,
-  setUser,
   setIsLoading,
   setShowToast,
   setToastOpts
@@ -41,7 +40,6 @@ const signupWithEmailPassword = async (
   setIsLoading(true);
   await createUserWithEmailAndPassword(auth, email, password)
     .then(async (userCredential) => {
-      await localStorage.setItem("credentials", JSON.stringify(userCredential));
       const user = userCredential.user;
 
       await updateProfile(user, {
@@ -49,6 +47,17 @@ const signupWithEmailPassword = async (
         photoURL: "https://i.postimg.cc/Mp7gnttP/default-Pic.jpg",
       })
         .then(async () => {
+          await localStorage.setItem("user", JSON.stringify(user));
+
+          await axios.post("http://localhost:3001/createColl", {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            uid: user.uid,
+          });
+
+          location.href = "/dashboard";
+
           const actionCodeSettings = {
             url: "http://localhost:3000/dashboard",
             handleCodeInApp: true,
@@ -56,33 +65,20 @@ const signupWithEmailPassword = async (
 
           await sendEmailVerification(user, actionCodeSettings)
             .then(async () => {
-              const newObject = { ...user, fname, lname };
-              setUser(newObject);
-
-              await localStorage.setItem("user", JSON.stringify(newObject));
-              await axios.post("http://localhost:3001/createColl", {
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                uid: newObject.uid,
-              });
-
-              setIsLoading(false);
               setShowToast(true);
               setToastOpts({
                 variant: "success",
                 msg: `Verification email sent to: ${email}`,
               });
+              setIsLoading(false);
             })
             .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
         })
         .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
     })
-    .catch((err) => {
-      handleAuthErrs(err, setShowToast, setToastOpts);
+    .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
 
-      setIsLoading(false);
-    });
+  setIsLoading(false);
 };
 
 const signinWithEmailPassword = async (
@@ -93,8 +89,8 @@ const signinWithEmailPassword = async (
 ) => {
   await signInWithEmailAndPassword(auth, email, password)
     .then(async (userCredential) => {
-      await localStorage.setItem("credentials", JSON.stringify(userCredential));
       const user = userCredential.user;
+      await localStorage.setItem("user", JSON.stringify(user));
       location.href = "/dashboard";
     })
     .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
@@ -108,26 +104,15 @@ const signinWithGoogle = async (setShowToast, setToastOpts) => {
 
   await signInWithPopup(auth, provider)
     .then(async (userCredential) => {
-      await localStorage.setItem("credentials", JSON.stringify(userCredential));
       const user = userCredential.user;
-      const userData = userCredential._tokenResponse;
 
-      const existingData = await localStorage.getItem("user");
-      if (!existingData) {
-        const newObject = {
-          ...user,
-          fname: userData.firstName,
-          lname: userData.lastName,
-        };
-
-        await localStorage.setItem("user", JSON.stringify(newObject));
-        await axios.post("http://localhost:3001/createColl", {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          uid: newObject.uid,
-        });
-      }
+      await localStorage.setItem("user", JSON.stringify(user));
+      await axios.post("http://localhost:3001/createColl", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        uid: user.uid,
+      });
 
       location.href = "/dashboard";
     })
@@ -142,25 +127,17 @@ const signinWithGithub = async (setShowToast, setToastOpts) => {
 
   signInWithPopup(auth, provider)
     .then(async (userCredential) => {
-      await localStorage.setItem("credentials", JSON.stringify(userCredential));
       const user = userCredential.user;
-      const userData = userCredential._tokenResponse;
-      const existingData = await localStorage.getItem("user");
-      if (!existingData) {
-        const newObject = {
-          ...user,
-          fname: userData.firstName,
-          lname: userData.lastName,
-        };
 
-        await localStorage.setItem("user", JSON.stringify(newObject));
-        await axios.post("http://localhost:3001/createColl", {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          uid: newObject.uid,
-        });
-      }
+      await localStorage.setItem("user", JSON.stringify(user));
+      await axios.post("http://localhost:3001/createColl", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        uid: user.uid,
+      });
+
+      location.href = "/dashboard";
     })
     .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
 };
@@ -174,25 +151,17 @@ const signinWithMicrosoft = async (setShowToast, setToastOpts) => {
   });
   signInWithPopup(auth, provider)
     .then(async (userCredential) => {
-      await localStorage.setItem("credentials", JSON.stringify(userCredential));
       const user = userCredential.user;
-      const userData = userCredential._tokenResponse;
-      const existingData = await localStorage.getItem("user");
-      if (!existingData) {
-        const newObject = {
-          ...user,
-          fname: userData.firstName,
-          lname: userData.lastName,
-        };
 
-        await localStorage.setItem("user", JSON.stringify(newObject));
-        await axios.post("http://localhost:3001/createColl", {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          uid: newObject.uid,
-        });
-      }
+      await localStorage.setItem("user", JSON.stringify(user));
+      await axios.post("http://localhost:3001/createColl", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        uid: user.uid,
+      });
+
+      location.href = "/dashboard";
     })
     .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
 };
@@ -227,38 +196,26 @@ const sendResetPasswordEmail = async (email, setShowToast, setToastOpts) => {
 };
 
 const updateName = async (
-  fname,
-  lname,
+  name,
   setUser,
   setShowToast,
-  setToastOpts
+  setToastOpts,
+  setLoading
 ) => {
-  let displayName;
-  if (fname === "") {
-    displayName = lname;
-  } else if (lname === "") {
-    displayName = fname;
-  } else {
-    displayName = fname + " " + lname;
-  }
+  setLoading("Updaing Name");
 
   const user = await auth.currentUser;
   await updateProfile(user, {
-    displayName,
+    displayName: name,
   })
     .then(async () => {
-      const existingData = await localStorage.getItem("user");
+      const existingData = localStorage.getItem("user");
       const parsedData = JSON.parse(existingData);
-      parsedData.fname = fname;
-      parsedData.lname = lname;
-      parsedData.displayName = displayName;
+      parsedData.displayName = name;
+      const updatedData = JSON.stringify(parsedData);
 
       setUser(parsedData);
-
-      const updatedData = JSON.stringify(parsedData);
-      await localStorage.setItem("user", updatedData);
-
-      const user = auth.currentUser;
+      await localStorage.setItem("user", JSON.stringify(updatedData));
 
       setShowToast(true);
       setToastOpts({
@@ -275,6 +232,8 @@ const updateName = async (
         msg: "Can't update Name.",
       });
     });
+
+  setLoading("");
 };
 
 const handleUpdateEmail = async (
@@ -283,22 +242,23 @@ const handleUpdateEmail = async (
   setShowToast,
   setToastOpts,
   setShowDialog,
-  setDialogOpts
+  setDialogOpts,
+  setLoading
 ) => {
-  const user = auth.currentUser;
+  setLoading("Updating Email");
 
-  await updateEmail(auth.currentUser, email)
+  const user = await auth.currentUser;
+  await updateEmail(user, email)
     .then(async () => {
       await sendEmailVerification(user)
         .then(async () => {
-          const existingData = await localStorage.getItem("user");
+          const existingData = localStorage.getItem("user");
           const parsedData = JSON.parse(existingData);
           parsedData.email = email;
+          const updatedData = JSON.stringify(updatedData);
 
+          await localStorage.setItem("user", JSON.stringify(updatedData));
           setUser(parsedData);
-
-          const updatedData = JSON.stringify(parsedData);
-          await localStorage.setItem("user", updatedData);
 
           setShowToast(true);
           setToastOpts({
@@ -337,14 +297,8 @@ const handleUpdateEmail = async (
                   const user = result.user;
                   await sendEmailVerification(user)
                     .then(async () => {
-                      const existingData = await localStorage.getItem("user");
-                      const parsedData = JSON.parse(existingData);
-                      parsedData.email = email;
-
-                      setUser(parsedData);
-
-                      const updatedData = JSON.stringify(parsedData);
-                      await localStorage.setItem("user", updatedData);
+                      await localStorage.setItem("user", JSON.stringify(user));
+                      setUser(user);
 
                       setShowToast(true);
                       setToastOpts({
@@ -379,6 +333,8 @@ const handleUpdateEmail = async (
         handleAuthErrs(err, setShowToast, setToastOpts);
       }
     });
+
+  setLoading("");
 };
 
 const handleUpdatePass = async (
@@ -386,10 +342,12 @@ const handleUpdatePass = async (
   setShowToast,
   setToastOpts,
   setShowDialog,
-  setDialogOpts
+  setDialogOpts,
+  setLoading
 ) => {
-  const user = auth.currentUser;
+  setLoading("Updating Password");
 
+  const user = auth.currentUser;
   await updatePassword(user, newPassword)
     .then(() => {
       setShowToast(true);
@@ -451,6 +409,8 @@ const handleUpdatePass = async (
         });
       }
     });
+
+  setLoading("");
 };
 
 const updatePhoto = async (
@@ -462,74 +422,86 @@ const updatePhoto = async (
 ) => {
   setIsLoading(true);
   const file = e.target.files[0];
-  const uid = auth.currentUser?.uid;
+  const user = await auth.currentUser;
+  const uid = user.uid;
   const profilePicRef = ref(storage, `${process.env.BUCKET}/${uid}/profilePic`);
-  await deleteObject(profilePicRef);
+  await deleteObject(profilePicRef)
+    .then(() => {})
+    .catch((err) => {});
 
   const storageRef = ref(storage, `${process.env.BUCKET}/${uid}/profilePic`);
 
-  await uploadBytesResumable(storageRef, file);
+  const uploadTask = uploadBytesResumable(storageRef, file);
 
-  await getDownloadURL(uploadTask.snapshot.ref)
-    .then(async (downloadURL) => {
-      const user = await auth.currentUser;
+  uploadTask.on(
+    "state_changed",
+    (snapshot) => {
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    },
+    (error) => {},
+    async () => {
+      await getDownloadURL(uploadTask.snapshot.ref)
+        .then(async (downloadURL) => {
+          await updateProfile(auth.currentUser, { photoURL: downloadURL })
+            .then(async () => {
+              const existingData = await localStorage.getItem("user");
+              const parsedData = JSON.parse(existingData);
+              parsedData.photoURL = downloadURL;
+              const updatedData = JSON.stringify(parsedData);
 
-      await updateProfile(user, { photoURL: downloadURL })
-        .then(async () => {
-          const existingData = await localStorage.getItem("user");
-          const parsedData = JSON.parse(existingData);
-          parsedData.photoURL = downloadURL;
+              setUser(parsedData);
+              await localStorage.setItem("user", updatedData);
 
-          const updatedData = JSON.stringify(parsedData);
-          await localStorage.setItem("user", updatedData);
+              setIsLoading(false);
+              setShowToast(true);
+              setToastOpts({
+                variant: "success",
+                msg: "Profile photo updated.",
+              });
+            })
+            .catch((err) => {
+              handleAuthErrs(err, setShowToast, setToastOpts);
 
-          setUser(parsedData);
-          setIsLoading(false);
-          setShowToast(true);
-          setToastOpts({
-            variant: "success",
-            msg: "Profile photo updated.",
-          });
+              setShowToast(true);
+              setToastOpts({
+                variant: "danger",
+                msg: "Can't update Profile photo.",
+              });
+            });
         })
         .catch((err) => {
           handleAuthErrs(err, setShowToast, setToastOpts);
 
+          setIsLoading(false);
           setShowToast(true);
           setToastOpts({
             variant: "danger",
             msg: "Can't update Profile photo.",
           });
         });
-    })
-    .catch((err) => {
-      handleAuthErrs(err, setShowToast, setToastOpts);
-
-      setIsLoading(false);
-      setShowToast(true);
-      setToastOpts({
-        variant: "danger",
-        msg: "Can't update Profile photo.",
-      });
-    });
+    }
+  );
 };
 
 const deletePhoto = async (setUser, setShowToast, setToastOpts) => {
-  const uid = auth.currentUser?.uid;
+  const user = await auth.currentUser;
+  const uid = user.uid;
   const profilePicRef = ref(storage, `${process.env.BUCKET}/${uid}/profilePic`);
 
   await deleteObject(profilePicRef)
     .then(async () => {
       const photoURL = "https://i.postimg.cc/Mp7gnttP/default-Pic.jpg";
-      const existingData = await localStorage.getItem("user");
-      const parsedData = JSON.parse(existingData);
-      parsedData.photoURL = photoURL;
 
-      const updatedData = JSON.stringify(parsedData);
-      await localStorage.setItem("user", updatedData);
-
-      await updateProfile(auth.currentUser, { photoURL })
+      await updateProfile(user, { photoURL })
         .then(() => {
+          const existingData = localStorage.getItem("user");
+          const parsedData = JSON.parse(existingData);
+          parsedData.photoURL = photoURL;
+          const updatedData = JSON.stringify(updatedData);
+
           setUser(parsedData);
+          localStorage.setItem("user", JSON.stringify(updatedData));
+
           setShowToast(true);
           setToastOpts({
             variant: "success",
@@ -566,7 +538,6 @@ const deleteAccount = async (
   await deleteUser(user)
     .then(async () => {
       await localStorage.removeItem("user");
-      await localStorage.removeItem("credentials");
       await localStorage.removeItem("links");
 
       location.href = "/auth?type=signup";
@@ -600,7 +571,6 @@ const deleteAccount = async (
                   await deleteUser(user)
                     .then(async () => {
                       await localStorage.removeItem("user");
-                      await localStorage.removeItem("credentials");
                       await localStorage.removeItem("links");
 
                       location.href = "/auth?type=signup";

@@ -6,7 +6,7 @@
   display: none;
   @extend .alignCen;
   width: 100%;
-  max-width: 20rem;
+  max-width: 25rem;
   padding: 1rem;
   padding-bottom: 19px;
   margin-bottom: 1rem;
@@ -16,7 +16,7 @@
   border-radius: 0.5rem;
   box-shadow: 0 0 5px #0000001a, 0 0 5px #0000001a;
   overflow: hidden;
-  z-index: 10;
+  z-index: 20;
 
   .progressBar {
     position: absolute;

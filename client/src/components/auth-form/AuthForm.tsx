@@ -12,7 +12,6 @@ import {
   signinWithMicrosoft,
 } from "lib/authFunctions";
 import { getFields, getInitVals } from "lib/authFormData";
-import VerificationDialog from "components/verification-dialog";
 import InputContainer from "components/input-container";
 import FgtPassDialog from "components/fgt-pass-dialog";
 import Spinner from "components/spinner";
@@ -41,7 +40,6 @@ const AuthForm = ({ theme }: Props) => {
   const [formType, setFormType] = React.useState("signup");
   const [isChecked, setIsChecked] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [user, setUser] = React.useState(null);
   const [resetPass, setResetPass] = React.useState(false);
   const [showToast, setShowToast] = React.useState(false);
   const [toastOpts, setToastOpts] = React.useState({ variant: "", msg: "" });
@@ -145,9 +143,9 @@ const AuthForm = ({ theme }: Props) => {
 
   return isLoading ? (
     <Spinner customClass={stl.spinner} />
-  ) : resetPass === true ? (
+  ) : resetPass ? (
     <FgtPassDialog theme={theme} setResetPass={setResetPass} />
-  ) : user === null ? (
+  ) : (
     <>
       <Toast
         theme={theme}
@@ -192,7 +190,6 @@ const AuthForm = ({ theme }: Props) => {
                   values.lname,
                   values.email,
                   values.pass,
-                  setUser,
                   setIsLoading,
                   setShowToast,
                   setToastOpts
@@ -254,8 +251,6 @@ const AuthForm = ({ theme }: Props) => {
         </div>
       </div>
     </>
-  ) : (
-    <VerificationDialog theme={theme} user={user} />
   );
 };
 

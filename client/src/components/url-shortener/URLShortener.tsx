@@ -64,6 +64,7 @@ const URLShortener = ({
   const [showTooltip, setShowTooltip] = React.useState(false);
   const [showToast, setShowToast] = React.useState(false);
   const [toastOpts, setToastOpts] = React.useState({ variant: "", msg: "" });
+  const [linksCount, setLinksCount] = React.useState(0);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -76,6 +77,14 @@ const URLShortener = ({
   }, [theme]);
 
   useEffect(() => {
+    if (uid === "links") {
+      const data = localStorage.getItem("linksCount");
+      if (data) {
+        //@ts-ignore
+        const linksCount = JSON.parse(data);
+        setLinksCount(linksCount);
+      }
+    }
     isMobileDevice() ? setDevice("Mobile") : setDevice("");
   }, []);
 
@@ -109,7 +118,25 @@ const URLShortener = ({
   const handleKeyDown = (e: any) => {
     setUrlErr("");
     setAliasErr("");
-    e.keyCode === 13 && handleSubmit();
+
+    if (e.keyCode === 13) {
+      if (uid === "links") {
+        if (linksCount < 3) {
+          handleSubmit();
+          return;
+        } else {
+          setShowToast(true);
+          setToastOpts({
+            variant: "warn",
+            msg: "3 Links Created! Sign Up to Create More.",
+          });
+          return;
+        }
+      } else {
+        handleSubmit();
+        return;
+      }
+    }
   };
 
   const handleChange = (e: any) => {
@@ -148,6 +175,16 @@ const URLShortener = ({
             });
           } else {
             setLinkData(response);
+            if (uid === "links") {
+              if (linksCount < 3) {
+                const updatedLinkCount = linksCount + 1;
+                setLinksCount(updatedLinkCount);
+                localStorage.setItem(
+                  "linksCount",
+                  JSON.stringify(updatedLinkCount)
+                );
+              }
+            }
             setToastOpts({
               variant: "success",
               msg: "Link created successfully!",

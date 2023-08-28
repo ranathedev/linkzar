@@ -4,6 +4,7 @@ import Homepage from "components/homepage";
 import Layout from "components/layout";
 
 const Overview = () => {
+  const [user, setUser] = React.useState({});
   const [theme, setTheme] = React.useState(() => {
     if (typeof window !== "undefined") {
       const storedTheme = localStorage.getItem("theme");
@@ -18,8 +19,15 @@ const Overview = () => {
     }
   }, [theme]);
 
+  useEffect(() => {
+    const data = localStorage.getItem("user");
+    //@ts-ignore
+    const user = JSON.parse(data);
+    setUser(user);
+  }, []);
+
   return (
-    <Layout theme={theme} setTheme={setTheme} title="Overview">
+    <Layout theme={theme} setTheme={setTheme} user={user} title="Overview">
       <Homepage theme={theme} />
     </Layout>
   );

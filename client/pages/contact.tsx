@@ -4,6 +4,7 @@ import Layout from "components/layout";
 import ContactForm from "components/contact-form";
 
 const Contact = () => {
+  const [user, setUser] = React.useState({});
   const [theme, setTheme] = React.useState(() => {
     if (typeof window !== "undefined") {
       const storedTheme = localStorage.getItem("theme");
@@ -18,8 +19,15 @@ const Contact = () => {
     }
   }, [theme]);
 
+  useEffect(() => {
+    const data = localStorage.getItem("user");
+    //@ts-ignore
+    const user = JSON.parse(data);
+    setUser(user);
+  }, []);
+
   return (
-    <Layout theme={theme} setTheme={setTheme} title="Contact">
+    <Layout theme={theme} setTheme={setTheme} user={user} title="Contact">
       <ContactForm theme={theme} />
     </Layout>
   );

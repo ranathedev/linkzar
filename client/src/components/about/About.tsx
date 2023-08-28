@@ -20,6 +20,7 @@ const About = ({ theme }: Props) => {
       }
     }
   }, [theme]);
+
   return (
     <div className={clsx(stl.about, className)}>
       <h1>

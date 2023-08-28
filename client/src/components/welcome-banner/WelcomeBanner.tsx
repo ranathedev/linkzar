@@ -27,7 +27,7 @@ const WelcomeBanner = ({ theme, name }: Props) => {
   return (
     <div className={clsx(stl.welcomeBanner, className)}>
       <div className={stl.content}>
-        <h2 className={stl.heading}>Hello, {name}!</h2>
+        <h2 className={stl.heading}>Hello, {(name && name) || "John Doe"}!</h2>
         <p className={stl.desc}>
           Welcome to your Dashboard! Here you can manage and track your links.
         </p>

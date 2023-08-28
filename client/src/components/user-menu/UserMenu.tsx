@@ -51,8 +51,18 @@ const UserMenu = ({ user, theme, setTheme }: Props) => {
       />
       <div ref={ref} className={clsx(stl.userMenu, className)}>
         <div className={stl.content} onClick={() => setExpand(!expand)}>
-          <Image src={user.photoURL} width={30} height={30} alt="user-image" />
-          <span className={stl.name}>{user.displayName}</span>
+          <Image
+            src={
+              (user.photoURL && user.photoURL) ||
+              "https://i.postimg.cc/Mp7gnttP/default-Pic.jpg"
+            }
+            width={30}
+            height={30}
+            alt="user-image"
+          />
+          <span className={stl.name}>
+            {(user.displayName && user.displayName) || "John Doe"}
+          </span>
         </div>
         <div className={clsx(stl.menu, expand ? stl.show : "")}>
           <div

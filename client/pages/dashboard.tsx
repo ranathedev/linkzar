@@ -9,7 +9,9 @@ import LoadingScreen from "components/loading-screen";
 
 const DashboardPage = () => {
   const [isLoading, setIsLoading] = React.useState(true);
-  const [user, setUser] = React.useState<firebase.User | null>(null);
+  const [user, setUser] = React.useState<firebase.User | {}>({
+    displayName: "John Doe",
+  });
   const [theme, setTheme] = React.useState(() => {
     if (typeof window !== "undefined") {
       const storedTheme = localStorage.getItem("theme");
@@ -27,10 +29,18 @@ const DashboardPage = () => {
   }, [theme]);
 
   useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    const mode = urlParams.get("mode");
+
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user);
-      if (!user) {
-        location.href = "/auth?type=signin";
+      setUser({ displayName: "John Doe" });
+      if (mode !== "dev") {
+        if (!user) {
+          location.href = "/auth?type=signin";
+        } else if (user) {
+          setUser(user);
+        }
       }
 
       setIsLoading(false);

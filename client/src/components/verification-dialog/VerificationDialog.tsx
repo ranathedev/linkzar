@@ -3,8 +3,10 @@ import clsx from "clsx";
 
 import { sendVerificationEmail } from "lib/authFunctions";
 
-import stl from "./VerificationDialog.module.scss";
 import Spinner from "components/spinner";
+import Toast from "components/toast";
+
+import stl from "./VerificationDialog.module.scss";
 
 interface Props {
   theme: string;
@@ -14,6 +16,8 @@ interface Props {
 const VerificationDialog = ({ theme, user }: Props) => {
   const [className, setClassName] = React.useState("");
   const [loading, setLoading] = React.useState("");
+  const [showToast, setShowToast] = React.useState(false);
+  const [toastOpts, setToastOpts] = React.useState({ variant: "", msg: "" });
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -27,7 +31,7 @@ const VerificationDialog = ({ theme, user }: Props) => {
 
   const handleResend = async () => {
     setLoading("Sending Verification Email");
-    await sendVerificationEmail(user);
+    await sendVerificationEmail(user, setShowToast, setToastOpts);
     setLoading("");
   };
 
@@ -35,6 +39,13 @@ const VerificationDialog = ({ theme, user }: Props) => {
     <div className={clsx(stl.verifyDialog, className)}>
       {loading === "" ? (
         <>
+          <Toast
+            theme={theme}
+            isVisible={showToast}
+            setShowToast={setShowToast}
+            variant={toastOpts.variant}
+            content={toastOpts.msg}
+          />
           <p>
             <b>Congratulations!</b>&nbsp;Your account has been created
             successfully. To get started, please check your email inbox and

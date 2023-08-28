@@ -34,7 +34,9 @@ const signupWithEmailPassword = async (
   email,
   password,
   setUser,
-  setIsLoading
+  setIsLoading,
+  setShowToast,
+  setToastOpts
 ) => {
   setIsLoading(true);
   await createUserWithEmailAndPassword(auth, email, password)
@@ -66,31 +68,39 @@ const signupWithEmailPassword = async (
               });
 
               setIsLoading(false);
-              console.log("Verification Email sent!");
+              setShowToast(true);
+              setToastOpts({
+                variant: "success",
+                msg: `Verification email sent to: ${email}`,
+              });
             })
-            .catch((err) => handleAuthErrs(err));
+            .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
         })
-        .catch((err) => handleAuthErrs(err));
+        .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
     })
     .catch((err) => {
-      handleAuthErrs(err);
+      handleAuthErrs(err, setShowToast, setToastOpts);
 
       setIsLoading(false);
     });
 };
 
-const signinWithEmailPassword = async (email, password) => {
+const signinWithEmailPassword = async (
+  email,
+  password,
+  setShowToast,
+  setToastOpts
+) => {
   await signInWithEmailAndPassword(auth, email, password)
     .then(async (userCredential) => {
       await localStorage.setItem("credentials", JSON.stringify(userCredential));
       const user = userCredential.user;
-      console.log("User signed in Successfuly!");
       location.href = "/dashboard";
     })
-    .catch((err) => handleAuthErrs(err));
+    .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
 };
 
-const signinWithGoogle = async () => {
+const signinWithGoogle = async (setShowToast, setToastOpts) => {
   const provider = new GoogleAuthProvider();
   provider.setCustomParameters({
     prompt: "consent",
@@ -121,10 +131,10 @@ const signinWithGoogle = async () => {
 
       location.href = "/dashboard";
     })
-    .catch((err) => handleAuthErrs(err));
+    .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
 };
 
-const signinWithGithub = async () => {
+const signinWithGithub = async (setShowToast, setToastOpts) => {
   const provider = new GithubAuthProvider();
   provider.setCustomParameters({
     prompt: "consent",
@@ -152,10 +162,10 @@ const signinWithGithub = async () => {
         });
       }
     })
-    .catch((err) => handleAuthErrs(err));
+    .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
 };
 
-const signinWithMicrosoft = async () => {
+const signinWithMicrosoft = async (setShowToast, setToastOpts) => {
   const provider = new OAuthProvider("microsoft.com");
 
   provider.setCustomParameters({
@@ -184,10 +194,10 @@ const signinWithMicrosoft = async () => {
         });
       }
     })
-    .catch((err) => handleAuthErrs(err));
+    .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
 };
 
-const sendVerificationEmail = async (user) => {
+const sendVerificationEmail = async (user, setShowToast, setToastOpts) => {
   const actionCodeSettings = {
     url: "http://localhost:3000/dashboard",
     handleCodeInApp: true,
@@ -197,19 +207,23 @@ const sendVerificationEmail = async (user) => {
     .then(() => {
       alert("Verification email sent");
     })
-    .catch((err) => handleAuthErrs(err));
+    .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
 };
 
-const sendResetPasswordEmail = async (email) => {
+const sendResetPasswordEmail = async (email, setShowToast, setToastOpts) => {
   const actionCodeSettings = {
     url: "http://localhost:3000/auth?type=signin",
     handleCodeInApp: true,
   };
   await sendPasswordResetEmail(auth, email, actionCodeSettings)
     .then(() => {
-      console.log("Password reset email sent!");
+      setShowToast(true);
+      setToastOpts({
+        variant: "success",
+        msg: `Password reset email sent to: ${email}`,
+      });
     })
-    .catch((err) => handleAuthErrs(err));
+    .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
 };
 
 const updateName = async (
@@ -253,7 +267,7 @@ const updateName = async (
       });
     })
     .catch((err) => {
-      handleAuthErrs(err);
+      handleAuthErrs(err, setShowToast, setToastOpts);
 
       setShowToast(true);
       setToastOpts({
@@ -291,11 +305,9 @@ const handleUpdateEmail = async (
             variant: "success",
             msg: "Email updated successfully.",
           });
-
-          console.log("Verification email sent to:", email);
         })
         .catch((err) => {
-          handleAuthErrs(err);
+          handleAuthErrs(err, setShowToast, setToastOpts);
 
           setShowToast(true);
           setToastOpts({
@@ -306,7 +318,6 @@ const handleUpdateEmail = async (
     })
     .catch((err) => {
       if (err.code === "auth/requires-recent-login") {
-        console.log("Re-authentication started");
         if (user !== null) {
           user.providerData.forEach(async (profile) => {
             const providerId = profile.providerId;
@@ -323,7 +334,6 @@ const handleUpdateEmail = async (
             if (providerId !== "password") {
               await reauthenticateWithPopup(user, provider)
                 .then(async (result) => {
-                  console.log("Re-authentication done.");
                   const user = result.user;
                   await sendEmailVerification(user)
                     .then(async () => {
@@ -341,11 +351,9 @@ const handleUpdateEmail = async (
                         variant: "success",
                         msg: "Email updated successfully.",
                       });
-
-                      console.log("Verification email sent to:", email);
                     })
                     .catch((err) => {
-                      handleAuthErrs(err);
+                      handleAuthErrs(err, setShowToast, setToastOpts);
 
                       setShowToast(true);
                       setToastOpts({
@@ -354,7 +362,7 @@ const handleUpdateEmail = async (
                       });
                     });
                 })
-                .catch((err) => console.log(err));
+                .catch((err) => console.log("Error:", err));
             }
 
             if (providerId === "password") {
@@ -368,7 +376,7 @@ const handleUpdateEmail = async (
           });
         }
       } else {
-        handleAuthErrs(err);
+        handleAuthErrs(err, setShowToast, setToastOpts);
       }
     });
 };
@@ -389,12 +397,9 @@ const handleUpdatePass = async (
         variant: "success",
         msg: "Password updated successfully.",
       });
-
-      console.log("Password updated!");
     })
     .catch((err) => {
       if (err.code === "auth/requires-recent-login") {
-        console.log("Re-authentication started");
         if (user !== null) {
           user.providerData.forEach(async (profile) => {
             const providerId = profile.providerId;
@@ -410,7 +415,6 @@ const handleUpdatePass = async (
             if (providerId !== "password") {
               await reauthenticateWithPopup(user, provider)
                 .then(async (result) => {
-                  console.log("Re-authentication done.");
                   const user = result.user;
                   await updatePassword(user, newPassword)
                     .then(() => {
@@ -419,12 +423,12 @@ const handleUpdatePass = async (
                         variant: "success",
                         msg: "Password updated successfully.",
                       });
-
-                      console.log("Password updated!");
                     })
-                    .catch((err) => console.log(err));
+                    .catch((err) =>
+                      handleAuthErrs(err, setShowToast, setToastOpts)
+                    );
                 })
-                .catch((err) => console.log(err));
+                .catch((err) => console.log("Error:", err));
             }
 
             if (providerId === "password") {
@@ -438,7 +442,7 @@ const handleUpdatePass = async (
           });
         }
       } else {
-        handleAuthErrs(err);
+        handleAuthErrs(err, setShowToast, setToastOpts);
 
         setShowToast(true);
         setToastOpts({
@@ -460,69 +464,53 @@ const updatePhoto = async (
   const file = e.target.files[0];
   const uid = auth.currentUser?.uid;
   const profilePicRef = ref(storage, `${process.env.BUCKET}/${uid}/profilePic`);
-  await deleteObject(profilePicRef)
-    .then(() => console.log("File Deleted Successfully!"))
-    .catch((err) => console.log("Error while deleting file:", err));
+  await deleteObject(profilePicRef);
 
   const storageRef = ref(storage, `${process.env.BUCKET}/${uid}/profilePic`);
 
-  const uploadTask = uploadBytesResumable(storageRef, file);
+  await uploadBytesResumable(storageRef, file);
 
-  uploadTask.on(
-    "state_changed",
-    (snapshot) => {
-      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      console.log("Upload is " + progress + "% done");
-    },
-    (error) => {
-      console.log(error);
-    },
-    async () => {
-      await getDownloadURL(uploadTask.snapshot.ref)
-        .then(async (downloadURL) => {
-          console.log("File available at", downloadURL);
-          const user = await auth.currentUser;
+  await getDownloadURL(uploadTask.snapshot.ref)
+    .then(async (downloadURL) => {
+      const user = await auth.currentUser;
 
-          await updateProfile(user, { photoURL: downloadURL })
-            .then(async () => {
-              console.log("Profile updated");
-              const existingData = await localStorage.getItem("user");
-              const parsedData = JSON.parse(existingData);
-              parsedData.photoURL = downloadURL;
+      await updateProfile(user, { photoURL: downloadURL })
+        .then(async () => {
+          const existingData = await localStorage.getItem("user");
+          const parsedData = JSON.parse(existingData);
+          parsedData.photoURL = downloadURL;
 
-              const updatedData = JSON.stringify(parsedData);
-              await localStorage.setItem("user", updatedData);
+          const updatedData = JSON.stringify(parsedData);
+          await localStorage.setItem("user", updatedData);
 
-              setUser(parsedData);
-              setIsLoading(false);
-              setShowToast(true);
-              setToastOpts({
-                variant: "success",
-                msg: "Profile photo updated.",
-              });
-            })
-            .catch((err) => {
-              handleAuthErrs(err);
-
-              setShowToast(true);
-              setToastOpts({
-                variant: "danger",
-                msg: "Can't update Profile photo.",
-              });
-            });
+          setUser(parsedData);
+          setIsLoading(false);
+          setShowToast(true);
+          setToastOpts({
+            variant: "success",
+            msg: "Profile photo updated.",
+          });
         })
         .catch((err) => {
-          handleAuthErrs(err);
+          handleAuthErrs(err, setShowToast, setToastOpts);
 
-          setIsLoading(false);
           setShowToast(true);
           setToastOpts({
             variant: "danger",
             msg: "Can't update Profile photo.",
           });
         });
-    }
-  );
+    })
+    .catch((err) => {
+      handleAuthErrs(err, setShowToast, setToastOpts);
+
+      setIsLoading(false);
+      setShowToast(true);
+      setToastOpts({
+        variant: "danger",
+        msg: "Can't update Profile photo.",
+      });
+    });
 };
 
 const deletePhoto = async (setUser, setShowToast, setToastOpts) => {
@@ -545,13 +533,11 @@ const deletePhoto = async (setUser, setShowToast, setToastOpts) => {
           setShowToast(true);
           setToastOpts({
             variant: "success",
-            msg: "Profile photo deleted.",
+            msg: "Profile photo removed.",
           });
-
-          console.log("File Deleted Successfully!");
         })
         .catch((err) => {
-          handleAuthErrs(err);
+          handleAuthErrs(err, setShowToast, setToastOpts);
 
           setShowToast(true);
           setToastOpts({
@@ -569,28 +555,31 @@ const deletePhoto = async (setUser, setShowToast, setToastOpts) => {
     });
 };
 
-const deleteAccount = async (setShowDialog, setDialogOpts) => {
-  const user = auth.currentUser;
+const deleteAccount = async (
+  setShowDialog,
+  setDialogOpts,
+  setShowToast,
+  setToastOpts
+) => {
+  const user = await auth.currentUser;
 
   await deleteUser(user)
     .then(async () => {
+      await localStorage.removeItem("user");
+      await localStorage.removeItem("credentials");
+      await localStorage.removeItem("links");
+
+      location.href = "/auth?type=signup";
+
       await axios.post("http://localhost:3001/deleteColl", {
         headers: {
           "Content-Type": "application/json",
         },
         uid: user.uid,
       });
-
-      location.href = "/auth?type=signup";
-
-      await localStorage.removeItem("user");
-      await localStorage.removeItem("credentials");
-
-      console.log("Account is deleted.");
     })
     .catch((err) => {
       if (err.code === "auth/requires-recent-login") {
-        console.log("Re-authentication started");
         if (user !== null) {
           user.providerData.forEach(async (profile) => {
             const providerId = profile.providerId;
@@ -607,24 +596,25 @@ const deleteAccount = async (setShowDialog, setDialogOpts) => {
             if (providerId !== "password") {
               await reauthenticateWithPopup(user, provider)
                 .then(async (result) => {
-                  console.log("Re-authentication done.");
                   const user = result.user;
                   await deleteUser(user)
                     .then(async () => {
+                      await localStorage.removeItem("user");
+                      await localStorage.removeItem("credentials");
+                      await localStorage.removeItem("links");
+
+                      location.href = "/auth?type=signup";
+
                       await axios.post("http://localhost:3001/deleteColl", {
                         headers: {
                           "Content-Type": "application/json",
                         },
                         uid: user.uid,
                       });
-
-                      await localStorage.removeItem("user");
-                      await localStorage.removeItem("credentials");
-
-                      console.log("Account is deleted.");
-                      location.href = "/auth?type=signup";
                     })
-                    .catch((err) => console.log(err));
+                    .catch((err) =>
+                      handleAuthErrs(err, setShowToast, setToastOpts)
+                    );
                 })
                 .catch((err) => console.log("Error:", err));
             }
@@ -640,15 +630,15 @@ const deleteAccount = async (setShowDialog, setDialogOpts) => {
           });
         }
       } else {
-        handleAuthErrs(err);
+        handleAuthErrs(err, setShowToast, setToastOpts);
       }
     });
 };
 
-const logOut = () => {
+const logOut = (setShowToast, setToastOpts) => {
   signOut(auth)
-    .then(() => console.log("User signed out!"))
-    .catch((err) => handleAuthErrs(err));
+    .then(() => (location.href = "/auth?type=signup"))
+    .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
 };
 
 export {

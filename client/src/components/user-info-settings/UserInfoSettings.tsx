@@ -29,13 +29,13 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
   const [email, setEmail] = React.useState("");
   const [newPass, setNewPass] = React.useState("");
   const [showDialog, setShowDialog] = React.useState(false);
+  const [showToast, setShowToast] = React.useState(false);
+  const [toastOpts, setToastOpts] = React.useState({ variant: "", msg: "" });
   const [dialogOpts, setDialogOpts] = React.useState({
     primaryBtnLabel: "Yes, Delete",
     msg: "Are you sure want to delete your account?",
     handleAction: () => {},
   });
-  const [showToast, setShowToast] = React.useState(false);
-  const [toastOpts, setToastOpts] = React.useState({ variant: "", msg: "" });
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -70,7 +70,8 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
         setDialogOpts
       );
     } else {
-      console.log("Email address is not valid.");
+      setShowToast(true);
+      setToastOpts({ variant: "warn", msg: "Email address is not valid." });
     }
 
     setEmail("");
@@ -98,7 +99,7 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
   };
 
   const handleDelete = () => {
-    deleteAccount(setShowDialog, setDialogOpts);
+    deleteAccount(setShowDialog, setDialogOpts, setShowToast, setToastOpts);
     setShowDialog(false);
   };
 
@@ -204,7 +205,11 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
               <div className={stl.msg}>Log out from account?</div>
             </div>
             <div className={clsx(stl.btnContainer, stl.logoutBtn)}>
-              <Button theme={theme} label="Log out" handleOnClick={logOut} />
+              <Button
+                theme={theme}
+                label="Log out"
+                handleOnClick={() => logOut(setShowToast, setToastOpts)}
+              />
             </div>
             <div className={stl.inputContainer}>
               <label>Delete this account</label>

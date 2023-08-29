@@ -12,7 +12,7 @@
     "client-dev": "cd client && yarn dev",
     "server": "cd server && yarn start"
   },
-  "dependencies": {
-    "concurrently": "^8.2.0"
+  "devDependencies": {
+    "concurrently": "^8.2.1"
   }
 }

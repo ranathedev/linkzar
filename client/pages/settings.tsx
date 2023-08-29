@@ -7,11 +7,13 @@ import Layout from "components/layout";
 import AvatarHandler from "components/avatar-handler";
 import UserInfoSettings from "components/user-info-settings";
 import LoadingScreen from "components/loading-screen";
+import VerificationDialog from "components/verification-dialog";
 
 import stl from "./index.module.scss";
 
 const SettingsPage = () => {
   const [isLoading, setIsLoading] = React.useState(true);
+  const [isVerified, setIsVerified] = React.useState(false);
   const [user, setUser] = React.useState<firebase.User | {}>({
     fname: "John",
     lname: "Doe",
@@ -44,6 +46,7 @@ const SettingsPage = () => {
       if (user) {
         setUser(user);
         localStorage.setItem("user", JSON.stringify(user));
+        setIsVerified(user.emailVerified);
       }
 
       if (mode !== "dev") {
@@ -62,7 +65,7 @@ const SettingsPage = () => {
 
   return isLoading ? (
     <LoadingScreen />
-  ) : (
+  ) : isVerified ? (
     <Layout theme={theme} setTheme={setTheme} user={user} title="Settings">
       <div className={stl.settings}>
         <div className={stl.container}>
@@ -76,6 +79,12 @@ const SettingsPage = () => {
             <UserInfoSettings theme={theme} user={user} setUser={setUser} />
           </div>
         </div>
+      </div>
+    </Layout>
+  ) : (
+    <Layout theme={theme} setTheme={setTheme} user={user} title="Verify">
+      <div className={stl.verification}>
+        <VerificationDialog theme={theme} user={user} />
       </div>
     </Layout>
   );

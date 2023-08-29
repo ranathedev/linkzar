@@ -72,8 +72,6 @@ const TableRow = ({
     return () => window.removeEventListener("resize", measureWidth);
   }, []);
 
-  console.log(showToast);
-
   const getResponse = (res: any) => {
     if (!res.err) {
       setShowToast(true);

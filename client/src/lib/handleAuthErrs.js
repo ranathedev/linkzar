@@ -79,6 +79,12 @@ const handleAuthErrs = (err, setShowToast, setToastOpts) => {
       variant: "danger",
       msg: "Your browser does not support the required web storage feature for signing in. Please try using a different browser or device.",
     });
+  } else if (errCode === "ERR_NETWORK") {
+    setShowToast(true);
+    setToastOpts({
+      variant: "danger",
+      msg: "Network Error",
+    });
   } else {
     console.error("Error Code:", errCode);
     console.error("Error Msg:", errMsg);

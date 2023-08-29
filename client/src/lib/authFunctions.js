@@ -49,13 +49,6 @@ const signupWithEmailPassword = async (
         .then(async () => {
           await localStorage.setItem("user", JSON.stringify(user));
 
-          await axios.post("http://localhost:3001/createColl", {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            uid: user.uid,
-          });
-
           location.href = "/dashboard";
 
           const actionCodeSettings = {
@@ -73,6 +66,13 @@ const signupWithEmailPassword = async (
               setIsLoading(false);
             })
             .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
+
+          await axios.post("http://localhost:3001/createColl", {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            uid: user.uid,
+          });
         })
         .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
     })
@@ -107,14 +107,15 @@ const signinWithGoogle = async (setShowToast, setToastOpts) => {
       const user = userCredential.user;
 
       await localStorage.setItem("user", JSON.stringify(user));
+
+      location.href = "/dashboard";
+
       await axios.post("http://localhost:3001/createColl", {
         headers: {
           "Content-Type": "application/json",
         },
         uid: user.uid,
       });
-
-      location.href = "/dashboard";
     })
     .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
 };
@@ -130,14 +131,15 @@ const signinWithGithub = async (setShowToast, setToastOpts) => {
       const user = userCredential.user;
 
       await localStorage.setItem("user", JSON.stringify(user));
+
+      location.href = "/dashboard";
+
       await axios.post("http://localhost:3001/createColl", {
         headers: {
           "Content-Type": "application/json",
         },
         uid: user.uid,
       });
-
-      location.href = "/dashboard";
     })
     .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
 };
@@ -154,14 +156,15 @@ const signinWithMicrosoft = async (setShowToast, setToastOpts) => {
       const user = userCredential.user;
 
       await localStorage.setItem("user", JSON.stringify(user));
+
+      location.href = "/dashboard";
+
       await axios.post("http://localhost:3001/createColl", {
         headers: {
           "Content-Type": "application/json",
         },
         uid: user.uid,
       });
-
-      location.href = "/dashboard";
     })
     .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
 };

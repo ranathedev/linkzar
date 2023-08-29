@@ -6,10 +6,14 @@ import auth from "lib/firebase";
 import Dashboard from "components/dashboard";
 import Layout from "components/layout";
 import LoadingScreen from "components/loading-screen";
+import VerificationDialog from "components/verification-dialog";
+
+import stl from "./index.module.scss";
 
 const DashboardPage = () => {
   const [isLoading, setIsLoading] = React.useState(true);
   const [user, setUser] = React.useState<firebase.User | {}>({});
+  const [isVerified, setIsVerified] = React.useState(false);
   const [theme, setTheme] = React.useState(() => {
     if (typeof window !== "undefined") {
       const storedTheme = localStorage.getItem("theme");
@@ -35,6 +39,7 @@ const DashboardPage = () => {
       if (user) {
         setUser(user);
         localStorage.setItem("user", JSON.stringify(user));
+        setIsVerified(user.emailVerified);
       }
 
       if (mode !== "dev") {
@@ -55,9 +60,15 @@ const DashboardPage = () => {
 
   return isLoading ? (
     <LoadingScreen />
-  ) : (
+  ) : isVerified ? (
     <Layout theme={theme} setTheme={setTheme} user={user} title="Dashboard">
       <Dashboard theme={theme} domainUrl={domainUrl} user={user} />
+    </Layout>
+  ) : (
+    <Layout theme={theme} setTheme={setTheme} user={user} title="Verify">
+      <div className={stl.verification}>
+        <VerificationDialog theme={theme} user={user} />
+      </div>
     </Layout>
   );
 };

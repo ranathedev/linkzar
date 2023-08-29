@@ -22,6 +22,13 @@
   margin-top: 7rem;
 }
 
+.verification {
+  @extend .flexCenter;
+  width: 100vw;
+  height: calc(100vh - 7rem);
+  margin-top: 7rem;
+}
+
 .settings {
   @extend .flexCenter;
   width: 100vw;

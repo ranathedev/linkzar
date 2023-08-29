@@ -191,12 +191,28 @@
   }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   .linkTable {
     .btn {
-      span {
-        width: 0;
-        overflow: hidden;
+      button {
+        padding: 0.75rem;
+
+        span:last-of-type {
+          display: none;
+        }
+      }
+
+      div {
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+
+        span {
+          display: none;
+        }
+
+        &:hover {
+          background: #eee;
+        }
       }
     }
   }

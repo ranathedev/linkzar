@@ -76,18 +76,29 @@ const UserMenu = ({ user, theme, setTheme }: Props) => {
             <span>Theme</span>
             <ToggleThemeBtn customClass={stl.toggleBtn} theme={theme} />
           </div>
-          <Link href="/settings" className={stl.settings}>
+          <Link
+            href="/settings"
+            className={stl.settings}
+            onClick={() => setExpand(false)}
+          >
             <span>Settings</span>
             <SettingsIcon />
           </Link>
-          <Link href="/dashboard" className={stl.dashboard}>
+          <Link
+            href="/dashboard"
+            className={stl.dashboard}
+            onClick={() => setExpand(false)}
+          >
             <span>Dashboard</span>
             <DashboardIcon />
           </Link>
           <hr />
           <div
             className={stl.logout}
-            onClick={() => logOut(setShowToast, setToastOpts)}
+            onClick={() => {
+              logOut(setShowToast, setToastOpts);
+              setExpand(false);
+            }}
           >
             <span>Logout</span>
             <LogoutIcon />

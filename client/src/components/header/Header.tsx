@@ -8,13 +8,12 @@ import ToggleThemeBtn from "components/toggle-theme-btn";
 import stl from "./Header.module.scss";
 
 interface Props {
-  links: Array<{ name: string; href: string }>;
   theme: string;
   setTheme: (arg: any) => void;
   user: any;
 }
 
-const Header = ({ links, theme, setTheme, user }: Props) => {
+const Header = ({ theme, setTheme, user }: Props) => {
   const [expand, setIsExpand] = React.useState(false);
   const [width, setWidth] = React.useState(500);
   const [active, setIsActive] = React.useState("Overview");
@@ -30,6 +29,15 @@ const Header = ({ links, theme, setTheme, user }: Props) => {
       }
     }
   }, [theme]);
+
+  const links = [
+    { name: "Home", href: "/" },
+    user
+      ? { name: "Dashboard", href: "/dasboard" }
+      : { name: "Shorten URL", href: "/shorten" },
+    { name: "About", href: "/about" },
+    { name: "Contact", href: "/contact" },
+  ];
 
   useEffect(() => {
     const btn = document.getElementById("btn");
@@ -126,15 +134,6 @@ const Header = ({ links, theme, setTheme, user }: Props) => {
       </ul>
     </header>
   );
-};
-
-Header.defaultProps = {
-  links: [
-    { name: "Home", href: "/" },
-    { name: "Shorten URL", href: "/shorten" },
-    { name: "About", href: "/about" },
-    { name: "Contact", href: "/contact" },
-  ],
 };
 
 export default Header;

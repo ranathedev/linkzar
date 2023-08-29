@@ -77,7 +77,7 @@ const insertDataObject = async (client, dataObject, uid) => {
       const filter = { _id: new ObjectId(docId) };
       const document = await collection.findOne(filter);
 
-      return document;
+      return { document, count: 1 };
     }
   } catch (error) {
     console.error("Error inserting data object:", error);

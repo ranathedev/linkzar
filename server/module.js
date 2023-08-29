@@ -50,6 +50,23 @@ const getLinks = async (client, uid) => {
   }
 };
 
+const insertDocuments = async (client, uid, demoLinks, res) => {
+  try {
+    await client.connect();
+    const db = client.db("linkzar");
+    const collection = db.collection(uid);
+
+    const result = await collection.insertMany(demoLinks);
+    res.send("Demo Links added to Database");
+    console.log(`${result.insertedCount} documents inserted.`);
+  } catch (error) {
+    res.status(500).send("Internal Error");
+    console.error("Error inserting documents:", error);
+  } finally {
+    await client.close();
+  }
+};
+
 const insertDataObject = async (client, dataObject, uid) => {
   try {
     await client.connect();
@@ -173,6 +190,7 @@ module.exports = {
   createCollection,
   deleteCollection,
   getLinks,
+  insertDocuments,
   insertDataObject,
   deleteLink,
   editLink,

@@ -42,6 +42,7 @@ interface Props {
   sendNewLink: (arg: any) => void;
   sendDeleteId: (arg: string) => void;
   uid: string;
+  path: string;
 }
 
 const URLShortener = ({
@@ -52,6 +53,7 @@ const URLShortener = ({
   sendNewLink,
   sendDeleteId,
   uid,
+  path,
 }: Props) => {
   const [url, setURL] = React.useState("");
   const [alias, setAlias] = React.useState("");
@@ -186,16 +188,28 @@ const URLShortener = ({
               if (linksCount < 3) {
                 const updatedLinkCount = linksCount + response.count;
                 setLinksCount(updatedLinkCount);
-                localStorage.setItem(
-                  "linksCount",
-                  JSON.stringify(updatedLinkCount)
-                );
+                const stringData = JSON.stringify(updatedLinkCount);
+                localStorage.setItem("linksCount", stringData);
+
+                const data = localStorage.getItem("demoLinks");
+                if (data) {
+                  const existingData = JSON.parse(data);
+                  const updatedData = [...existingData, response.document];
+                  const stringData = JSON.stringify(updatedData);
+                  localStorage.setItem("demoLinks", stringData);
+                } else {
+                  const demoLinks = [response.document];
+                  const stringData = JSON.stringify(demoLinks);
+                  localStorage.setItem("demoLinks", stringData);
+                }
               }
             }
+
             setToastOpts({
               variant: "success",
               msg: "Link created successfully!",
             });
+
             sendNewLink(response.document);
           } else {
             setLinkData(response);
@@ -203,6 +217,7 @@ const URLShortener = ({
               variant: "success",
               msg: "Link created successfully!",
             });
+
             sendNewLink(response);
           }
         } else {
@@ -306,12 +321,14 @@ const URLShortener = ({
                 />
                 <InputError theme={theme} error={aliasErr} />
                 <div className={stl.btnContainer}>
-                  <Button
-                    label="Back to Dashboard"
-                    theme={theme}
-                    variant="secondary"
-                    handleOnClick={() => setShowModal(false)}
-                  />
+                  {path !== "/shorten" && (
+                    <Button
+                      label="Back to Dashboard"
+                      theme={theme}
+                      variant="secondary"
+                      handleOnClick={() => setShowModal(false)}
+                    />
+                  )}
                   <Button
                     label="Shorten URL"
                     theme={theme}
@@ -399,12 +416,14 @@ const URLShortener = ({
             <div className={stl.btnContainer}>
               {linkData.shortId !== "" && (
                 <>
-                  <Button
-                    label="Back to Dashboard"
-                    variant="secondary"
-                    theme={theme}
-                    handleOnClick={() => setShowModal(false)}
-                  />
+                  {path !== "/shorten" && (
+                    <Button
+                      label="Back to Dashboard"
+                      theme={theme}
+                      variant="secondary"
+                      handleOnClick={() => setShowModal(false)}
+                    />
+                  )}
                   <Button
                     label="Shorten another"
                     rightIcon={<LinkIcon />}
@@ -424,6 +443,7 @@ const URLShortener = ({
 URLShortener.defaultProps = {
   isVisible: false,
   setShowModal: () => true,
+  path: "",
 };
 
 export default URLShortener;

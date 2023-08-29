@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useRouter } from "next/router";
 import firebase from "firebase/auth";
 
 import auth from "lib/firebase";
@@ -29,14 +28,6 @@ const SettingsPage = () => {
     return "light";
   });
 
-  const router = useRouter();
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("theme", theme);
-    }
-  }, [theme]);
-
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
 
@@ -61,7 +52,13 @@ const SettingsPage = () => {
     return () => {
       unsubscribe();
     };
-  }, [router]);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("theme", theme);
+    }
+  }, [theme]);
 
   return isLoading ? (
     <LoadingScreen />

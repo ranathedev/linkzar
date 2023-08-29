@@ -4,6 +4,7 @@ const {
   createCollection,
   deleteCollection,
   getLinks,
+  insertDocuments,
   insertDataObject,
   deleteLink,
   editLink,
@@ -28,14 +29,20 @@ fastify.post("/api/getLinks", async (req, res) => {
   res.send(response);
 });
 
-fastify.post("/createColl", async (req, res) => {
+fastify.post("/api/createColl", async (req, res) => {
   const uid = req.body.uid;
   await createCollection(client, uid, res);
 });
 
-fastify.post("/deleteColl", async (req, res) => {
+fastify.post("/api/deleteColl", async (req, res) => {
   const uid = req.body.uid;
   await deleteCollection(client, uid, res);
+});
+
+fastify.post("/api/demoLinks", async (req, res) => {
+  const uid = req.body.uid;
+  const demoLinks = req.body.demoLinks;
+  await insertDocuments(client, uid, demoLinks, res);
 });
 
 fastify.post("/api/shorten", async (req, res) => {

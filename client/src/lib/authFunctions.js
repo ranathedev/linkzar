@@ -655,73 +655,83 @@ const deleteAccount = async (
 ) => {
   const user = await auth.currentUser;
 
-  await deleteUser(user)
+  await axios
+    .post(`${domainUrl}deleteColl`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      uid: user.uid,
+    })
     .then(async () => {
-      await localStorage.removeItem("user");
-      await localStorage.removeItem("links");
+      await deleteUser(user)
+        .then(async () => {
+          await localStorage.removeItem("user");
+          await localStorage.removeItem("links");
 
-      location.href = "/auth?type=signup";
+          location.href = "/auth?type=signup";
+        })
 
-      await axios.post(`${domainUrl}deleteColl`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        uid: user.uid,
-      });
+        .catch((err) => {
+          if (err.code === "auth/requires-recent-login") {
+            if (user !== null) {
+              user.providerData.forEach(async (profile) => {
+                const providerId = profile.providerId;
+
+                let provider;
+                if (providerId === "google.com") {
+                  provider = new GoogleAuthProvider();
+                } else if (providerId === "github.com") {
+                  provider = new GithubAuthProvider();
+                } else if (providerId === "microsoft.com") {
+                  provider = new OAuthProvider("microsoft.com");
+                }
+
+                if (providerId !== "password") {
+                  await reauthenticateWithPopup(user, provider)
+                    .then(async (result) => {
+                      const user = result.user;
+                      await deleteUser(user)
+                        .then(async () => {
+                          await localStorage.removeItem("user");
+                          await localStorage.removeItem("links");
+
+                          location.href = "/auth?type=signup";
+
+                          await axios.post(`${domainUrl}deleteColl`, {
+                            headers: {
+                              "Content-Type": "application/json",
+                            },
+                            uid: user.uid,
+                          });
+                        })
+                        .catch((err) =>
+                          handleAuthErrs(err, setShowToast, setToastOpts)
+                        );
+                    })
+                    .catch((err) => console.log("Error:", err));
+                }
+
+                if (providerId === "password") {
+                  setDialogOpts({
+                    primaryBtnLabel: "Go to Log In",
+                    msg: "You will have to Log In again to perform this action.",
+                    handleAction: () => (location.href = "/auth?type=signin"),
+                  });
+                  setShowDialog(true);
+                }
+              });
+            }
+          } else {
+            handleAuthErrs(err, setShowToast, setToastOpts);
+          }
+        });
     })
     .catch((err) => {
-      if (err.code === "auth/requires-recent-login") {
-        if (user !== null) {
-          user.providerData.forEach(async (profile) => {
-            const providerId = profile.providerId;
-
-            let provider;
-            if (providerId === "google.com") {
-              provider = new GoogleAuthProvider();
-            } else if (providerId === "github.com") {
-              provider = new GithubAuthProvider();
-            } else if (providerId === "microsoft.com") {
-              provider = new OAuthProvider("microsoft.com");
-            }
-
-            if (providerId !== "password") {
-              await reauthenticateWithPopup(user, provider)
-                .then(async (result) => {
-                  const user = result.user;
-                  await deleteUser(user)
-                    .then(async () => {
-                      await localStorage.removeItem("user");
-                      await localStorage.removeItem("links");
-
-                      location.href = "/auth?type=signup";
-
-                      await axios.post(`${domainUrl}deleteColl`, {
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                        uid: user.uid,
-                      });
-                    })
-                    .catch((err) =>
-                      handleAuthErrs(err, setShowToast, setToastOpts)
-                    );
-                })
-                .catch((err) => console.log("Error:", err));
-            }
-
-            if (providerId === "password") {
-              setDialogOpts({
-                primaryBtnLabel: "Go to Log In",
-                msg: "You will have to Log In again to perform this action.",
-                handleAction: () => (location.href = "/auth?type=signin"),
-              });
-              setShowDialog(true);
-            }
-          });
-        }
-      } else {
-        handleAuthErrs(err, setShowToast, setToastOpts);
-      }
+      setShowToast(true);
+      setToastOpts({
+        variant: "danger",
+        msg: "Can't delete account. Try again.",
+      });
     });
 };
 

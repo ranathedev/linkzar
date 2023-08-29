@@ -56,7 +56,11 @@ const insertDocuments = async (client, uid, demoLinks, res) => {
     const db = client.db("linkzar");
     const collection = db.collection(uid);
 
-    const result = await collection.insertMany(demoLinks);
+    const modifiedArray = demoLinks.map((obj) => {
+      return { ...obj, _id: new ObjectId(obj._id) };
+    });
+
+    const result = await collection.insertMany(modifiedArray);
     res.send("Demo Links added to Database");
     console.log(`${result.insertedCount} documents inserted.`);
   } catch (error) {

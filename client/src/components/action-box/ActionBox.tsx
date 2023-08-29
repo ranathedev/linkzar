@@ -6,12 +6,17 @@ import {
   shareShortLink,
   inputFocus,
   handleDelLink,
+  shareViaEmail,
+  shareViaTwitter,
+  shareViaLinkedIn,
+  shareViaFacebook,
+  shareViaWhatsapp,
 } from "lib/utils";
 import useOnClickOutside from "lib/useClickOutside";
 import Modal from "components/modal";
 import DialogBox from "components/dialog-box";
 import Spinner from "components/spinner";
-import Toast from "components/toast";
+import ShareMenu from "components/share-menu";
 
 import MoreIcon from "assets/more-icon.svg";
 import OpenLinkIcon from "assets/openLink.svg";
@@ -37,8 +42,8 @@ interface Props {
   };
   setShowEditor: (arg: boolean) => void;
   setShowModal: (arg: boolean) => void;
-  sendDeleteId: (arg: string) => void;
   increaseClickCount: (arg: string) => void;
+  getResponse: (arg: any) => void;
   uid: string;
 }
 
@@ -50,7 +55,7 @@ const ActionBox = ({
   linkData,
   setShowEditor,
   setShowModal,
-  sendDeleteId,
+  getResponse,
   increaseClickCount,
   uid,
 }: Props) => {
@@ -61,8 +66,7 @@ const ActionBox = ({
   const [showDialog, setShowDialog] = React.useState(false);
   const [showShortTooltip, setShowShortTooltip] = React.useState(false);
   const [showLongTooltip, setShowLongTooltip] = React.useState(false);
-  const [showToast, setShowToast] = React.useState(false);
-  const [toastOpts, setToastOpts] = React.useState({ variant: "", msg: "" });
+  const [showShareMenu, setShowShareMenu] = React.useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -92,22 +96,16 @@ const ActionBox = ({
 
   const ref = useRef(null);
 
-  useOnClickOutside(() => setShowActionList(false), ref);
-
-  const getResponse = (res: any) => {
-    if (!res.err) {
-      setShowToast(true);
-      setToastOpts({ variant: "success", msg: "Link deleted successfully!" });
-      sendDeleteId(linkData._id);
-    } else {
-      setShowToast(true);
-      setToastOpts({ variant: "danger", msg: "Error:" + " " + res.err });
-    }
+  const hideActionList = () => {
+    setShowActionList(false);
+    setShowShareMenu(false);
   };
+
+  useOnClickOutside(hideActionList, ref);
 
   const openLink = (link: string) => {
     window.open(link, "_blank");
-    setShowActionList(false);
+    hideActionList();
   };
 
   const copyToClipboard = async (text: string) => {
@@ -116,24 +114,39 @@ const ActionBox = ({
 
   const handleShare = (link: string) => {
     shareShortLink(link);
-    setShowActionList(false);
+    hideActionList();
   };
 
   const handleLinkEdit = () => {
     setShowModal(true);
     setShowEditor(true);
-    setShowActionList(false);
+    hideActionList();
     inputFocus("editerInput");
   };
 
   const showDeleteDialog = () => {
     setShowDialog(true);
-    setShowActionList(false);
+    hideActionList();
   };
 
   const handleDelete = () => {
     handleDelLink(linkData._id, setLoading, getResponse, uid);
     setShowDialog(false);
+  };
+
+  const getViaMethod = (method: string) => {
+    const url = domainUrl + linkData.shortId;
+    if (method === "Email") {
+      shareViaEmail(url);
+    } else if (method === "Twitter") {
+      shareViaTwitter(url);
+    } else if (method === "LinkedIn") {
+      shareViaLinkedIn(url);
+    } else if (method === "Facebook") {
+      shareViaFacebook(url);
+    } else if (method === "Whatsapp") {
+      shareViaWhatsapp(url);
+    }
   };
 
   return (
@@ -153,13 +166,6 @@ const ActionBox = ({
             />
           )
         }
-      />
-      <Toast
-        variant={toastOpts.variant}
-        content={toastOpts.msg}
-        theme={theme}
-        isVisible={showToast}
-        setShowToast={setShowToast}
       />
       <div
         ref={ref}
@@ -199,10 +205,23 @@ const ActionBox = ({
             {showLongTooltip ? <DoneIcon /> : <CopyIcon />}
             Copy original link
           </li>
-          {device === "Mobile" && (
+          {device === "Mobile" ? (
             <li onClick={() => handleShare(domainUrl + linkData.shortId)}>
               <ShareIcon /> Share
             </li>
+          ) : (
+            <>
+              <li className={stl.share} onClick={() => setShowShareMenu(true)}>
+                <ShareIcon /> Share
+              </li>
+              <ShareMenu
+                theme={theme}
+                isVisible={showShareMenu}
+                setShowShareMenu={setShowShareMenu}
+                sendViaMethod={getViaMethod}
+                customClass={stl.shareMenu}
+              />
+            </>
           )}
           <li onClick={handleLinkEdit}>
             <EditIcon /> Edit

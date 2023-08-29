@@ -10,6 +10,11 @@ import {
   validateUrl,
   inputFocus,
   handleDelLink,
+  shareViaEmail,
+  shareViaTwitter,
+  shareViaLinkedIn,
+  shareViaFacebook,
+  shareViaWhatsapp,
 } from "lib/utils";
 import Button from "components/button";
 import Spinner from "components/spinner";
@@ -233,6 +238,21 @@ const URLShortener = ({
     setShowDialog(false);
   };
 
+  const getViaMethod = (method: string) => {
+    const url = domainUrl + linkData.shortId;
+    if (method === "Email") {
+      shareViaEmail(url);
+    } else if (method === "Twitter") {
+      shareViaTwitter(url);
+    } else if (method === "LinkedIn") {
+      shareViaLinkedIn(url);
+    } else if (method === "Facebook") {
+      shareViaFacebook(url);
+    } else if (method === "Whatsapp") {
+      shareViaWhatsapp(url);
+    }
+  };
+
   return (
     <>
       <Modal
@@ -361,6 +381,7 @@ const URLShortener = ({
                             theme={theme}
                             isVisible={showShareMenu}
                             setShowShareMenu={setShowShareMenu}
+                            sendViaMethod={getViaMethod}
                           />
                         </>
                       )}

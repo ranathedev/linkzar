@@ -43,6 +43,7 @@ const getLinks = async (client, uid) => {
     const cursor = collection.find();
     const allDocuments = await cursor.toArray();
 
+    console.log("Links found");
     return allDocuments;
   } catch (error) {
     return { err: error };
@@ -64,8 +65,10 @@ const insertDataObject = async (client, dataObject, uid) => {
     });
 
     if (urlData) {
+      console.log("Previous Link found");
       return urlData;
     } else if (shortLink) {
+      console.log("Alias is taken");
       return { err: "This alias is already taken" };
     } else {
       dataObject.clickCounts = 0;
@@ -77,6 +80,7 @@ const insertDataObject = async (client, dataObject, uid) => {
       const filter = { _id: new ObjectId(docId) };
       const document = await collection.findOne(filter);
 
+      console.log("New Link added");
       return { document, count: 1 };
     }
   } catch (error) {
@@ -97,8 +101,10 @@ const deleteLink = async (client, id, uid) => {
     const deleteResult = await collection.deleteOne(filter);
 
     if (deleteResult.deletedCount === 1) {
+      console.log("Link deleted");
       return true;
     } else {
+      console.log("Can't delete Link");
       return { err: "Error: Can't delete link." };
     }
   } catch (error) {
@@ -119,6 +125,7 @@ const editLink = async (client, id, newValue, uid) => {
     const prevDoc = await collection.findOne(filter);
 
     if (prevDoc.shortId == newValue) {
+      console.log("Prev value is same");
       return prevDoc;
     } else {
       const shortLink = await collection.findOne({
@@ -126,6 +133,7 @@ const editLink = async (client, id, newValue, uid) => {
       });
 
       if (shortLink) {
+        console.log("Alias is taken");
         return { error: "Error: Alias is already taken." };
       } else {
         const updateOperation = {
@@ -145,9 +153,11 @@ const editLink = async (client, id, newValue, uid) => {
           });
 
           if (updatedDoc) {
+            console.log("Link edited");
             return updatedDoc;
           }
         } else {
+          console.log("Can't edit Link");
           return { err: "Error: Can't update the Link." };
         }
       }

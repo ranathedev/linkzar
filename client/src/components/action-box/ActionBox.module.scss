@@ -26,7 +26,6 @@
     border-radius: 0.5rem;
     background: #fff;
     box-shadow: #959da533 0px 8px 24px;
-    overflow: hidden;
     transform: scale(0);
     transform-origin: top right;
     transition: all 0.25s;
@@ -43,6 +42,16 @@
       &:hover {
         background: #f9fafb;
       }
+    }
+
+    .share {
+      position: relative;
+    }
+
+    .shareMenu {
+      top: 60%;
+      right: 100%;
+      font-size: 1rem;
     }
   }
 

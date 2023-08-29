@@ -9,9 +9,17 @@ interface Props {
   theme: string;
   isVisible: boolean;
   setShowShareMenu: (arg: boolean) => void;
+  sendViaMethod: (arg: string) => void;
+  customClass?: string;
 }
 
-const ShareMenu = ({ theme, isVisible, setShowShareMenu }: Props) => {
+const ShareMenu = ({
+  theme,
+  isVisible,
+  setShowShareMenu,
+  sendViaMethod,
+  customClass,
+}: Props) => {
   const [className, setClassName] = React.useState("");
 
   const ref = useRef(null);
@@ -37,10 +45,22 @@ const ShareMenu = ({ theme, isVisible, setShowShareMenu }: Props) => {
   return (
     <div
       ref={ref}
-      className={clsx(stl.shareMenu, className, isVisible ? stl.show : "")}
+      className={clsx(
+        stl.shareMenu,
+        className,
+        isVisible ? stl.show : "",
+        customClass
+      )}
     >
       {shareOptions.map((item, i) => (
-        <div key={i} className={stl.item} onClick={hideMenu}>
+        <div
+          key={i}
+          className={stl.item}
+          onClick={() => {
+            sendViaMethod(item);
+            hideMenu();
+          }}
+        >
           <span>via {item}</span>
         </div>
       ))}

@@ -47,7 +47,6 @@ const TableRow = ({
   const [loading, setLoading] = React.useState("");
   const [showToast, setShowToast] = React.useState(false);
   const [toastOpts, setToastOpts] = React.useState({ variant: "", msg: "" });
-  const [shortId, setShortId] = React.useState("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -73,17 +72,19 @@ const TableRow = ({
     return () => window.removeEventListener("resize", measureWidth);
   }, []);
 
+  console.log(showToast);
+
   const getResponse = (res: any) => {
-    setShowToast(true);
-    if (res.error) {
-      setToastOpts({ variant: "warn", msg: res.error });
-    } else if (res.err) {
-      setToastOpts({ variant: "danger", msg: res.err });
-    } else {
-      setToastOpts({ variant: "success", msg: "Link updated successfully!" });
-      setShortId(res.shortId);
+    if (!res.err) {
+      setShowToast(true);
+      setToastOpts({ variant: "success", msg: "Link deleted successfully!" });
+      sendDeleteId(res.shortId);
       sendUpdatedLinks(res);
+    } else {
+      setShowToast(true);
+      setToastOpts({ variant: "danger", msg: res.err });
     }
+
     setShowModal(false);
   };
 
@@ -117,8 +118,8 @@ const TableRow = ({
         linkData={linkData}
         setShowModal={setShowModal}
         setShowEditor={setShowEditor}
-        sendDeleteId={sendDeleteId}
         increaseClickCount={increaseClickCount}
+        getResponse={getResponse}
         uid={uid}
       />
       <Toast
@@ -133,7 +134,7 @@ const TableRow = ({
           <div className={stl.short}>
             <span className={stl.link}>
               <span className={stl.domain}>linkzar.glitch.me/</span>
-              <span>{shortId === "" ? linkData.shortId : shortId}</span>
+              <span>{linkData.shortId}</span>
             </span>
           </div>
         </span>
@@ -152,8 +153,8 @@ const TableRow = ({
           linkData={linkData}
           setShowEditor={setShowEditor}
           setShowModal={setShowModal}
-          sendDeleteId={sendDeleteId}
           increaseClickCount={increaseClickCount}
+          getResponse={getResponse}
           uid={uid}
         />
         <span className={stl.expandBtn} onClick={() => setExpand(!expand)}>

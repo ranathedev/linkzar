@@ -49,9 +49,11 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
 
   useEffect(() => {
     const linksData = localStorage.getItem("links");
-    //@ts-ignore
-    const links = JSON.parse(linksData);
-    setListOfLinks(links);
+    if (linksData) {
+      //@ts-ignore
+      const links = JSON.parse(linksData);
+      setListOfLinks(links);
+    }
 
     const data = localStorage.getItem("user");
     //@ts-ignore

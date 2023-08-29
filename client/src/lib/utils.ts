@@ -164,6 +164,39 @@ const inputFocus = async (id: string) => {
   input?.focus();
 };
 
+const windowFeatures = "noopener,noreferrer";
+
+const shareViaEmail = (url: string) => {
+  const link = `mailto:?subject=Check%20out%20this%20link&body=I%20found%20this%20interesting%20link%3A%20${url}`;
+  window.open(link, "_blank", windowFeatures);
+};
+
+const shareViaTwitter = (url: string) => {
+  const link = `https://twitter.com/intent/tweet?url=${url}&text=Check%20out%20this%20link`;
+  window.open(link, "_blank", windowFeatures);
+};
+
+const customLink = "https://ranaintizar.com";
+
+const shareViaLinkedIn = (url: string) => {
+  console.log(url);
+  // Using custom link for development (can't send http link)
+  const link = `https://www.linkedin.com/shareArticle?url=${customLink}&title=Check%20out%20this%20link`;
+  window.open(link, "_blank", windowFeatures);
+};
+
+const shareViaFacebook = (url: string) => {
+  console.log(url);
+  // Using custom link for development (can't send http link)
+  const link = `https://www.facebook.com/sharer.php?u=${customLink}`;
+  window.open(link, "_blank", windowFeatures);
+};
+
+const shareViaWhatsapp = (url: string) => {
+  const link = `https://api.whatsapp.com/send?text=Check%20out%20this%20link%3A%20${url}`;
+  window.open(link, "_blank", windowFeatures);
+};
+
 const formatDate = (date: Date) => {
   const months = [
     "Jan",
@@ -254,5 +287,10 @@ export {
   formatDate,
   isMac,
   inputFocus,
+  shareViaEmail,
+  shareViaTwitter,
+  shareViaLinkedIn,
+  shareViaFacebook,
+  shareViaWhatsapp,
   qas,
 };

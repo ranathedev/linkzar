@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useRouter } from "next/router";
 import firebase from "firebase/auth";
 
 import auth from "lib/firebase";
@@ -21,14 +20,6 @@ const DashboardPage = () => {
     }
     return "light";
   });
-
-  const router = useRouter();
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("theme", theme);
-    }
-  }, [theme]);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -54,7 +45,13 @@ const DashboardPage = () => {
     return () => {
       unsubscribe();
     };
-  }, [router]);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("theme", theme);
+    }
+  }, [theme]);
 
   const domainUrl = "http://localhost:3001/";
 

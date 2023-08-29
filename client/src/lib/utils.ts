@@ -1,6 +1,8 @@
 import axios from "axios";
 import emailjs from "@emailjs/browser";
 
+const domainUrl = "http://localhost:3001/api/";
+
 const generateRandomString = (len: number) => {
   let result = "";
   const characters =
@@ -33,7 +35,7 @@ const getLinks = async (
   uid: string
 ) => {
   setIsRefreshing(true);
-  const response = await axios.post("http://localhost:3001/api/getLinks", {
+  const response = await axios.post(`${domainUrl}getLinks`, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -61,7 +63,7 @@ const createShortLink = async (
 ) => {
   setLoading("Creating short link");
 
-  const response = await axios.post("http://localhost:3001/api/shorten", {
+  const response = await axios.post(`${domainUrl}shorten`, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -96,7 +98,7 @@ const handleDelLink = async (
   uid: string
 ) => {
   setLoading("Deleting link");
-  const response = await axios.post("http://localhost:3001/api/deleteLink", {
+  const response = await axios.post(`${domainUrl}deleteLink`, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -116,7 +118,7 @@ const handleDelLink = async (
 };
 
 const editLink = async (id: string, value: string, uid: string) => {
-  const response = await axios.post("http://localhost:3001/api/editLink", {
+  const response = await axios.post(`${domainUrl}editLink`, {
     headers: {
       "Content-Type": "application/json",
     },

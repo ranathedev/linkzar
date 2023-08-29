@@ -28,6 +28,13 @@ import handleAuthErrs from "./handleAuthErrs";
 
 const storage = getStorage();
 
+const actionCodeSettings = {
+  url: "http://localhost:3000/dashboard",
+  handleCodeInApp: true,
+};
+
+const domainUrl = "http://localhost:3001/api/";
+
 const signupWithEmailPassword = async (
   fname,
   lname,
@@ -49,12 +56,7 @@ const signupWithEmailPassword = async (
         .then(async () => {
           await localStorage.setItem("user", JSON.stringify(user));
 
-          location.href = "/dashboard";
-
-          const actionCodeSettings = {
-            url: "http://localhost:3000/dashboard",
-            handleCodeInApp: true,
-          };
+          const data = localStorage.getItem("demoLinks");
 
           await sendEmailVerification(user, actionCodeSettings)
             .then(async () => {
@@ -63,16 +65,36 @@ const signupWithEmailPassword = async (
                 variant: "success",
                 msg: `Verification email sent to: ${email}`,
               });
+
               setIsLoading(false);
             })
             .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
 
-          await axios.post("http://localhost:3001/createColl", {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            uid: user.uid,
-          });
+          location.href = "/dashboard";
+
+          if (data) {
+            localStorage.setItem("links", data);
+            const originalArray = JSON.parse(data);
+            const demoLinks = originalArray.reverse();
+
+            await axios.post(`${domainUrl}demoLinks`, {
+              headers: {
+                "Content-Type": "application/json",
+              },
+              uid: user.uid,
+              demoLinks,
+            });
+          } else {
+            const links = [];
+            localStorage.setItem("links", JSON.stringify(links));
+
+            await axios.post(`${domainUrl}createColl`, {
+              headers: {
+                "Content-Type": "application/json",
+              },
+              uid: user.uid,
+            });
+          }
         })
         .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
     })
@@ -108,14 +130,47 @@ const signinWithGoogle = async (setShowToast, setToastOpts) => {
 
       await localStorage.setItem("user", JSON.stringify(user));
 
+      const data = localStorage.getItem("demoLinks");
+
       location.href = "/dashboard";
 
-      await axios.post("http://localhost:3001/createColl", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        uid: user.uid,
-      });
+      if (!user.emailVerified) {
+        await sendEmailVerification(user, actionCodeSettings)
+          .then(async () => {
+            setShowToast(true);
+            setToastOpts({
+              variant: "success",
+              msg: `Verification email sent to: ${email}`,
+            });
+
+            setIsLoading(false);
+          })
+          .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
+      }
+
+      if (data) {
+        localStorage.setItem("links", data);
+        const originalArray = JSON.parse(data);
+        const demoLinks = originalArray.reverse();
+
+        await axios.post(`${domainUrl}demoLinks`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          uid: user.uid,
+          demoLinks,
+        });
+      } else {
+        const links = [];
+        localStorage.setItem("links", JSON.stringify(links));
+
+        await axios.post(`${domainUrl}createColl`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          uid: user.uid,
+        });
+      }
     })
     .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
 };
@@ -132,14 +187,47 @@ const signinWithGithub = async (setShowToast, setToastOpts) => {
 
       await localStorage.setItem("user", JSON.stringify(user));
 
+      const data = localStorage.getItem("demoLinks");
+
       location.href = "/dashboard";
 
-      await axios.post("http://localhost:3001/createColl", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        uid: user.uid,
-      });
+      if (!user.emailVerified) {
+        await sendEmailVerification(user, actionCodeSettings)
+          .then(async () => {
+            setShowToast(true);
+            setToastOpts({
+              variant: "success",
+              msg: `Verification email sent to: ${email}`,
+            });
+
+            setIsLoading(false);
+          })
+          .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
+      }
+
+      if (data) {
+        localStorage.setItem("links", data);
+        const originalArray = JSON.parse(data);
+        const demoLinks = originalArray.reverse();
+
+        await axios.post(`${domainUrl}demoLinks`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          uid: user.uid,
+          demoLinks,
+        });
+      } else {
+        const links = [];
+        localStorage.setItem("links", JSON.stringify(links));
+
+        await axios.post(`${domainUrl}createColl`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          uid: user.uid,
+        });
+      }
     })
     .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
 };
@@ -157,27 +245,56 @@ const signinWithMicrosoft = async (setShowToast, setToastOpts) => {
 
       await localStorage.setItem("user", JSON.stringify(user));
 
+      const data = localStorage.getItem("demoLinks");
+
       location.href = "/dashboard";
 
-      await axios.post("http://localhost:3001/createColl", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        uid: user.uid,
-      });
+      if (!user.emailVerified) {
+        await sendEmailVerification(user, actionCodeSettings)
+          .then(async () => {
+            setShowToast(true);
+            setToastOpts({
+              variant: "success",
+              msg: `Verification email sent to: ${email}`,
+            });
+
+            setIsLoading(false);
+          })
+          .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
+      }
+
+      if (data) {
+        localStorage.setItem("links", data);
+        const originalArray = JSON.parse(data);
+        const demoLinks = originalArray.reverse();
+
+        await axios.post(`${domainUrl}demoLinks`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          uid: user.uid,
+          demoLinks,
+        });
+      } else {
+        const links = [];
+        localStorage.setItem("links", JSON.stringify(links));
+
+        await axios.post(`${domainUrl}createColl`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          uid: user.uid,
+        });
+      }
     })
     .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
 };
 
 const sendVerificationEmail = async (user, setShowToast, setToastOpts) => {
-  const actionCodeSettings = {
-    url: "http://localhost:3000/dashboard",
-    handleCodeInApp: true,
-  };
-
   await sendEmailVerification(user, actionCodeSettings)
     .then(() => {
-      alert("Verification email sent");
+      setShowToast(true);
+      setToastOpts({ variant: "success", msg: "Verification Email sent!" });
     })
     .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
 };
@@ -545,7 +662,7 @@ const deleteAccount = async (
 
       location.href = "/auth?type=signup";
 
-      await axios.post("http://localhost:3001/deleteColl", {
+      await axios.post(`${domainUrl}deleteColl`, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -578,7 +695,7 @@ const deleteAccount = async (
 
                       location.href = "/auth?type=signup";
 
-                      await axios.post("http://localhost:3001/deleteColl", {
+                      await axios.post(`${domainUrl}deleteColl`, {
                         headers: {
                           "Content-Type": "application/json",
                         },

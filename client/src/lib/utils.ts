@@ -1,7 +1,7 @@
 import axios from "axios";
 import emailjs from "@emailjs/browser";
 
-const domainUrl = "http://localhost:3001/api/";
+const domainUrl = "http://localhost:3000/";
 
 const generateRandomString = (len: number) => {
   let result = "";

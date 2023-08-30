@@ -1,11 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-import Overview from "./overview";
+import Homepage from "components/homepage";
+import Layout from "components/layout";
 
 export default function Home() {
+  const [user, setUser] = React.useState({});
+  const [theme, setTheme] = React.useState(() => {
+    if (typeof window !== "undefined") {
+      const storedTheme = localStorage.getItem("theme");
+      return storedTheme || "light";
+    }
+    return "light";
+  });
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("theme", theme);
+    }
+  }, [theme]);
+
+  useEffect(() => {
+    const data = localStorage.getItem("user");
+    //@ts-ignore
+    const user = JSON.parse(data);
+    setUser(user);
+  }, []);
+
   return (
-    <main>
-      <Overview />
-    </main>
+    <Layout theme={theme} setTheme={setTheme} user={user} title="Overview">
+      <Homepage theme={theme} />
+    </Layout>
   );
 }

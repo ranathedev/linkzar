@@ -33,7 +33,7 @@ const actionCodeSettings = {
   handleCodeInApp: true,
 };
 
-const domainUrl = "http://localhost:3001/api/";
+const domainUrl = "http://localhost:3000/";
 
 const signupWithEmailPassword = async (
   fname,

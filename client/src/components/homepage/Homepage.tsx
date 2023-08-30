@@ -18,13 +18,13 @@ const Homepage = ({ theme }: Props) => {
         theme={theme}
         background="transparent"
         heading="Amplifying Your Reach"
-        desc="Expand your digital footprint with our link amplification solutions. Empower your links to resonate across platforms, capturing the attention of a broader audience. With enhanced customization options, you can tailor your links to suit your brand's voice and style. Leverage comprehensive analytics to track and optimize link performance, ensuring that every click counts. Elevate your online presence, connect with more users, and make every link a powerful catalyst for engagement and growth."
+        desc="Boost your online reach using our link amplification solutions. Spread your links seamlessly across platforms, grabbing a larger audience's interest. Customize links to match your brand's tone. Track and improve link performance with detailed analytics. Elevate your online presence, connect with more users, and turn each link into a tool for engagement and expansion."
       />
       <HeroSection
         theme={theme}
         swap={true}
         heading="Optimizing Your Sharing"
-        desc="Unlock the potential of effective sharing with our optimization tools. Craft compelling calls-to-action that drive engagement and conversions. Our platform equips you with advanced customization features, allowing you to create branded short links that resonate with your audience. Real-time analytics provide valuable insights, helping you refine your sharing strategy for maximum impact. Whether it's social media, email campaigns, or any digital channel, our tools enhance your sharing efforts and help you connect with your audience like never before."
+        desc="Maximize sharing impact with our optimization tools. Create engaging calls-to-action for better conversions. Craft branded short links that resonate. Real-time analytics refine your strategy. Elevate your sharing across digital channels, connecting with your audience more effectively."
       />
       <FAQSection theme={theme} />
       <CTA theme={theme} />

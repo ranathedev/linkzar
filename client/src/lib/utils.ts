@@ -147,7 +147,7 @@ const sendEmail = (
     .then(
       () => {
         setShowToast(true);
-        setToastOpts({ variant: "sucess", msg: "Message sent!" });
+        setToastOpts({ variant: "success", msg: "Message sent!" });
       },
       (error) => {
         setShowToast(true);

@@ -21,8 +21,7 @@
   .answer {
     max-height: 0;
     margin-bottom: 0;
-    padding: 0 0.5rem;
-    hyphens: auto;
+    padding: 0;
     font-size: 1.1rem;
     line-height: 1.75rem;
     color: #6b7280;
@@ -36,7 +35,7 @@
   .expand {
     max-height: 1000px;
     margin-bottom: 1rem;
-    padding: 0.5rem;
+    padding: 0.5rem 0.75rem;
   }
 }
 

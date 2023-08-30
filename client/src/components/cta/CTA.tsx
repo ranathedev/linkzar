@@ -28,9 +28,9 @@ const CTA = ({ theme }: Props) => {
     <section className={clsx(stl.cta, className)}>
       <div className={stl.container}>
         <div className={stl.content}>
-          <h2 className={stl.heading}>Start your free trial today</h2>
+          <h2 className={stl.heading}>Short Links, Big Impact!</h2>
           <p className={stl.desc}>
-            Try Flowbite Platform for 30 days. No credit card required.
+            Optimize sharing with our user-friendly web app for shortened URLs.
           </p>
           <Button
             theme={theme}

@@ -55,7 +55,7 @@ Button.defaultProps = {
   variant: "primary",
   type: "button",
   isDisabled: false,
-  handleOnClick: () => console.log("Clicked..."),
+  handleOnClick: () => {},
 };
 
 export default Button;

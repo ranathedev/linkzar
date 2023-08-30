@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
 import clsx from "clsx";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
 import { sendEmail } from "lib/utils";
 import Button from "components/button";
@@ -31,6 +32,12 @@ const ContactForm = ({ theme }: Props) => {
     }
   }, [theme]);
 
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().required("Name is required"),
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    msg: Yup.string().required("Message is required"),
+  });
+
   return (
     <>
       <Toast
@@ -49,54 +56,68 @@ const ContactForm = ({ theme }: Props) => {
           </p>
           <Formik
             initialValues={{ name: "", email: "", msg: "" }}
+            validationSchema={validationSchema}
             onSubmit={(values, actions) => {
               sendEmail(values, setShowToast, setToastOpts);
               actions.resetForm();
             }}
           >
-            {(props) => (
-              <Form action="#" className={stl.form}>
-                <div>
-                  <label htmlFor="name">Your name</label>
-                  <Field
-                    name="name"
-                    id="name"
-                    placeholder="John Doe"
-                    spellCheck={false}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email">Your email</label>
-                  <Field
-                    type="email"
-                    name="email"
-                    id="email"
-                    placeholder="admin@example.com"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="msg">Your message</label>
-                  <Field
-                    as="textarea"
-                    name="msg"
-                    id="msg"
-                    placeholder="Leave a comment..."
-                  />
-                </div>
-                <div className={stl.btnContainer}>
-                  <Button
-                    theme="light"
-                    label="Send message"
-                    leftIcon={<SendIcon />}
-                    handleOnClick={() => props.submitForm()}
-                  />
-                </div>
-              </Form>
-            )}
+            <Form action="#" className={stl.form}>
+              <div>
+                <label htmlFor="name">Your name</label>
+                <Field
+                  name="name"
+                  id="name"
+                  placeholder="John Doe"
+                  spellCheck={false}
+                />
+                <ErrorMessage
+                  name="name"
+                  component="div"
+                  className={stl.error}
+                />
+              </div>
+              <div>
+                <label htmlFor="email">Your email</label>
+                <Field
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="admin@example.com"
+                />
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  className={stl.error}
+                />
+              </div>
+              <div>
+                <label htmlFor="msg">Your message</label>
+                <Field
+                  as="textarea"
+                  name="msg"
+                  id="msg"
+                  placeholder="Leave a comment..."
+                />
+                <ErrorMessage
+                  name="msg"
+                  component="div"
+                  className={stl.error}
+                />
+              </div>
+              <div className={stl.btnContainer}>
+                <Button
+                  theme="light"
+                  type="submit"
+                  label="Send message"
+                  leftIcon={<SendIcon />}
+                />
+              </div>
+            </Form>
           </Formik>
         </div>
         <div className={stl.img}>
-          <Image src={ContactImage} alt="image" />
+          <Image src={ContactImage} priority alt="image" />
         </div>
       </section>
     </>

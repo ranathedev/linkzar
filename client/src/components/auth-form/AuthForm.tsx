@@ -76,16 +76,19 @@ const AuthForm = ({ theme }: Props) => {
 
   const socialMethods = [
     {
+      id: "sign-in-with-google",
       icon: <GoogleIcon />,
       name: "google",
       onClick: () => signinWithGoogle(setShowToast, setShowToast),
     },
     {
+      id: "sign-in-with-github",
       icon: <GithubIcon />,
       name: "github",
       onClick: () => signinWithGithub(setShowToast, setShowToast),
     },
     {
+      id: "sign-in-with-microsoft",
       icon: <MicrosoftIcon />,
       name: "twitter",
       onClick: () => signinWithMicrosoft(setShowToast, setShowToast),
@@ -166,6 +169,7 @@ const AuthForm = ({ theme }: Props) => {
             {socialMethods.map((item, i) => (
               <button
                 key={i}
+                aria-label={item.id}
                 className={stl[`${item.name}Btn`]}
                 onClick={item.onClick}
               >

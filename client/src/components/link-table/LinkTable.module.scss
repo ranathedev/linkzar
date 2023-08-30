@@ -35,12 +35,12 @@
     @extend .hideScrollbar;
     border-radius: 0.5rem;
     box-shadow: #00000005 0px 1px 3px 0px, #1b1f2326 0px 0px 0px 1px;
-    overflow: visible !important;
 
     .header {
       @extend .alignCen;
       gap: 0 0.5rem;
       position: relative;
+      margin-bottom: 0.75rem;
       padding: 0 1rem;
       background: #f9fafb;
       color: #374151;
@@ -168,6 +168,23 @@
 
     .header {
       width: max-content;
+
+      .shortLink {
+        min-width: 220px;
+      }
+
+      .originalLink {
+        min-width: 350px;
+        max-width: 350px;
+      }
+
+      .clicks {
+        min-width: 90px;
+      }
+
+      .date {
+        min-width: 135px;
+      }
     }
   }
 }

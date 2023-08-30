@@ -47,6 +47,7 @@ const TableRow = ({
   const [loading, setLoading] = React.useState("");
   const [showToast, setShowToast] = React.useState(false);
   const [toastOpts, setToastOpts] = React.useState({ variant: "", msg: "" });
+  const [isVisible, setIsVisible] = React.useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -86,6 +87,10 @@ const TableRow = ({
     setShowModal(false);
   };
 
+  const isActionBoxVisible = (val: boolean) => {
+    setIsVisible(val);
+  };
+
   return (
     <>
       <Modal
@@ -118,6 +123,7 @@ const TableRow = ({
         setShowEditor={setShowEditor}
         increaseClickCount={increaseClickCount}
         getResponse={getResponse}
+        sendVisibility={isActionBoxVisible}
         uid={uid}
       />
       <Toast
@@ -127,7 +133,14 @@ const TableRow = ({
         content={toastOpts.msg}
         setShowToast={setShowToast}
       />
-      <div className={clsx(stl.tableRow, expand ? stl.expand : "", className)}>
+      <div
+        className={clsx(
+          stl.tableRow,
+          expand ? stl.expand : "",
+          className,
+          isVisible ? stl.show : ""
+        )}
+      >
         <span className={stl.shortLink}>
           <div className={stl.short}>
             <span className={stl.link}>
@@ -146,13 +159,14 @@ const TableRow = ({
         </span>
         <ActionBox
           display={showActionList ? "none" : "inline-flex"}
-          domainUrl={domainUrl}
           theme={theme}
+          domainUrl={domainUrl}
           linkData={linkData}
-          setShowEditor={setShowEditor}
           setShowModal={setShowModal}
+          setShowEditor={setShowEditor}
           increaseClickCount={increaseClickCount}
           getResponse={getResponse}
+          sendVisibility={isActionBoxVisible}
           uid={uid}
         />
         <span className={stl.expandBtn} onClick={() => setExpand(!expand)}>

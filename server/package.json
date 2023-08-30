@@ -11,5 +11,8 @@
     "fastify": "^4.20.0",
     "mongodb": "^5.7.0",
     "nodemon": "^3.0.1"
+  },
+  "devDependencies": {
+    "@flydotio/dockerfile": "^0.4.8"
   }
 }

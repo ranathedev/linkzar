@@ -45,6 +45,7 @@ interface Props {
   increaseClickCount: (arg: string) => void;
   getResponse: (arg: any) => void;
   uid: string;
+  sendVisibility: (arg: boolean) => void;
 }
 
 const ActionBox = ({
@@ -58,6 +59,7 @@ const ActionBox = ({
   getResponse,
   increaseClickCount,
   uid,
+  sendVisibility,
 }: Props) => {
   const [showActionList, setShowActionList] = React.useState(false);
   const [device, setDevice] = React.useState("");
@@ -93,6 +95,10 @@ const ActionBox = ({
       }, 1500);
     }
   }, [showShortTooltip, showLongTooltip]);
+
+  useEffect(() => {
+    sendVisibility(showActionList);
+  }, [showActionList]);
 
   const ref = useRef(null);
 

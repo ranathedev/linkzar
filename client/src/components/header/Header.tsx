@@ -33,7 +33,7 @@ const Header = ({ theme, setTheme, user }: Props) => {
   const links = [
     { name: "Home", href: "/" },
     user
-      ? { name: "Dashboard", href: "/dasboard" }
+      ? { name: "Dashboard", href: "/dashboard" }
       : { name: "Shorten URL", href: "/shorten" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },

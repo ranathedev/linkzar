@@ -52,7 +52,7 @@ const Shorten = () => {
     setUser(user);
   }, []);
 
-  const domainUrl = "http://localhost:3000/";
+  const domainUrl = "http://localhost:3000/api/";
 
   return isLoading ? (
     <LoadingScreen />

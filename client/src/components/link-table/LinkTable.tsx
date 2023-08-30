@@ -37,6 +37,8 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
   const [showToast, setShowToast] = React.useState(false);
   const [toastOpts, setToastOpts] = React.useState({ variant: "", msg: "" });
   const [device, setDevice] = React.useState("");
+  const [showFilteredLinks, setShowFilteredLinks] = React.useState(false);
+  const [filteredLinks, setFilteredLinks] = React.useState<LinkType[]>([]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -121,6 +123,22 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
     }
   };
 
+  const filterLinks = async (keyword: string) => {
+    setIsRefreshing(true);
+    const filteredArray = listOfLinks.filter((link) =>
+      link.shortId.includes(keyword)
+    );
+
+    setFilteredLinks(filteredArray);
+    setShowFilteredLinks(true);
+    setIsRefreshing(false);
+  };
+
+  const handleCancel = () => {
+    setShowFilteredLinks(false);
+    setFilteredLinks([]);
+  };
+
   const note =
     "You haven't added any links yet. Let's start building your collection. Click the <b>Create New</b> button  to add your first link.";
 
@@ -149,7 +167,11 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
         }
       />
       <div className={clsx(stl.linkTable, className)}>
-        <SearchBar theme={theme} />
+        <SearchBar
+          theme={theme}
+          handleCancel={handleCancel}
+          handleSubmit={filterLinks}
+        />
         <div className={stl.btn}>
           <Button
             label="Create New"
@@ -179,7 +201,24 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
             </div>
           ) : (
             <>
-              {listOfLinks && listOfLinks.length > 0 ? (
+              {showFilteredLinks ? (
+                filteredLinks.length > 0 ? (
+                  filteredLinks.map((linkItem, i) => (
+                    <TableRow
+                      key={i}
+                      domainUrl={domainUrl}
+                      theme={theme}
+                      sendDeleteId={removeLink}
+                      sendUpdatedLinks={updateLinkInList}
+                      increaseClickCount={increaseClickCount}
+                      linkData={linkItem}
+                      uid={uid}
+                    />
+                  ))
+                ) : (
+                  <p className={stl.note}>Sorry, No Links Match Your Search</p>
+                )
+              ) : listOfLinks.length > 0 ? (
                 listOfLinks.map((linkItem, i) => (
                   <TableRow
                     key={i}

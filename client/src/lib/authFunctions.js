@@ -29,11 +29,11 @@ import handleAuthErrs from "./handleAuthErrs";
 const storage = getStorage();
 
 const actionCodeSettings = {
-  url: "http://localhost:3000/dashboard",
+  url: "http://localhost:3001/dashboard",
   handleCodeInApp: true,
 };
 
-const domainUrl = "http://localhost:3000/";
+const domainUrl = "http://localhost:3000/api/";
 
 const signupWithEmailPassword = async (
   fname,
@@ -301,7 +301,7 @@ const sendVerificationEmail = async (user, setShowToast, setToastOpts) => {
 
 const sendResetPasswordEmail = async (email, setShowToast, setToastOpts) => {
   const actionCodeSettings = {
-    url: "http://localhost:3000/auth?type=signin",
+    url: "http://localhost:3001/auth?type=signin",
     handleCodeInApp: true,
   };
   await sendPasswordResetEmail(auth, email, actionCodeSettings)

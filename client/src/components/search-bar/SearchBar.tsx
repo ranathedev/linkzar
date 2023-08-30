@@ -9,11 +9,14 @@ import stl from "./SearchBar.module.scss";
 
 interface Props {
   theme: string;
+  handleSubmit: (arg: string) => void;
+  handleCancel: () => void;
 }
 
-const SearchBar = ({ theme }: Props) => {
+const SearchBar = ({ theme, handleSubmit, handleCancel }: Props) => {
   const [className, setClassName] = React.useState("");
   const [device, setDevice] = React.useState("");
+  const [value, setValue] = React.useState("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -29,6 +32,19 @@ const SearchBar = ({ theme }: Props) => {
     isMac() ? setDevice("Mac") : setDevice("");
   }, []);
 
+  const handleKeydown = (e: any) => {
+    if (e.keyCode === 13) {
+      handleSubmit(value);
+    }
+  };
+
+  const handleInput = (e: any) => {
+    const value = e.target.value;
+    if (value === "") {
+      handleCancel();
+    }
+  };
+
   return (
     <div className={clsx(stl.searchBar, className)}>
       <div className={stl.icon}>
@@ -42,8 +58,11 @@ const SearchBar = ({ theme }: Props) => {
         id="searchInput"
         placeholder="Search"
         spellCheck={false}
+        onKeyDown={handleKeydown}
+        onChange={(e) => setValue(e.target.value)}
+        onInput={handleInput}
       />
-      <button>Search</button>
+      <button onClick={() => handleSubmit(value)}>Search</button>
     </div>
   );
 };

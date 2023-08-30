@@ -20,6 +20,7 @@ const uri = `mongodb+srv://linkzar:${process.env.MONGO_KEY}@linkzar-cluster.2wcn
 const client = new MongoClient(uri);
 
 fastify.get("/", async (req, res) => {
+  console.log("Redirecting to the frontend...");
   res.redirect("https://linkzar.ranaintizar.com");
 });
 

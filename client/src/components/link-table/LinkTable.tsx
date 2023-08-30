@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import clsx from "clsx";
 
-import { getLinks } from "lib/utils";
+import { getLinks, isMobileDevice } from "lib/utils";
 import TableRow from "components/table-row";
 import SearchBar from "components/search-bar";
 import LoadingSpinner from "components/loading-spinner";
@@ -36,6 +36,7 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
   const [uid, setUid] = React.useState("");
   const [showToast, setShowToast] = React.useState(false);
   const [toastOpts, setToastOpts] = React.useState({ variant: "", msg: "" });
+  const [device, setDevice] = React.useState("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -60,6 +61,8 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
     const user = JSON.parse(data);
     const uid = user?.uid;
     setUid(uid);
+
+    isMobileDevice() ? setDevice("mobile") : setDevice("");
   }, []);
 
   const refresh = async () => {
@@ -78,7 +81,7 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
   };
 
   const addNewLink = async (newLink: any) => {
-    const updatedList = [...listOfLinks];
+    const updatedList = await [...listOfLinks];
     updatedList.unshift(newLink);
 
     setListOfLinks(updatedList);
@@ -86,14 +89,16 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
   };
 
   const removeLink = async (linkId: string) => {
-    const updatedList = listOfLinks.filter((link) => link._id !== linkId);
+    const updatedList = await listOfLinks.filter((link) => link._id !== linkId);
 
-    setListOfLinks(updatedList);
-    saveDataToLocalStorage(updatedList);
+    setTimeout(() => {
+      saveDataToLocalStorage(updatedList);
+      setListOfLinks(updatedList);
+    }, 500);
   };
 
   const updateLinkInList = async (updatedLink: any) => {
-    const updatedListOfLinks = listOfLinks.map((link) =>
+    const updatedListOfLinks = await listOfLinks.map((link) =>
       link._id === updatedLink._id ? updatedLink : link
     );
 
@@ -101,11 +106,13 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
     saveDataToLocalStorage(updatedListOfLinks);
   };
 
-  const increaseClickCount = (linkId: string) => {
-    const linkIndex = listOfLinks.findIndex((link) => link._id === linkId);
+  const increaseClickCount = async (linkId: string) => {
+    const linkIndex = await listOfLinks.findIndex(
+      (link) => link._id === linkId
+    );
 
     if (linkIndex !== -1) {
-      const updatedLinks = [...listOfLinks];
+      const updatedLinks = await [...listOfLinks];
 
       updatedLinks[linkIndex].clickCounts += 1;
 
@@ -113,6 +120,9 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
       saveDataToLocalStorage(updatedLinks);
     }
   };
+
+  const note =
+    "You haven't added any links yet. Let's start building your collection. Click the <b>Create New</b> button  to add your first link.";
 
   return (
     <>
@@ -184,9 +194,9 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
                 ))
               ) : (
                 <p className={stl.note}>
-                  You haven&apos;t added any links yet. Let&apos;s start
-                  building your collection. Click the <b>Create New</b> button
-                  to add your first link.
+                  {device === "mobile"
+                    ? "You haven't added any links yet. Let's start building your collection. Tap the <b>Create New</b> or <b>+</b> button to add your first link."
+                    : note}
                 </p>
               )}
             </>

@@ -268,6 +268,12 @@ const URLShortener = ({
     }
   };
 
+  const handleCancel = () => {
+    setShowModal(false);
+    setAliasErr("");
+    setUrlErr("");
+  };
+
   return (
     <>
       <Modal
@@ -278,7 +284,7 @@ const URLShortener = ({
             theme={theme}
             isVisible={showDialog}
             handleAction={handleDelete}
-            handleCancel={() => setShowDialog(false)}
+            handleCancel={handleCancel}
           />
         }
       />
@@ -326,7 +332,7 @@ const URLShortener = ({
                       label="Back to Dashboard"
                       theme={theme}
                       variant="secondary"
-                      handleOnClick={() => setShowModal(false)}
+                      handleOnClick={handleCancel}
                     />
                   )}
                   <Button
@@ -421,7 +427,7 @@ const URLShortener = ({
                       label="Back to Dashboard"
                       theme={theme}
                       variant="secondary"
-                      handleOnClick={() => setShowModal(false)}
+                      handleOnClick={handleCancel}
                     />
                   )}
                   <Button

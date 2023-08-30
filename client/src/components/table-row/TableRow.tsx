@@ -76,7 +76,7 @@ const TableRow = ({
     if (!res.err) {
       setShowToast(true);
       setToastOpts({ variant: "success", msg: "Link deleted successfully!" });
-      sendDeleteId(res.shortId);
+      sendDeleteId(linkData._id);
       sendUpdatedLinks(res);
     } else {
       setShowToast(true);

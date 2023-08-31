@@ -1,7 +1,7 @@
 import axios from "axios";
 import emailjs from "@emailjs/browser";
 
-const domainUrl = "http://localhost:3000/api/";
+const domainUrl = "https://linkzar.fly.dev/api/";
 
 const generateRandomString = (len: number) => {
   let result = "";

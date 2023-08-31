@@ -53,7 +53,7 @@ const DashboardPage = () => {
     }
   }, [theme]);
 
-  const domainUrl = "http://localhost:3000/";
+  const domainUrl = "http://linkzar.fly.dev/";
 
   return isLoading ? (
     <LoadingScreen />

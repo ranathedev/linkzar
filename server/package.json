@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "deploy": "/home/ranaintizar/.fly/bin/flyctl deploy"
   },
   "dependencies": {
     "@fastify/cors": "^8.3.0",

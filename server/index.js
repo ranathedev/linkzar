@@ -16,8 +16,11 @@ const fastify = require("fastify")({
 
 fastify.register(require("@fastify/cors"), {});
 
-const uri = `mongodb+srv://linkzar:${process.env.MONGO_KEY}@linkzar-cluster.2wcn1ji.mongodb.net/?retryWrites=true&w=majority`;
-const client = new MongoClient(uri);
+const uri = process.env.MONGO_URI;
+const client = new MongoClient(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 fastify.get("/", async (req, res) => {
   console.log("Redirecting to the frontend...");

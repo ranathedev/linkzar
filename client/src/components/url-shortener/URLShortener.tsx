@@ -31,6 +31,7 @@ import CopyIcon from "assets/copy.svg";
 import ShareIcon from "assets/share.svg";
 import DeleteIcon from "assets/delete.svg";
 import DoneIcon from "assets/done.svg";
+import TextIcon from "assets/text.svg";
 
 import stl from "./URLShortener.module.scss";
 
@@ -317,14 +318,19 @@ const URLShortener = ({
                   spellCheck={false}
                 />
                 <InputError theme={theme} error={urlErr} />
-                <input
-                  value={alias}
-                  className={stl.alias}
-                  onChange={handleChange}
-                  placeholder="Alias must be 5 chars. (optional)"
-                  onKeyDown={handleKeyDown}
-                  spellCheck={false}
-                />
+                <div className={stl.aliasContainer}>
+                  <div className={stl.textIcon}>
+                    <TextIcon />
+                  </div>
+                  <input
+                    value={alias}
+                    className={stl.alias}
+                    onChange={handleChange}
+                    placeholder="Alias must be 5 chars. (optional)"
+                    onKeyDown={handleKeyDown}
+                    spellCheck={false}
+                  />
+                </div>
                 <InputError theme={theme} error={aliasErr} />
                 <div className={stl.btnContainer}>
                   {path !== "/shorten" && (

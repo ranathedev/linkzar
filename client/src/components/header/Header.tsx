@@ -16,9 +16,8 @@ interface Props {
 const Header = ({ theme, setTheme, user }: Props) => {
   const [expand, setIsExpand] = React.useState(false);
   const [width, setWidth] = React.useState(500);
-  const [active, setIsActive] = React.useState("Overview");
   const [className, setClassName] = React.useState("");
-  const [isAuthPage, setIsAuthPage] = React.useState(false);
+  const [path, setPath] = React.useState("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -54,11 +53,7 @@ const Header = ({ theme, setTheme, user }: Props) => {
   useEffect(() => {
     const path = location.pathname;
 
-    if (path === "/auth") {
-      setIsAuthPage(true);
-    } else {
-      setIsAuthPage(false);
-    }
+    setPath(path);
 
     function measureWidth() {
       setWidth(document.body.clientWidth);
@@ -82,8 +77,7 @@ const Header = ({ theme, setTheme, user }: Props) => {
             <Link
               key={i}
               href={item.href}
-              onClick={() => setIsActive(item.name)}
-              className={active === item.name ? stl.active : ""}
+              className={path === item.href ? stl.active : ""}
             >
               {item.name}
             </Link>
@@ -103,7 +97,7 @@ const Header = ({ theme, setTheme, user }: Props) => {
                   )
                 }
               />
-              {isAuthPage ? undefined : (
+              {path === "/auth" ? undefined : (
                 <Link href="/auth?type=signup" className={stl.signupBtn}>
                   Sign Up
                 </Link>
@@ -128,7 +122,12 @@ const Header = ({ theme, setTheme, user }: Props) => {
       >
         {links.map((item, i) => (
           <li key={i}>
-            <Link href={item.href}>{item.name}</Link>
+            <Link
+              href={item.href}
+              className={path === item.href ? stl.active : ""}
+            >
+              {item.name}
+            </Link>
           </li>
         ))}
       </ul>

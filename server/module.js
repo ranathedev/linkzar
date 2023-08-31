@@ -77,33 +77,40 @@ const insertDataObject = async (client, dataObject, uid) => {
     const database = client.db("linkzar");
     const collection = database.collection(uid);
 
-    const urlData = await collection.findOne({
-      originalURL: dataObject.originalURL,
-    });
+    const userCollections = database.listCollections();
 
-    const shortLink = await collection.findOne({
-      shortId: dataObject.shortId,
-    });
+    while (await userCollections.hasNext()) {
+      const collectionInfo = await userCollections.next();
+      const userCollection = database.collection(collectionInfo.name);
 
-    if (urlData) {
-      console.log("Previous Link found");
-      return urlData;
-    } else if (shortLink) {
-      console.log("Alias is taken");
-      return { err: "This alias is already taken" };
-    } else {
-      dataObject.clickCounts = 0;
-      dataObject.createdDate = new Date();
+      const urlData = await userCollection.findOne({
+        originalURL: dataObject.originalURL,
+      });
 
-      const addedDoc = await collection.insertOne(dataObject);
-      const docId = addedDoc.insertedId;
+      const shortLink = await userCollection.findOne({
+        shortId: dataObject.shortId,
+      });
 
-      const filter = { _id: new ObjectId(docId) };
-      const document = await collection.findOne(filter);
-
-      console.log("New Link added");
-      return { document, count: 1 };
+      if (urlData) {
+        console.log("Link is already shortened");
+        return { err: "This link is already shortened." };
+      } else if (shortLink) {
+        console.log("Alias is taken");
+        return { err: "This alias is already taken." };
+      }
     }
+
+    dataObject.clickCounts = 0;
+    dataObject.createdDate = new Date();
+
+    const addedDoc = await collection.insertOne(dataObject);
+    const docId = addedDoc.insertedId;
+
+    const filter = { _id: new ObjectId(docId) };
+    const document = await collection.findOne(filter);
+
+    console.log("New Link added");
+    return { document, count: 1 };
   } catch (error) {
     console.error("Error inserting data object:", error);
     return false;

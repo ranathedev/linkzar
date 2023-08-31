@@ -28,12 +28,18 @@ import handleAuthErrs from "./handleAuthErrs";
 
 const storage = getStorage();
 
+let origin = "";
+
+if (typeof window !== "undefined") {
+  origin = window.location.origin;
+}
+
 const actionCodeSettings = {
-  url: "http://localhost:3001/dashboard",
+  url: `${origin}/dashboard`,
   handleCodeInApp: true,
 };
 
-const domainUrl = "http://localhost:3000/api/";
+const domainUrl = "https://linkzar.fly.dev/api/";
 
 const signupWithEmailPassword = async (
   fname,
@@ -301,7 +307,7 @@ const sendVerificationEmail = async (user, setShowToast, setToastOpts) => {
 
 const sendResetPasswordEmail = async (email, setShowToast, setToastOpts) => {
   const actionCodeSettings = {
-    url: "http://localhost:3001/auth?type=signin",
+    url: `${origin}/auth?type=signin`,
     handleCodeInApp: true,
   };
   await sendPasswordResetEmail(auth, email, actionCodeSettings)

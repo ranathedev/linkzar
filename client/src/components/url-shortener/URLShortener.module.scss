@@ -23,7 +23,8 @@
     gap: 1rem;
     width: 100%;
 
-    .searchIcon {
+    .searchIcon,
+    .textIcon {
       position: absolute;
       top: 12px;
       left: 0;
@@ -31,6 +32,10 @@
       padding-left: 0.75rem;
       color: #6b7280;
       pointer-events: none;
+    }
+
+    .textIcon {
+      top: 15px;
     }
 
     input {
@@ -51,8 +56,12 @@
       }
     }
 
-    .alias {
-      padding-left: 10.5px;
+    .aliasContainer {
+      position: relative;
+
+      .alias {
+        width: 100%;
+      }
     }
 
     .btnContainer {
@@ -187,7 +196,8 @@
   }
 
   .searchBar {
-    .searchIcon {
+    .searchIcon,
+    .textIcon {
       color: #9ca3af;
     }
 

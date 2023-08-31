@@ -71,6 +71,13 @@
         min-height: 200px;
       }
 
+      .error {
+        font-size: 0.8rem;
+        line-height: 1.2;
+        color: #ff3333;
+        animation: animate 0.3s forwards;
+      }
+
       .btnContainer {
         @extend .justifyCen;
         width: 100%;

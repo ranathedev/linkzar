@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Link from "next/link";
+// import Link from "next/link";
 import clsx from "clsx";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
@@ -20,7 +20,7 @@ import Toast from "components/toast";
 import GoogleIcon from "assets/google.svg";
 import GithubIcon from "assets/github-2.svg";
 import MicrosoftIcon from "assets/microsoft.svg";
-import TickIcon from "assets/tick.svg";
+// import TickIcon from "assets/tick.svg";
 
 import stl from "./AuthForm.module.scss";
 
@@ -223,19 +223,7 @@ const AuthForm = ({ theme }: Props) => {
                 placeholder={field.placeholder}
               />
             ))}
-            {formType === "signup" ? (
-              <div className={stl.checkboxContainer}>
-                <span
-                  className={clsx(stl.checkbox, isChecked ? stl.checked : "")}
-                  onClick={() => setIsChecked(!isChecked)}
-                >
-                  <TickIcon />
-                </span>
-                <label htmlFor="agreement">
-                  I agree to the <Link href="#">terms and conditions</Link>.
-                </label>
-              </div>
-            ) : (
+            {formType === "signup" ? null : ( // </div> //   </label> //     I agree to the <Link href="#">terms and conditions</Link>. //   <label htmlFor="agreement"> //   </span> //     <TickIcon /> //   > //     onClick={() => setIsChecked(!isChecked)} //     className={clsx(stl.checkbox, isChecked ? stl.checked : "")} //   <span // <div className={stl.checkboxContainer}>
               <div className={stl.forgotPassword}>
                 <span onClick={() => setResetPass(true)}>Forgot password?</span>
               </div>

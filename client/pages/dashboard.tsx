@@ -12,7 +12,7 @@ import stl from "./index.module.scss";
 const DashboardPage = () => {
   const [isLoading, setIsLoading] = React.useState(true);
   const [user, setUser] = React.useState<firebase.User | {}>({});
-  const [isVerified, setIsVerified] = React.useState(false);
+  const [isVerified, setIsVerified] = React.useState(true);
   const [theme, setTheme] = React.useState(() => {
     if (typeof window !== "undefined") {
       const storedTheme = localStorage.getItem("theme");
@@ -39,7 +39,9 @@ const DashboardPage = () => {
         }
       }
 
-      setIsLoading(false);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
     });
 
     return () => {
@@ -53,7 +55,7 @@ const DashboardPage = () => {
     }
   }, [theme]);
 
-  const domainUrl = "http://linkzar.fly.dev/";
+  const domainUrl = "https://linkzar.fly.dev/";
 
   return isLoading ? (
     <LoadingScreen />

@@ -1,25 +1,25 @@
-import React, { useEffect } from "react";
-import Link from "next/link";
-import clsx from "clsx";
+import React, { useEffect } from 'react'
+import Link from 'next/link'
+import clsx from 'clsx'
 
-import stl from "./About.module.scss";
+import stl from './About.module.scss'
 
 interface Props {
-  theme: string;
+  theme: string
 }
 
 const About = ({ theme }: Props) => {
-  const [className, setClassName] = React.useState("");
+  const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl.darkAbout);
+    if (typeof window !== 'undefined') {
+      if (theme === 'dark') {
+        setClassName(stl.darkAbout)
       } else {
-        setClassName("");
+        setClassName('')
       }
     }
-  }, [theme]);
+  }, [theme])
 
   return (
     <div className={clsx(stl.about, className)}>
@@ -41,7 +41,7 @@ const About = ({ theme }: Props) => {
           <h2>Meet the Creator</h2>
           <p>
             I,&nbsp;
-            <Link href="https://linktr.ee/ranaintizar" target="_blank">
+            <Link href="https://linkzar.fly.dev/linktree" target="_blank">
               Rana Intizar
             </Link>
             , am the creator and developer behind Linkzar. As a tech enthusiast
@@ -118,7 +118,7 @@ const About = ({ theme }: Props) => {
         </div>
       </section>
     </div>
-  );
-};
+  )
+}
 
-export default About;
+export default About

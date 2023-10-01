@@ -1,32 +1,32 @@
-import React, { useEffect } from "react";
-import Link from "next/link";
-import clsx from "clsx";
+import React, { useEffect } from 'react'
+import Link from 'next/link'
+import clsx from 'clsx'
 
-import GithubIcon from "assets/github.svg";
-import FacebookIcon from "assets/facebook.svg";
-import LinkedInIcon from "assets/linkedin.svg";
-import TwitterIcon from "assets/twitter.svg";
-import InstaIcon from "assets/instagram.svg";
+import GithubIcon from 'assets/github.svg'
+import FacebookIcon from 'assets/facebook.svg'
+import LinkedInIcon from 'assets/linkedin.svg'
+import TwitterIcon from 'assets/twitter.svg'
+import InstaIcon from 'assets/instagram.svg'
 
-import stl from "./Footer.module.scss";
+import stl from './Footer.module.scss'
 
 interface Props {
-  theme: string;
-  links: Array<{ icon: React.ReactNode; href: string; ariaLabel: string }>;
+  theme: string
+  links: Array<{ icon: React.ReactNode; href: string; ariaLabel: string }>
 }
 
 const Footer = ({ theme, links }: Props) => {
-  const [className, setClassName] = React.useState("");
+  const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl.darkFooter);
+    if (typeof window !== 'undefined') {
+      if (theme === 'dark') {
+        setClassName(stl.darkFooter)
       } else {
-        setClassName("");
+        setClassName('')
       }
     }
-  }, [theme]);
+  }, [theme])
 
   return (
     <footer className={clsx(stl.footer, className)}>
@@ -56,37 +56,37 @@ const Footer = ({ theme, links }: Props) => {
         &copy; Linkzar&trade;. All Rights Reserved.
       </span>
     </footer>
-  );
-};
+  )
+}
 
 Footer.defaultProps = {
   links: [
     {
       icon: <GithubIcon />,
-      href: "https://github.com/ranaintizar",
-      ariaLabel: "Visit my Github Profile",
+      href: 'https://linkzar.fly.dev/github',
+      ariaLabel: 'Visit my Github Profile',
     },
     {
       icon: <FacebookIcon />,
-      href: "https://www.facebook.com/ranathedev",
-      ariaLabel: "Visit my Facebook Profile",
+      href: 'https://linkzar.fly.dev/facebook',
+      ariaLabel: 'Visit my Facebook Profile',
     },
     {
       icon: <LinkedInIcon />,
-      href: "https://linkedin.com/in/ranathedev",
-      ariaLabel: "Visit my Linkedin Profile",
+      href: 'https://linkzar.fly.dev/linkedin',
+      ariaLabel: 'Visit my Linkedin Profile',
     },
     {
       icon: <TwitterIcon />,
-      href: "https://twitter.com/ranathedev",
-      ariaLabel: "Visit my Twitter Profile",
+      href: 'https://linkzar.fly.dev/twitter',
+      ariaLabel: 'Visit my Twitter Profile',
     },
     {
       icon: <InstaIcon />,
-      href: "https://instagram.com/ranathedev",
-      ariaLabel: "Visit my Instagram Profile",
+      href: 'https://linkzar.fly.dev/insta',
+      ariaLabel: 'Visit my Instagram Profile',
     },
   ],
-};
+}
 
-export default Footer;
+export default Footer

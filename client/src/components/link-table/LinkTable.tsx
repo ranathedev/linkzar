@@ -139,9 +139,6 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
     setFilteredLinks([]);
   };
 
-  const note =
-    "You haven't added any links yet. Let's start building your collection. Click the <b>Create New</b> button  to add your first link.";
-
   return (
     <>
       <Toast
@@ -231,11 +228,17 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
                     uid={uid}
                   />
                 ))
+              ) : device === "mobile" ? (
+                <p className={stl.note}>
+                  You haven&apos;t added any links yet. Let&apos;s start
+                  building your collection. Tap the <b>Create New</b> or{" "}
+                  <b>+</b> button to add your first link.
+                </p>
               ) : (
                 <p className={stl.note}>
-                  {device === "mobile"
-                    ? "You haven't added any links yet. Let's start building your collection. Tap the <b>Create New</b> or <b>+</b> button to add your first link."
-                    : note}
+                  You haven&apos;t added any links yet. Let&apos;s start
+                  building your collection. Click the <b>Create New</b> button
+                  to add your first link.
                 </p>
               )}
             </>

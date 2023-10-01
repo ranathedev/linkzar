@@ -27,12 +27,35 @@ const Layout = ({ theme, children, title, setTheme, user }: Props) => {
     }
   }, [theme]);
 
+  const keywords =
+    "URL Shortener, Short URL, Link Shortener, Custom Short Links, URL Redirection, Shorten URL, Free URL Shortener, Branded Short Links, Short URL Service, Link Management, Click Tracking, Analytics for Short Links, Shortened URL Generator, URL Shortening Tool, Custom URL Shortening, Link Tracking, Shortened Link Creator, URL Management, Shorten and Share Links, Link Analytics, URL Tracking, Short URL Generator, Custom Link Shortening, URL Redirect Service, Shortened URL Metrics, Track Link Clicks, Branded Shortened Links, Link Analytics Dashboard, URL Shortening API";
+  const description =
+    "Transform long, complex URLs into concise, branded short links with our powerful URL shortener web app. Enhance link sharing, track click analytics, and manage your links effortlessly. Get started for free today.";
+
   return (
     <>
       <Head>
         <title>{`${title} | Linkzar`}</title>
-        <meta name="description" content="URL Shortener" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content={description} />
+        <meta name="keywords" content={keywords} />
+        <meta name="author" content="Rana Intizar" />
+        <meta property="og:title" content="Linkzar" />
+        <meta property="og:description" content={description} />
+        <meta
+          property="og:image"
+          content="https://i.postimg.cc/kMNxjWGV/android-chrome-512x512.png"
+        />
+        <meta name="twitter:title" content="Linkzar" />
+        <meta name="twitter:description" content={description} />
+        <meta
+          name="twitter:image"
+          content="https://i.postimg.cc/kMNxjWGV/android-chrome-512x512.png"
+        />
+        <meta
+          name="google-site-verification"
+          content="5Fs8lSYBSQvC-anQEhvg9XrB5OLrKgO2HpvI6CoByrQ"
+        />
         <link
           rel="android-chrome"
           sizes="512x512"

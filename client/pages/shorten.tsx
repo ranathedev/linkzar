@@ -52,7 +52,7 @@ const Shorten = () => {
     setUser(user);
   }, []);
 
-  const domainUrl = "http://linkzar.fly.dev/";
+  const domainUrl = "https://linkzar.fly.dev/";
 
   return isLoading ? (
     <LoadingScreen />

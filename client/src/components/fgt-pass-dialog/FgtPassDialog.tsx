@@ -1,47 +1,47 @@
-import React, { useEffect } from "react";
-import clsx from "clsx";
-import * as Yup from "yup";
+import React, { useEffect, useState } from 'react'
+import clsx from 'clsx'
+import * as Yup from 'yup'
 
-import { sendResetPasswordEmail } from "lib/authFunctions";
-import Button from "components/button";
-import Toast from "components/toast";
+import { sendResetPasswordEmail } from 'lib/authFunctions'
+import Button from 'components/button'
+import Toast from 'components/toast'
 
-import ArrowIcon from "assets/arrow-left.svg";
+import ArrowIcon from 'assets/arrow-left.svg'
 
-import stl from "./FgtPassDialog.module.scss";
+import stl from './FgtPassDialog.module.scss'
 
 interface Props {
-  theme: string;
-  setResetPass: (arg: boolean) => void;
+  theme: string
+  setResetPass: (arg: boolean) => void
 }
 
 const FgtPassDialog = ({ theme, setResetPass }: Props) => {
-  const [className, setClassName] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [showToast, setShowToast] = React.useState(false);
-  const [toastOpts, setToastOpts] = React.useState({ variant: "", msg: "" });
+  const [className, setClassName] = useState('')
+  const [email, setEmail] = useState('')
+  const [showToast, setShowToast] = useState(false)
+  const [toastOpts, setToastOpts] = useState({ variant: '', msg: '' })
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl.darkFgtPassDialog);
+    if (typeof window !== 'undefined') {
+      if (theme === 'dark') {
+        setClassName(stl.darkFgtPassDialog)
       } else {
-        setClassName("");
+        setClassName('')
       }
     }
-  }, [theme]);
+  }, [theme])
 
   const handleSubmit = async () => {
     try {
-      await Yup.string().email().validate(email);
-      sendResetPasswordEmail(email, setShowToast, setToastOpts);
+      await Yup.string().email().validate(email)
+      sendResetPasswordEmail(email, setShowToast, setToastOpts)
     } catch (error) {
-      setShowToast(true);
-      setToastOpts({ variant: "warn", msg: "Invaild email!" });
+      setShowToast(true)
+      setToastOpts({ variant: 'warn', msg: 'Invaild email!' })
     }
 
-    setEmail("");
-  };
+    setEmail('')
+  }
 
   return (
     <>
@@ -65,7 +65,7 @@ const FgtPassDialog = ({ theme, setResetPass }: Props) => {
             type="email"
             name="email"
             placeholder="Enter your email"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={e => setEmail(e.target.value)}
             value={email}
           />
         </div>
@@ -86,7 +86,7 @@ const FgtPassDialog = ({ theme, setResetPass }: Props) => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default FgtPassDialog;
+export default FgtPassDialog

@@ -1,45 +1,45 @@
-import React, { useEffect, useRef } from "react";
-import Image from "next/image";
-import clsx from "clsx";
+import React, { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
+import clsx from 'clsx'
 
-import useOnClickOutside from "lib/useClickOutside";
+import useOnClickOutside from 'lib/useClickOutside'
 
-import Logo from "@/public/favicon.ico";
-import SidebarCollapseIcon from "assets/sidebar-collapse.svg";
-import SidebarExpandIcon from "assets/sidebar-expand.svg";
-import DashboardIcon from "assets/dashboard.svg";
-import ProfileImage from "assets/profileImage.jpeg";
-import MoreIcon from "assets/more-icon.svg";
+import Logo from '@/public/favicon.ico'
+import SidebarCollapseIcon from 'assets/sidebar-collapse.svg'
+import SidebarExpandIcon from 'assets/sidebar-expand.svg'
+import DashboardIcon from 'assets/dashboard.svg'
+import ProfileImage from 'assets/profileImage.jpeg'
+import MoreIcon from 'assets/more-icon.svg'
 
-import stl from "./Sidebar.module.scss";
+import stl from './Sidebar.module.scss'
 
 interface Props {
-  theme: string;
-  list: Array<{ icon: React.ReactNode; title: string }>;
+  theme: string
+  list: Array<{ icon: React.ReactNode; title: string }>
 }
 
 const Sidebar = ({ theme, list }: Props) => {
-  const [className, setClassName] = React.useState("");
-  const [collapse, setCollapse] = React.useState(true);
+  const [className, setClassName] = useState('')
+  const [collapse, setCollapse] = useState(true)
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl.darkSidebar);
+    if (typeof window !== 'undefined') {
+      if (theme === 'dark') {
+        setClassName(stl.darkSidebar)
       } else {
-        setClassName("");
+        setClassName('')
       }
     }
-  }, [theme]);
+  }, [theme])
 
-  const ref = useRef(null);
+  const ref = useRef(null)
 
-  useOnClickOutside(() => setCollapse(true), ref);
+  useOnClickOutside(() => setCollapse(true), ref)
 
   return (
     <div
       ref={ref}
-      className={clsx(stl.sidebar, className, collapse ? stl.collapse : "")}
+      className={clsx(stl.sidebar, className, collapse ? stl.collapse : '')}
     >
       <div className={stl.container}>
         <div className={stl.header}>
@@ -76,17 +76,17 @@ const Sidebar = ({ theme, list }: Props) => {
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
 Sidebar.defaultProps = {
   list: [
-    { icon: <DashboardIcon />, title: "Dashboard" },
-    { icon: <DashboardIcon />, title: "Dashboard" },
-    { icon: <DashboardIcon />, title: "Dashboard" },
-    { icon: <DashboardIcon />, title: "Dashboard" },
-    { icon: <DashboardIcon />, title: "Dashboard" },
+    { icon: <DashboardIcon />, title: 'Dashboard' },
+    { icon: <DashboardIcon />, title: 'Dashboard' },
+    { icon: <DashboardIcon />, title: 'Dashboard' },
+    { icon: <DashboardIcon />, title: 'Dashboard' },
+    { icon: <DashboardIcon />, title: 'Dashboard' },
   ],
-};
+}
 
-export default Sidebar;
+export default Sidebar

@@ -1,29 +1,29 @@
-import React, { useEffect } from "react";
-import clsx from "clsx";
+import React, { useEffect, useState } from 'react'
+import clsx from 'clsx'
 
-import PlusMinusIcon from "components/plus-minus-icon";
+import PlusMinusIcon from 'components/plus-minus-icon'
 
-import stl from "./FAQItem.module.scss";
+import stl from './FAQItem.module.scss'
 
 interface Props {
-  que: string;
-  ans: string;
-  theme: string;
+  que: string
+  ans: string
+  theme: string
 }
 
 const FAQItem = ({ que, ans, theme }: Props) => {
-  const [expand, setExpand] = React.useState(false);
-  const [className, setClassName] = React.useState("");
+  const [expand, setExpand] = useState(false)
+  const [className, setClassName] = useState('')
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl.darkFAQItem);
+    if (typeof window !== 'undefined') {
+      if (theme === 'dark') {
+        setClassName(stl.darkFAQItem)
       } else {
-        setClassName("");
+        setClassName('')
       }
     }
-  }, [theme]);
+  }, [theme])
 
   return (
     <div className={clsx(stl.faqItem, className)}>
@@ -31,14 +31,14 @@ const FAQItem = ({ que, ans, theme }: Props) => {
         <span className={stl.question}>{que}</span>
         <PlusMinusIcon isActive={expand} theme={theme} />
       </div>
-      <div className={clsx(stl.answer, expand ? stl.expand : "")}>{ans}</div>
+      <div className={clsx(stl.answer, expand ? stl.expand : '')}>{ans}</div>
     </div>
-  );
-};
+  )
+}
 
 FAQItem.defaultProps = {
-  que: "Who is Communications Saasimi for?",
-  ans: "Communications Saasimi is for businesses and individuals seeking enhanced communication solutions and engagement tools.",
-};
+  que: 'Who is Communications Saasimi for?',
+  ans: 'Communications Saasimi is for businesses and individuals seeking enhanced communication solutions and engagement tools.',
+}
 
-export default FAQItem;
+export default FAQItem

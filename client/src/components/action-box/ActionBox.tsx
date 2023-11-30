@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import clsx from "clsx";
+import React, { useEffect, useRef, useState } from 'react'
+import clsx from 'clsx'
 
 import {
   isMobileDevice,
@@ -11,41 +11,41 @@ import {
   shareViaLinkedIn,
   shareViaFacebook,
   shareViaWhatsapp,
-} from "lib/utils";
-import useOnClickOutside from "lib/useClickOutside";
-import Modal from "components/modal";
-import DialogBox from "components/dialog-box";
-import Spinner from "components/spinner";
-import ShareMenu from "components/share-menu";
+} from 'lib/utils'
+import useOnClickOutside from 'lib/useClickOutside'
+import Modal from 'components/modal'
+import DialogBox from 'components/dialog-box'
+import Spinner from 'components/spinner'
+import ShareMenu from 'components/share-menu'
 
-import MoreIcon from "assets/more-icon.svg";
-import OpenLinkIcon from "assets/openLink.svg";
-import CopyIcon from "assets/copy.svg";
-import ShareIcon from "assets/share.svg";
-import EditIcon from "assets/edit.svg";
-import DeleteIcon from "assets/delete.svg";
-import DoneIcon from "assets/done.svg";
+import MoreIcon from 'assets/more-icon.svg'
+import OpenLinkIcon from 'assets/openLink.svg'
+import CopyIcon from 'assets/copy.svg'
+import ShareIcon from 'assets/share.svg'
+import EditIcon from 'assets/edit.svg'
+import DeleteIcon from 'assets/delete.svg'
+import DoneIcon from 'assets/done.svg'
 
-import stl from "./ActionBox.module.scss";
+import stl from './ActionBox.module.scss'
 
 interface Props {
-  display: string;
-  theme: string;
-  variant: "primary" | "secondary";
-  domainUrl: string;
+  display: string
+  theme: string
+  variant: 'primary' | 'secondary'
+  domainUrl: string
   linkData: {
-    _id: string;
-    shortId: string;
-    originalURL: string;
-    createdDate: string;
-    clickCounts: number;
-  };
-  setShowEditor: (arg: boolean) => void;
-  setShowModal: (arg: boolean) => void;
-  increaseClickCount: (arg: string) => void;
-  getResponse: (arg: any) => void;
-  uid: string;
-  sendVisibility: (arg: boolean) => void;
+    _id: string
+    shortId: string
+    originalURL: string
+    createdDate: string
+    clickCounts: number
+  }
+  setShowEditor: (arg: boolean) => void
+  setShowModal: (arg: boolean) => void
+  increaseClickCount: (arg: string) => void
+  getResponse: (arg: any) => void
+  uid: string
+  sendVisibility: (arg: boolean) => void
 }
 
 const ActionBox = ({
@@ -61,107 +61,107 @@ const ActionBox = ({
   uid,
   sendVisibility,
 }: Props) => {
-  const [showActionList, setShowActionList] = React.useState(false);
-  const [device, setDevice] = React.useState("");
-  const [className, setClassName] = React.useState("");
-  const [loading, setLoading] = React.useState("");
-  const [showDialog, setShowDialog] = React.useState(false);
-  const [showShortTooltip, setShowShortTooltip] = React.useState(false);
-  const [showLongTooltip, setShowLongTooltip] = React.useState(false);
-  const [showShareMenu, setShowShareMenu] = React.useState(false);
+  const [showActionList, setShowActionList] = useState(false)
+  const [device, setDevice] = useState('')
+  const [className, setClassName] = useState('')
+  const [loading, setLoading] = useState('')
+  const [showDialog, setShowDialog] = useState(false)
+  const [showShortTooltip, setShowShortTooltip] = useState(false)
+  const [showLongTooltip, setShowLongTooltip] = useState(false)
+  const [showShareMenu, setShowShareMenu] = useState(false)
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl.darkActionBox);
+    if (typeof window !== 'undefined') {
+      if (theme === 'dark') {
+        setClassName(stl.darkActionBox)
       } else {
-        setClassName("");
+        setClassName('')
       }
     }
-  }, [theme]);
+  }, [theme])
 
   useEffect(() => {
-    isMobileDevice() ? setDevice("Mobile") : setDevice("");
-  }, []);
+    isMobileDevice() ? setDevice('Mobile') : setDevice('')
+  }, [])
 
   useEffect(() => {
     if (showShortTooltip) {
       setTimeout(() => {
-        setShowShortTooltip(false);
-      }, 1500);
+        setShowShortTooltip(false)
+      }, 1500)
     } else if (showLongTooltip) {
       setTimeout(() => {
-        setShowLongTooltip(false);
-      }, 1500);
+        setShowLongTooltip(false)
+      }, 1500)
     }
-  }, [showShortTooltip, showLongTooltip]);
+  }, [showShortTooltip, showLongTooltip])
 
   useEffect(() => {
-    sendVisibility(showActionList);
-  }, [showActionList]);
+    sendVisibility(showActionList)
+  }, [showActionList])
 
-  const ref = useRef(null);
+  const ref = useRef(null)
 
   const hideActionList = () => {
-    setShowActionList(false);
-    setShowShareMenu(false);
-  };
+    setShowActionList(false)
+    setShowShareMenu(false)
+  }
 
-  useOnClickOutside(hideActionList, ref);
+  useOnClickOutside(hideActionList, ref)
 
   const openLink = (link: string) => {
-    window.open(link, "_blank");
-    hideActionList();
-  };
+    window.open(link, '_blank')
+    hideActionList()
+  }
 
   const copyToClipboard = async (text: string) => {
-    await navigator.clipboard.writeText(text);
-  };
+    await navigator.clipboard.writeText(text)
+  }
 
   const handleShare = (link: string) => {
-    shareShortLink(link);
-    hideActionList();
-  };
+    shareShortLink(link)
+    hideActionList()
+  }
 
   const handleLinkEdit = () => {
-    setShowModal(true);
-    setShowEditor(true);
-    hideActionList();
-    inputFocus("editerInput");
-  };
+    setShowModal(true)
+    setShowEditor(true)
+    hideActionList()
+    inputFocus('editerInput')
+  }
 
   const showDeleteDialog = () => {
-    setShowDialog(true);
-    hideActionList();
-  };
+    setShowDialog(true)
+    hideActionList()
+  }
 
   const handleDelete = () => {
-    handleDelLink(linkData._id, setLoading, getResponse, uid);
-    setShowDialog(false);
-  };
+    handleDelLink(linkData._id, setLoading, getResponse, uid)
+    setShowDialog(false)
+  }
 
   const getViaMethod = (method: string) => {
-    const url = domainUrl + linkData.shortId;
-    if (method === "Email") {
-      shareViaEmail(url);
-    } else if (method === "Twitter") {
-      shareViaTwitter(url);
-    } else if (method === "LinkedIn") {
-      shareViaLinkedIn(url);
-    } else if (method === "Facebook") {
-      shareViaFacebook(url);
-    } else if (method === "Whatsapp") {
-      shareViaWhatsapp(url);
+    const url = domainUrl + linkData.shortId
+    if (method === 'Email') {
+      shareViaEmail(url)
+    } else if (method === 'Twitter') {
+      shareViaTwitter(url)
+    } else if (method === 'LinkedIn') {
+      shareViaLinkedIn(url)
+    } else if (method === 'Facebook') {
+      shareViaFacebook(url)
+    } else if (method === 'Whatsapp') {
+      shareViaWhatsapp(url)
     }
-  };
+  }
 
   return (
     <>
       <Modal
-        isVisible={showDialog || loading !== ""}
+        isVisible={showDialog || loading !== ''}
         theme={theme}
         dialog={
-          loading !== "" ? (
+          loading !== '' ? (
             <Spinner taskTitle={loading} variant="secondary" />
           ) : (
             <DialogBox
@@ -181,11 +181,11 @@ const ActionBox = ({
         <button onClick={() => setShowActionList(!showActionList)}>
           <MoreIcon />
         </button>
-        <ul className={showActionList ? stl.actionList : ""}>
+        <ul className={showActionList ? stl.actionList : ''}>
           <li
             onClick={() => {
-              openLink(domainUrl + linkData.shortId);
-              increaseClickCount(linkData._id);
+              openLink(domainUrl + linkData.shortId)
+              increaseClickCount(linkData._id)
             }}
           >
             <OpenLinkIcon /> Open short link
@@ -196,22 +196,22 @@ const ActionBox = ({
           </li>
           <li
             onClick={() => {
-              copyToClipboard(domainUrl + linkData.shortId);
-              setShowShortTooltip(true);
+              copyToClipboard(domainUrl + linkData.shortId)
+              setShowShortTooltip(true)
             }}
           >
             {showShortTooltip ? <DoneIcon /> : <CopyIcon />} Copy short link
           </li>
           <li
             onClick={() => {
-              copyToClipboard(linkData.originalURL);
-              setShowLongTooltip(true);
+              copyToClipboard(linkData.originalURL)
+              setShowLongTooltip(true)
             }}
           >
             {showLongTooltip ? <DoneIcon /> : <CopyIcon />}
             Copy original link
           </li>
-          {device === "Mobile" ? (
+          {device === 'Mobile' ? (
             <li onClick={() => handleShare(domainUrl + linkData.shortId)}>
               <ShareIcon /> Share
             </li>
@@ -238,12 +238,12 @@ const ActionBox = ({
         </ul>
       </div>
     </>
-  );
-};
+  )
+}
 
 ActionBox.defaultProps = {
-  display: "inline-flex",
-  variant: "primary",
-};
+  display: 'inline-flex',
+  variant: 'primary',
+}
 
-export default ActionBox;
+export default ActionBox

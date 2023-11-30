@@ -1,25 +1,25 @@
-import React, { useEffect } from "react";
-import Image from "next/image";
-import clsx from "clsx";
+import React, { useEffect, useState } from 'react'
+import Image from 'next/image'
+import clsx from 'clsx'
 
-import { updatePhoto, deletePhoto } from "lib/authFunctions";
-import Button from "components/button";
-import Spinner from "components/spinner";
+import { updatePhoto, deletePhoto } from 'lib/authFunctions'
+import Button from 'components/button'
+import Spinner from 'components/spinner'
 
-import CloseIcon from "assets/close.svg";
-import EditIcon from "assets/edit.svg";
-import DeleteIcon from "assets/delete.svg";
+import CloseIcon from 'assets/close.svg'
+import EditIcon from 'assets/edit.svg'
+import DeleteIcon from 'assets/delete.svg'
 
-import stl from "./AvatarActions.module.scss";
+import stl from './AvatarActions.module.scss'
 
 interface Props {
-  theme: string;
-  isVisible: boolean;
-  setIsVisible: (arg: boolean) => void;
-  user: any;
-  setUser: (arg: any) => void;
-  setShowToast: (arg: boolean) => void;
-  setToastOpts: (arg: { variant: string; msg: string }) => void;
+  theme: string
+  isVisible: boolean
+  setIsVisible: (arg: boolean) => void
+  user: any
+  setUser: (arg: any) => void
+  setShowToast: (arg: boolean) => void
+  setToastOpts: (arg: { variant: string; msg: string }) => void
 }
 
 const AvatarActions = ({
@@ -31,35 +31,35 @@ const AvatarActions = ({
   setShowToast,
   setToastOpts,
 }: Props) => {
-  const [className, setClassName] = React.useState("");
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [className, setClassName] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl.darkAvatarActions);
+    if (typeof window !== 'undefined') {
+      if (theme === 'dark') {
+        setClassName(stl.darkAvatarActions)
       } else {
-        setClassName("");
+        setClassName('')
       }
     }
-  }, [theme]);
+  }, [theme])
 
   const handleUpdatePhoto = async (e: any) => {
-    await updatePhoto(e, setUser, setIsLoading, setShowToast, setToastOpts);
-  };
+    await updatePhoto(e, setUser, setIsLoading, setShowToast, setToastOpts)
+  }
 
   const handleSelectFile = () => {
-    const fileInput = document.getElementById("fileInput-2");
-    fileInput?.click();
-  };
+    const fileInput = document.getElementById('fileInput-2')
+    fileInput?.click()
+  }
 
   const handleDelete = async () => {
-    await deletePhoto(setUser, setShowToast, setToastOpts);
-  };
+    await deletePhoto(setUser, setShowToast, setToastOpts)
+  }
 
   return (
     <div
-      className={clsx(stl.avatarActions, className, isVisible ? stl.show : "")}
+      className={clsx(stl.avatarActions, className, isVisible ? stl.show : '')}
     >
       <div className={stl.header}>
         <div className={stl.title}>Profile picture</div>
@@ -84,7 +84,7 @@ const AvatarActions = ({
           id="fileInput-2"
           type="file"
           accept="image/*"
-          style={{ display: "none" }}
+          style={{ display: 'none' }}
           onChange={handleUpdatePhoto}
         />
         <Button
@@ -97,7 +97,7 @@ const AvatarActions = ({
           theme={theme}
           label="Delete"
           isDisabled={
-            user.photoURL === "https://i.postimg.cc/Mp7gnttP/default-Pic.jpg"
+            user.photoURL === 'https://i.postimg.cc/Mp7gnttP/default-Pic.jpg'
           }
           leftIcon={<DeleteIcon />}
           variant="secondary"
@@ -105,7 +105,7 @@ const AvatarActions = ({
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AvatarActions;
+export default AvatarActions

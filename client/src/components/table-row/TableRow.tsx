@@ -1,32 +1,32 @@
-import React, { useEffect } from "react";
-import clsx from "clsx";
+import React, { useEffect, useState } from 'react'
+import clsx from 'clsx'
 
-import { formatDate } from "lib/utils";
+import { formatDate } from 'lib/utils'
 
-import ActionBox from "components/action-box";
-import LinkEditor from "components/link-editor";
-import Modal from "components/modal";
-import Spinner from "components/spinner";
-import Toast from "components/toast";
+import ActionBox from 'components/action-box'
+import LinkEditor from 'components/link-editor'
+import Modal from 'components/modal'
+import Spinner from 'components/spinner'
+import Toast from 'components/toast'
 
-import DownIcon from "assets/chevron-down.svg";
+import DownIcon from 'assets/chevron-down.svg'
 
-import stl from "./TableRow.module.scss";
+import stl from './TableRow.module.scss'
 
 interface Props {
-  domainUrl: string;
+  domainUrl: string
   linkData: {
-    _id: string;
-    shortId: string;
-    originalURL: string;
-    createdDate: string;
-    clickCounts: number;
-  };
-  theme: string;
-  sendDeleteId: (arg: string) => void;
-  sendUpdatedLinks: (arg: any) => void;
-  increaseClickCount: (arg: string) => void;
-  uid: string;
+    _id: string
+    shortId: string
+    originalURL: string
+    createdDate: string
+    clickCounts: number
+  }
+  theme: string
+  sendDeleteId: (arg: string) => void
+  sendUpdatedLinks: (arg: any) => void
+  increaseClickCount: (arg: string) => void
+  uid: string
 }
 
 const TableRow = ({
@@ -38,58 +38,58 @@ const TableRow = ({
   increaseClickCount,
   uid,
 }: Props) => {
-  const [expand, setExpand] = React.useState(false);
-  const [className, setClassName] = React.useState("");
-  const [showActionList, setShowActionList] = React.useState(false);
-  const [width, setWidth] = React.useState(1000);
-  const [showModal, setShowModal] = React.useState(false);
-  const [showEditor, setShowEditor] = React.useState(false);
-  const [loading, setLoading] = React.useState("");
-  const [showToast, setShowToast] = React.useState(false);
-  const [toastOpts, setToastOpts] = React.useState({ variant: "", msg: "" });
-  const [isVisible, setIsVisible] = React.useState(false);
+  const [expand, setExpand] = useState(false)
+  const [className, setClassName] = useState('')
+  const [showActionList, setShowActionList] = useState(false)
+  const [width, setWidth] = useState(1000)
+  const [showModal, setShowModal] = useState(false)
+  const [showEditor, setShowEditor] = useState(false)
+  const [loading, setLoading] = useState('')
+  const [showToast, setShowToast] = useState(false)
+  const [toastOpts, setToastOpts] = useState({ variant: '', msg: '' })
+  const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl.darkTableRow);
+    if (typeof window !== 'undefined') {
+      if (theme === 'dark') {
+        setClassName(stl.darkTableRow)
       } else {
-        setClassName("");
+        setClassName('')
       }
     }
-  }, [theme]);
+  }, [theme])
 
   useEffect(() => {
-    width > 640 && setExpand(false);
-    width < 640 ? setShowActionList(true) : setShowActionList(false);
-  }, [width]);
+    width > 640 && setExpand(false)
+    width < 640 ? setShowActionList(true) : setShowActionList(false)
+  }, [width])
 
   useEffect(() => {
     function measureWidth() {
-      setWidth(document.body.clientWidth);
+      setWidth(document.body.clientWidth)
     }
-    measureWidth();
-    window.addEventListener("resize", measureWidth);
-    return () => window.removeEventListener("resize", measureWidth);
-  }, []);
+    measureWidth()
+    window.addEventListener('resize', measureWidth)
+    return () => window.removeEventListener('resize', measureWidth)
+  }, [])
 
   const getResponse = (res: any) => {
     if (!res.err) {
-      setShowToast(true);
-      setToastOpts({ variant: "success", msg: "Link deleted successfully!" });
-      sendDeleteId(linkData._id);
-      sendUpdatedLinks(res);
+      setShowToast(true)
+      setToastOpts({ variant: 'success', msg: 'Link deleted successfully!' })
+      sendDeleteId(linkData._id)
+      sendUpdatedLinks(res)
     } else {
-      setShowToast(true);
-      setToastOpts({ variant: "danger", msg: res.err });
+      setShowToast(true)
+      setToastOpts({ variant: 'danger', msg: res.err })
     }
 
-    setShowModal(false);
-  };
+    setShowModal(false)
+  }
 
   const isActionBoxVisible = (val: boolean) => {
-    setIsVisible(val);
-  };
+    setIsVisible(val)
+  }
 
   return (
     <>
@@ -97,7 +97,7 @@ const TableRow = ({
         isVisible={showModal}
         theme={theme}
         dialog={
-          loading === "" ? (
+          loading === '' ? (
             <LinkEditor
               theme={theme}
               linkData={linkData}
@@ -114,7 +114,7 @@ const TableRow = ({
         }
       />
       <ActionBox
-        display={showActionList ? "inline-flex" : "none"}
+        display={showActionList ? 'inline-flex' : 'none'}
         theme={theme}
         domainUrl={domainUrl}
         variant="secondary"
@@ -136,9 +136,9 @@ const TableRow = ({
       <div
         className={clsx(
           stl.tableRow,
-          expand ? stl.expand : "",
+          expand ? stl.expand : '',
           className,
-          isVisible ? stl.show : ""
+          isVisible ? stl.show : ''
         )}
       >
         <span className={stl.shortLink}>
@@ -158,7 +158,7 @@ const TableRow = ({
           {formatDate(new Date(linkData.createdDate))}
         </span>
         <ActionBox
-          display={showActionList ? "none" : "inline-flex"}
+          display={showActionList ? 'none' : 'inline-flex'}
           theme={theme}
           domainUrl={domainUrl}
           linkData={linkData}
@@ -174,17 +174,17 @@ const TableRow = ({
         </span>
       </div>
     </>
-  );
-};
+  )
+}
 
 TableRow.defaultProps = {
   linkData: {
-    _id: "64dcac9194d3a3336afe917d",
-    shortId: "aftaab",
-    originalURL: "https://www.youtube.com/watch?v=I7EDAR2GRVo",
+    _id: '64dcac9194d3a3336afe917d',
+    shortId: 'aftaab',
+    originalURL: 'https://www.youtube.com/watch?v=I7EDAR2GRVo',
     clickCounts: 345,
-    createdDate: "Aug-10-2023",
+    createdDate: 'Aug-10-2023',
   },
-};
+}
 
-export default TableRow;
+export default TableRow

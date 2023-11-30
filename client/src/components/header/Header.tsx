@@ -1,67 +1,66 @@
-import React, { useEffect } from "react";
-import Link from "next/link";
-import clsx from "clsx";
+import React, { useEffect, useState } from 'react'
+import Link from 'next/link'
+import clsx from 'clsx'
 
-import UserMenu from "components/user-menu";
-import ToggleThemeBtn from "components/toggle-theme-btn";
+import UserMenu from 'components/user-menu'
+import ToggleThemeBtn from 'components/toggle-theme-btn'
 
-import stl from "./Header.module.scss";
+import stl from './Header.module.scss'
 
 interface Props {
-  theme: string;
-  setTheme: (arg: any) => void;
-  user: any;
+  theme: string
+  user: any
 }
 
-const Header = ({ theme, setTheme, user }: Props) => {
-  const [expand, setIsExpand] = React.useState(false);
-  const [width, setWidth] = React.useState(500);
-  const [className, setClassName] = React.useState("");
-  const [path, setPath] = React.useState("");
+const Header = ({ theme, user }: Props) => {
+  const [expand, setIsExpand] = useState(false)
+  const [width, setWidth] = useState(500)
+  const [className, setClassName] = useState('')
+  const [path, setPath] = useState('')
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl.darkHeader);
+    if (typeof window !== 'undefined') {
+      if (theme === 'dark') {
+        setClassName(stl.darkHeader)
       } else {
-        setClassName("");
+        setClassName('')
       }
     }
-  }, [theme]);
+  }, [theme])
 
   const links = [
-    { name: "Home", href: "/" },
+    { name: 'Home', href: '/' },
     user
-      ? { name: "Dashboard", href: "/dashboard" }
-      : { name: "Shorten URL", href: "/shorten" },
-    { name: "About", href: "/about" },
-    { name: "Contact", href: "/contact" },
-  ];
+      ? { name: 'Dashboard', href: '/dashboard' }
+      : { name: 'Shorten URL', href: '/shorten' },
+    { name: 'About', href: '/about' },
+    { name: 'Contact', href: '/contact' },
+  ]
 
   useEffect(() => {
-    const btn = document.getElementById("btn");
-    expand ? btn?.classList.add(stl.active) : btn?.classList.add(stl.noActive);
+    const btn = document.getElementById('btn')
+    expand ? btn?.classList.add(stl.active) : btn?.classList.add(stl.noActive)
     expand
       ? btn?.classList.remove(stl.notActive)
-      : btn?.classList.remove(stl.active);
-  }, [expand]);
+      : btn?.classList.remove(stl.active)
+  }, [expand])
 
   useEffect(() => {
-    width > 640 && setIsExpand(false);
-  }, [width]);
+    width > 640 && setIsExpand(false)
+  }, [width])
 
   useEffect(() => {
-    const path = location.pathname;
+    const path = location.pathname
 
-    setPath(path);
+    setPath(path)
 
     function measureWidth() {
-      setWidth(document.body.clientWidth);
+      setWidth(document.body.clientWidth)
     }
-    measureWidth();
-    window.addEventListener("resize", measureWidth);
-    return () => window.removeEventListener("resize", measureWidth);
-  }, []);
+    measureWidth()
+    window.addEventListener('resize', measureWidth)
+    return () => window.removeEventListener('resize', measureWidth)
+  }, [])
 
   return (
     <header
@@ -77,7 +76,7 @@ const Header = ({ theme, setTheme, user }: Props) => {
             <Link
               key={i}
               href={item.href}
-              className={path === item.href ? stl.active : ""}
+              className={path === item.href ? stl.active : ''}
             >
               {item.name}
             </Link>
@@ -85,19 +84,11 @@ const Header = ({ theme, setTheme, user }: Props) => {
         </div>
         <div className={stl.right}>
           {user ? (
-            <UserMenu theme={theme} setTheme={setTheme} user={user} />
+            <UserMenu theme={theme} user={user} />
           ) : (
             <>
-              <ToggleThemeBtn
-                customClass={stl.toggleBtn}
-                theme={theme}
-                handleOnClick={() =>
-                  setTheme((prevTheme: string) =>
-                    prevTheme === "light" ? "dark" : "light"
-                  )
-                }
-              />
-              {path === "/auth" ? undefined : (
+              <ToggleThemeBtn customClass={stl.toggleBtn} theme={theme} />
+              {path === '/auth' ? undefined : (
                 <Link href="/auth?type=signup" className={stl.signupBtn}>
                   Sign Up
                 </Link>
@@ -117,14 +108,14 @@ const Header = ({ theme, setTheme, user }: Props) => {
         </div>
       </div>
       <ul
-        style={expand ? { transform: "scaleY(1)" } : { transform: "scaleY(0)" }}
+        style={expand ? { transform: 'scaleY(1)' } : { transform: 'scaleY(0)' }}
         className={stl.list}
       >
         {links.map((item, i) => (
           <li key={i}>
             <Link
               href={item.href}
-              className={path === item.href ? stl.active : ""}
+              className={path === item.href ? stl.active : ''}
             >
               {item.name}
             </Link>
@@ -132,7 +123,7 @@ const Header = ({ theme, setTheme, user }: Props) => {
         ))}
       </ul>
     </header>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

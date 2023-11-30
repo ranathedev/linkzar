@@ -1,49 +1,49 @@
-import React, { useEffect } from "react";
-import clsx from "clsx";
+import React, { useEffect, useState } from 'react'
+import clsx from 'clsx'
 
-import { isMac } from "lib/utils";
+import { isMac } from 'lib/utils'
 
-import SearchIcon from "assets/search-icon.svg";
+import SearchIcon from 'assets/search-icon.svg'
 
-import stl from "./SearchBar.module.scss";
+import stl from './SearchBar.module.scss'
 
 interface Props {
-  theme: string;
-  handleSubmit: (arg: string) => void;
-  handleCancel: () => void;
+  theme: string
+  handleSubmit: (arg: string) => void
+  handleCancel: () => void
 }
 
 const SearchBar = ({ theme, handleSubmit, handleCancel }: Props) => {
-  const [className, setClassName] = React.useState("");
-  const [device, setDevice] = React.useState("");
-  const [value, setValue] = React.useState("");
+  const [className, setClassName] = useState('')
+  const [device, setDevice] = useState('')
+  const [value, setValue] = useState('')
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl.darkSearchBar);
+    if (typeof window !== 'undefined') {
+      if (theme === 'dark') {
+        setClassName(stl.darkSearchBar)
       } else {
-        setClassName("");
+        setClassName('')
       }
     }
-  }, [theme]);
+  }, [theme])
 
   useEffect(() => {
-    isMac() ? setDevice("Mac") : setDevice("");
-  }, []);
+    isMac() ? setDevice('Mac') : setDevice('')
+  }, [])
 
   const handleKeydown = (e: any) => {
     if (e.keyCode === 13) {
-      handleSubmit(value);
+      handleSubmit(value)
     }
-  };
+  }
 
   const handleInput = (e: any) => {
-    const value = e.target.value;
-    if (value === "") {
-      handleCancel();
+    const value = e.target.value
+    if (value === '') {
+      handleCancel()
     }
-  };
+  }
 
   return (
     <div className={clsx(stl.searchBar, className)}>
@@ -51,7 +51,7 @@ const SearchBar = ({ theme, handleSubmit, handleCancel }: Props) => {
         <SearchIcon />
       </div>
       <div className={stl.hint}>
-        {device === "Mac" ? <>&#8984;</> : "Ctrl"} K
+        {device === 'Mac' ? <>&#8984;</> : 'Ctrl'} K
       </div>
       <input
         type="search"
@@ -59,12 +59,12 @@ const SearchBar = ({ theme, handleSubmit, handleCancel }: Props) => {
         placeholder="Search"
         spellCheck={false}
         onKeyDown={handleKeydown}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={e => setValue(e.target.value)}
         onInput={handleInput}
       />
       <button onClick={() => handleSubmit(value)}>Search</button>
     </div>
-  );
-};
+  )
+}
 
-export default SearchBar;
+export default SearchBar

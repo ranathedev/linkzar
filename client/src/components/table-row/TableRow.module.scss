@@ -1,4 +1,4 @@
-@import "styles/common";
+@import 'styles/common';
 
 .tableRow {
   @extend .alignCen;
@@ -74,9 +74,9 @@
   }
 }
 
-.show {
-  margin-bottom: 14.5rem !important;
-}
+// .show {
+//   margin-bottom: 14.5rem !important;
+// }
 
 .darkTableRow {
   background: #1f2937;

@@ -100,7 +100,22 @@ const ActionBox = ({
     sendVisibility(showActionList)
   }, [showActionList])
 
-  const ref = useRef(null)
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (ref.current) {
+      const spaceFromBottom =
+        window.innerHeight - ref.current.getBoundingClientRect().bottom
+
+      if (spaceFromBottom >= 245) {
+        ref.current.classList.remove(stl.growAbove)
+        ref.current.classList.add(stl.growBelow)
+      } else {
+        ref.current.classList.remove(stl.growBelow)
+        ref.current.classList.add(stl.growAbove)
+      }
+    }
+  }, [showActionList])
 
   const hideActionList = () => {
     setShowActionList(false)
@@ -181,7 +196,7 @@ const ActionBox = ({
         <button onClick={() => setShowActionList(!showActionList)}>
           <MoreIcon />
         </button>
-        <ul className={showActionList ? stl.actionList : ''}>
+        <ul className={showActionList ? stl.showList : ''}>
           <li
             onClick={() => {
               openLink(domainUrl + linkData.shortId)

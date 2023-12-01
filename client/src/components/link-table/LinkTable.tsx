@@ -195,7 +195,7 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
               <LoadingSpinner loading={isRefreshing} />
             </div>
           ) : (
-            <>
+            <div className={stl.listContainer}>
               {showFilteredLinks ? (
                 filteredLinks.length > 0 ? (
                   filteredLinks.map((linkItem, i) => (
@@ -239,7 +239,7 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
                   to add your first link.
                 </p>
               )}
-            </>
+            </div>
           )}
         </div>
       </div>

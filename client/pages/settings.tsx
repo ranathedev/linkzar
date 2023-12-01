@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import firebase from 'firebase/auth'
+import clsx from 'clsx'
 import { useSelector } from 'react-redux'
 
 import auth from 'lib/firebase'
@@ -14,6 +15,7 @@ import stl from './index.module.scss'
 const SettingsPage = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [isVerified, setIsVerified] = useState(false)
+  const [className, setClassName] = useState('')
   const [user, setUser] = useState<firebase.User | {}>({
     fname: 'John',
     lname: 'Doe',
@@ -49,11 +51,21 @@ const SettingsPage = () => {
     }
   }, [])
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      if (theme === 'dark') {
+        setClassName(stl.darkSettings)
+      } else {
+        setClassName('')
+      }
+    }
+  }, [theme])
+
   return isLoading ? (
     <LoadingScreen />
   ) : isVerified ? (
     <Layout theme={theme} user={user} title="Settings | Linkzar">
-      <div className={stl.settings}>
+      <div className={clsx(stl.settings, className)}>
         <div className={stl.container}>
           <AvatarHandler
             theme={theme}

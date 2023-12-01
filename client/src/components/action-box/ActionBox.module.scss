@@ -1,4 +1,4 @@
-@import "styles/common";
+@import 'styles/common';
 
 .actionsBox {
   position: relative;
@@ -17,17 +17,15 @@
   }
 
   ul {
-    position: absolute;
-    top: 1.6rem;
+    position: absolute !important;
     right: 0.75rem;
     list-style: none;
     width: 12rem;
     padding: 0.5rem 0.25rem;
     border-radius: 0.5rem;
     background: #fff;
-    box-shadow: #959da533 0px 8px 24px;
+    box-shadow: #7a7f8333 0 0px 16px 8px;
     transform: scale(0);
-    transform-origin: top right;
     transition: all 0.25s;
     z-index: 5;
 
@@ -55,9 +53,19 @@
     }
   }
 
-  .actionList {
+  .showList {
     transform: scale(1);
   }
+}
+
+.growAbove ul {
+  top: -15rem;
+  transform-origin: bottom right;
+}
+
+.growBelow ul {
+  transform-origin: top right;
+  top: 1.6rem;
 }
 
 .secondary {
@@ -86,6 +94,8 @@
 
   ul {
     background: #374151;
+    box-shadow: none;
+    border: 2px solid #7a7f83;
 
     li {
       color: #c9ced6;

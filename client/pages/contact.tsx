@@ -1,36 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
-import Layout from "components/layout";
-import ContactForm from "components/contact-form";
+import Layout from 'components/layout'
+import ContactForm from 'components/contact-form'
 
 const Contact = () => {
-  const [user, setUser] = React.useState({});
-  const [theme, setTheme] = React.useState(() => {
-    if (typeof window !== "undefined") {
-      const storedTheme = localStorage.getItem("theme");
-      return storedTheme || "light";
-    }
-    return "light";
-  });
+  const [user, setUser] = useState({})
+  const theme = useSelector((state: { theme: string }) => state.theme)
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("theme", theme);
-    }
-  }, [theme]);
-
-  useEffect(() => {
-    const data = localStorage.getItem("user");
+    const data = localStorage.getItem('user')
     //@ts-ignore
-    const user = JSON.parse(data);
-    setUser(user);
-  }, []);
+    const user = JSON.parse(data)
+    setUser(user)
+  }, [])
 
   return (
-    <Layout theme={theme} setTheme={setTheme} user={user} title="Contact">
+    <Layout theme={theme} user={user} title="Contact | Linkzar">
       <ContactForm theme={theme} />
     </Layout>
-  );
-};
+  )
+}
 
-export default Contact;
+export default Contact

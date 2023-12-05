@@ -1,53 +1,53 @@
-import React, { useEffect } from "react";
-import clsx from "clsx";
+import React, { useEffect, useState } from 'react'
+import clsx from 'clsx'
 
-import { updatePhoto, deletePhoto } from "lib/authFunctions";
-import Button from "components/button";
-import AvatarContainer from "components/avatar-container";
-import Spinner from "components/spinner";
-import Toast from "components/toast";
+import { updatePhoto, deletePhoto } from 'lib/authFunctions'
+import Button from 'components/button'
+import AvatarContainer from 'components/avatar-container'
+import Spinner from 'components/spinner'
+import Toast from 'components/toast'
 
-import EditIcon from "assets/edit.svg";
-import DeleteIcon from "assets/delete.svg";
-import InfoIcon from "assets/info.svg";
+import EditIcon from 'assets/edit.svg'
+import DeleteIcon from 'assets/delete.svg'
+import InfoIcon from 'assets/info.svg'
 
-import stl from "./AvatarHandler.module.scss";
+import stl from './AvatarHandler.module.scss'
 
 interface Props {
-  theme: string;
-  user: any;
-  setUser: (arg: any) => void;
-  customClass?: string;
+  theme: string
+  user: any
+  setUser: (arg: any) => void
+  customClass?: string
 }
 
 const AvatarHandler = ({ theme, user, setUser, customClass }: Props) => {
-  const [className, setClassName] = React.useState("");
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [showToast, setShowToast] = React.useState(false);
-  const [toastOpts, setToastOpts] = React.useState({ variant: "", msg: "" });
+  const [className, setClassName] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [showToast, setShowToast] = useState(false)
+  const [toastOpts, setToastOpts] = useState({ variant: '', msg: '' })
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl.darkAvatarHandler);
+    if (typeof window !== 'undefined') {
+      if (theme === 'dark') {
+        setClassName(stl.darkAvatarHandler)
       } else {
-        setClassName("");
+        setClassName('')
       }
     }
-  }, [theme]);
+  }, [theme])
 
   const handleUpdatePhoto = async (e: any) => {
-    await updatePhoto(e, setUser, setIsLoading, setShowToast, setToastOpts);
-  };
+    await updatePhoto(e, setUser, setIsLoading, setShowToast, setToastOpts)
+  }
 
   const handleSelectFile = () => {
-    const fileInput = document.getElementById("fileInput-1");
-    fileInput?.click();
-  };
+    const fileInput = document.getElementById('fileInput-1')
+    fileInput?.click()
+  }
 
   const handleDelete = async () => {
-    await deletePhoto(setUser, setShowToast, setToastOpts);
-  };
+    await deletePhoto(setUser, setShowToast, setToastOpts)
+  }
 
   return (
     <>
@@ -78,7 +78,7 @@ const AvatarHandler = ({ theme, user, setUser, customClass }: Props) => {
             id="fileInput-1"
             type="file"
             accept="image/*"
-            style={{ display: "none" }}
+            style={{ display: 'none' }}
             onChange={handleUpdatePhoto}
           />
           <Button
@@ -90,7 +90,7 @@ const AvatarHandler = ({ theme, user, setUser, customClass }: Props) => {
           <Button
             theme={theme}
             isDisabled={
-              user.photoURL === "https://i.postimg.cc/Mp7gnttP/default-Pic.jpg"
+              user.photoURL === 'https://i.postimg.cc/Mp7gnttP/default-Pic.jpg'
             }
             label="Delete Avatar"
             variant="secondary"
@@ -103,7 +103,7 @@ const AvatarHandler = ({ theme, user, setUser, customClass }: Props) => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default AvatarHandler;
+export default AvatarHandler

@@ -1,44 +1,52 @@
-import React, { useEffect, useRef } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import clsx from "clsx";
+import React, { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import clsx from 'clsx'
+import { setTheme } from '@/src/store'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { logOut } from "lib/authFunctions";
-import useOnClickOutside from "lib/useClickOutside";
-import ToggleThemeBtn from "components/toggle-theme-btn";
-import Toast from "components/toast";
+import { logOut } from 'lib/authFunctions'
+import useOnClickOutside from 'lib/useClickOutside'
+import ToggleThemeBtn from 'components/toggle-theme-btn'
+import Toast from 'components/toast'
 
-import LogoutIcon from "assets/logout.svg";
-import SettingsIcon from "assets/settings.svg";
-import DashboardIcon from "assets/dashboard-2.svg";
+import LogoutIcon from 'assets/logout.svg'
+import SettingsIcon from 'assets/settings.svg'
+import DashboardIcon from 'assets/dashboard-2.svg'
 
-import stl from "./UserMenu.module.scss";
+import stl from './UserMenu.module.scss'
 
 interface Props {
-  user: any;
-  theme: string;
-  setTheme: (arg: any) => void;
+  user: any
+  theme: string
 }
 
-const UserMenu = ({ user, theme, setTheme }: Props) => {
-  const [className, setClassName] = React.useState("");
-  const [expand, setExpand] = React.useState(false);
-  const [showToast, setShowToast] = React.useState(false);
-  const [toastOpts, setToastOpts] = React.useState({ variant: "", msg: "" });
+const UserMenu = ({ user, theme }: Props) => {
+  const [className, setClassName] = useState('')
+  const [expand, setExpand] = useState(false)
+  const [showToast, setShowToast] = useState(false)
+  const [toastOpts, setToastOpts] = useState({ variant: '', msg: '' })
+  const state = useSelector((state: { theme: string }) => state)
+  const dispatch = useDispatch()
 
-  const ref = useRef(null);
+  const ref = useRef(null)
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl.darkUserMenu);
+    if (typeof window !== 'undefined') {
+      if (theme === 'dark') {
+        setClassName(stl.darkUserMenu)
       } else {
-        setClassName("");
+        setClassName('')
       }
     }
-  }, [theme]);
+  }, [theme])
 
-  useOnClickOutside(() => setExpand(false), ref);
+  useOnClickOutside(() => setExpand(false), ref)
+
+  const handleThemeChange = () => {
+    if (state.theme === 'light') dispatch(setTheme('dark'))
+    else dispatch(setTheme('light'))
+  }
 
   return (
     <>
@@ -54,25 +62,18 @@ const UserMenu = ({ user, theme, setTheme }: Props) => {
           <Image
             src={
               (user.photoURL && user.photoURL) ||
-              "https://i.postimg.cc/Mp7gnttP/default-Pic.jpg"
+              'https://i.postimg.cc/Mp7gnttP/default-Pic.jpg'
             }
             width={30}
             height={30}
             alt="user-image"
           />
           <span className={stl.name}>
-            {(user.displayName && user.displayName) || "John Doe"}
+            {(user.displayName && user.displayName) || 'John Doe'}
           </span>
         </div>
-        <div className={clsx(stl.menu, expand ? stl.show : "")}>
-          <div
-            className={stl.theme}
-            onClick={() =>
-              setTheme((prevTheme: string) =>
-                prevTheme === "light" ? "dark" : "light"
-              )
-            }
-          >
+        <div className={clsx(stl.menu, expand ? stl.show : '')}>
+          <div className={stl.theme} onClick={handleThemeChange}>
             <span>Theme</span>
             <ToggleThemeBtn customClass={stl.toggleBtn} theme={theme} />
           </div>
@@ -96,8 +97,8 @@ const UserMenu = ({ user, theme, setTheme }: Props) => {
           <div
             className={stl.logout}
             onClick={() => {
-              logOut(setShowToast, setToastOpts);
-              setExpand(false);
+              logOut(setShowToast, setToastOpts)
+              setExpand(false)
             }}
           >
             <span>Logout</span>
@@ -106,7 +107,7 @@ const UserMenu = ({ user, theme, setTheme }: Props) => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default UserMenu;
+export default UserMenu

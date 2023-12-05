@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from 'react'
 // import Link from "next/link";
-import clsx from "clsx";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
+import clsx from 'clsx'
+import { Formik, Form } from 'formik'
+import * as Yup from 'yup'
 
 import {
   signupWithEmailPassword,
@@ -10,139 +10,139 @@ import {
   signinWithGoogle,
   signinWithGithub,
   signinWithMicrosoft,
-} from "lib/authFunctions";
-import { getFields, getInitVals } from "lib/authFormData";
-import InputContainer from "components/input-container";
-import FgtPassDialog from "components/fgt-pass-dialog";
-import Spinner from "components/spinner";
-import Toast from "components/toast";
+} from 'lib/authFunctions'
+import { getFields, getInitVals } from 'lib/authFormData'
+import InputContainer from 'components/input-container'
+import FgtPassDialog from 'components/fgt-pass-dialog'
+import Spinner from 'components/spinner'
+import Toast from 'components/toast'
 
-import GoogleIcon from "assets/google.svg";
-import GithubIcon from "assets/github-2.svg";
-import MicrosoftIcon from "assets/microsoft.svg";
+import GoogleIcon from 'assets/google.svg'
+import GithubIcon from 'assets/github-2.svg'
+import MicrosoftIcon from 'assets/microsoft.svg'
 // import TickIcon from "assets/tick.svg";
 
-import stl from "./AuthForm.module.scss";
+import stl from './AuthForm.module.scss'
 
 interface Props {
-  theme: string;
+  theme: string
 }
 
 const AuthForm = ({ theme }: Props) => {
-  const [initVals, setInitVals] = React.useState({
-    fname: "",
-    lname: "",
-    email: "",
-    pass: "",
-    confirmPass: "",
-  });
-  const [className, setClassName] = React.useState("");
-  const [formType, setFormType] = React.useState("signup");
-  const [isChecked, setIsChecked] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [resetPass, setResetPass] = React.useState(false);
-  const [showToast, setShowToast] = React.useState(false);
-  const [toastOpts, setToastOpts] = React.useState({ variant: "", msg: "" });
+  const [initVals, setInitVals] = useState({
+    fname: '',
+    lname: '',
+    email: '',
+    pass: '',
+    confirmPass: '',
+  })
+  const [className, setClassName] = useState('')
+  const [formType, setFormType] = useState('signup')
+  const [isChecked, setIsChecked] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [resetPass, setResetPass] = useState(false)
+  const [showToast, setShowToast] = useState(false)
+  const [toastOpts, setToastOpts] = useState({ variant: '', msg: '' })
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl.darkAuthForm);
+    if (typeof window !== 'undefined') {
+      if (theme === 'dark') {
+        setClassName(stl.darkAuthForm)
       } else {
-        setClassName("");
+        setClassName('')
       }
     }
-  }, [theme]);
+  }, [theme])
 
   useEffect(() => {
     setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-  }, []);
+      setIsLoading(false)
+    }, 1000)
+  }, [])
 
   useEffect(() => {
-    const currentUrl = new URL(location.href);
+    const currentUrl = new URL(location.href)
 
     if (currentUrl) {
-      const type = currentUrl.searchParams.get("type");
+      const type = currentUrl.searchParams.get('type')
       if (type) {
-        setFormType(type);
-        const initVals = getInitVals(type);
+        setFormType(type)
+        const initVals = getInitVals(type)
         //@ts-ignore
-        setInitVals(initVals);
+        setInitVals(initVals)
       }
     }
-  }, []);
+  }, [])
 
   const socialMethods = [
     {
-      id: "sign-in-with-google",
+      id: 'sign-in-with-google',
       icon: <GoogleIcon />,
-      name: "google",
+      name: 'google',
       onClick: () => signinWithGoogle(setShowToast, setShowToast),
     },
     {
-      id: "sign-in-with-github",
+      id: 'sign-in-with-github',
       icon: <GithubIcon />,
-      name: "github",
+      name: 'github',
       onClick: () => signinWithGithub(setShowToast, setShowToast),
     },
     {
-      id: "sign-in-with-microsoft",
+      id: 'sign-in-with-microsoft',
       icon: <MicrosoftIcon />,
-      name: "twitter",
+      name: 'twitter',
       onClick: () => signinWithMicrosoft(setShowToast, setShowToast),
     },
-  ];
+  ]
   const signUpSchema = Yup.object().shape({
-    fname: Yup.string().required("First name is required"),
-    lname: Yup.string().required("Last name is required"),
+    fname: Yup.string().required('First name is required'),
+    lname: Yup.string().required('Last name is required'),
     email: Yup.string()
-      .email("Email is not valid")
-      .required("Email is required"),
+      .email('Email is not valid')
+      .required('Email is required'),
     pass: Yup.string()
-      .required("Password is required")
-      .matches(/(?=.*\d)/, "Password must contain at least 1 digit")
-      .matches(/(?=.*[A-Z])/, "Password must contain at least 1 capital letter")
+      .required('Password is required')
+      .matches(/(?=.*\d)/, 'Password must contain at least 1 digit')
+      .matches(/(?=.*[A-Z])/, 'Password must contain at least 1 capital letter')
       .matches(
         /(?=.*[a-z])/,
-        "Password must contain at least 1 lowercase letter"
+        'Password must contain at least 1 lowercase letter'
       )
       .matches(
         /(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-])/,
-        "Password must contain at least 1 special character"
+        'Password must contain at least 1 special character'
       )
-      .min(8, "Password must be at least 8 characters long"),
+      .min(8, 'Password must be at least 8 characters long'),
     confirmPass: Yup.string()
-      .required("Confirm your Password")
+      .required('Confirm your Password')
       //@ts-ignore
-      .oneOf([Yup.ref("pass"), null], "Passwords didn't matched")
+      .oneOf([Yup.ref('pass'), null], "Passwords didn't matched")
       .nullable()
-      .required("Confirm Password is required"),
-  });
+      .required('Confirm Password is required'),
+  })
 
   const signInSchema = Yup.object().shape({
     email: Yup.string()
-      .email("Email is not valid")
-      .required("Email is required"),
-  });
+      .email('Email is not valid')
+      .required('Email is required'),
+  })
 
   const changeFormType = () => {
-    let newType = "";
-    if (formType === "signup") {
-      newType = "signin";
-    } else if (formType === "signin") {
-      newType = "signup";
+    let newType = ''
+    if (formType === 'signup') {
+      newType = 'signin'
+    } else if (formType === 'signin') {
+      newType = 'signup'
     }
 
-    const currentUrl = new URL(location.href);
+    const currentUrl = new URL(location.href)
 
-    currentUrl.searchParams.set("type", newType);
+    currentUrl.searchParams.set('type', newType)
 
-    window.history.replaceState({}, "", currentUrl.toString());
+    window.history.replaceState({}, '', currentUrl.toString())
 
-    location.reload();
-  };
+    location.reload()
+  }
 
   return isLoading ? (
     <Spinner customClass={stl.spinner} />
@@ -159,12 +159,12 @@ const AuthForm = ({ theme }: Props) => {
       />
       <div className={clsx(stl.authForm, className)}>
         <h2 className={stl.heading}>
-          {formType === "signup"
-            ? "Create your Free Account"
-            : "Log in to your Account"}
+          {formType === 'signup'
+            ? 'Create your Free Account'
+            : 'Log in to your Account'}
         </h2>
         <div className={stl.socialMethod}>
-          <span>Sign {formType === "signup" ? "up" : "in"} with</span>
+          <span>Sign {formType === 'signup' ? 'up' : 'in'} with</span>
           <div className={stl.btns}>
             {socialMethods.map((item, i) => (
               <button
@@ -185,10 +185,10 @@ const AuthForm = ({ theme }: Props) => {
         </div>
         <Formik
           initialValues={initVals}
-          validationSchema={formType === "signup" ? signUpSchema : signInSchema}
+          validationSchema={formType === 'signup' ? signUpSchema : signInSchema}
           onSubmit={(values, actions) => {
-            if ((formType === "signup" && isChecked) || formType === "signin") {
-              (formType === "signup" &&
+            if ((formType === 'signup' && isChecked) || formType === 'signin') {
+              ;(formType === 'signup' &&
                 signupWithEmailPassword(
                   values.fname,
                   values.lname,
@@ -198,17 +198,17 @@ const AuthForm = ({ theme }: Props) => {
                   setShowToast,
                   setToastOpts
                 )) ||
-                (formType === "signin" &&
+                (formType === 'signin' &&
                   signinWithEmailPassword(
                     values.email,
                     values.pass,
                     setShowToast,
                     setToastOpts
-                  ));
-              actions.resetForm();
-              setIsChecked(false);
+                  ))
+              actions.resetForm()
+              setIsChecked(false)
             } else {
-              alert("Agree to our terms and conditions to create account.");
+              alert('Agree to our terms and conditions to create account.')
             }
           }}
         >
@@ -223,31 +223,31 @@ const AuthForm = ({ theme }: Props) => {
                 placeholder={field.placeholder}
               />
             ))}
-            {formType === "signup" ? null : ( // </div> //   </label> //     I agree to the <Link href="#">terms and conditions</Link>. //   <label htmlFor="agreement"> //   </span> //     <TickIcon /> //   > //     onClick={() => setIsChecked(!isChecked)} //     className={clsx(stl.checkbox, isChecked ? stl.checked : "")} //   <span // <div className={stl.checkboxContainer}>
+            {formType === 'signup' ? null : ( // </div> //   </label> //     I agree to the <Link href="#">terms and conditions</Link>. //   <label htmlFor="agreement"> //   </span> //     <TickIcon /> //   > //     onClick={() => setIsChecked(!isChecked)} //     className={clsx(stl.checkbox, isChecked ? stl.checked : "")} //   <span // <div className={stl.checkboxContainer}>
               <div className={stl.forgotPassword}>
                 <span onClick={() => setResetPass(true)}>Forgot password?</span>
               </div>
             )}
             <button className={stl.btn} type="submit">
-              {formType === "signup" ? "Create an account" : "Log in"}
+              {formType === 'signup' ? 'Create an account' : 'Log in'}
             </button>
           </Form>
         </Formik>
         <div className={stl.authSwitch}>
-          {formType === "signup"
-            ? "Already have an account? "
+          {formType === 'signup'
+            ? 'Already have an account? '
             : "Don't have an account yet? "}
           <span onClick={changeFormType}>
-            {formType === "signup" ? "Sign in" : "Sign up for an account"}
+            {formType === 'signup' ? 'Sign in' : 'Sign up for an account'}
           </span>
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
 AuthForm.defaultProps = {
-  formType: "signup",
-};
+  formType: 'signup',
+}
 
-export default AuthForm;
+export default AuthForm

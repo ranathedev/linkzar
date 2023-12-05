@@ -1,45 +1,45 @@
-import React, { useEffect } from "react";
-import Image from "next/image";
-import clsx from "clsx";
+import React, { useEffect, useState } from 'react'
+import Image from 'next/image'
+import clsx from 'clsx'
 
-import Button from "components/button";
+import Button from 'components/button'
 
-import Img from "assets/url-shortener.png";
-import ArrowIcon from "assets/arrow-right.svg";
+import Img from 'assets/url-shortener.png'
+import ArrowIcon from 'assets/arrow-right.svg'
 
-import stl from "./Intro.module.scss";
+import stl from './Intro.module.scss'
 
 interface Props {
-  theme: string;
-  customClass?: string;
+  theme: string
+  customClass?: string
 }
 
 const Intro = ({ theme, customClass }: Props) => {
-  const [currentIndex, setCurrentIndex] = React.useState(0);
-  const [className, setClassName] = React.useState("");
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [className, setClassName] = useState('')
   const texts = [
-    "Simplifying Your Links",
-    "Amplifying Your Reach",
-    "Optimizing Your Sharing",
-  ];
+    'Simplifying Your Links',
+    'Amplifying Your Reach',
+    'Optimizing Your Sharing',
+  ]
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % texts.length);
-    }, 5000);
+      setCurrentIndex(prevIndex => (prevIndex + 1) % texts.length)
+    }, 5000)
 
-    return () => clearInterval(interval);
-  }, [texts.length]);
+    return () => clearInterval(interval)
+  }, [texts.length])
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl.darkIntro);
+    if (typeof window !== 'undefined') {
+      if (theme === 'dark') {
+        setClassName(stl.darkIntro)
       } else {
-        setClassName("");
+        setClassName('')
       }
     }
-  }, [theme]);
+  }, [theme])
 
   return (
     <section className={clsx(stl.intro, className, customClass)}>
@@ -53,7 +53,7 @@ const Intro = ({ theme, customClass }: Props) => {
                   key={index}
                   className={clsx(
                     stl.text,
-                    `${index === currentIndex ? stl.current : ""}`
+                    `${index === currentIndex ? stl.current : ''}`
                   )}
                 >
                   {text}
@@ -70,13 +70,13 @@ const Intro = ({ theme, customClass }: Props) => {
               label="Get Started"
               theme={theme}
               rightIcon={<ArrowIcon />}
-              handleOnClick={() => (location.href = "/dashboard")}
+              handleOnClick={() => (location.href = '/dashboard')}
             />
             <Button
               label="Try Demo"
               theme={theme}
               variant="secondary"
-              handleOnClick={() => (location.href = "/shorten")}
+              handleOnClick={() => (location.href = '/shorten')}
             />
           </div>
         </div>
@@ -85,7 +85,7 @@ const Intro = ({ theme, customClass }: Props) => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Intro;
+export default Intro

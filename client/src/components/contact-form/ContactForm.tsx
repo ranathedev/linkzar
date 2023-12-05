@@ -1,42 +1,42 @@
-import React, { useEffect } from "react";
-import Image from "next/image";
-import clsx from "clsx";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import React, { useEffect, useState } from 'react'
+import Image from 'next/image'
+import clsx from 'clsx'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
+import * as Yup from 'yup'
 
-import { sendEmail } from "lib/utils";
-import Button from "components/button";
-import Toast from "components/toast";
+import { sendEmail } from 'lib/utils'
+import Button from 'components/button'
+import Toast from 'components/toast'
 
-import ContactImage from "assets/contact-2.png";
-import SendIcon from "assets/send.svg";
+import ContactImage from 'assets/contact-2.png'
+import SendIcon from 'assets/send.svg'
 
-import stl from "./ContactForm.module.scss";
+import stl from './ContactForm.module.scss'
 
 interface Props {
-  theme: string;
+  theme: string
 }
 
 const ContactForm = ({ theme }: Props) => {
-  const [className, setClassName] = React.useState("");
-  const [showToast, setShowToast] = React.useState(false);
-  const [toastOpts, setToastOpts] = React.useState({ variant: "", msg: "" });
+  const [className, setClassName] = useState('')
+  const [showToast, setShowToast] = useState(false)
+  const [toastOpts, setToastOpts] = useState({ variant: '', msg: '' })
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl.darkContactForm);
+    if (typeof window !== 'undefined') {
+      if (theme === 'dark') {
+        setClassName(stl.darkContactForm)
       } else {
-        setClassName("");
+        setClassName('')
       }
     }
-  }, [theme]);
+  }, [theme])
 
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Name is required"),
-    email: Yup.string().email("Invalid email").required("Email is required"),
-    msg: Yup.string().required("Message is required"),
-  });
+    name: Yup.string().required('Name is required'),
+    email: Yup.string().email('Invalid email').required('Email is required'),
+    msg: Yup.string().required('Message is required'),
+  })
 
   return (
     <>
@@ -55,11 +55,11 @@ const ContactForm = ({ theme }: Props) => {
             Need details about our Business plan? Let us know.
           </p>
           <Formik
-            initialValues={{ name: "", email: "", msg: "" }}
+            initialValues={{ name: '', email: '', msg: '' }}
             validationSchema={validationSchema}
             onSubmit={(values, actions) => {
-              sendEmail(values, setShowToast, setToastOpts);
-              actions.resetForm();
+              sendEmail(values, setShowToast, setToastOpts)
+              actions.resetForm()
             }}
           >
             <Form action="#" className={stl.form}>
@@ -121,7 +121,7 @@ const ContactForm = ({ theme }: Props) => {
         </div>
       </section>
     </>
-  );
-};
+  )
+}
 
-export default ContactForm;
+export default ContactForm

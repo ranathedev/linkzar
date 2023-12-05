@@ -1,43 +1,43 @@
-import React, { useEffect } from "react";
-import clsx from "clsx";
+import React, { useEffect, useState } from 'react'
+import clsx from 'clsx'
 
-import { sendVerificationEmail } from "lib/authFunctions";
+import { sendVerificationEmail } from 'lib/authFunctions'
 
-import Spinner from "components/spinner";
-import Toast from "components/toast";
+import Spinner from 'components/spinner'
+import Toast from 'components/toast'
 
-import stl from "./VerificationDialog.module.scss";
+import stl from './VerificationDialog.module.scss'
 
 interface Props {
-  theme: string;
-  user: any;
+  theme: string
+  user: any
 }
 
 const VerificationDialog = ({ theme, user }: Props) => {
-  const [className, setClassName] = React.useState("");
-  const [loading, setLoading] = React.useState("");
-  const [showToast, setShowToast] = React.useState(false);
-  const [toastOpts, setToastOpts] = React.useState({ variant: "", msg: "" });
+  const [className, setClassName] = useState('')
+  const [loading, setLoading] = useState('')
+  const [showToast, setShowToast] = useState(false)
+  const [toastOpts, setToastOpts] = useState({ variant: '', msg: '' })
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl.darkVerifyDialog);
+    if (typeof window !== 'undefined') {
+      if (theme === 'dark') {
+        setClassName(stl.darkVerifyDialog)
       } else {
-        setClassName("");
+        setClassName('')
       }
     }
-  }, [theme]);
+  }, [theme])
 
   const handleResend = async () => {
-    setLoading("Sending Verification Email");
-    await sendVerificationEmail(user, setShowToast, setToastOpts);
-    setLoading("");
-  };
+    setLoading('Sending Verification Email')
+    await sendVerificationEmail(user, setShowToast, setToastOpts)
+    setLoading('')
+  }
 
   return (
     <div className={clsx(stl.verifyDialog, className)}>
-      {loading === "" ? (
+      {loading === '' ? (
         <>
           <Toast
             theme={theme}
@@ -64,7 +64,7 @@ const VerificationDialog = ({ theme, user }: Props) => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default VerificationDialog;
+export default VerificationDialog

@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import clsx from "clsx";
+import React, { useEffect, useState } from 'react'
+import clsx from 'clsx'
 
 import {
   updateName,
@@ -7,58 +7,58 @@ import {
   handleUpdatePass,
   logOut,
   deleteAccount,
-} from "lib/authFunctions";
-import Button from "components/button";
-import AvatarContainer from "components/avatar-container";
-import Modal from "components/modal";
-import DialogBox from "components/dialog-box";
-import Toast from "components/toast";
-import Spinner from "components/spinner";
+} from 'lib/authFunctions'
+import Button from 'components/button'
+import AvatarContainer from 'components/avatar-container'
+import Modal from 'components/modal'
+import DialogBox from 'components/dialog-box'
+import Toast from 'components/toast'
+import Spinner from 'components/spinner'
 
-import stl from "./UserInfoSettings.module.scss";
+import stl from './UserInfoSettings.module.scss'
 
 interface Props {
-  theme: string;
-  user: any;
-  setUser: (arg: any) => void;
+  theme: string
+  user: any
+  setUser: (arg: any) => void
 }
 
 const UserInfoSettings = ({ theme, user, setUser }: Props) => {
-  const [className, setClassName] = React.useState("");
-  const [name, setName] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [newPass, setNewPass] = React.useState("");
-  const [showDialog, setShowDialog] = React.useState(false);
-  const [showToast, setShowToast] = React.useState(false);
-  const [toastOpts, setToastOpts] = React.useState({ variant: "", msg: "" });
-  const [loading, setLoading] = React.useState("");
-  const [dialogOpts, setDialogOpts] = React.useState({
-    primaryBtnLabel: "Yes, Delete",
-    msg: "Are you sure want to delete your account?",
+  const [className, setClassName] = useState('')
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [newPass, setNewPass] = useState('')
+  const [showDialog, setShowDialog] = useState(false)
+  const [showToast, setShowToast] = useState(false)
+  const [toastOpts, setToastOpts] = useState({ variant: '', msg: '' })
+  const [loading, setLoading] = useState('')
+  const [dialogOpts, setDialogOpts] = useState({
+    primaryBtnLabel: 'Yes, Delete',
+    msg: 'Are you sure want to delete your account?',
     handleAction: () => {},
-  });
+  })
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl.darkUserInforSet);
+    if (typeof window !== 'undefined') {
+      if (theme === 'dark') {
+        setClassName(stl.darkUserInforSet)
       } else {
-        setClassName("");
+        setClassName('')
       }
     }
-  }, [theme]);
+  }, [theme])
 
   const changeName = async () => {
-    await updateName(name, setUser, setShowToast, setToastOpts, setLoading);
+    await updateName(name, setUser, setShowToast, setToastOpts, setLoading)
 
-    setName("");
-  };
+    setName('')
+  }
 
   const changeEmail = async () => {
     const validateEmail = () => {
-      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return emailPattern.test(email);
-    };
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      return emailPattern.test(email)
+    }
 
     if (validateEmail()) {
       await handleUpdateEmail(
@@ -69,14 +69,14 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
         setShowDialog,
         setDialogOpts,
         setLoading
-      );
+      )
     } else {
-      setShowToast(true);
-      setToastOpts({ variant: "warn", msg: "Email address is not valid." });
+      setShowToast(true)
+      setToastOpts({ variant: 'warn', msg: 'Email address is not valid.' })
     }
 
-    setEmail("");
-  };
+    setEmail('')
+  }
 
   const changePass = async () => {
     await handleUpdatePass(
@@ -86,24 +86,24 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
       setShowDialog,
       setDialogOpts,
       setLoading
-    );
+    )
 
-    setNewPass("");
-  };
+    setNewPass('')
+  }
 
   const showDeleteDialog = () => {
     setDialogOpts({
-      primaryBtnLabel: "Yes, Delete",
-      msg: "Are you sure want to delete your account?",
+      primaryBtnLabel: 'Yes, Delete',
+      msg: 'Are you sure want to delete your account?',
       handleAction: handleDelete,
-    });
-    setShowDialog(true);
-  };
+    })
+    setShowDialog(true)
+  }
 
   const handleDelete = () => {
-    deleteAccount(setShowDialog, setDialogOpts, setShowToast, setToastOpts);
-    setShowDialog(false);
-  };
+    deleteAccount(setShowDialog, setDialogOpts, setShowToast, setToastOpts)
+    setShowDialog(false)
+  }
 
   return (
     <>
@@ -140,7 +140,7 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
             customClass={stl.avatar}
           />
           <div className={stl.basicInfo}>
-            {loading === "Updating Name" ? (
+            {loading === 'Updating Name' ? (
               <Spinner taskTitle={loading} />
             ) : (
               <div className={stl.inputContainer}>
@@ -148,13 +148,13 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
                 <input
                   name="name"
                   placeholder={user.displayName}
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={e => setName(e.target.value)}
                   value={name}
                 />
                 <div
                   className={clsx(
                     stl.btnContainer,
-                    name !== "" ? stl.show : ""
+                    name !== '' ? stl.show : ''
                   )}
                 >
                   <Button
@@ -165,7 +165,7 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
                 </div>
               </div>
             )}
-            {loading === "Updating Email" ? (
+            {loading === 'Updating Email' ? (
               <Spinner taskTitle={loading} />
             ) : (
               <div className={stl.inputContainer}>
@@ -174,13 +174,13 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
                   type="email"
                   name="email"
                   placeholder={user.email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={e => setEmail(e.target.value)}
                   value={email}
                 />
                 <div
                   className={clsx(
                     stl.btnContainer,
-                    email !== "" ? stl.show : ""
+                    email !== '' ? stl.show : ''
                   )}
                 >
                   <Button
@@ -191,7 +191,7 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
                 </div>
               </div>
             )}
-            {loading === "Updating Password" ? (
+            {loading === 'Updating Password' ? (
               <Spinner taskTitle={loading} />
             ) : (
               <div className={stl.inputContainer}>
@@ -200,13 +200,13 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
                   type="password"
                   name="newPass"
                   placeholder="Enter your new password"
-                  onChange={(e) => setNewPass(e.target.value)}
+                  onChange={e => setNewPass(e.target.value)}
                   value={newPass}
                 />
                 <div
                   className={clsx(
                     stl.btnContainer,
-                    newPass !== "" ? stl.show : ""
+                    newPass !== '' ? stl.show : ''
                   )}
                 >
                   <Button
@@ -247,7 +247,7 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default UserInfoSettings;
+export default UserInfoSettings

@@ -1,41 +1,40 @@
-import React, { useEffect } from "react";
-import Head from "next/head";
+import React, { useEffect } from 'react'
+import Head from 'next/head'
 
-import Header from "components/header";
-import Footer from "components/footer";
+import Header from 'components/header'
+import Footer from 'components/footer'
 
-import stl from "./Layout.module.scss";
+import stl from './Layout.module.scss'
 
 interface Props {
-  theme: string;
-  children: React.ReactNode;
-  title: string;
-  setTheme: (arg: any) => void;
-  user: any;
+  theme: string
+  children: React.ReactNode
+  title: string
+  user: any
 }
 
-const Layout = ({ theme, children, title, setTheme, user }: Props) => {
-  const [className, setClassName] = React.useState("");
+const Layout = ({ theme, children, title, user }: Props) => {
+  const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl.darkMain);
+    if (typeof window !== 'undefined') {
+      if (theme === 'dark') {
+        setClassName(stl.darkMain)
       } else {
-        setClassName("");
+        setClassName('')
       }
     }
-  }, [theme]);
+  }, [theme])
 
   const keywords =
-    "URL Shortener, Short URL, Link Shortener, Custom Short Links, URL Redirection, Shorten URL, Free URL Shortener, Branded Short Links, Short URL Service, Link Management, Click Tracking, Analytics for Short Links, Shortened URL Generator, URL Shortening Tool, Custom URL Shortening, Link Tracking, Shortened Link Creator, URL Management, Shorten and Share Links, Link Analytics, URL Tracking, Short URL Generator, Custom Link Shortening, URL Redirect Service, Shortened URL Metrics, Track Link Clicks, Branded Shortened Links, Link Analytics Dashboard, URL Shortening API";
+    'Linkzar, URL Shortener, Short URL, Link Shortener, Custom Short Links, URL Redirection, Shorten URL, Free URL Shortener, Branded Short Links, Short URL Service, Link Management, Click Tracking, Analytics for Short Links, Shortened URL Generator, URL Shortening Tool, Custom URL Shortening, Link Tracking, Shortened Link Creator, URL Management, Shorten and Share Links, Link Analytics, URL Tracking, Short URL Generator, Custom Link Shortening, URL Redirect Service, Shortened URL Metrics, Track Link Clicks, Branded Shortened Links, Link Analytics Dashboard, URL Shortening API'
   const description =
-    "Transform long, complex URLs into concise, branded short links with our powerful URL shortener web app. Enhance link sharing, track click analytics, and manage your links effortlessly. Get started for free today.";
+    'Transform long, complex URLs into concise, branded short links with our powerful URL shortener web app. Enhance link sharing, track click analytics, and manage your links effortlessly. Get started for free today.'
 
   return (
     <>
       <Head>
-        <title>{`${title} | Linkzar`}</title>
+        <title>{title}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content={description} />
         <meta name="keywords" content={keywords} />
@@ -85,16 +84,16 @@ const Layout = ({ theme, children, title, setTheme, user }: Props) => {
         />
       </Head>
       <main className={className}>
-        <Header theme={theme} setTheme={setTheme} user={user} />
+        <Header theme={theme} user={user} />
         {children}
         <Footer theme={theme} />
       </main>
     </>
-  );
-};
+  )
+}
 
 Layout.defaultProps = {
   user: null,
-};
+}
 
-export default Layout;
+export default Layout

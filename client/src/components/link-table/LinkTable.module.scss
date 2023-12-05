@@ -1,9 +1,10 @@
-@import "styles/common";
+@import 'styles/common';
 
 .linkTable {
   @extend .flexColCen;
   width: 100%;
   max-width: 1280px;
+  margin-bottom: 15rem;
 
   .btn {
     @extend .alignCen;
@@ -50,7 +51,7 @@
 
       &::after {
         position: absolute;
-        content: "My Links";
+        content: 'My Links';
         padding: 1rem 0;
         display: none;
       }
@@ -86,6 +87,11 @@
       .emptyBox {
         min-width: 1.5rem;
       }
+    }
+
+    .listContainer {
+      @extend .flexCol;
+      gap: 0.5rem;
     }
 
     .loadingContainer {

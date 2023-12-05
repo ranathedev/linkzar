@@ -1,70 +1,71 @@
-import React, { useEffect } from "react";
-import firebase from "firebase/auth";
+import React, { useEffect, useState } from 'react'
+import firebase from 'firebase/auth'
+import clsx from 'clsx'
+import { useSelector } from 'react-redux'
 
-import auth from "lib/firebase";
-import Layout from "components/layout";
-import AvatarHandler from "components/avatar-handler";
-import UserInfoSettings from "components/user-info-settings";
-import LoadingScreen from "components/loading-screen";
-import VerificationDialog from "components/verification-dialog";
+import auth from 'lib/firebase'
+import Layout from 'components/layout'
+import AvatarHandler from 'components/avatar-handler'
+import UserInfoSettings from 'components/user-info-settings'
+import LoadingScreen from 'components/loading-screen'
+import VerificationDialog from 'components/verification-dialog'
 
-import stl from "./index.module.scss";
+import stl from './index.module.scss'
 
 const SettingsPage = () => {
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [isVerified, setIsVerified] = React.useState(false);
-  const [user, setUser] = React.useState<firebase.User | {}>({
-    fname: "John",
-    lname: "Doe",
-    email: "johndoe@gmail.com",
-    displayName: "John Doe",
-    photoURL: "https://i.postimg.cc/Mp7gnttP/default-Pic.jpg",
-  });
-  const [theme, setTheme] = React.useState(() => {
-    if (typeof window !== "undefined") {
-      const storedTheme = localStorage.getItem("theme");
-      return storedTheme || "light";
-    }
-    return "light";
-  });
+  const [isLoading, setIsLoading] = useState(true)
+  const [isVerified, setIsVerified] = useState(false)
+  const [className, setClassName] = useState('')
+  const [user, setUser] = useState<firebase.User | {}>({
+    fname: 'John',
+    lname: 'Doe',
+    email: 'johndoe@gmail.com',
+    displayName: 'John Doe',
+    photoURL: 'https://i.postimg.cc/Mp7gnttP/default-Pic.jpg',
+  })
+  const theme = useSelector((state: { theme: string }) => state.theme)
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams = new URLSearchParams(window.location.search)
 
-    const mode = urlParams.get("mode");
+    const mode = urlParams.get('mode')
 
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
-        setUser(user);
-        localStorage.setItem("user", JSON.stringify(user));
-        setIsVerified(user.emailVerified);
+        setUser(user)
+        localStorage.setItem('user', JSON.stringify(user))
+        setIsVerified(user.emailVerified)
       }
 
-      if (mode !== "dev") {
+      if (mode !== 'dev') {
         if (!user) {
-          location.href = "/auth?type=signin";
+          location.href = '/auth?type=signin'
         }
       }
 
-      setIsLoading(false);
-    });
+      setIsLoading(false)
+    })
 
     return () => {
-      unsubscribe();
-    };
-  }, []);
+      unsubscribe()
+    }
+  }, [])
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("theme", theme);
+    if (typeof window !== 'undefined') {
+      if (theme === 'dark') {
+        setClassName(stl.darkSettings)
+      } else {
+        setClassName('')
+      }
     }
-  }, [theme]);
+  }, [theme])
 
   return isLoading ? (
     <LoadingScreen />
   ) : isVerified ? (
-    <Layout theme={theme} setTheme={setTheme} user={user} title="Settings">
-      <div className={stl.settings}>
+    <Layout theme={theme} user={user} title="Settings | Linkzar">
+      <div className={clsx(stl.settings, className)}>
         <div className={stl.container}>
           <AvatarHandler
             theme={theme}
@@ -79,12 +80,12 @@ const SettingsPage = () => {
       </div>
     </Layout>
   ) : (
-    <Layout theme={theme} setTheme={setTheme} user={user} title="Verify">
+    <Layout theme={theme} user={user} title="Verify | Linkzar">
       <div className={stl.verification}>
         <VerificationDialog theme={theme} user={user} />
       </div>
     </Layout>
-  );
-};
+  )
+}
 
-export default SettingsPage;
+export default SettingsPage

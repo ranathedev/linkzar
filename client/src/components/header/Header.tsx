@@ -72,9 +72,9 @@ const Header = ({ theme, user }: Props) => {
           Linkzar
         </Link>
         <div className={stl.menu}>
-          {links.map((item, i: number) => (
+          {links.map(item => (
             <Link
-              key={i}
+              key={item.name}
               href={item.href}
               className={path === item.href ? stl.active : ''}
             >
@@ -111,8 +111,8 @@ const Header = ({ theme, user }: Props) => {
         style={expand ? { transform: 'scaleY(1)' } : { transform: 'scaleY(0)' }}
         className={stl.list}
       >
-        {links.map((item, i) => (
-          <li key={i}>
+        {links.map(item => (
+          <li key={item.name}>
             <Link
               href={item.href}
               className={path === item.href ? stl.active : ''}

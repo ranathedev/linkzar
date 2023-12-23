@@ -1,40 +1,40 @@
-import React, { useEffect } from "react";
-import Image from "next/image";
-import clsx from "clsx";
+import React, { useEffect } from 'react'
+import Image from 'next/image'
+import clsx from 'clsx'
 
-import AnalyticsTrackingImg from "assets/track-links.png";
+import AnalyticsTrackingImg from 'assets/track-links.png'
 
-import stl from "./WelcomeBanner.module.scss";
+import stl from './WelcomeBanner.module.scss'
 
 interface Props {
-  theme: string;
-  name: string;
+  theme: string
+  name: string
 }
 
 const WelcomeBanner = ({ theme, name }: Props) => {
-  const [className, setClassName] = React.useState("");
+  const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl.darkWelcomeBanner);
+    if (typeof window !== 'undefined') {
+      if (theme === 'dark') {
+        setClassName(stl.darkWelcomeBanner)
       } else {
-        setClassName("");
+        setClassName('')
       }
     }
-  }, [theme]);
+  }, [theme])
 
   return (
     <div className={clsx(stl.welcomeBanner, className)}>
       <div className={stl.content}>
-        <h2 className={stl.heading}>Hello, {(name && name) || "John Doe"}!</h2>
+        <h2 className={stl.heading}>Hello, {(name && name) || 'John Doe'}!</h2>
         <p className={stl.desc}>
           Welcome to your Dashboard! Here you can manage and track your links.
         </p>
       </div>
-      <Image src={AnalyticsTrackingImg} alt="welcome-banner image" />
+      <Image src={AnalyticsTrackingImg} alt="dashboard-managing" />
     </div>
-  );
-};
+  )
+}
 
-export default WelcomeBanner;
+export default WelcomeBanner

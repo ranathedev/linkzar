@@ -113,5 +113,5 @@ fastify.listen({ port: 3000, host: '0.0.0.0' }, function (err, address) {
     console.error(err)
     process.exit(1)
   }
-  console.log(`Your app is listening on ${address}`)
+  console.log(`Server is listening on ${address}`)
 })

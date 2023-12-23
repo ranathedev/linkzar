@@ -117,6 +117,8 @@ const URLShortener = ({
   const handleReset = () => {
     setURL('')
     setAlias('')
+    setUrlErr('')
+    setAliasErr('')
     setLinkData({
       _id: '',
       shortId: '',

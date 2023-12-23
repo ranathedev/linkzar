@@ -1,22 +1,27 @@
-@import "styles/common";
+@import 'styles/common';
 
 .userMenu {
   position: relative;
   width: 200px;
   margin-top: -0.3rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
 
   .content {
     @extend .alignCen;
     gap: 0.75rem;
-    padding: 0.4rem 0.5rem;
+    padding: 0.2rem 0.5rem;
     border-radius: 0.5rem;
     cursor: pointer;
 
+    .icon {
+      display: none;
+    }
+
     .name {
-      display: flex;
+      width: 142px;
       font-size: 1.1rem;
       font-weight: 500;
-      width: 142px;
       white-space: nowrap;
       overflow: hidden;
     }
@@ -113,10 +118,26 @@
 
 @media screen and (max-width: 768px) {
   .userMenu {
-    width: 45px;
+    width: 4.5rem;
 
-    .content span {
-      display: none;
+    .content {
+      gap: 0.5rem;
+      align-items: center;
+      justify-content: center;
+
+      .icon {
+        display: block;
+        transition: all 0.2s;
+        transform: rotate(-180deg);
+      }
+
+      .rotate {
+        transform: rotate(0);
+      }
+
+      .name {
+        display: none;
+      }
     }
 
     .menu {

@@ -117,7 +117,7 @@ const ContactForm = ({ theme }: Props) => {
           </Formik>
         </div>
         <div className={stl.img}>
-          <Image src={ContactImage} priority alt="image" />
+          <Image src={ContactImage} priority alt="contact-service" />
         </div>
       </section>
     </>

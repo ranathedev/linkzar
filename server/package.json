@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon index.js",
-    "deploy": "/home/ranaintizar/.fly/bin/flyctl deploy"
+    "deploy": "fly deploy"
   },
   "dependencies": {
     "@fastify/cors": "^8.3.0",

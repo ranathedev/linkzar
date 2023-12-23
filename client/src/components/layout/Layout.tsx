@@ -26,6 +26,7 @@ const Layout = ({ theme, children, title, user }: Props) => {
     }
   }, [theme])
 
+  // @ts-ignore
   const keywords =
     'Linkzar, URL Shortener, Short URL, Link Shortener, Custom Short Links, URL Redirection, Shorten URL, Free URL Shortener, Branded Short Links, Short URL Service, Link Management, Click Tracking, Analytics for Short Links, Shortened URL Generator, URL Shortening Tool, Custom URL Shortening, Link Tracking, Shortened Link Creator, URL Management, Shorten and Share Links, Link Analytics, URL Tracking, Short URL Generator, Custom Link Shortening, URL Redirect Service, Shortened URL Metrics, Track Link Clicks, Branded Shortened Links, Link Analytics Dashboard, URL Shortening API'
   const description =
@@ -37,10 +38,14 @@ const Layout = ({ theme, children, title, user }: Props) => {
         <title>{title}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content={description} />
-        <meta name="keywords" content={keywords} />
+        {/* <meta name="keywords" content={keywords} /> */}
         <meta name="author" content="Rana Intizar" />
+        <meta name="HandheldFriendly" content="true" />
         <meta property="og:title" content="Linkzar" />
         <meta property="og:description" content={description} />
+        <meta property="og:type" content="applications" />
+        <meta property="og:site_name" content="Linkzar" />
+        <meta property="og:url" content="https://linkzar.web.app" />
         <meta
           property="og:image"
           content="https://i.postimg.cc/kMNxjWGV/android-chrome-512x512.png"
@@ -51,9 +56,21 @@ const Layout = ({ theme, children, title, user }: Props) => {
           name="twitter:image"
           content="https://i.postimg.cc/kMNxjWGV/android-chrome-512x512.png"
         />
-        <meta
-          name="google-site-verification"
-          content="5Fs8lSYBSQvC-anQEhvg9XrB5OLrKgO2HpvI6CoByrQ"
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${process.env.GOOGLE_ANALYTICS_ID}', {
+              page_path: window.location.pathname,
+            });
+            `,
+          }}
         />
         <link
           rel="android-chrome"

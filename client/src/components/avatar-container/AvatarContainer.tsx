@@ -1,21 +1,21 @@
-import React from "react";
-import Image from "next/image";
-import clsx from "clsx";
+import React from 'react'
+import Image from 'next/image'
+import clsx from 'clsx'
 
-import Modal from "components/modal";
-import AvatarActions from "components/avatar-actions";
+import Modal from 'components/modal'
+import AvatarActions from 'components/avatar-actions'
 
-import CameraIcon from "assets/camera.svg";
+import CameraIcon from 'assets/camera.svg'
 
-import stl from "./AvatarContainer.module.scss";
+import stl from './AvatarContainer.module.scss'
 
 interface Props {
-  theme: string;
-  user: any;
-  setUser: (arg: any) => void;
-  setShowToast: (arg: boolean) => void;
-  setToastOpts: (arg: { variant: string; msg: string }) => void;
-  customClass?: string;
+  theme: string
+  user: any
+  setUser: (arg: any) => void
+  setShowToast: (arg: boolean) => void
+  setToastOpts: (arg: { variant: string; msg: string }) => void
+  customClass?: string
 }
 
 const AvatarContainer = ({
@@ -26,7 +26,7 @@ const AvatarContainer = ({
   setToastOpts,
   customClass,
 }: Props) => {
-  const [showModal, setShowModal] = React.useState(false);
+  const [showModal, setShowModal] = React.useState(false)
 
   return (
     <>
@@ -60,7 +60,7 @@ const AvatarContainer = ({
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default AvatarContainer;
+export default AvatarContainer

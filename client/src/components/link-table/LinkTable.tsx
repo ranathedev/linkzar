@@ -37,8 +37,8 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
   const [showToast, setShowToast] = useState(false)
   const [toastOpts, setToastOpts] = useState({ variant: '', msg: '' })
   const [device, setDevice] = useState('')
-  const [showFilteredLinks, setShowFilteredLinks] = useState(false)
-  const [filteredLinks, setFilteredLinks] = useState<LinkType[]>([])
+  const [searchMsg, setSearchMsg] = useState('')
+  const [allLinks, setAllLinks] = useState<LinkType[]>([])
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -123,18 +123,22 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
 
   const filterLinks = async (keyword: string) => {
     setIsRefreshing(true)
+    setAllLinks(listOfLinks)
     const filteredArray = listOfLinks.filter(link =>
       link.shortId.includes(keyword)
     )
 
-    setFilteredLinks(filteredArray)
-    setShowFilteredLinks(true)
+    setListOfLinks(filteredArray)
+    if (filteredArray.length <= 0)
+      setSearchMsg('Sorry, No link matches your search')
+
     setIsRefreshing(false)
   }
 
   const handleCancel = () => {
-    setShowFilteredLinks(false)
-    setFilteredLinks([])
+    setListOfLinks(allLinks)
+    setSearchMsg('')
+    setAllLinks([])
   }
 
   return (
@@ -196,27 +200,10 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
             </div>
           ) : (
             <div className={stl.listContainer}>
-              {showFilteredLinks ? (
-                filteredLinks.length > 0 ? (
-                  filteredLinks.map((linkItem, i) => (
-                    <TableRow
-                      key={i}
-                      domainUrl={domainUrl}
-                      theme={theme}
-                      sendDeleteId={removeLink}
-                      sendUpdatedLinks={updateLinkInList}
-                      increaseClickCount={increaseClickCount}
-                      linkData={linkItem}
-                      uid={uid}
-                    />
-                  ))
-                ) : (
-                  <p className={stl.note}>Sorry, No Links Match Your Search</p>
-                )
-              ) : listOfLinks.length > 0 ? (
-                listOfLinks.map((linkItem, i) => (
+              {listOfLinks.length > 0 ? (
+                listOfLinks.map(linkItem => (
                   <TableRow
-                    key={i}
+                    key={uid}
                     domainUrl={domainUrl}
                     theme={theme}
                     sendDeleteId={removeLink}
@@ -226,6 +213,8 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
                     uid={uid}
                   />
                 ))
+              ) : searchMsg !== '' ? (
+                <p className={stl.note}>{searchMsg}</p>
               ) : device === 'mobile' ? (
                 <p className={stl.note}>
                   You haven&apos;t added any links yet. Let&apos;s start

@@ -44,7 +44,7 @@ const Sidebar = ({ theme, list }: Props) => {
       <div className={stl.container}>
         <div className={stl.header}>
           <div className={stl.logo}>
-            <Image src={Logo} alt="logo" />
+            <Image src={Logo} alt="linkzar-logo" />
           </div>
           <button
             className={stl.sidebarBtn}
@@ -67,7 +67,7 @@ const Sidebar = ({ theme, list }: Props) => {
       <div className={stl.account}>
         <div className={stl.left}>
           <div className={stl.img}>
-            <Image src={ProfileImage} alt="profile-img" />
+            <Image src={ProfileImage} alt="profile-avatar" />
           </div>
           <span className={stl.name}>John Doe</span>
         </div>

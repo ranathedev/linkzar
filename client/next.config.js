@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
-const dotenv = require("dotenv");
+const dotenv = require('dotenv')
 
-dotenv.config();
+dotenv.config()
 
 module.exports = {
   env: {
@@ -18,14 +18,15 @@ module.exports = {
     MEASUREMENTID: process.env.MEASUREMENTID,
     TENANT_ID: process.env.TENANT_ID,
     BUCKET: process.env.BUCKET,
+    GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID,
   },
   reactStrictMode: true,
   images: { unoptimized: true },
-  webpack: (config) => {
+  webpack: config => {
     config.module.rules.push({
       test: /\.svg$/,
-      use: ["@svgr/webpack"],
-    });
-    return config;
+      use: ['@svgr/webpack'],
+    })
+    return config
   },
-};
+}

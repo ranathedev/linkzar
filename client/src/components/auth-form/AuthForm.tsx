@@ -166,9 +166,9 @@ const AuthForm = ({ theme }: Props) => {
         <div className={stl.socialMethod}>
           <span>Sign {formType === 'signup' ? 'up' : 'in'} with</span>
           <div className={stl.btns}>
-            {socialMethods.map((item, i) => (
+            {socialMethods.map(item => (
               <button
-                key={i}
+                key={item.id}
                 aria-label={item.id}
                 className={stl[`${item.name}Btn`]}
                 onClick={item.onClick}
@@ -213,10 +213,10 @@ const AuthForm = ({ theme }: Props) => {
           }}
         >
           <Form>
-            {getFields(formType)?.map((field, i) => (
+            {getFields(formType)?.map(field => (
               <InputContainer
                 theme={theme}
-                key={i}
+                key={field.id}
                 id={field.id}
                 type={field.type}
                 label={field.label}

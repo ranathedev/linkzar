@@ -56,6 +56,22 @@ const Layout = ({ theme, children, title, user }: Props) => {
           name="twitter:image"
           content="https://i.postimg.cc/kMNxjWGV/android-chrome-512x512.png"
         />
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${process.env.GOOGLE_ANALYTICS_ID}', {
+              page_path: window.location.pathname,
+            });
+            `,
+          }}
+        />
         <link
           rel="android-chrome"
           sizes="512x512"

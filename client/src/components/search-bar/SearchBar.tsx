@@ -40,9 +40,7 @@ const SearchBar = ({ theme, handleSubmit, handleCancel }: Props) => {
 
   const handleInput = (e: any) => {
     const value = e.target.value
-    if (value === '') {
-      handleCancel()
-    }
+    if (value === '') handleCancel()
   }
 
   return (

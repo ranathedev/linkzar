@@ -144,7 +144,7 @@ const TableRow = ({
         <span className={stl.shortLink}>
           <div className={stl.short}>
             <span className={stl.link}>
-              <span className={stl.domain}>linkzar.glitch.me/</span>
+              <span className={stl.domain}>linkzar.fly.dev/</span>
               <span>{linkData.shortId}</span>
             </span>
           </div>

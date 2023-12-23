@@ -12,10 +12,9 @@ import stl from './Footer.module.scss'
 
 interface Props {
   theme: string
-  links: Array<{ icon: React.ReactNode; href: string; ariaLabel: string }>
 }
 
-const Footer = ({ theme, links }: Props) => {
+const Footer = ({ theme }: Props) => {
   const [className, setClassName] = React.useState('')
 
   useEffect(() => {
@@ -27,6 +26,39 @@ const Footer = ({ theme, links }: Props) => {
       }
     }
   }, [theme])
+
+  const links = [
+    {
+      id: 'github-profile-link',
+      icon: <GithubIcon />,
+      href: 'https://linkzar.fly.dev/github',
+      ariaLabel: 'Visit my Github Profile',
+    },
+    {
+      id: 'facebook-profile-link',
+      icon: <FacebookIcon />,
+      href: 'https://linkzar.fly.dev/facebook',
+      ariaLabel: 'Visit my Facebook Profile',
+    },
+    {
+      id: 'linkedin-profile-link',
+      icon: <LinkedInIcon />,
+      href: 'https://linkzar.fly.dev/linkedin',
+      ariaLabel: 'Visit my Linkedin Profile',
+    },
+    {
+      id: 'twitter-profile-link',
+      icon: <TwitterIcon />,
+      href: 'https://linkzar.fly.dev/twitter',
+      ariaLabel: 'Visit my Twitter Profile',
+    },
+    {
+      id: 'insta-profile-link',
+      icon: <InstaIcon />,
+      href: 'https://linkzar.fly.dev/insta',
+      ariaLabel: 'Visit my Instagram Profile',
+    },
+  ]
 
   return (
     <footer className={clsx(stl.footer, className)}>
@@ -41,9 +73,9 @@ const Footer = ({ theme, links }: Props) => {
         power of concise, shareable links today.
       </span>
       <div className={stl.socials}>
-        {links.map((item, i) => (
+        {links.map(item => (
           <Link
-            key={i}
+            key={item.id}
             href={item.href}
             target="_blank"
             aria-label={item.ariaLabel}
@@ -57,36 +89,6 @@ const Footer = ({ theme, links }: Props) => {
       </span>
     </footer>
   )
-}
-
-Footer.defaultProps = {
-  links: [
-    {
-      icon: <GithubIcon />,
-      href: 'https://linkzar.fly.dev/github',
-      ariaLabel: 'Visit my Github Profile',
-    },
-    {
-      icon: <FacebookIcon />,
-      href: 'https://linkzar.fly.dev/facebook',
-      ariaLabel: 'Visit my Facebook Profile',
-    },
-    {
-      icon: <LinkedInIcon />,
-      href: 'https://linkzar.fly.dev/linkedin',
-      ariaLabel: 'Visit my Linkedin Profile',
-    },
-    {
-      icon: <TwitterIcon />,
-      href: 'https://linkzar.fly.dev/twitter',
-      ariaLabel: 'Visit my Twitter Profile',
-    },
-    {
-      icon: <InstaIcon />,
-      href: 'https://linkzar.fly.dev/insta',
-      ariaLabel: 'Visit my Instagram Profile',
-    },
-  ],
 }
 
 export default Footer

@@ -10,6 +10,7 @@ import useOnClickOutside from 'lib/useClickOutside'
 import ToggleThemeBtn from 'components/toggle-theme-btn'
 import Toast from 'components/toast'
 
+import DropdownIcon from 'assets/chevron-down.svg'
 import LogoutIcon from 'assets/logout.svg'
 import SettingsIcon from 'assets/settings.svg'
 import DashboardIcon from 'assets/dashboard-2.svg'
@@ -64,10 +65,13 @@ const UserMenu = ({ user, theme }: Props) => {
               (user.photoURL && user.photoURL) ||
               'https://i.postimg.cc/Mp7gnttP/default-Pic.jpg'
             }
-            width={30}
-            height={30}
-            alt="user-image"
+            width={36}
+            height={36}
+            alt="user-avatar"
           />
+          <span className={clsx(stl.icon, expand ? stl.rotate : '')}>
+            <DropdownIcon />
+          </span>
           <span className={stl.name}>
             {(user.displayName && user.displayName) || 'John Doe'}
           </span>

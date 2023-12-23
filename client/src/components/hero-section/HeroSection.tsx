@@ -1,23 +1,24 @@
-import React, { useEffect } from "react";
-import Image from "next/image";
-import clsx from "clsx";
+import React, { useEffect } from 'react'
+import Image from 'next/image'
+import clsx from 'clsx'
 
-import Button from "components/button";
+import Button from 'components/button'
 
-import ArrowIcon from "assets/arrow-right.svg";
-import TrackURLImage from "assets/track-url-section.png";
+import ArrowIcon from 'assets/arrow-right.svg'
+import TrackURLImage from 'assets/track-url-section.png'
 
-import stl from "./HeroSection.module.scss";
+import stl from './HeroSection.module.scss'
 
 interface Props {
-  theme: string;
-  heading: string;
-  desc: string;
-  btnLabel: string;
-  btnIcon: React.ReactNode;
-  src: any;
-  background?: string;
-  swap: boolean;
+  theme: string
+  heading: string
+  desc: string
+  btnLabel: string
+  btnIcon: React.ReactNode
+  imgSrc: string
+  imgAlt: string
+  background?: string
+  swap: boolean
 }
 
 const HeroSection = ({
@@ -26,26 +27,27 @@ const HeroSection = ({
   desc,
   btnLabel,
   btnIcon,
-  src,
+  imgSrc,
+  imgAlt,
   background,
   swap,
 }: Props) => {
-  const [className, setClassName] = React.useState("");
+  const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl.darkHeroSec);
+    if (typeof window !== 'undefined') {
+      if (theme === 'dark') {
+        setClassName(stl.darkHeroSec)
       } else {
-        setClassName("");
+        setClassName('')
       }
     }
-  }, [theme]);
+  }, [theme])
 
   return (
     <section
       style={{ background }}
-      className={clsx(stl.heroSec, swap ? stl.swap : "", className)}
+      className={clsx(stl.heroSec, swap ? stl.swap : '', className)}
     >
       <div className={stl.content}>
         <div className={stl.heading}>{heading}</div>
@@ -55,25 +57,26 @@ const HeroSection = ({
             label={btnLabel}
             theme={theme}
             rightIcon={btnIcon}
-            handleOnClick={() => (location.href = "/shorten")}
+            handleOnClick={() => (location.href = '/shorten')}
           />
         </div>
       </div>
       <div className={stl.img}>
-        <Image src={src} alt="short-url-image" />
+        <Image src={imgSrc} alt={imgAlt} />
       </div>
     </section>
-  );
-};
+  )
+}
 
 HeroSection.defaultProps = {
-  heading: "Simplifying Your Links",
+  heading: 'Simplifying Your Links',
   desc: "Streamline your online experience with our link simplification tools. Shorten lengthy URLs into concise and shareable links that captivate your audience's attention. Customize these links with ease, personalize their destination, and gain valuable insights into their performance. Elevate engagement, enhance user experience, and optimize your digital strategy by simplifying your links with our powerful platform.",
-  btnLabel: "Get Started",
-  btnOnClick: () => (location.href = "/dashboard"),
+  btnLabel: 'Get Started',
+  btnOnClick: () => (location.href = '/dashboard'),
   btnIcon: <ArrowIcon />,
-  src: TrackURLImage,
+  imgSrc: TrackURLImage,
+  imgAlt: 'track-links',
   swap: false,
-};
+}
 
-export default HeroSection;
+export default HeroSection

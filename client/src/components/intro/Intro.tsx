@@ -48,12 +48,12 @@ const Intro = ({ theme, customClass }: Props) => {
           <h1 className={stl.heading}>
             Explore Our Advanced URL Shortener App,
             <div className={stl.featureTransition}>
-              {texts.map((text, index) => (
+              {texts.map((text, i) => (
                 <span
-                  key={index}
+                  key={text}
                   className={clsx(
                     stl.text,
-                    `${index === currentIndex ? stl.current : ''}`
+                    `${i === currentIndex ? stl.current : ''}`
                   )}
                 >
                   {text}
@@ -81,7 +81,7 @@ const Intro = ({ theme, customClass }: Props) => {
           </div>
         </div>
         <div className={stl.img}>
-          <Image src={Img} alt="img" priority />
+          <Image src={Img} alt="cutting-the-url" priority />
         </div>
       </div>
     </section>

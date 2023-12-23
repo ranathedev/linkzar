@@ -1,16 +1,16 @@
-import React, { useEffect, useRef } from "react";
-import clsx from "clsx";
+import React, { useEffect, useRef } from 'react'
+import clsx from 'clsx'
 
-import useOnClickOutside from "lib/useClickOutside";
+import useOnClickOutside from 'lib/useClickOutside'
 
-import stl from "./ShareMenu.module.scss";
+import stl from './ShareMenu.module.scss'
 
 interface Props {
-  theme: string;
-  isVisible: boolean;
-  setShowShareMenu: (arg: boolean) => void;
-  sendViaMethod: (arg: string) => void;
-  customClass?: string;
+  theme: string
+  isVisible: boolean
+  setShowShareMenu: (arg: boolean) => void
+  sendViaMethod: (arg: string) => void
+  customClass?: string
 }
 
 const ShareMenu = ({
@@ -20,27 +20,27 @@ const ShareMenu = ({
   sendViaMethod,
   customClass,
 }: Props) => {
-  const [className, setClassName] = React.useState("");
+  const [className, setClassName] = React.useState('')
 
-  const ref = useRef(null);
+  const ref = useRef(null)
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl.darkShareMenu);
+    if (typeof window !== 'undefined') {
+      if (theme === 'dark') {
+        setClassName(stl.darkShareMenu)
       } else {
-        setClassName("");
+        setClassName('')
       }
     }
-  }, [theme]);
+  }, [theme])
 
   const hideMenu = () => {
-    setShowShareMenu(false);
-  };
+    setShowShareMenu(false)
+  }
 
-  useOnClickOutside(hideMenu, ref);
+  useOnClickOutside(hideMenu, ref)
 
-  const shareOptions = ["Email", "Twitter", "LinkedIn", "Facebook", "Whatsapp"];
+  const shareOptions = ['Email', 'Twitter', 'LinkedIn', 'Facebook', 'Whatsapp']
 
   return (
     <div
@@ -48,24 +48,24 @@ const ShareMenu = ({
       className={clsx(
         stl.shareMenu,
         className,
-        isVisible ? stl.show : "",
+        isVisible ? stl.show : '',
         customClass
       )}
     >
-      {shareOptions.map((item, i) => (
+      {shareOptions.map(item => (
         <div
-          key={i}
+          key={item}
           className={stl.item}
           onClick={() => {
-            sendViaMethod(item);
-            hideMenu();
+            sendViaMethod(item)
+            hideMenu()
           }}
         >
           <span>via {item}</span>
         </div>
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default ShareMenu;
+export default ShareMenu

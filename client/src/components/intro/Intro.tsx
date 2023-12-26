@@ -4,7 +4,7 @@ import clsx from 'clsx'
 
 import Button from 'components/button'
 
-import Img from 'assets/url-shortener.jpg'
+import Img from 'assets/url-shortener.png'
 import ArrowIcon from 'assets/arrow-right.svg'
 
 import stl from './Intro.module.scss'

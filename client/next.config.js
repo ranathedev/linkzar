@@ -1,7 +1,4 @@
 /** @type {import('next').NextConfig} */
-const dotenv = require('dotenv')
-
-dotenv.config()
 
 module.exports = {
   env: {
@@ -23,6 +20,7 @@ module.exports = {
   reactStrictMode: true,
   images: {
     domains: ['i.postimg.cc'],
+    unoptimized: true,
   },
   webpack: config => {
     config.module.rules.push({

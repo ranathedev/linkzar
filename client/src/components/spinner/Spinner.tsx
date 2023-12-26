@@ -1,12 +1,12 @@
-import React from "react";
-import clsx from "clsx";
+import React from 'react'
+import clsx from 'clsx'
 
-import stl from "./Spinner.module.scss";
+import stl from './Spinner.module.scss'
 
 interface Props {
-  taskTitle: string;
-  variant: "primary" | "secondary";
-  customClass?: string;
+  taskTitle: string
+  variant: 'primary' | 'secondary'
+  customClass?: string
 }
 
 const Spinner = ({ taskTitle, variant, customClass }: Props) => {
@@ -16,16 +16,16 @@ const Spinner = ({ taskTitle, variant, customClass }: Props) => {
       <div />
       <div />
       <div />
-      {taskTitle !== "" && (
+      {taskTitle !== '' && (
         <span className={stl[variant]}>{taskTitle}&nbsp;...</span>
       )}
     </div>
-  );
-};
+  )
+}
 
 Spinner.defaultProps = {
-  taskTitle: "Processing",
-  variant: "primary",
-};
+  taskTitle: 'Processing',
+  variant: 'primary',
+}
 
-export default Spinner;
+export default Spinner

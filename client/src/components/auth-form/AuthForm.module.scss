@@ -1,4 +1,4 @@
-@import "styles/common";
+@import 'styles/common';
 
 .spinner span {
   display: none;
@@ -206,6 +206,12 @@
 
   .authSwitch {
     color: #d1d5db;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .spinner {
+    left: 50%;
   }
 }
 

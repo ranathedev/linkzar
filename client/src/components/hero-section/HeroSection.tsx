@@ -75,7 +75,8 @@ HeroSection.defaultProps = {
   btnOnClick: () => (location.href = '/dashboard'),
   btnIcon: <ArrowIcon />,
   imgSrc: TrackURLImage,
-  imgAlt: 'track-links',
+  imgAlt:
+    'A man scrutinizes a graph on a monitor with the help of a magnifying glass.',
   swap: false,
 }
 

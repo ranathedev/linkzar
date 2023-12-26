@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import clsx from 'clsx'
 import { setTheme } from '@/src/store'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import SunIcon from 'assets/sun.svg'
 import MoonIcon from 'assets/moon.svg'
@@ -14,7 +14,6 @@ interface Props {
 }
 
 const ToggleThemeBtn = ({ customClass, theme }: Props) => {
-  const state = useSelector((state: { theme: string }) => state)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -32,7 +31,7 @@ const ToggleThemeBtn = ({ customClass, theme }: Props) => {
   }, [theme])
 
   const handleTheme = () => {
-    if (state.theme === 'light') dispatch(setTheme('dark'))
+    if (theme === 'light') dispatch(setTheme('dark'))
     else dispatch(setTheme('light'))
   }
 

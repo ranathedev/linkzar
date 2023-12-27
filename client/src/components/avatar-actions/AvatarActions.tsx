@@ -35,13 +35,8 @@ const AvatarActions = ({
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (theme === 'dark') {
-        setClassName(stl.darkAvatarActions)
-      } else {
-        setClassName('')
-      }
-    }
+    if (theme === 'dark') setClassName(stl.darkAvatarActions)
+    else setClassName('')
   }, [theme])
 
   const handleUpdatePhoto = async (e: any) => {

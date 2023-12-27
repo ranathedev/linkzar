@@ -38,9 +38,7 @@ const SettingsPage = () => {
       }
 
       if (mode !== 'dev') {
-        if (!user) {
-          location.href = '/auth?type=signin'
-        }
+        if (!user) location.href = '/auth?type=signin'
       }
 
       setIsLoading(false)
@@ -52,13 +50,8 @@ const SettingsPage = () => {
   }, [])
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (theme === 'dark') {
-        setClassName(stl.darkSettings)
-      } else {
-        setClassName('')
-      }
-    }
+    if (theme === 'dark') setClassName(stl.darkSettings)
+    else setClassName('')
   }, [theme])
 
   return isLoading ? (

@@ -17,16 +17,14 @@ const ToggleThemeBtn = ({ customClass, theme }: Props) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const btn = document.getElementById('toggleBtn')
-      const dot = document.getElementById('dotBtn')
-      if (theme === 'dark') {
-        btn?.classList.add(stl.activeBtn)
-        dot?.classList.add(stl.active)
-      } else {
-        btn?.classList.remove(stl.activeBtn)
-        dot?.classList.remove(stl.active)
-      }
+    const btn = document.getElementById('toggleBtn')
+    const dot = document.getElementById('dotBtn')
+    if (theme === 'dark') {
+      btn?.classList.add(stl.activeBtn)
+      dot?.classList.add(stl.active)
+    } else {
+      btn?.classList.remove(stl.activeBtn)
+      dot?.classList.remove(stl.active)
     }
   }, [theme])
 

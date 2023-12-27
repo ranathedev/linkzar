@@ -50,13 +50,8 @@ const TableRow = ({
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (theme === 'dark') {
-        setClassName(stl.darkTableRow)
-      } else {
-        setClassName('')
-      }
-    }
+    if (theme === 'dark') setClassName(stl.darkTableRow)
+    else setClassName('')
   }, [theme])
 
   useEffect(() => {

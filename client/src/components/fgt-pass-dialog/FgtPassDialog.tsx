@@ -22,13 +22,8 @@ const FgtPassDialog = ({ theme, setResetPass }: Props) => {
   const [toastOpts, setToastOpts] = useState({ variant: '', msg: '' })
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (theme === 'dark') {
-        setClassName(stl.darkFgtPassDialog)
-      } else {
-        setClassName('')
-      }
-    }
+    if (theme === 'dark') setClassName(stl.darkFgtPassDialog)
+    else setClassName('')
   }, [theme])
 
   const handleSubmit = async () => {

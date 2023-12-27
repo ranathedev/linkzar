@@ -29,9 +29,7 @@ const DashboardPage = () => {
       }
 
       if (mode !== 'dev') {
-        if (!user) {
-          location.href = '/auth?type=signin'
-        }
+        if (!user) location.href = '/auth?type=signin'
       }
 
       setTimeout(() => {

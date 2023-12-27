@@ -1,25 +1,20 @@
-import React, { useEffect } from "react";
-import Link from "next/link";
-import clsx from "clsx";
+import React, { useEffect } from 'react'
+import Link from 'next/link'
+import clsx from 'clsx'
 
-import stl from "./DemoContent.module.scss";
+import stl from './DemoContent.module.scss'
 
 interface Props {
-  theme: string;
+  theme: string
 }
 
 const DemoContent = ({ theme }: Props) => {
-  const [className, setClassName] = React.useState("");
+  const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl.darkDemoContent);
-      } else {
-        setClassName("");
-      }
-    }
-  }, [theme]);
+    if (theme === 'dark') setClassName(stl.darkDemoContent)
+    else setClassName('')
+  }, [theme])
 
   return (
     <div className={clsx(stl.demoContent, className)}>
@@ -51,9 +46,9 @@ const DemoContent = ({ theme }: Props) => {
               <h3>Limited Demo</h3>
               <p>
                 To give you a taste of the link shortener&apos;s capabilities,
-                we&apos;ve limited the demo to allow you to create up to{" "}
+                we&apos;ve limited the demo to allow you to create up to{' '}
                 <b>3 (three)</b> short links. If you&apos;re excited to create
-                more links and keep track of them, consider{" "}
+                more links and keep track of them, consider{' '}
                 <Link href="/auth?type=signup">Signing Up</Link> for a full
                 account.
               </p>
@@ -83,7 +78,7 @@ const DemoContent = ({ theme }: Props) => {
             This demo showcases the basic functionality of our link shortener.
             To fully explore the tool&apos;s capabilities and enjoy the benefits
             of unlimited link creation and tracking, we encourage you to
-            register for an account.{" "}
+            register for an account.{' '}
             <Link href="/auth?type=signup">Sign Up</Link> today to take your
             link sharing to the next level!
           </p>
@@ -97,7 +92,7 @@ const DemoContent = ({ theme }: Props) => {
         </div>
       </section>
     </div>
-  );
-};
+  )
+}
 
-export default DemoContent;
+export default DemoContent

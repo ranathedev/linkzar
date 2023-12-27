@@ -1,30 +1,25 @@
-import React, { useEffect } from "react";
-import Link from "next/link";
-import clsx from "clsx";
+import React, { useEffect } from 'react'
+import Link from 'next/link'
+import clsx from 'clsx'
 
-import FAQItem from "components/faq-item";
-import { qas } from "lib/utils";
+import FAQItem from 'components/faq-item'
+import { qas } from 'lib/utils'
 
-import ErrorIcon from "assets/error.svg";
+import ErrorIcon from 'assets/error.svg'
 
-import stl from "./FAQSection.module.scss";
+import stl from './FAQSection.module.scss'
 
 interface Props {
-  theme: string;
+  theme: string
 }
 
 const FAQSection = ({ theme }: Props) => {
-  const [className, setClassName] = React.useState("");
+  const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl.darkFAQSec);
-      } else {
-        setClassName("");
-      }
-    }
-  }, [theme]);
+    if (theme === 'dark') setClassName(stl.darkFAQSec)
+    else setClassName('')
+  }, [theme])
 
   return (
     <div className={clsx(stl.faqSection, className)}>
@@ -34,7 +29,7 @@ const FAQSection = ({ theme }: Props) => {
           We have put together some commonly asked questions
         </p>
         <div className={stl.QAContainer}>
-          {qas.map((item) => (
+          {qas.map(item => (
             <FAQItem
               key={item.id}
               que={item.que}
@@ -54,7 +49,7 @@ const FAQSection = ({ theme }: Props) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default FAQSection;
+export default FAQSection

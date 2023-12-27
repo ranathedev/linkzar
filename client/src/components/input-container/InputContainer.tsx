@@ -1,29 +1,24 @@
-import React, { useEffect } from "react";
-import { Field, ErrorMessage } from "formik";
-import clsx from "clsx";
+import React, { useEffect } from 'react'
+import { Field, ErrorMessage } from 'formik'
+import clsx from 'clsx'
 
-import stl from "./InputContainer.module.scss";
+import stl from './InputContainer.module.scss'
 
 interface Props {
-  label: string;
-  id: string;
-  placeholder: string;
-  type: string;
-  theme: string;
+  label: string
+  id: string
+  placeholder: string
+  type: string
+  theme: string
 }
 
 const InputContainer = ({ label, id, placeholder, type, theme }: Props) => {
-  const [className, setClassName] = React.useState("");
+  const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl.darkInputContainer);
-      } else {
-        setClassName("");
-      }
-    }
-  }, [theme]);
+    if (theme === 'dark') setClassName(stl.darkInputContainer)
+    else setClassName('')
+  }, [theme])
 
   return (
     <div className={clsx(stl.inputContainer, className)}>
@@ -37,14 +32,14 @@ const InputContainer = ({ label, id, placeholder, type, theme }: Props) => {
       />
       <ErrorMessage name={id} component="div" className={stl.error} />
     </div>
-  );
-};
+  )
+}
 
 InputContainer.defaultProps = {
-  label: "First name",
-  id: "fname",
-  placeholder: "",
-  type: "text",
-};
+  label: 'First name',
+  id: 'fname',
+  placeholder: '',
+  type: 'text',
+}
 
-export default InputContainer;
+export default InputContainer

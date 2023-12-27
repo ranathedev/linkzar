@@ -19,13 +19,8 @@ const Header = ({ theme, user }: Props) => {
   const [path, setPath] = useState('')
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (theme === 'dark') {
-        setClassName(stl.darkHeader)
-      } else {
-        setClassName('')
-      }
-    }
+    if (theme === 'dark') setClassName(stl.darkHeader)
+    else setClassName('')
   }, [theme])
 
   const links = [

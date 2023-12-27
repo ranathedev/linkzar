@@ -32,13 +32,8 @@ const Intro = ({ theme, customClass }: Props) => {
   }, [texts.length])
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (theme === 'dark') {
-        setClassName(stl.darkIntro)
-      } else {
-        setClassName('')
-      }
-    }
+    if (theme === 'dark') setClassName(stl.darkIntro)
+    else setClassName('')
   }, [theme])
 
   return (

@@ -13,13 +13,8 @@ const Auth = () => {
   const theme = useSelector((state: { theme: string }) => state.theme)
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (theme === 'dark') {
-        setClassName(stl.darkAbout)
-      } else {
-        setClassName('')
-      }
-    }
+    if (theme === 'dark') setClassName(stl.darkAbout)
+    else setClassName('')
   }, [theme])
 
   return (

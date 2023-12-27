@@ -1,21 +1,21 @@
-import React, { useEffect } from "react";
-import clsx from "clsx";
+import React, { useEffect } from 'react'
+import clsx from 'clsx'
 
-import CheckIcon from "assets/check.svg";
-import CrossIcon from "assets/cross.svg";
-import WarnIcon from "assets/alert.svg";
-import CloseIcon from "assets/close.svg";
+import CheckIcon from 'assets/check.svg'
+import CrossIcon from 'assets/cross.svg'
+import WarnIcon from 'assets/alert.svg'
+import CloseIcon from 'assets/close.svg'
 
-import stl from "./Toast.module.scss";
+import stl from './Toast.module.scss'
 
 interface Props {
-  content: string;
-  variant: string;
-  icon?: React.ReactNode;
-  isVisible: boolean;
-  dismissTime: number;
-  theme: string;
-  setShowToast: (arg: boolean) => void;
+  content: string
+  variant: string
+  icon?: React.ReactNode
+  isVisible: boolean
+  dismissTime: number
+  theme: string
+  setShowToast: (arg: boolean) => void
 }
 
 const Toast = ({
@@ -27,26 +27,21 @@ const Toast = ({
   theme,
   setShowToast,
 }: Props) => {
-  const [className, setClassName] = React.useState("");
+  const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl.darkToast);
-      } else {
-        setClassName("");
-      }
-    }
-  }, [theme]);
+    if (theme === 'dark') setClassName(stl.darkToast)
+    else setClassName('')
+  }, [theme])
 
   useEffect(() => {
-    const milliseconds = dismissTime * 1000;
+    const ms = dismissTime * 1000
     if (isVisible) {
       setTimeout(() => {
-        setShowToast(false);
-      }, milliseconds);
+        setShowToast(false)
+      }, ms)
     }
-  }, [isVisible, dismissTime]);
+  }, [isVisible, dismissTime])
 
   return (
     <div
@@ -54,9 +49,9 @@ const Toast = ({
     >
       <div className={clsx(stl.iconContainer, stl[variant])}>
         {(icon && icon) ||
-          (variant === "success" && <CheckIcon />) ||
-          (variant === "danger" && <CrossIcon />) ||
-          (variant === "warn" && <WarnIcon />)}
+          (variant === 'success' && <CheckIcon />) ||
+          (variant === 'danger' && <CrossIcon />) ||
+          (variant === 'warn' && <WarnIcon />)}
       </div>
       <div className={stl.content}>{content}</div>
       <button className={stl.closeBtn} onClick={() => setShowToast(false)}>
@@ -67,14 +62,14 @@ const Toast = ({
         className={clsx(stl.progressBar, stl[`${variant}ProgressBar`])}
       />
     </div>
-  );
-};
+  )
+}
 
 Toast.defaultProps = {
-  content: "Item moved successfully.",
-  variant: "success",
+  content: 'Item moved successfully.',
+  variant: 'success',
   isVisible: false,
   dismissTime: 5,
-};
+}
 
-export default Toast;
+export default Toast

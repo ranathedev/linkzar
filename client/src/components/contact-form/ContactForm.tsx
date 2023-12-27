@@ -23,13 +23,8 @@ const ContactForm = ({ theme }: Props) => {
   const [toastOpts, setToastOpts] = useState({ variant: '', msg: '' })
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (theme === 'dark') {
-        setClassName(stl.darkContactForm)
-      } else {
-        setClassName('')
-      }
-    }
+    if (theme === 'dark') setClassName(stl.darkContactForm)
+    else setClassName('')
   }, [theme])
 
   const validationSchema = Yup.object().shape({

@@ -15,13 +15,8 @@ const WelcomeBanner = ({ theme, name }: Props) => {
   const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (theme === 'dark') {
-        setClassName(stl.darkWelcomeBanner)
-      } else {
-        setClassName('')
-      }
-    }
+    if (theme === 'dark') setClassName(stl.darkWelcomeBanner)
+    else setClassName('')
   }, [theme])
 
   return (

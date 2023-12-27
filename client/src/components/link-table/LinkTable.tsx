@@ -41,13 +41,8 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
   const [allLinks, setAllLinks] = useState<LinkType[]>([])
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (theme === 'dark') {
-        setClassName(stl.darkLinkTable)
-      } else {
-        setClassName('')
-      }
-    }
+    if (theme === 'dark') setClassName(stl.darkLinkTable)
+    else setClassName('')
   }, [theme])
 
   useEffect(() => {
@@ -71,6 +66,7 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
     const links = await getLinks(setIsRefreshing, uid)
 
     if (!links.err) {
+      setShowToast(false)
       setListOfLinks(links)
     } else {
       setShowToast(true)

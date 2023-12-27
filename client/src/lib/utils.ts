@@ -108,11 +108,8 @@ const handleDelLink = async (
 
   if (response.status === 200) {
     const data = response.data
-    if (!data.err) {
-      sendResponse('Link deleted successfully!')
-    } else {
-      sendResponse(data)
-    }
+    if (!data.err) sendResponse('Link deleted successfully!')
+    else sendResponse(data)
   }
   setLoading('')
 }

@@ -1,17 +1,17 @@
-import React, { useEffect } from "react";
-import clsx from "clsx";
+import React, { useEffect } from 'react'
+import clsx from 'clsx'
 
-import stl from "./Button.module.scss";
+import stl from './Button.module.scss'
 
 interface Props {
-  label: string;
-  variant: string;
-  rightIcon?: React.ReactNode;
-  leftIcon?: React.ReactNode;
-  theme: string;
-  type: "button" | "submit" | "reset";
-  isDisabled: boolean;
-  handleOnClick: () => void;
+  label: string
+  variant: string
+  rightIcon?: React.ReactNode
+  leftIcon?: React.ReactNode
+  theme: string
+  type: 'button' | 'submit' | 'reset'
+  isDisabled: boolean
+  handleOnClick: () => void
 }
 
 const Button = ({
@@ -24,17 +24,12 @@ const Button = ({
   isDisabled,
   handleOnClick,
 }: Props) => {
-  const [className, setClassName] = React.useState("");
+  const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl[`dark${variant}Btn`]);
-      } else {
-        setClassName("");
-      }
-    }
-  }, [theme, variant]);
+    if (theme === 'dark') setClassName(stl[`dark${variant}Btn`])
+    else setClassName('')
+  }, [theme, variant])
 
   return (
     <button
@@ -47,15 +42,15 @@ const Button = ({
       <span>{label}</span>
       {rightIcon && <span>{rightIcon}</span>}
     </button>
-  );
-};
+  )
+}
 
 Button.defaultProps = {
-  label: "Button",
-  variant: "primary",
-  type: "button",
+  label: 'Button',
+  variant: 'primary',
+  type: 'button',
   isDisabled: false,
   handleOnClick: () => {},
-};
+}
 
-export default Button;
+export default Button

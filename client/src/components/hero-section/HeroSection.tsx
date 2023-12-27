@@ -35,13 +35,8 @@ const HeroSection = ({
   const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (theme === 'dark') {
-        setClassName(stl.darkHeroSec)
-      } else {
-        setClassName('')
-      }
-    }
+    if (theme === 'dark') setClassName(stl.darkHeroSec)
+    else setClassName('')
   }, [theme])
 
   return (

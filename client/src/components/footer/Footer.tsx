@@ -18,13 +18,8 @@ const Footer = ({ theme }: Props) => {
   const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (theme === 'dark') {
-        setClassName(stl.darkFooter)
-      } else {
-        setClassName('')
-      }
-    }
+    if (theme === 'dark') setClassName(stl.darkFooter)
+    else setClassName('')
   }, [theme])
 
   const links = [

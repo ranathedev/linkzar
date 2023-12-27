@@ -19,13 +19,8 @@ const SearchBar = ({ theme, handleSubmit, handleCancel }: Props) => {
   const [value, setValue] = useState('')
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (theme === 'dark') {
-        setClassName(stl.darkSearchBar)
-      } else {
-        setClassName('')
-      }
-    }
+    if (theme === 'dark') setClassName(stl.darkSearchBar)
+    else setClassName('')
   }, [theme])
 
   useEffect(() => {
@@ -33,9 +28,7 @@ const SearchBar = ({ theme, handleSubmit, handleCancel }: Props) => {
   }, [])
 
   const handleKeydown = (e: any) => {
-    if (e.keyCode === 13) {
-      handleSubmit(value)
-    }
+    if (e.keyCode === 13) handleSubmit(value)
   }
 
   const handleInput = (e: any) => {

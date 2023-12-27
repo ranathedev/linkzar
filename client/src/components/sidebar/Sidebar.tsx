@@ -8,7 +8,6 @@ import Logo from '@/public/favicon.ico'
 import SidebarCollapseIcon from 'assets/sidebar-collapse.svg'
 import SidebarExpandIcon from 'assets/sidebar-expand.svg'
 import DashboardIcon from 'assets/dashboard.svg'
-import ProfileImage from 'assets/profileImage.jpeg'
 import MoreIcon from 'assets/more-icon.svg'
 
 import stl from './Sidebar.module.scss'
@@ -23,13 +22,8 @@ const Sidebar = ({ theme, list }: Props) => {
   const [collapse, setCollapse] = useState(true)
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (theme === 'dark') {
-        setClassName(stl.darkSidebar)
-      } else {
-        setClassName('')
-      }
-    }
+    if (theme === 'dark') setClassName(stl.darkSidebar)
+    else setClassName('')
   }, [theme])
 
   const ref = useRef(null)
@@ -67,7 +61,12 @@ const Sidebar = ({ theme, list }: Props) => {
       <div className={stl.account}>
         <div className={stl.left}>
           <div className={stl.img}>
-            <Image src={ProfileImage} alt="profile-avatar" />
+            <Image
+              src="https://i.postimg.cc/Mp7gnttP/default-Pic.jpg"
+              width={40}
+              height={40}
+              alt="profile-avatar"
+            />
           </div>
           <span className={stl.name}>John Doe</span>
         </div>

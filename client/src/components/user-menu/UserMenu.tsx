@@ -32,13 +32,8 @@ const UserMenu = ({ user, theme }: Props) => {
   const ref = useRef(null)
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (theme === 'dark') {
-        setClassName(stl.darkUserMenu)
-      } else {
-        setClassName('')
-      }
-    }
+    if (theme === 'dark') setClassName(stl.darkUserMenu)
+    else setClassName('')
   }, [theme])
 
   useOnClickOutside(() => setExpand(false), ref)

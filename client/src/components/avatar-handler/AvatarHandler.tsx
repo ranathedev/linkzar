@@ -27,13 +27,8 @@ const AvatarHandler = ({ theme, user, setUser, customClass }: Props) => {
   const [toastOpts, setToastOpts] = useState({ variant: '', msg: '' })
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (theme === 'dark') {
-        setClassName(stl.darkAvatarHandler)
-      } else {
-        setClassName('')
-      }
-    }
+    if (theme === 'dark') setClassName(stl.darkAvatarHandler)
+    else setClassName('')
   }, [theme])
 
   const handleUpdatePhoto = async (e: any) => {

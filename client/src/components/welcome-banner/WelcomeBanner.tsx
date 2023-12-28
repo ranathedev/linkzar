@@ -15,13 +15,8 @@ const WelcomeBanner = ({ theme, name }: Props) => {
   const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (theme === 'dark') {
-        setClassName(stl.darkWelcomeBanner)
-      } else {
-        setClassName('')
-      }
-    }
+    if (theme === 'dark') setClassName(stl.darkWelcomeBanner)
+    else setClassName('')
   }, [theme])
 
   return (
@@ -32,7 +27,10 @@ const WelcomeBanner = ({ theme, name }: Props) => {
           Welcome to your Dashboard! Here you can manage and track your links.
         </p>
       </div>
-      <Image src={AnalyticsTrackingImg} alt="dashboard-managing" />
+      <Image
+        src={AnalyticsTrackingImg}
+        alt="A focused man working at a desk with a laptop and a chain, engrossed in his work."
+      />
     </div>
   )
 }

@@ -77,13 +77,8 @@ const URLShortener = ({
   const [showShareMenu, setShowShareMenu] = useState(false)
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (theme === 'dark') {
-        setClassName(stl.darkURLShortener)
-      } else {
-        setClassName('')
-      }
-    }
+    if (theme === 'dark') setClassName(stl.darkURLShortener)
+    else setClassName('')
   }, [theme])
 
   useEffect(() => {
@@ -107,11 +102,8 @@ const URLShortener = ({
   }, [showTooltip])
 
   useEffect(() => {
-    if (isVisible) {
-      inputFocus('originalLink')
-    } else {
-      handleReset()
-    }
+    if (isVisible) inputFocus('originalLink')
+    else handleReset()
   }, [isVisible])
 
   const handleReset = () => {
@@ -258,17 +250,11 @@ const URLShortener = ({
 
   const getViaMethod = (method: string) => {
     const url = domainUrl + linkData.shortId
-    if (method === 'Email') {
-      shareViaEmail(url)
-    } else if (method === 'Twitter') {
-      shareViaTwitter(url)
-    } else if (method === 'LinkedIn') {
-      shareViaLinkedIn(url)
-    } else if (method === 'Facebook') {
-      shareViaFacebook(url)
-    } else if (method === 'Whatsapp') {
-      shareViaWhatsapp(url)
-    }
+    if (method === 'Email') shareViaEmail(url)
+    else if (method === 'Twitter') shareViaTwitter(url)
+    else if (method === 'LinkedIn') shareViaLinkedIn(url)
+    else if (method === 'Facebook') shareViaFacebook(url)
+    else if (method === 'Whatsapp') shareViaWhatsapp(url)
   }
 
   const handleCancel = () => {

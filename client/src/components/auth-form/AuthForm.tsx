@@ -45,13 +45,8 @@ const AuthForm = ({ theme }: Props) => {
   const [toastOpts, setToastOpts] = useState({ variant: '', msg: '' })
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (theme === 'dark') {
-        setClassName(stl.darkAuthForm)
-      } else {
-        setClassName('')
-      }
-    }
+    if (theme === 'dark') setClassName(stl.darkAuthForm)
+    else setClassName('')
   }, [theme])
 
   useEffect(() => {
@@ -129,11 +124,8 @@ const AuthForm = ({ theme }: Props) => {
 
   const changeFormType = () => {
     let newType = ''
-    if (formType === 'signup') {
-      newType = 'signin'
-    } else if (formType === 'signin') {
-      newType = 'signup'
-    }
+    if (formType === 'signup') newType = 'signin'
+    else if (formType === 'signin') newType = 'signup'
 
     const currentUrl = new URL(location.href)
 

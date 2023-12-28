@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import clsx from 'clsx'
 import { setTheme } from '@/src/store'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import { logOut } from 'lib/authFunctions'
 import useOnClickOutside from 'lib/useClickOutside'
@@ -27,25 +27,19 @@ const UserMenu = ({ user, theme }: Props) => {
   const [expand, setExpand] = useState(false)
   const [showToast, setShowToast] = useState(false)
   const [toastOpts, setToastOpts] = useState({ variant: '', msg: '' })
-  const state = useSelector((state: { theme: string }) => state)
   const dispatch = useDispatch()
 
   const ref = useRef(null)
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (theme === 'dark') {
-        setClassName(stl.darkUserMenu)
-      } else {
-        setClassName('')
-      }
-    }
+    if (theme === 'dark') setClassName(stl.darkUserMenu)
+    else setClassName('')
   }, [theme])
 
   useOnClickOutside(() => setExpand(false), ref)
 
   const handleThemeChange = () => {
-    if (state.theme === 'light') dispatch(setTheme('dark'))
+    if (theme === 'light') dispatch(setTheme('dark'))
     else dispatch(setTheme('light'))
   }
 

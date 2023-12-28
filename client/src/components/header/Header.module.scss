@@ -1,4 +1,4 @@
-@import "styles/common";
+@import 'styles/common';
 
 .header {
   position: fixed;
@@ -51,7 +51,7 @@
         color: #1d4ed8;
 
         &::after {
-          content: "";
+          content: '';
           position: absolute;
           bottom: -5px;
           left: 0;
@@ -326,7 +326,7 @@
   }
 }
 
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 768px) {
   .header .container {
     .logo {
       padding-top: 7px;

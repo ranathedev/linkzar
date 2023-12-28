@@ -71,13 +71,8 @@ const ActionBox = ({
   const [showShareMenu, setShowShareMenu] = useState(false)
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (theme === 'dark') {
-        setClassName(stl.darkActionBox)
-      } else {
-        setClassName('')
-      }
-    }
+    if (theme === 'dark') setClassName(stl.darkActionBox)
+    else setClassName('')
   }, [theme])
 
   useEffect(() => {
@@ -129,9 +124,8 @@ const ActionBox = ({
     hideActionList()
   }
 
-  const copyToClipboard = async (text: string) => {
+  const copyToClipboard = async (text: string) =>
     await navigator.clipboard.writeText(text)
-  }
 
   const handleShare = (link: string) => {
     shareShortLink(link)
@@ -157,17 +151,11 @@ const ActionBox = ({
 
   const getViaMethod = (method: string) => {
     const url = domainUrl + linkData.shortId
-    if (method === 'Email') {
-      shareViaEmail(url)
-    } else if (method === 'Twitter') {
-      shareViaTwitter(url)
-    } else if (method === 'LinkedIn') {
-      shareViaLinkedIn(url)
-    } else if (method === 'Facebook') {
-      shareViaFacebook(url)
-    } else if (method === 'Whatsapp') {
-      shareViaWhatsapp(url)
-    }
+    if (method === 'Email') shareViaEmail(url)
+    else if (method === 'Twitter') shareViaTwitter(url)
+    else if (method === 'LinkedIn') shareViaLinkedIn(url)
+    else if (method === 'Facebook') shareViaFacebook(url)
+    else if (method === 'Whatsapp') shareViaWhatsapp(url)
   }
 
   return (

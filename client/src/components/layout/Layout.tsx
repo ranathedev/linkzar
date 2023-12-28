@@ -17,18 +17,10 @@ const Layout = ({ theme, children, title, user }: Props) => {
   const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (theme === 'dark') {
-        setClassName(stl.darkMain)
-      } else {
-        setClassName('')
-      }
-    }
+    if (theme === 'dark') setClassName(stl.darkMain)
+    else setClassName('')
   }, [theme])
 
-  // @ts-ignore
-  const keywords =
-    'Linkzar, URL Shortener, Short URL, Link Shortener, Custom Short Links, URL Redirection, Shorten URL, Free URL Shortener, Branded Short Links, Short URL Service, Link Management, Click Tracking, Analytics for Short Links, Shortened URL Generator, URL Shortening Tool, Custom URL Shortening, Link Tracking, Shortened Link Creator, URL Management, Shorten and Share Links, Link Analytics, URL Tracking, Short URL Generator, Custom Link Shortening, URL Redirect Service, Shortened URL Metrics, Track Link Clicks, Branded Shortened Links, Link Analytics Dashboard, URL Shortening API'
   const description =
     'Transform long, complex URLs into concise, branded short links with our powerful URL shortener web app. Enhance link sharing, track click analytics, and manage your links effortlessly. Get started for free today.'
 
@@ -38,7 +30,6 @@ const Layout = ({ theme, children, title, user }: Props) => {
         <title>{title}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content={description} />
-        {/* <meta name="keywords" content={keywords} /> */}
         <meta name="author" content="Rana Intizar" />
         <meta name="HandheldFriendly" content="true" />
         <meta property="og:title" content="Linkzar" />
@@ -48,19 +39,22 @@ const Layout = ({ theme, children, title, user }: Props) => {
         <meta property="og:url" content="https://linkzar.web.app" />
         <meta
           property="og:image"
-          content="https://i.postimg.cc/kMNxjWGV/android-chrome-512x512.png"
+          content="favicon/android-chrome-512x512.png"
         />
         <meta name="twitter:title" content="Linkzar" />
         <meta name="twitter:description" content={description} />
         <meta
           name="twitter:image"
-          content="https://i.postimg.cc/kMNxjWGV/android-chrome-512x512.png"
+          content="favicon/android-chrome-512x512.png"
         />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
         <script
           async
           src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`}
         />
         <script
+          id="google-analytics"
           dangerouslySetInnerHTML={{
             __html: `
             window.dataLayer = window.dataLayer || [];

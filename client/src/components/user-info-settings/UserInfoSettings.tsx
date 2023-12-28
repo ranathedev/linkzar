@@ -39,13 +39,8 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
   })
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (theme === 'dark') {
-        setClassName(stl.darkUserInforSet)
-      } else {
-        setClassName('')
-      }
-    }
+    if (theme === 'dark') setClassName(stl.darkUserInforSet)
+    else setClassName('')
   }, [theme])
 
   const changeName = async () => {

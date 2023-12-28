@@ -1,23 +1,21 @@
-import { useEffect } from "react";
-import PropTypes from "prop-types";
+import { useEffect } from 'react'
+import PropTypes from 'prop-types'
 
 const useOnClickOutside = (onClick, ref) => {
   useEffect(() => {
     function handleClickOutside(event) {
-      if (ref.current && !ref.current.contains(event.target)) {
-        onClick();
-      }
+      if (ref.current && !ref.current.contains(event.target)) onClick()
     }
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside)
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [onClick, ref]);
-};
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [onClick, ref])
+}
 
 useOnClickOutside.propTypes = {
   onClick: PropTypes.func.isRequired,
   ref: PropTypes.object.isRequired,
-};
+}
 
-export default useOnClickOutside;
+export default useOnClickOutside

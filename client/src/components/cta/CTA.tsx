@@ -1,28 +1,23 @@
-import React, { useEffect } from "react";
-import clsx from "clsx";
+import React, { useEffect } from 'react'
+import clsx from 'clsx'
 
-import Button from "components/button";
+import Button from 'components/button'
 
-import ArrowIcon from "assets/arrow-right.svg";
+import ArrowIcon from 'assets/arrow-right.svg'
 
-import stl from "./CTA.module.scss";
+import stl from './CTA.module.scss'
 
 interface Props {
-  theme: string;
+  theme: string
 }
 
 const CTA = ({ theme }: Props) => {
-  const [className, setClassName] = React.useState("");
+  const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl.darkCTA);
-      } else {
-        setClassName("");
-      }
-    }
-  }, [theme]);
+    if (theme === 'dark') setClassName(stl.darkCTA)
+    else setClassName('')
+  }, [theme])
 
   return (
     <section className={clsx(stl.cta, className)}>
@@ -36,12 +31,12 @@ const CTA = ({ theme }: Props) => {
             theme={theme}
             label="Get Started"
             rightIcon={<ArrowIcon />}
-            handleOnClick={() => (location.href = "/dashboard")}
+            handleOnClick={() => (location.href = '/dashboard')}
           />
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default CTA;
+export default CTA

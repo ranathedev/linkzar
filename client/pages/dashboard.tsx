@@ -29,9 +29,7 @@ const DashboardPage = () => {
       }
 
       if (mode !== 'dev') {
-        if (!user) {
-          location.href = '/auth?type=signin'
-        }
+        if (!user) location.href = '/auth?type=signin'
       }
 
       setTimeout(() => {
@@ -48,15 +46,19 @@ const DashboardPage = () => {
 
   return isLoading ? (
     <LoadingScreen />
-  ) : isVerified ? (
-    <Layout theme={theme} user={user} title="Dashboard | Linkzar">
-      <Dashboard theme={theme} domainUrl={domainUrl} user={user} />
-    </Layout>
   ) : (
-    <Layout theme={theme} user={user} title="Verify | Linkzar">
-      <div className={stl.verification}>
-        <VerificationDialog theme={theme} user={user} />
-      </div>
+    <Layout
+      theme={theme}
+      user={user}
+      title={isVerified ? 'Dashboard' : 'Verify' + ' | Linkzar'}
+    >
+      {isVerified ? (
+        <Dashboard theme={theme} domainUrl={domainUrl} user={user} />
+      ) : (
+        <div className={stl.verification}>
+          <VerificationDialog theme={theme} user={user} />
+        </div>
+      )}
     </Layout>
   )
 }

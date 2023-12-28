@@ -25,13 +25,8 @@ const ShareMenu = ({
   const ref = useRef(null)
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (theme === 'dark') {
-        setClassName(stl.darkShareMenu)
-      } else {
-        setClassName('')
-      }
-    }
+    if (theme === 'dark') setClassName(stl.darkShareMenu)
+    else setClassName('')
   }, [theme])
 
   const hideMenu = () => {

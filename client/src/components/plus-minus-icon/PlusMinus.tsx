@@ -1,29 +1,24 @@
-import React, { useEffect } from "react";
-import clsx from "clsx";
+import React, { useEffect } from 'react'
+import clsx from 'clsx'
 
-import stl from "./PlusMinus.module.scss";
+import stl from './PlusMinus.module.scss'
 
 interface Props {
-  isActive: boolean;
-  theme: string;
+  isActive: boolean
+  theme: string
 }
 
 const PlusMinusIcon = ({ isActive, theme }: Props) => {
-  const [className, setClassName] = React.useState("");
+  const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (theme === "dark") {
-        setClassName(stl.darkBtn);
-      } else {
-        setClassName("");
-      }
-    }
-  }, [theme]);
+    if (theme === 'dark') setClassName(stl.darkBtn)
+    else setClassName('')
+  }, [theme])
 
   return (
-    <div className={clsx(stl.btn, isActive ? stl.active : "", className)} />
-  );
-};
+    <div className={clsx(stl.btn, isActive ? stl.active : '', className)} />
+  )
+}
 
-export default PlusMinusIcon;
+export default PlusMinusIcon

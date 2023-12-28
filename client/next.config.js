@@ -1,7 +1,4 @@
 /** @type {import('next').NextConfig} */
-const dotenv = require('dotenv')
-
-dotenv.config()
 
 module.exports = {
   env: {
@@ -21,7 +18,10 @@ module.exports = {
     GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID,
   },
   reactStrictMode: true,
-  images: { unoptimized: true },
+  images: {
+    domains: ['i.postimg.cc'],
+    unoptimized: true,
+  },
   webpack: config => {
     config.module.rules.push({
       test: /\.svg$/,

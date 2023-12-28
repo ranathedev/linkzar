@@ -1,4 +1,4 @@
-@import "styles/common";
+@import 'styles/common';
 
 .spinner {
   @extend .justifyCen;
@@ -13,7 +13,7 @@
     top: 0;
     @include setSquare(3rem);
     margin: 8px;
-    border: 6px solid #1e90ff;
+    border: 5px solid #1e90ff;
     border-radius: 50%;
     animation: spinner 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
     border-color: #1e90ff transparent transparent transparent;

@@ -39,19 +39,12 @@ const LinkEditor = ({
   const [className, setClassName] = useState('')
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (theme === 'dark') {
-        setClassName(stl.darkLinkEditor)
-      } else {
-        setClassName('')
-      }
-    }
+    if (theme === 'dark') setClassName(stl.darkLinkEditor)
+    else setClassName('')
   }, [theme])
 
   useEffect(() => {
-    if (!showEditor) {
-      setValue('')
-    }
+    if (!showEditor) setValue('')
   }, [showEditor])
 
   const isAlphanumeric = (e: any) => {
@@ -68,17 +61,14 @@ const LinkEditor = ({
         setValue(inputVal)
         setError('')
       }
-    } else {
-      setError('Alias cannot be more than 7 chars.')
-    }
+    } else setError('Alias cannot be more than 7 chars.')
   }
 
   const handleSubmit = async () => {
     setLoading('Editing link')
 
-    if (value.length < 5) {
-      setError('Alias cannot be less than 5 chars.')
-    } else {
+    if (value.length < 5) setError('Alias cannot be less than 5 chars.')
+    else {
       setError('')
       setShowEditor(false)
       const response = await editLink(linkData._id, value, uid)

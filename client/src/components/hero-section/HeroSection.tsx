@@ -35,13 +35,8 @@ const HeroSection = ({
   const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (theme === 'dark') {
-        setClassName(stl.darkHeroSec)
-      } else {
-        setClassName('')
-      }
-    }
+    if (theme === 'dark') setClassName(stl.darkHeroSec)
+    else setClassName('')
   }, [theme])
 
   return (
@@ -75,7 +70,8 @@ HeroSection.defaultProps = {
   btnOnClick: () => (location.href = '/dashboard'),
   btnIcon: <ArrowIcon />,
   imgSrc: TrackURLImage,
-  imgAlt: 'track-links',
+  imgAlt:
+    'A man scrutinizes a graph on a monitor with the help of a magnifying glass.',
   swap: false,
 }
 

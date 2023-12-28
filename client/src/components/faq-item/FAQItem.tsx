@@ -16,13 +16,8 @@ const FAQItem = ({ que, ans, theme }: Props) => {
   const [className, setClassName] = useState('')
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (theme === 'dark') {
-        setClassName(stl.darkFAQItem)
-      } else {
-        setClassName('')
-      }
-    }
+    if (theme === 'dark') setClassName(stl.darkFAQItem)
+    else setClassName('')
   }, [theme])
 
   return (

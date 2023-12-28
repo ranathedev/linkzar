@@ -21,9 +21,7 @@ const Shorten = () => {
 
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (mode !== 'dev') {
-        if (user) {
-          location.href = '/dashboard'
-        }
+        if (user) location.href = '/dashboard'
       }
 
       setIsLoading(false)

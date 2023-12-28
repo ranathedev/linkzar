@@ -36,12 +36,14 @@ const UserMenu = ({ user, theme }: Props) => {
     else setClassName('')
   }, [theme])
 
-  useOnClickOutside(() => setExpand(false), ref)
-
   const handleThemeChange = () => {
     if (theme === 'light') dispatch(setTheme('dark'))
     else dispatch(setTheme('light'))
   }
+
+  const name = user.displayName?.split(' ')[0]
+
+  useOnClickOutside(() => setExpand(false), ref)
 
   return (
     <>
@@ -52,7 +54,11 @@ const UserMenu = ({ user, theme }: Props) => {
         content={toastOpts.msg}
         setShowToast={setShowToast}
       />
-      <div ref={ref} className={clsx(stl.userMenu, className)}>
+      <div
+        ref={ref}
+        className={clsx(stl.userMenu, className)}
+        title={user.displayName}
+      >
         <div className={stl.content} onClick={() => setExpand(!expand)}>
           <Image
             src={
@@ -67,7 +73,7 @@ const UserMenu = ({ user, theme }: Props) => {
             <DropdownIcon />
           </span>
           <span className={stl.name}>
-            {(user.displayName && user.displayName) || 'John Doe'}
+            {(user.displayName && name) || 'John Doe'}
           </span>
         </div>
         <div className={clsx(stl.menu, expand ? stl.show : '')}>

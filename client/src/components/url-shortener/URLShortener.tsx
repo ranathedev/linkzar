@@ -94,11 +94,10 @@ const URLShortener = ({
   }, [uid])
 
   useEffect(() => {
-    if (showTooltip) {
+    if (showTooltip)
       setTimeout(() => {
         setShowTooltip(false)
       }, 1500)
-    }
   }, [showTooltip])
 
   useEffect(() => {
@@ -123,24 +122,16 @@ const URLShortener = ({
     setUrlErr('')
     setAliasErr('')
 
-    if (e.keyCode === 13) {
-      if (uid === 'links') {
-        if (linksCount < 3) {
-          handleSubmit()
-          return
-        } else {
-          setShowToast(true)
-          setToastOpts({
-            variant: 'warn',
-            msg: '3 Links Created! Sign Up to Create More.',
-          })
-          return
-        }
-      } else {
-        handleSubmit()
-        return
+    if (e.keyCode === 13 && uid === 'links') {
+      if (linksCount < 3) handleSubmit()
+      else {
+        setShowToast(true)
+        setToastOpts({
+          variant: 'warn',
+          msg: '3 Links Created! Sign Up to Create More.',
+        })
       }
-    }
+    } else handleSubmit()
   }
 
   const handleChange = (e: any) => {
@@ -157,9 +148,7 @@ const URLShortener = ({
         setAlias(inputVal)
         setAliasErr('')
       }
-    } else {
-      setAliasErr('Alias cannot be more than 7 chars.')
-    }
+    } else setAliasErr('Alias cannot be more than 7 chars.')
   }
 
   const handleSubmit = async () => {
@@ -179,24 +168,22 @@ const URLShortener = ({
             })
           } else if (response.count) {
             setLinkData(response.document)
-            if (uid === 'links') {
-              if (linksCount < 3) {
-                const updatedLinkCount = linksCount + response.count
-                setLinksCount(updatedLinkCount)
-                const stringData = JSON.stringify(updatedLinkCount)
-                localStorage.setItem('linksCount', stringData)
+            if (uid === 'links' && linksCount < 3) {
+              const updatedLinkCount = linksCount + response.count
+              setLinksCount(updatedLinkCount)
+              const stringData = JSON.stringify(updatedLinkCount)
+              localStorage.setItem('linksCount', stringData)
 
-                const data = localStorage.getItem('demoLinks')
-                if (data) {
-                  const existingData = JSON.parse(data)
-                  const updatedData = [...existingData, response.document]
-                  const stringData = JSON.stringify(updatedData)
-                  localStorage.setItem('demoLinks', stringData)
-                } else {
-                  const demoLinks = [response.document]
-                  const stringData = JSON.stringify(demoLinks)
-                  localStorage.setItem('demoLinks', stringData)
-                }
+              const data = localStorage.getItem('demoLinks')
+              if (data) {
+                const existingData = JSON.parse(data)
+                const updatedData = [...existingData, response.document]
+                const stringData = JSON.stringify(updatedData)
+                localStorage.setItem('demoLinks', stringData)
+              } else {
+                const demoLinks = [response.document]
+                const stringData = JSON.stringify(demoLinks)
+                localStorage.setItem('demoLinks', stringData)
               }
             }
 
@@ -215,15 +202,9 @@ const URLShortener = ({
 
             sendNewLink(response)
           }
-        } else {
-          setAliasErr('Alias cannot be less than 5 chars.')
-        }
-      } else {
-        setUrlErr('Url is not valid.')
-      }
-    } else {
-      setUrlErr('Url cannot be empty.')
-    }
+        } else setAliasErr('Alias cannot be less than 5 chars.')
+      } else setUrlErr('Url is not valid.')
+    } else setUrlErr('Url cannot be empty.')
   }
 
   const getResponse = (res: any) => {

@@ -199,9 +199,7 @@ const AuthForm = ({ theme }: Props) => {
                   ))
               actions.resetForm()
               setIsChecked(false)
-            } else {
-              alert('Agree to our terms and conditions to create account.')
-            }
+            } else alert('Agree to our terms and conditions to create account.')
           }}
         >
           <Form>

@@ -199,7 +199,7 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
               {listOfLinks.length > 0 ? (
                 listOfLinks.map(linkItem => (
                   <TableRow
-                    key={uid}
+                    key={linkItem._id}
                     domainUrl={domainUrl}
                     theme={theme}
                     sendDeleteId={removeLink}

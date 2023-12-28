@@ -20,9 +20,7 @@ const Shorten = () => {
     const mode = urlParams.get('mode')
 
     const unsubscribe = auth.onAuthStateChanged(user => {
-      if (mode !== 'dev') {
-        if (user) location.href = '/dashboard'
-      }
+      if (mode !== 'dev' && user) location.href = '/dashboard'
 
       setIsLoading(false)
     })

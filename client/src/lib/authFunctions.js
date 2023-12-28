@@ -1,6 +1,6 @@
-import axios from "axios";
-import auth from "./firebase";
-import firebase from "firebase/app";
+import axios from 'axios'
+import auth from './firebase'
+import firebase from 'firebase/app'
 import {
   createUserWithEmailAndPassword,
   updateProfile,
@@ -16,30 +16,30 @@ import {
   updatePassword,
   deleteUser,
   reauthenticateWithPopup,
-} from "firebase/auth";
+} from 'firebase/auth'
 import {
   ref,
   deleteObject,
   uploadBytesResumable,
   getDownloadURL,
   getStorage,
-} from "firebase/storage";
-import handleAuthErrs from "./handleAuthErrs";
+} from 'firebase/storage'
+import handleAuthErrs from './handleAuthErrs'
 
-const storage = getStorage();
+const storage = getStorage()
 
-let origin = "";
+let origin = ''
 
-if (typeof window !== "undefined") {
-  origin = window.location.origin;
+if (typeof window !== 'undefined') {
+  origin = window.location.origin
 }
 
 const actionCodeSettings = {
   url: `${origin}/dashboard`,
   handleCodeInApp: true,
-};
+}
 
-const domainUrl = "https://linkzar.fly.dev/api/";
+const domainUrl = 'https://linkzar.fly.dev/api/'
 
 const signupWithEmailPassword = async (
   fname,
@@ -50,64 +50,64 @@ const signupWithEmailPassword = async (
   setShowToast,
   setToastOpts
 ) => {
-  setIsLoading(true);
+  setIsLoading(true)
   await createUserWithEmailAndPassword(auth, email, password)
-    .then(async (userCredential) => {
-      const user = userCredential.user;
+    .then(async userCredential => {
+      const user = userCredential.user
 
       await updateProfile(user, {
-        displayName: fname + " " + lname,
-        photoURL: "https://i.postimg.cc/Mp7gnttP/default-Pic.jpg",
+        displayName: fname + ' ' + lname,
+        photoURL: 'https://i.postimg.cc/Mp7gnttP/default-Pic.jpg',
       })
         .then(async () => {
-          await localStorage.setItem("user", JSON.stringify(user));
+          await localStorage.setItem('user', JSON.stringify(user))
 
-          const data = localStorage.getItem("demoLinks");
+          const data = localStorage.getItem('demoLinks')
 
           await sendEmailVerification(user, actionCodeSettings)
             .then(async () => {
-              setShowToast(true);
+              setShowToast(true)
               setToastOpts({
-                variant: "success",
+                variant: 'success',
                 msg: `Verification email sent to: ${email}`,
-              });
+              })
 
-              setIsLoading(false);
+              setIsLoading(false)
             })
-            .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
+            .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
 
-          location.href = "/dashboard";
+          location.href = '/dashboard'
 
           if (data) {
-            localStorage.setItem("links", data);
-            const originalArray = JSON.parse(data);
-            const demoLinks = originalArray.reverse();
+            localStorage.setItem('links', data)
+            const originalArray = JSON.parse(data)
+            const demoLinks = originalArray.reverse()
 
             await axios.post(`${domainUrl}demoLinks`, {
               headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
               },
               uid: user.uid,
               demoLinks,
-            });
+            })
           } else {
-            const links = [];
-            localStorage.setItem("links", JSON.stringify(links));
+            const links = []
+            localStorage.setItem('links', JSON.stringify(links))
 
             await axios.post(`${domainUrl}createColl`, {
               headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
               },
               uid: user.uid,
-            });
+            })
           }
         })
-        .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
+        .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
     })
-    .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
+    .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
 
-  setIsLoading(false);
-};
+  setIsLoading(false)
+}
 
 const signinWithEmailPassword = async (
   email,
@@ -116,210 +116,210 @@ const signinWithEmailPassword = async (
   setToastOpts
 ) => {
   await signInWithEmailAndPassword(auth, email, password)
-    .then(async (userCredential) => {
-      const user = userCredential.user;
-      await localStorage.setItem("user", JSON.stringify(user));
-      location.href = "/dashboard";
+    .then(async userCredential => {
+      const user = userCredential.user
+      await localStorage.setItem('user', JSON.stringify(user))
+      location.href = '/dashboard'
     })
-    .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
-};
+    .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
+}
 
 const signinWithGoogle = async (setShowToast, setToastOpts) => {
-  const provider = new GoogleAuthProvider();
+  const provider = new GoogleAuthProvider()
   provider.setCustomParameters({
-    prompt: "consent",
-  });
+    prompt: 'consent',
+  })
 
   await signInWithPopup(auth, provider)
-    .then(async (userCredential) => {
-      const user = userCredential.user;
+    .then(async userCredential => {
+      const user = userCredential.user
 
-      await localStorage.setItem("user", JSON.stringify(user));
+      await localStorage.setItem('user', JSON.stringify(user))
 
-      const data = localStorage.getItem("demoLinks");
+      const data = localStorage.getItem('demoLinks')
 
-      location.href = "/dashboard";
+      location.href = '/dashboard'
 
       if (!user.emailVerified) {
         await sendEmailVerification(user, actionCodeSettings)
           .then(async () => {
-            setShowToast(true);
+            setShowToast(true)
             setToastOpts({
-              variant: "success",
+              variant: 'success',
               msg: `Verification email sent to: ${email}`,
-            });
+            })
 
-            setIsLoading(false);
+            setIsLoading(false)
           })
-          .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
+          .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
       }
 
       if (data) {
-        localStorage.setItem("links", data);
-        const originalArray = JSON.parse(data);
-        const demoLinks = originalArray.reverse();
+        localStorage.setItem('links', data)
+        const originalArray = JSON.parse(data)
+        const demoLinks = originalArray.reverse()
 
         await axios.post(`${domainUrl}demoLinks`, {
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           uid: user.uid,
           demoLinks,
-        });
+        })
       } else {
-        const links = [];
-        localStorage.setItem("links", JSON.stringify(links));
+        const links = []
+        localStorage.setItem('links', JSON.stringify(links))
 
         await axios.post(`${domainUrl}createColl`, {
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           uid: user.uid,
-        });
+        })
       }
     })
-    .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
-};
+    .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
+}
 
 const signinWithGithub = async (setShowToast, setToastOpts) => {
-  const provider = new GithubAuthProvider();
+  const provider = new GithubAuthProvider()
   provider.setCustomParameters({
-    prompt: "consent",
-  });
+    prompt: 'consent',
+  })
 
   signInWithPopup(auth, provider)
-    .then(async (userCredential) => {
-      const user = userCredential.user;
+    .then(async userCredential => {
+      const user = userCredential.user
 
-      await localStorage.setItem("user", JSON.stringify(user));
+      await localStorage.setItem('user', JSON.stringify(user))
 
-      const data = localStorage.getItem("demoLinks");
+      const data = localStorage.getItem('demoLinks')
 
-      location.href = "/dashboard";
+      location.href = '/dashboard'
 
       if (!user.emailVerified) {
         await sendEmailVerification(user, actionCodeSettings)
           .then(async () => {
-            setShowToast(true);
+            setShowToast(true)
             setToastOpts({
-              variant: "success",
+              variant: 'success',
               msg: `Verification email sent to: ${email}`,
-            });
+            })
 
-            setIsLoading(false);
+            setIsLoading(false)
           })
-          .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
+          .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
       }
 
       if (data) {
-        localStorage.setItem("links", data);
-        const originalArray = JSON.parse(data);
-        const demoLinks = originalArray.reverse();
+        localStorage.setItem('links', data)
+        const originalArray = JSON.parse(data)
+        const demoLinks = originalArray.reverse()
 
         await axios.post(`${domainUrl}demoLinks`, {
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           uid: user.uid,
           demoLinks,
-        });
+        })
       } else {
-        const links = [];
-        localStorage.setItem("links", JSON.stringify(links));
+        const links = []
+        localStorage.setItem('links', JSON.stringify(links))
 
         await axios.post(`${domainUrl}createColl`, {
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           uid: user.uid,
-        });
+        })
       }
     })
-    .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
-};
+    .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
+}
 
 const signinWithMicrosoft = async (setShowToast, setToastOpts) => {
-  const provider = new OAuthProvider("microsoft.com");
+  const provider = new OAuthProvider('microsoft.com')
 
   provider.setCustomParameters({
-    prompt: "consent",
-    tenant: "6b2aaabf-fc70-42aa-bf76-c493c61263fc",
-  });
+    prompt: 'consent',
+    tenant: '6b2aaabf-fc70-42aa-bf76-c493c61263fc',
+  })
   signInWithPopup(auth, provider)
-    .then(async (userCredential) => {
-      const user = userCredential.user;
+    .then(async userCredential => {
+      const user = userCredential.user
 
-      await localStorage.setItem("user", JSON.stringify(user));
+      await localStorage.setItem('user', JSON.stringify(user))
 
-      const data = localStorage.getItem("demoLinks");
+      const data = localStorage.getItem('demoLinks')
 
-      location.href = "/dashboard";
+      location.href = '/dashboard'
 
       if (!user.emailVerified) {
         await sendEmailVerification(user, actionCodeSettings)
           .then(async () => {
-            setShowToast(true);
+            setShowToast(true)
             setToastOpts({
-              variant: "success",
+              variant: 'success',
               msg: `Verification email sent to: ${email}`,
-            });
+            })
 
-            setIsLoading(false);
+            setIsLoading(false)
           })
-          .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
+          .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
       }
 
       if (data) {
-        localStorage.setItem("links", data);
-        const originalArray = JSON.parse(data);
-        const demoLinks = originalArray.reverse();
+        localStorage.setItem('links', data)
+        const originalArray = JSON.parse(data)
+        const demoLinks = originalArray.reverse()
 
         await axios.post(`${domainUrl}demoLinks`, {
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           uid: user.uid,
           demoLinks,
-        });
+        })
       } else {
-        const links = [];
-        localStorage.setItem("links", JSON.stringify(links));
+        const links = []
+        localStorage.setItem('links', JSON.stringify(links))
 
         await axios.post(`${domainUrl}createColl`, {
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           uid: user.uid,
-        });
+        })
       }
     })
-    .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
-};
+    .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
+}
 
 const sendVerificationEmail = async (user, setShowToast, setToastOpts) => {
   await sendEmailVerification(user, actionCodeSettings)
     .then(() => {
-      setShowToast(true);
-      setToastOpts({ variant: "success", msg: "Verification Email sent!" });
+      setShowToast(true)
+      setToastOpts({ variant: 'success', msg: 'Verification Email sent!' })
     })
-    .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
-};
+    .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
+}
 
 const sendResetPasswordEmail = async (email, setShowToast, setToastOpts) => {
   const actionCodeSettings = {
     url: `${origin}/auth?type=signin`,
     handleCodeInApp: true,
-  };
+  }
   await sendPasswordResetEmail(auth, email, actionCodeSettings)
     .then(() => {
-      setShowToast(true);
+      setShowToast(true)
       setToastOpts({
-        variant: "success",
+        variant: 'success',
         msg: `Password reset email sent to: ${email}`,
-      });
+      })
     })
-    .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
-};
+    .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
+}
 
 const updateName = async (
   name,
@@ -328,39 +328,39 @@ const updateName = async (
   setToastOpts,
   setLoading
 ) => {
-  setLoading("Updaing Name");
+  setLoading('Updaing Name')
 
-  const user = await auth.currentUser;
+  const user = await auth.currentUser
   await updateProfile(user, {
     displayName: name,
   })
     .then(async () => {
-      const existingData = localStorage.getItem("user");
-      const parsedData = JSON.parse(existingData);
-      parsedData.displayName = name;
-      const updatedData = JSON.stringify(parsedData);
+      const existingData = localStorage.getItem('user')
+      const parsedData = JSON.parse(existingData)
+      parsedData.displayName = name
+      const updatedData = JSON.stringify(parsedData)
 
-      setUser(parsedData);
-      await localStorage.setItem("user", JSON.stringify(updatedData));
+      setUser(parsedData)
+      await localStorage.setItem('user', JSON.stringify(updatedData))
 
-      setShowToast(true);
+      setShowToast(true)
       setToastOpts({
-        variant: "success",
-        msg: "Name updated successfully.",
-      });
+        variant: 'success',
+        msg: 'Name updated successfully.',
+      })
     })
-    .catch((err) => {
-      handleAuthErrs(err, setShowToast, setToastOpts);
+    .catch(err => {
+      handleAuthErrs(err, setShowToast, setToastOpts)
 
-      setShowToast(true);
+      setShowToast(true)
       setToastOpts({
-        variant: "danger",
+        variant: 'danger',
         msg: "Can't update Name.",
-      });
-    });
+      })
+    })
 
-  setLoading("");
-};
+  setLoading('')
+}
 
 const handleUpdateEmail = async (
   email,
@@ -371,97 +371,95 @@ const handleUpdateEmail = async (
   setDialogOpts,
   setLoading
 ) => {
-  setLoading("Updating Email");
+  setLoading('Updating Email')
 
-  const user = await auth.currentUser;
+  const user = await auth.currentUser
   await updateEmail(user, email)
     .then(async () => {
       await sendEmailVerification(user)
         .then(async () => {
-          const existingData = localStorage.getItem("user");
-          const parsedData = JSON.parse(existingData);
-          parsedData.email = email;
-          const updatedData = JSON.stringify(updatedData);
+          const existingData = localStorage.getItem('user')
+          const parsedData = JSON.parse(existingData)
+          parsedData.email = email
+          const updatedData = JSON.stringify(updatedData)
 
-          await localStorage.setItem("user", JSON.stringify(updatedData));
-          setUser(parsedData);
+          await localStorage.setItem('user', JSON.stringify(updatedData))
+          setUser(parsedData)
 
-          setShowToast(true);
+          setShowToast(true)
           setToastOpts({
-            variant: "success",
-            msg: "Email updated successfully.",
-          });
+            variant: 'success',
+            msg: 'Email updated successfully.',
+          })
         })
-        .catch((err) => {
-          handleAuthErrs(err, setShowToast, setToastOpts);
+        .catch(err => {
+          handleAuthErrs(err, setShowToast, setToastOpts)
 
-          setShowToast(true);
+          setShowToast(true)
           setToastOpts({
-            variant: "danger",
+            variant: 'danger',
             msg: "Can't update Email.",
-          });
-        });
+          })
+        })
     })
-    .catch((err) => {
-      if (err.code === "auth/requires-recent-login") {
+    .catch(err => {
+      if (err.code === 'auth/requires-recent-login') {
         if (user !== null) {
-          user.providerData.forEach(async (profile) => {
-            const providerId = profile.providerId;
+          user.providerData.forEach(async profile => {
+            const providerId = profile.providerId
 
-            let provider;
-            if (providerId === "google.com") {
-              provider = new GoogleAuthProvider();
-            } else if (providerId === "github.com") {
-              provider = new GithubAuthProvider();
-            } else if (providerId === "microsoft.com") {
-              provider = new OAuthProvider("microsoft.com");
+            let provider
+            if (providerId === 'google.com') {
+              provider = new GoogleAuthProvider()
+            } else if (providerId === 'github.com') {
+              provider = new GithubAuthProvider()
+            } else if (providerId === 'microsoft.com') {
+              provider = new OAuthProvider('microsoft.com')
             }
 
-            if (providerId !== "password") {
+            if (providerId !== 'password') {
               await reauthenticateWithPopup(user, provider)
-                .then(async (result) => {
-                  const user = result.user;
+                .then(async result => {
+                  const user = result.user
                   await sendEmailVerification(user)
                     .then(async () => {
-                      await localStorage.setItem("user", JSON.stringify(user));
-                      setUser(user);
+                      await localStorage.setItem('user', JSON.stringify(user))
+                      setUser(user)
 
-                      setShowToast(true);
+                      setShowToast(true)
                       setToastOpts({
-                        variant: "success",
-                        msg: "Email updated successfully.",
-                      });
+                        variant: 'success',
+                        msg: 'Email updated successfully.',
+                      })
                     })
-                    .catch((err) => {
-                      handleAuthErrs(err, setShowToast, setToastOpts);
+                    .catch(err => {
+                      handleAuthErrs(err, setShowToast, setToastOpts)
 
-                      setShowToast(true);
+                      setShowToast(true)
                       setToastOpts({
-                        variant: "danger",
+                        variant: 'danger',
                         msg: "Can't update Email.",
-                      });
-                    });
+                      })
+                    })
                 })
-                .catch((err) => console.log("Error:", err));
+                .catch(err => console.log('Error:', err))
             }
 
-            if (providerId === "password") {
-              setShowDialog(true);
+            if (providerId === 'password') {
+              setShowDialog(true)
               setDialogOpts({
-                primaryBtnLabel: "Go to Log In",
-                msg: "You will have to log in again to perform this action.",
-                handleAction: () => (location.href = "/auth?type=signin"),
-              });
+                primaryBtnLabel: 'Go to Log In',
+                msg: 'You will have to log in again to perform this action.',
+                handleAction: () => (location.href = '/auth?type=signin'),
+              })
             }
-          });
+          })
         }
-      } else {
-        handleAuthErrs(err, setShowToast, setToastOpts);
-      }
-    });
+      } else handleAuthErrs(err, setShowToast, setToastOpts)
+    })
 
-  setLoading("");
-};
+  setLoading('')
+}
 
 const handleUpdatePass = async (
   newPassword,
@@ -471,73 +469,73 @@ const handleUpdatePass = async (
   setDialogOpts,
   setLoading
 ) => {
-  setLoading("Updating Password");
+  setLoading('Updating Password')
 
-  const user = auth.currentUser;
+  const user = auth.currentUser
   await updatePassword(user, newPassword)
     .then(() => {
-      setShowToast(true);
+      setShowToast(true)
       setToastOpts({
-        variant: "success",
-        msg: "Password updated successfully.",
-      });
+        variant: 'success',
+        msg: 'Password updated successfully.',
+      })
     })
-    .catch((err) => {
-      if (err.code === "auth/requires-recent-login") {
+    .catch(err => {
+      if (err.code === 'auth/requires-recent-login') {
         if (user !== null) {
-          user.providerData.forEach(async (profile) => {
-            const providerId = profile.providerId;
+          user.providerData.forEach(async profile => {
+            const providerId = profile.providerId
 
-            let provider;
-            if (providerId === "google.com") {
-              provider = new GoogleAuthProvider();
-            } else if (providerId === "github.com") {
-              provider = new GithubAuthProvider();
-            } else if (providerId === "microsoft.com") {
-              provider = new OAuthProvider("microsoft.com");
+            let provider
+            if (providerId === 'google.com') {
+              provider = new GoogleAuthProvider()
+            } else if (providerId === 'github.com') {
+              provider = new GithubAuthProvider()
+            } else if (providerId === 'microsoft.com') {
+              provider = new OAuthProvider('microsoft.com')
             }
-            if (providerId !== "password") {
+            if (providerId !== 'password') {
               await reauthenticateWithPopup(user, provider)
-                .then(async (result) => {
-                  const user = result.user;
+                .then(async result => {
+                  const user = result.user
                   await updatePassword(user, newPassword)
                     .then(() => {
-                      setShowToast(true);
+                      setShowToast(true)
                       setToastOpts({
-                        variant: "success",
-                        msg: "Password updated successfully.",
-                      });
+                        variant: 'success',
+                        msg: 'Password updated successfully.',
+                      })
                     })
-                    .catch((err) =>
+                    .catch(err =>
                       handleAuthErrs(err, setShowToast, setToastOpts)
-                    );
+                    )
                 })
-                .catch((err) => console.log("Error:", err));
+                .catch(err => console.log('Error:', err))
             }
 
-            if (providerId === "password") {
+            if (providerId === 'password') {
               setDialogOpts({
-                primaryBtnLabel: "Go to Log In",
-                msg: "You will have to log in again to perform this action.",
-                handleAction: () => (location.href = "/auth?type=signin"),
-              });
-              setShowDialog(true);
+                primaryBtnLabel: 'Go to Log In',
+                msg: 'You will have to log in again to perform this action.',
+                handleAction: () => (location.href = '/auth?type=signin'),
+              })
+              setShowDialog(true)
             }
-          });
+          })
         }
       } else {
-        handleAuthErrs(err, setShowToast, setToastOpts);
+        handleAuthErrs(err, setShowToast, setToastOpts)
 
-        setShowToast(true);
+        setShowToast(true)
         setToastOpts({
-          variant: "danger",
+          variant: 'danger',
           msg: "Can't update Password.",
-        });
+        })
       }
-    });
+    })
 
-  setLoading("");
-};
+  setLoading('')
+}
 
 const updatePhoto = async (
   e,
@@ -546,112 +544,112 @@ const updatePhoto = async (
   setShowToast,
   setToastOpts
 ) => {
-  setIsLoading(true);
-  const file = e.target.files[0];
-  const user = await auth.currentUser;
-  const uid = user.uid;
-  const profilePicRef = ref(storage, `${process.env.BUCKET}/${uid}/profilePic`);
+  setIsLoading(true)
+  const file = e.target.files[0]
+  const user = await auth.currentUser
+  const uid = user.uid
+  const profilePicRef = ref(storage, `${process.env.BUCKET}/${uid}/profilePic`)
   await deleteObject(profilePicRef)
     .then(() => {})
-    .catch((err) => {});
+    .catch(err => {})
 
-  const storageRef = ref(storage, `${process.env.BUCKET}/${uid}/profilePic`);
+  const storageRef = ref(storage, `${process.env.BUCKET}/${uid}/profilePic`)
 
-  const uploadTask = uploadBytesResumable(storageRef, file);
+  const uploadTask = uploadBytesResumable(storageRef, file)
 
   uploadTask.on(
-    "state_changed",
-    (snapshot) => {
-      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    'state_changed',
+    snapshot => {
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
     },
-    (error) => {},
+    error => {},
     async () => {
       await getDownloadURL(uploadTask.snapshot.ref)
-        .then(async (downloadURL) => {
+        .then(async downloadURL => {
           await updateProfile(auth.currentUser, { photoURL: downloadURL })
             .then(async () => {
-              const existingData = await localStorage.getItem("user");
-              const parsedData = JSON.parse(existingData);
-              parsedData.photoURL = downloadURL;
-              const updatedData = JSON.stringify(parsedData);
+              const existingData = await localStorage.getItem('user')
+              const parsedData = JSON.parse(existingData)
+              parsedData.photoURL = downloadURL
+              const updatedData = JSON.stringify(parsedData)
 
-              setUser(parsedData);
-              await localStorage.setItem("user", updatedData);
+              setUser(parsedData)
+              await localStorage.setItem('user', updatedData)
 
-              setIsLoading(false);
-              setShowToast(true);
+              setIsLoading(false)
+              setShowToast(true)
               setToastOpts({
-                variant: "success",
-                msg: "Profile photo updated.",
-              });
+                variant: 'success',
+                msg: 'Profile photo updated.',
+              })
             })
-            .catch((err) => {
-              handleAuthErrs(err, setShowToast, setToastOpts);
+            .catch(err => {
+              handleAuthErrs(err, setShowToast, setToastOpts)
 
-              setShowToast(true);
+              setShowToast(true)
               setToastOpts({
-                variant: "danger",
+                variant: 'danger',
                 msg: "Can't update Profile photo.",
-              });
-            });
+              })
+            })
         })
-        .catch((err) => {
-          handleAuthErrs(err, setShowToast, setToastOpts);
+        .catch(err => {
+          handleAuthErrs(err, setShowToast, setToastOpts)
 
-          setIsLoading(false);
-          setShowToast(true);
+          setIsLoading(false)
+          setShowToast(true)
           setToastOpts({
-            variant: "danger",
+            variant: 'danger',
             msg: "Can't update Profile photo.",
-          });
-        });
+          })
+        })
     }
-  );
-};
+  )
+}
 
 const deletePhoto = async (setUser, setShowToast, setToastOpts) => {
-  const user = await auth.currentUser;
-  const uid = user.uid;
-  const profilePicRef = ref(storage, `${process.env.BUCKET}/${uid}/profilePic`);
+  const user = await auth.currentUser
+  const uid = user.uid
+  const profilePicRef = ref(storage, `${process.env.BUCKET}/${uid}/profilePic`)
 
   await deleteObject(profilePicRef)
     .then(async () => {
-      const photoURL = "https://i.postimg.cc/Mp7gnttP/default-Pic.jpg";
+      const photoURL = 'https://i.postimg.cc/Mp7gnttP/default-Pic.jpg'
 
       await updateProfile(user, { photoURL })
         .then(() => {
-          const existingData = localStorage.getItem("user");
-          const parsedData = JSON.parse(existingData);
-          parsedData.photoURL = photoURL;
-          const updatedData = JSON.stringify(updatedData);
+          const existingData = localStorage.getItem('user')
+          const parsedData = JSON.parse(existingData)
+          parsedData.photoURL = photoURL
+          const updatedData = JSON.stringify(updatedData)
 
-          setUser(parsedData);
-          localStorage.setItem("user", JSON.stringify(updatedData));
+          setUser(parsedData)
+          localStorage.setItem('user', JSON.stringify(updatedData))
 
-          setShowToast(true);
+          setShowToast(true)
           setToastOpts({
-            variant: "success",
-            msg: "Profile photo removed.",
-          });
+            variant: 'success',
+            msg: 'Profile photo removed.',
+          })
         })
-        .catch((err) => {
-          handleAuthErrs(err, setShowToast, setToastOpts);
+        .catch(err => {
+          handleAuthErrs(err, setShowToast, setToastOpts)
 
-          setShowToast(true);
+          setShowToast(true)
           setToastOpts({
-            variant: "danger",
+            variant: 'danger',
             msg: "Can't update Profile photo.",
-          });
-        });
+          })
+        })
     })
-    .catch((err) => {
-      setShowToast(true);
+    .catch(err => {
+      setShowToast(true)
       setToastOpts({
-        variant: "danger",
+        variant: 'danger',
         msg: "Can't update Profile photo.",
-      });
-    });
-};
+      })
+    })
+}
 
 const deleteAccount = async (
   setShowDialog,
@@ -659,93 +657,91 @@ const deleteAccount = async (
   setShowToast,
   setToastOpts
 ) => {
-  const user = await auth.currentUser;
+  const user = await auth.currentUser
 
   await axios
     .post(`${domainUrl}deleteColl`, {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       uid: user.uid,
     })
     .then(async () => {
       await deleteUser(user)
         .then(async () => {
-          await localStorage.removeItem("user");
-          await localStorage.removeItem("links");
+          await localStorage.removeItem('user')
+          await localStorage.removeItem('links')
 
-          location.href = "/auth?type=signup";
+          location.href = '/auth?type=signup'
         })
 
-        .catch((err) => {
-          if (err.code === "auth/requires-recent-login") {
+        .catch(err => {
+          if (err.code === 'auth/requires-recent-login') {
             if (user !== null) {
-              user.providerData.forEach(async (profile) => {
-                const providerId = profile.providerId;
+              user.providerData.forEach(async profile => {
+                const providerId = profile.providerId
 
-                let provider;
-                if (providerId === "google.com") {
-                  provider = new GoogleAuthProvider();
-                } else if (providerId === "github.com") {
-                  provider = new GithubAuthProvider();
-                } else if (providerId === "microsoft.com") {
-                  provider = new OAuthProvider("microsoft.com");
+                let provider
+                if (providerId === 'google.com') {
+                  provider = new GoogleAuthProvider()
+                } else if (providerId === 'github.com') {
+                  provider = new GithubAuthProvider()
+                } else if (providerId === 'microsoft.com') {
+                  provider = new OAuthProvider('microsoft.com')
                 }
 
-                if (providerId !== "password") {
+                if (providerId !== 'password') {
                   await reauthenticateWithPopup(user, provider)
-                    .then(async (result) => {
-                      const user = result.user;
+                    .then(async result => {
+                      const user = result.user
                       await deleteUser(user)
                         .then(async () => {
-                          await localStorage.removeItem("user");
-                          await localStorage.removeItem("links");
+                          await localStorage.removeItem('user')
+                          await localStorage.removeItem('links')
 
-                          location.href = "/auth?type=signup";
+                          location.href = '/auth?type=signup'
 
                           await axios.post(`${domainUrl}deleteColl`, {
                             headers: {
-                              "Content-Type": "application/json",
+                              'Content-Type': 'application/json',
                             },
                             uid: user.uid,
-                          });
+                          })
                         })
-                        .catch((err) =>
+                        .catch(err =>
                           handleAuthErrs(err, setShowToast, setToastOpts)
-                        );
+                        )
                     })
-                    .catch((err) => console.log("Error:", err));
+                    .catch(err => console.log('Error:', err))
                 }
 
-                if (providerId === "password") {
+                if (providerId === 'password') {
                   setDialogOpts({
-                    primaryBtnLabel: "Go to Log In",
-                    msg: "You will have to Log In again to perform this action.",
-                    handleAction: () => (location.href = "/auth?type=signin"),
-                  });
-                  setShowDialog(true);
+                    primaryBtnLabel: 'Go to Log In',
+                    msg: 'You will have to Log In again to perform this action.',
+                    handleAction: () => (location.href = '/auth?type=signin'),
+                  })
+                  setShowDialog(true)
                 }
-              });
+              })
             }
-          } else {
-            handleAuthErrs(err, setShowToast, setToastOpts);
-          }
-        });
+          } else handleAuthErrs(err, setShowToast, setToastOpts)
+        })
     })
-    .catch((err) => {
-      setShowToast(true);
+    .catch(err => {
+      setShowToast(true)
       setToastOpts({
-        variant: "danger",
+        variant: 'danger',
         msg: "Can't delete account. Try again.",
-      });
-    });
-};
+      })
+    })
+}
 
 const logOut = (setShowToast, setToastOpts) => {
   signOut(auth)
-    .then(() => (location.href = "/auth?type=signup"))
-    .catch((err) => handleAuthErrs(err, setShowToast, setToastOpts));
-};
+    .then(() => (location.href = '/auth?type=signup'))
+    .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
+}
 
 export {
   signupWithEmailPassword,
@@ -762,4 +758,4 @@ export {
   deletePhoto,
   deleteAccount,
   logOut,
-};
+}

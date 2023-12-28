@@ -94,11 +94,9 @@ const Layout = ({ theme, children, title, user }: Props) => {
           href="favicon/favicon-16x16.png"
         />
       </Head>
-      <main className={className}>
-        <Header theme={theme} user={user} />
-        {children}
-        <Footer theme={theme} />
-      </main>
+      <Header theme={theme} user={user} />
+      <main className={className}>{children}</main>
+      <Footer theme={theme} />
     </>
   )
 }

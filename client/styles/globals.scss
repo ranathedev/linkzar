@@ -25,13 +25,13 @@ body {
     @extend .flexColCen;
     background: #fff;
     // background: #030712;
+  }
 
-    button {
-      outline: none;
-      border: none;
-      font-size: 1rem;
-      background: none;
-    }
+  button {
+    outline: none;
+    border: none;
+    font-size: 1rem;
+    background: none;
   }
 }
 

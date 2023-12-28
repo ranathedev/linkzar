@@ -37,9 +37,7 @@ const SettingsPage = () => {
         setIsVerified(user.emailVerified)
       }
 
-      if (mode !== 'dev') {
-        if (!user) location.href = '/auth?type=signin'
-      }
+      if (mode !== 'dev' && !user) location.href = '/auth?type=signin'
 
       setIsLoading(false)
     })

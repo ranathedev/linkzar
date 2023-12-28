@@ -36,11 +36,10 @@ const Toast = ({
 
   useEffect(() => {
     const ms = dismissTime * 1000
-    if (isVisible) {
+    if (isVisible)
       setTimeout(() => {
         setShowToast(false)
       }, ms)
-    }
   }, [isVisible, dismissTime])
 
   return (

@@ -30,6 +30,7 @@ const WelcomeBanner = ({ theme, name }: Props) => {
       <Image
         src={AnalyticsTrackingImg}
         alt="A focused man working at a desk with a laptop and a chain, engrossed in his work."
+        priority
       />
     </div>
   )

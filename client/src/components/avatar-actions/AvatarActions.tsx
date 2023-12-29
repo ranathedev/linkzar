@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import clsx from 'clsx'
+import { User } from 'firebase/auth'
 
 import { updatePhoto, deletePhoto } from 'lib/authFunctions'
 import Button from 'components/button'
@@ -16,8 +17,8 @@ interface Props {
   theme: string
   isVisible: boolean
   setIsVisible: (arg: boolean) => void
-  user: any
-  setUser: (arg: any) => void
+  user: User
+  setUser: (arg: User) => void
   setShowToast: (arg: boolean) => void
   setToastOpts: (arg: { variant: string; msg: string }) => void
 }
@@ -35,22 +36,19 @@ const AvatarActions = ({
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkAvatarActions)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkAvatarActions) : setClassName('')
   }, [theme])
 
-  const handleUpdatePhoto = async (e: any) => {
+  const handleUpdatePhoto = async (e: any) =>
     await updatePhoto(e, setUser, setIsLoading, setShowToast, setToastOpts)
-  }
 
   const handleSelectFile = () => {
     const fileInput = document.getElementById('fileInput-2')
     fileInput?.click()
   }
 
-  const handleDelete = async () => {
+  const handleDelete = async () =>
     await deletePhoto(setUser, setShowToast, setToastOpts)
-  }
 
   return (
     <div
@@ -68,7 +66,7 @@ const AvatarActions = ({
         </div>
       ) : (
         <Image
-          src={user.photoURL}
+          src={user.photoURL || ''}
           alt="profile-avatar"
           width={240}
           height={240}

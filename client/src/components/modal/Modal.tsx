@@ -13,8 +13,7 @@ const Modal = ({ dialog, theme, isVisible }: Props) => {
   const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkModal)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkModal) : setClassName('')
   }, [theme])
 
   return (

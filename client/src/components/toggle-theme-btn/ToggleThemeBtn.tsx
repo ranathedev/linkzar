@@ -29,10 +29,8 @@ const ToggleThemeBtn = ({ customClass, theme }: Props) => {
     }
   }, [theme])
 
-  const handleTheme = () => {
-    if (theme === 'light') dispatch(setTheme('dark'))
-    else dispatch(setTheme('light'))
-  }
+  const handleTheme = () =>
+    theme === 'light' ? dispatch(setTheme('dark')) : dispatch(setTheme('light'))
 
   return (
     <div

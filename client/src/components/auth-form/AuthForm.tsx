@@ -47,8 +47,7 @@ const AuthForm = ({ theme }: Props) => {
   const router = useRouter()
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkAuthForm)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkAuthForm) : setClassName('')
   }, [theme])
 
   useEffect(() => {

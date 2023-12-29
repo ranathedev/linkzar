@@ -49,8 +49,7 @@ const TableRow = ({
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkTableRow)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkTableRow) : setClassName('')
   }, [theme])
 
   useEffect(() => {
@@ -116,7 +115,7 @@ const TableRow = ({
         setShowModal={setShowModal}
         setShowEditor={setShowEditor}
         increaseClickCount={increaseClickCount}
-        getResponse={getResponse}
+        sendResponse={getResponse}
         sendVisibility={isActionBoxVisible}
         uid={uid}
       />
@@ -159,7 +158,7 @@ const TableRow = ({
           setShowModal={setShowModal}
           setShowEditor={setShowEditor}
           increaseClickCount={increaseClickCount}
-          getResponse={getResponse}
+          sendResponse={getResponse}
           sendVisibility={isActionBoxVisible}
           uid={uid}
         />

@@ -10,11 +10,6 @@ import {
   validateUrl,
   inputFocus,
   handleDelLink,
-  shareViaEmail,
-  shareViaTwitter,
-  shareViaLinkedIn,
-  shareViaFacebook,
-  shareViaWhatsapp,
 } from 'lib/utils'
 import Button from 'components/button'
 import Spinner from 'components/spinner'
@@ -77,8 +72,7 @@ const URLShortener = ({
   const [showShareMenu, setShowShareMenu] = useState(false)
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkURLShortener)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkURLShortener) : setClassName('')
   }, [theme])
 
   useEffect(() => {
@@ -94,12 +88,11 @@ const URLShortener = ({
   }, [uid])
 
   useEffect(() => {
-    if (showTooltip) setTimeout(() => setShowTooltip(false), 1500)
+    showTooltip && setTimeout(() => setShowTooltip(false), 1500)
   }, [showTooltip])
 
   useEffect(() => {
-    if (isVisible) inputFocus('originalLink')
-    else handleReset()
+    isVisible ? inputFocus('originalLink') : handleReset()
   }, [isVisible])
 
   const handleReset = () => {
@@ -224,15 +217,6 @@ const URLShortener = ({
   const handleDelete = () => {
     handleDelLink(linkData._id, setLoading, getResponse, uid)
     setShowDialog(false)
-  }
-
-  const getViaMethod = (method: string) => {
-    const url = domainUrl + linkData.shortId
-    if (method === 'Email') shareViaEmail(url)
-    else if (method === 'Twitter') shareViaTwitter(url)
-    else if (method === 'LinkedIn') shareViaLinkedIn(url)
-    else if (method === 'Facebook') shareViaFacebook(url)
-    else if (method === 'Whatsapp') shareViaWhatsapp(url)
   }
 
   const handleCancel = () => {
@@ -376,7 +360,7 @@ const URLShortener = ({
                             theme={theme}
                             isVisible={showShareMenu}
                             setShowShareMenu={setShowShareMenu}
-                            sendViaMethod={getViaMethod}
+                            shortId={linkData.shortId}
                           />
                         </>
                       )}

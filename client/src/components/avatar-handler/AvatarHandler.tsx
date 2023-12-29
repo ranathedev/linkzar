@@ -27,8 +27,7 @@ const AvatarHandler = ({ theme, user, setUser, customClass }: Props) => {
   const [toastOpts, setToastOpts] = useState({ variant: '', msg: '' })
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkAvatarHandler)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkAvatarHandler) : setClassName('')
   }, [theme])
 
   const handleUpdatePhoto = async (e: any) => {
@@ -40,9 +39,8 @@ const AvatarHandler = ({ theme, user, setUser, customClass }: Props) => {
     fileInput?.click()
   }
 
-  const handleDelete = async () => {
+  const handleDelete = async () =>
     await deletePhoto(setUser, setShowToast, setToastOpts)
-  }
 
   return (
     <>

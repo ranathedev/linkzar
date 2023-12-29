@@ -48,8 +48,7 @@ const SettingsPage = () => {
   }, [])
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkSettings)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkSettings) : setClassName('')
   }, [theme])
 
   return isLoading ? (

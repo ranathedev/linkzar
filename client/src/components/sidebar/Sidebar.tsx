@@ -22,8 +22,7 @@ const Sidebar = ({ theme, list }: Props) => {
   const [collapse, setCollapse] = useState(true)
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkSidebar)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkSidebar) : setClassName('')
   }, [theme])
 
   const ref = useRef(null)

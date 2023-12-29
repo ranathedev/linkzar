@@ -21,8 +21,7 @@ const Header = ({ theme, user }: Props) => {
   const router = useRouter()
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkHeader)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkHeader) : setClassName('')
   }, [theme])
 
   const links = [

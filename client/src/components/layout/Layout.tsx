@@ -17,8 +17,7 @@ const Layout = ({ theme, children, title, user }: Props) => {
   const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkMain)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkMain) : setClassName('')
   }, [theme])
 
   const description =

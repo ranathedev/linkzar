@@ -19,21 +19,18 @@ const SearchBar = ({ theme, handleSubmit, handleCancel }: Props) => {
   const [value, setValue] = useState('')
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkSearchBar)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkSearchBar) : setClassName('')
   }, [theme])
 
   useEffect(() => {
     isMac() ? setDevice('Mac') : setDevice('')
   }, [])
 
-  const handleKeydown = (e: any) => {
-    if (e.keyCode === 13) handleSubmit(value)
-  }
+  const handleKeydown = (e: any) => e.keyCode === 13 && handleSubmit(value)
 
   const handleInput = (e: any) => {
     const value = e.target.value
-    if (value === '') handleCancel()
+    value === '' && handleCancel()
   }
 
   return (

@@ -37,8 +37,7 @@ const HeroSection = ({
   const router = useRouter()
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkHeroSec)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkHeroSec) : setClassName('')
   }, [theme])
 
   return (

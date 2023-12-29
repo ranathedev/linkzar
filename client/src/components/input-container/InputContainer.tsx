@@ -16,8 +16,7 @@ const InputContainer = ({ label, id, placeholder, type, theme }: Props) => {
   const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkInputContainer)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkInputContainer) : setClassName('')
   }, [theme])
 
   return (

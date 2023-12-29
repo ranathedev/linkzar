@@ -12,8 +12,7 @@ const About = ({ theme }: Props) => {
   const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkAbout)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkAbout) : setClassName('')
   }, [theme])
 
   return (

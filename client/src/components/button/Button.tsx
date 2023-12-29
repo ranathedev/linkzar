@@ -27,8 +27,7 @@ const Button = ({
   const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl[`dark${variant}Btn`])
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl[`dark${variant}Btn`]) : setClassName('')
   }, [theme, variant])
 
   return (

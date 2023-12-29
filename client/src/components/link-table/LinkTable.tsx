@@ -41,8 +41,7 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
   const [allLinks, setAllLinks] = useState<LinkType[]>([])
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkLinkTable)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkLinkTable) : setClassName('')
   }, [theme])
 
   useEffect(() => {
@@ -74,9 +73,8 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
     }
   }
 
-  const saveDataToLocalStorage = async (data: any) => {
+  const saveDataToLocalStorage = async (data: any) =>
     await localStorage.setItem('links', JSON.stringify(data))
-  }
 
   const addNewLink = async (newLink: any) => {
     const updatedList = await [...listOfLinks]
@@ -125,7 +123,7 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
     )
 
     setListOfLinks(filteredArray)
-    if (filteredArray.length <= 0)
+    filteredArray.length <= 0 &&
       setSearchMsg('Sorry, No link matches your search')
 
     setIsRefreshing(false)

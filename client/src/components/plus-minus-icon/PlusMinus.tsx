@@ -12,8 +12,7 @@ const PlusMinusIcon = ({ isActive, theme }: Props) => {
   const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkBtn)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkBtn) : setClassName('')
   }, [theme])
 
   return (

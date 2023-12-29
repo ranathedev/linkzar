@@ -32,8 +32,7 @@ const Auth = () => {
   }, [])
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkAbout)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkAbout) : setClassName('')
   }, [theme])
 
   return isLoading ? (

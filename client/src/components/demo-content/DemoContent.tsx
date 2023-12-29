@@ -12,8 +12,7 @@ const DemoContent = ({ theme }: Props) => {
   const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkDemoContent)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkDemoContent) : setClassName('')
   }, [theme])
 
   return (

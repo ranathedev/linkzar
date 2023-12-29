@@ -17,8 +17,7 @@ const CTA = ({ theme }: Props) => {
   const router = useRouter()
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkCTA)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkCTA) : setClassName('')
   }, [theme])
 
   return (

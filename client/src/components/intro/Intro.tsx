@@ -26,16 +26,16 @@ const Intro = ({ theme, customClass }: Props) => {
   const router = useRouter()
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex(prevIndex => (prevIndex + 1) % texts.length)
-    }, 5000)
+    const interval = setInterval(
+      () => setCurrentIndex(prevIndex => (prevIndex + 1) % texts.length),
+      5000
+    )
 
     return () => clearInterval(interval)
   }, [texts.length])
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkIntro)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkIntro) : setClassName('')
   }, [theme])
 
   return (

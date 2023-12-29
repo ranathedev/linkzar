@@ -12,8 +12,7 @@ const InputError = ({ error, theme }: Props) => {
   const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkInputError)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkInputError) : setClassName('')
   }, [theme])
   return (
     <div className={clsx(stl.inputError, className)}>

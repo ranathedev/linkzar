@@ -17,8 +17,7 @@ const FAQSection = ({ theme }: Props) => {
   const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkFAQSec)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkFAQSec) : setClassName('')
   }, [theme])
 
   return (

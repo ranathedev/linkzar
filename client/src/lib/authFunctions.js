@@ -31,9 +31,7 @@ const storage = getStorage()
 
 let origin = ''
 
-if (typeof window !== 'undefined') {
-  origin = window.location.origin
-}
+if (typeof window !== 'undefined') origin = window.location.origin
 
 const actionCodeSettings = {
   url: `${origin}/dashboard`,

@@ -24,11 +24,10 @@ const validateUrl = (url: string) => {
   return isValid
 }
 
-const isMobileDevice = () => {
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+const isMobileDevice = () =>
+  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
     navigator.userAgent
   )
-}
 
 const getLinks = async (
   setIsRefreshing: (arg: boolean) => void,
@@ -194,6 +193,15 @@ const shareViaWhatsapp = (url: string) => {
   window.open(link, '_blank', windowFeatures)
 }
 
+const shareShortUrl = (method: string, shortId: string) => {
+  const url = `https://linkzar.fly.dev/${shortId} `
+  ;(method === 'Email' && shareViaEmail(url)) ||
+    (method === 'Twitter' && shareViaTwitter(url)) ||
+    (method === 'LinkedIn' && shareViaLinkedIn(url)) ||
+    (method === 'Facebook' && shareViaFacebook(url)) ||
+    (method === 'Whatsapp' && shareViaWhatsapp(url))
+}
+
 const formatDate = (date: Date) => {
   const months = [
     'Jan',
@@ -289,5 +297,6 @@ export {
   shareViaLinkedIn,
   shareViaFacebook,
   shareViaWhatsapp,
+  shareShortUrl,
   qas,
 }

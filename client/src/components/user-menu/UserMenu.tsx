@@ -32,13 +32,11 @@ const UserMenu = ({ user, theme }: Props) => {
   const ref = useRef(null)
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkUserMenu)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkUserMenu) : setClassName('')
   }, [theme])
 
   const handleThemeChange = () => {
-    if (theme === 'light') dispatch(setTheme('dark'))
-    else dispatch(setTheme('light'))
+    theme === 'light' ? dispatch(setTheme('dark')) : dispatch(setTheme('light'))
   }
 
   const name = user.displayName?.split(' ')[0]

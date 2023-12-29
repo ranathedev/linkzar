@@ -17,8 +17,7 @@ const Dashboard = ({ theme, domainUrl, user }: Props) => {
   const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkDashboard)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkDashboard) : setClassName('')
   }, [theme])
 
   useEffect(() => {

@@ -19,8 +19,7 @@ const VerificationDialog = ({ theme, user }: Props) => {
   const [toastOpts, setToastOpts] = useState({ variant: '', msg: '' })
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkVerifyDialog)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkVerifyDialog) : setClassName('')
   }, [theme])
 
   const handleResend = async () => {

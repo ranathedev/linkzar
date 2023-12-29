@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import clsx from 'clsx'
+import { User } from 'firebase/auth'
 
 import Modal from 'components/modal'
 import AvatarActions from 'components/avatar-actions'
@@ -11,8 +12,8 @@ import stl from './AvatarContainer.module.scss'
 
 interface Props {
   theme: string
-  user: any
-  setUser: (arg: any) => void
+  user: User | { photoURL: string }
+  setUser: (arg: User) => void
   setShowToast: (arg: boolean) => void
   setToastOpts: (arg: { variant: string; msg: string }) => void
   customClass?: string
@@ -50,10 +51,11 @@ const AvatarContainer = ({
         onClick={() => setShowModal(true)}
       >
         <Image
-          src={user.photoURL}
+          src={user.photoURL || ''}
           alt="profile-avatar"
           width={500}
           height={500}
+          priority
         />
         <div>
           <CameraIcon />

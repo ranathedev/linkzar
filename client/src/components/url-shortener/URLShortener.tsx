@@ -11,6 +11,7 @@ import {
   inputFocus,
   handleDelLink,
 } from 'lib/utils'
+import { LinkType } from 'lib/type'
 import Button from 'components/button'
 import Spinner from 'components/spinner'
 import DialogBox from 'components/dialog-box'
@@ -35,7 +36,7 @@ interface Props {
   isVisible: boolean
   domainUrl: string
   setShowModal: (arg: boolean) => void
-  sendNewLink: (arg: any) => void
+  sendNewLink: (arg: LinkType) => void
   sendDeleteId: (arg: string) => void
   uid: string
   path: string
@@ -112,7 +113,7 @@ const URLShortener = ({
     setUrlErr('')
     setAliasErr('')
 
-    if (e.keyCode === 13 && uid === 'links') {
+    if (e.key === 'Enter' && uid === 'links') {
       if (linksCount < 3) handleSubmit()
       else {
         setShowToast(true)

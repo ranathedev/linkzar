@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import clsx from 'clsx'
+import { User } from 'firebase/auth'
 
 import UserMenu from 'components/user-menu'
 import ToggleThemeBtn from 'components/toggle-theme-btn'
@@ -10,7 +11,7 @@ import stl from './Header.module.scss'
 
 interface Props {
   theme: string
-  user: any
+  user: User | { displayName: string; photoURL: string }
 }
 
 const Header = ({ theme, user }: Props) => {

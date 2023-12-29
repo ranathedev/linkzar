@@ -26,7 +26,7 @@ const SearchBar = ({ theme, handleSubmit, handleCancel }: Props) => {
     isMac() ? setDevice('Mac') : setDevice('')
   }, [])
 
-  const handleKeydown = (e: any) => e.keyCode === 13 && handleSubmit(value)
+  const handleKeydown = (e: any) => e.key === 'Enter' && handleSubmit(value)
 
   const handleInput = (e: any) => {
     const value = e.target.value

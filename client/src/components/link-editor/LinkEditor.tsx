@@ -18,7 +18,7 @@ interface Props {
     clickCounts: number
   }
   setShowEditor: (arg: boolean) => void
-  sendResponse: (arg: any) => void
+  sendResponse: (arg: Object) => void
   setLoading: (arg: string) => void
   setShowModal: (arg: boolean) => void
   uid: string
@@ -77,7 +77,7 @@ const LinkEditor = ({
     setLoading('')
   }
 
-  const handleKeyDown = (e: any) => e.keyCode === 13 && handleSubmit()
+  const handleKeyDown = (e: any) => e.key === 'Enter' && handleSubmit()
 
   const handleCancel = () => {
     setShowEditor(false)

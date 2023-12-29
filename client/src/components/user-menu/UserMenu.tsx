@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useDispatch } from 'react-redux'
 import clsx from 'clsx'
+import { User } from 'firebase/auth'
 
 import { setTheme } from '@/src/store'
 import { logOut } from 'lib/authFunctions'
@@ -18,7 +19,7 @@ import DashboardIcon from 'assets/dashboard-2.svg'
 import stl from './UserMenu.module.scss'
 
 interface Props {
-  user: any
+  user: User | { displayName: string; photoURL: string }
   theme: string
 }
 
@@ -55,7 +56,7 @@ const UserMenu = ({ user, theme }: Props) => {
       <div
         ref={ref}
         className={clsx(stl.userMenu, className)}
-        title={user.displayName}
+        title={user.displayName || 'John Doe'}
       >
         <div className={stl.content} onClick={() => setExpand(!expand)}>
           <Image

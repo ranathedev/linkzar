@@ -17,7 +17,7 @@ interface Props {
   theme: string
   isVisible: boolean
   setIsVisible: (arg: boolean) => void
-  user: User
+  user: User | { photoURL: string }
   setUser: (arg: User) => void
   setShowToast: (arg: boolean) => void
   setToastOpts: (arg: { variant: string; msg: string }) => void

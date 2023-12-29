@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import Head from 'next/head'
+import { User } from 'firebase/auth'
 
 import Header from 'components/header'
 import Footer from 'components/footer'
@@ -10,7 +11,7 @@ interface Props {
   theme: string
   children: React.ReactNode
   title: string
-  user: any
+  user: User | {}
 }
 
 const Layout = ({ theme, children, title, user }: Props) => {

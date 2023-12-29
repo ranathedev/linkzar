@@ -13,7 +13,9 @@ import stl from './index.module.scss'
 
 const DashboardPage = () => {
   const [isLoading, setIsLoading] = useState(true)
-  const [user, setUser] = useState<firebase.User | {}>({})
+  const [user, setUser] = useState<firebase.User | { displayName: string }>({
+    displayName: 'John Doe',
+  })
   const [isVerified, setIsVerified] = useState(true)
   const theme = useSelector((state: { theme: string }) => state.theme)
   const router = useRouter()

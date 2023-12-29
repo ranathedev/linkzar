@@ -17,9 +17,9 @@ const SettingsPage = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [isVerified, setIsVerified] = useState(false)
   const [className, setClassName] = useState('')
-  const [user, setUser] = useState<firebase.User | {}>({
-    fname: 'John',
-    lname: 'Doe',
+  const [user, setUser] = useState<
+    firebase.User | { email: string; displayName: string; photoURL: string }
+  >({
     email: 'johndoe@gmail.com',
     displayName: 'John Doe',
     photoURL: 'https://i.postimg.cc/Mp7gnttP/default-Pic.jpg',

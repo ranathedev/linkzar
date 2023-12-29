@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import clsx from 'clsx'
+import { User } from 'firebase/auth'
 
 import { updatePhoto, deletePhoto } from 'lib/authFunctions'
 import Button from 'components/button'
@@ -15,8 +16,8 @@ import stl from './AvatarHandler.module.scss'
 
 interface Props {
   theme: string
-  user: any
-  setUser: (arg: any) => void
+  user: User | { displayName: string; photoURL: string }
+  setUser: (arg: User) => void
   customClass?: string
 }
 

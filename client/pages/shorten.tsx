@@ -11,7 +11,10 @@ import LoadingScreen from 'components/loading-screen'
 import stl from './index.module.scss'
 
 const Shorten = () => {
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState({
+    displayName: 'John Doe',
+    photoURL: 'https://i.postimg.cc/Mp7gnttP/default-Pic.jpg',
+  })
   const [isLoading, setIsLoading] = useState(true)
   const theme = useSelector((state: { theme: string }) => state.theme)
   const router = useRouter()

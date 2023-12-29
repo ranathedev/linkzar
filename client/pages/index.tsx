@@ -5,7 +5,10 @@ import Layout from 'components/layout'
 import Homepage from 'components/homepage'
 
 export default function Home() {
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState({
+    displayName: 'John Doe',
+    photoURL: 'https://i.postimg.cc/Mp7gnttP/default-Pic.jpg',
+  })
   const theme = useSelector((state: { theme: string }) => state.theme)
 
   useEffect(() => {

@@ -13,8 +13,11 @@ import stl from './index.module.scss'
 
 const DashboardPage = () => {
   const [isLoading, setIsLoading] = useState(true)
-  const [user, setUser] = useState<firebase.User | { displayName: string }>({
+  const [user, setUser] = useState<
+    firebase.User | { displayName: string; photoURL: string }
+  >({
     displayName: 'John Doe',
+    photoURL: 'https://i.postimg.cc/Mp7gnttP/default-Pic.jpg',
   })
   const [isVerified, setIsVerified] = useState(true)
   const theme = useSelector((state: { theme: string }) => state.theme)

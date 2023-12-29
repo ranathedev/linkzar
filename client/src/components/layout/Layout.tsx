@@ -11,7 +11,7 @@ interface Props {
   theme: string
   children: React.ReactNode
   title: string
-  user: User | {}
+  user: User | { displayName: string; photoURL: string }
 }
 
 const Layout = ({ theme, children, title, user }: Props) => {

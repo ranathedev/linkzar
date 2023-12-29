@@ -60,8 +60,8 @@ const ContactForm = ({ theme }: Props) => {
               <div>
                 <label htmlFor="name">Your name</label>
                 <Field
-                  name="name"
                   id="name"
+                  name="name"
                   placeholder="John Doe"
                   spellCheck={false}
                 />
@@ -74,9 +74,9 @@ const ContactForm = ({ theme }: Props) => {
               <div>
                 <label htmlFor="email">Your email</label>
                 <Field
-                  type="email"
-                  name="email"
                   id="email"
+                  name="email"
+                  type="email"
                   placeholder="admin@example.com"
                 />
                 <ErrorMessage
@@ -89,8 +89,8 @@ const ContactForm = ({ theme }: Props) => {
                 <label htmlFor="msg">Your message</label>
                 <Field
                   as="textarea"
-                  name="msg"
                   id="msg"
+                  name="msg"
                   placeholder="Leave a comment..."
                 />
                 <ErrorMessage

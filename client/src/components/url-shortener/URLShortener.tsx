@@ -274,10 +274,11 @@ const URLShortener = ({
                     <TextIcon />
                   </div>
                   <input
-                    value={alias}
+                    id="shortId"
                     className={stl.alias}
-                    onChange={handleChange}
                     placeholder="Alias must be 5 chars. (optional)"
+                    value={alias}
+                    onChange={handleChange}
                     onKeyDown={handleKeyDown}
                     spellCheck={false}
                   />

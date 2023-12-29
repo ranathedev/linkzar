@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import Link from 'next/link'
 import clsx from 'clsx'
 
-import FAQItem from 'components/faq-item'
 import { qas } from 'lib/utils'
+import FAQItem from 'components/faq-item'
 
 import ErrorIcon from 'assets/error.svg'
 

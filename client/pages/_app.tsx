@@ -1,6 +1,6 @@
-import '@/styles/globals.scss'
 import type { AppProps } from 'next/app'
 import { Provider, store, persistor, PersistGate } from '../src/store'
+import '@/styles/globals.scss'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

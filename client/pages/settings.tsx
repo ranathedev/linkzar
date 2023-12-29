@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import firebase from 'firebase/auth'
-import clsx from 'clsx'
+import { useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
+import clsx from 'clsx'
+import firebase from 'firebase/auth'
 
 import auth from 'lib/firebase'
 import Layout from 'components/layout'
@@ -24,6 +25,7 @@ const SettingsPage = () => {
     photoURL: 'https://i.postimg.cc/Mp7gnttP/default-Pic.jpg',
   })
   const theme = useSelector((state: { theme: string }) => state.theme)
+  const router = useRouter()
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
@@ -37,14 +39,12 @@ const SettingsPage = () => {
         setIsVerified(user.emailVerified)
       }
 
-      if (mode !== 'dev' && !user) location.href = '/auth?type=signin'
+      if (mode !== 'dev' && !user) router.push('/auth?type=signin')
 
-      setIsLoading(false)
+      setTimeout(() => setIsLoading(false), 500)
     })
 
-    return () => {
-      unsubscribe()
-    }
+    return () => unsubscribe()
   }, [])
 
   useEffect(() => {

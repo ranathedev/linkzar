@@ -29,9 +29,7 @@ const ShareMenu = ({
     else setClassName('')
   }, [theme])
 
-  const hideMenu = () => {
-    setShowShareMenu(false)
-  }
+  const hideMenu = () => setShowShareMenu(false)
 
   useOnClickOutside(hideMenu, ref)
 

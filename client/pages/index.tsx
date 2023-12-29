@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
-import Homepage from 'components/homepage'
 import Layout from 'components/layout'
+import Homepage from 'components/homepage'
 
 export default function Home() {
   const [user, setUser] = useState({})

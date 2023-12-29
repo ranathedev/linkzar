@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
-import clsx from 'clsx'
-import { setTheme } from '@/src/store'
 import { useDispatch } from 'react-redux'
+import clsx from 'clsx'
+
+import { setTheme } from '@/src/store'
 
 import SunIcon from 'assets/sun.svg'
 import MoonIcon from 'assets/moon.svg'

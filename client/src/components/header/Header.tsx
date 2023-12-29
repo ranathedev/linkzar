@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import clsx from 'clsx'
 
 import UserMenu from 'components/user-menu'
@@ -17,6 +18,7 @@ const Header = ({ theme, user }: Props) => {
   const [width, setWidth] = useState(500)
   const [className, setClassName] = useState('')
   const [path, setPath] = useState('')
+  const router = useRouter()
 
   useEffect(() => {
     if (theme === 'dark') setClassName(stl.darkHeader)
@@ -45,7 +47,7 @@ const Header = ({ theme, user }: Props) => {
   }, [width])
 
   useEffect(() => {
-    const path = location.pathname
+    const path = router.pathname
 
     setPath(path)
 

@@ -94,10 +94,7 @@ const URLShortener = ({
   }, [uid])
 
   useEffect(() => {
-    if (showTooltip)
-      setTimeout(() => {
-        setShowTooltip(false)
-      }, 1500)
+    if (showTooltip) setTimeout(() => setShowTooltip(false), 1500)
   }, [showTooltip])
 
   useEffect(() => {

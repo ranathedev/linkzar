@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import clsx from 'clsx'
-import { setTheme } from '@/src/store'
 import { useDispatch } from 'react-redux'
+import clsx from 'clsx'
 
+import { setTheme } from '@/src/store'
 import { logOut } from 'lib/authFunctions'
 import useOnClickOutside from 'lib/useClickOutside'
 import ToggleThemeBtn from 'components/toggle-theme-btn'

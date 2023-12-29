@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import clsx from 'clsx'
 
 import { sendVerificationEmail } from 'lib/authFunctions'
-
 import Spinner from 'components/spinner'
 import Toast from 'components/toast'
 

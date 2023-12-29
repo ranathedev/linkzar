@@ -7,9 +7,7 @@ const useOnClickOutside = (onClick, ref) => {
       if (ref.current && !ref.current.contains(event.target)) onClick()
     }
     document.addEventListener('mousedown', handleClickOutside)
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
+    return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [onClick, ref])
 }
 

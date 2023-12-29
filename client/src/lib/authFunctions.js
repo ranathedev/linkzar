@@ -1,6 +1,7 @@
 import axios from 'axios'
-import auth from './firebase'
 import firebase from 'firebase/app'
+
+import auth from './firebase'
 import {
   createUserWithEmailAndPassword,
   updateProfile,

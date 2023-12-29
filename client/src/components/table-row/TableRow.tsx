@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import clsx from 'clsx'
 
 import { formatDate } from 'lib/utils'
-
 import ActionBox from 'components/action-box'
 import LinkEditor from 'components/link-editor'
 import Modal from 'components/modal'

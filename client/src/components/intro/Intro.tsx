@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import clsx from 'clsx'
 
 import Button from 'components/button'
@@ -22,6 +23,7 @@ const Intro = ({ theme, customClass }: Props) => {
     'Amplifying Your Reach',
     'Optimizing Your Sharing',
   ]
+  const router = useRouter()
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -65,13 +67,13 @@ const Intro = ({ theme, customClass }: Props) => {
               label="Get Started"
               theme={theme}
               rightIcon={<ArrowIcon />}
-              handleOnClick={() => (location.href = '/dashboard')}
+              handleOnClick={() => router.push('/dashboard')}
             />
             <Button
               label="Try Demo"
               theme={theme}
               variant="secondary"
-              handleOnClick={() => (location.href = '/shorten')}
+              handleOnClick={() => router.push('/shorten')}
             />
           </div>
         </div>

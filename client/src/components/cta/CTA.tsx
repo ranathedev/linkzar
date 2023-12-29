@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { useRouter } from 'next/router'
 import clsx from 'clsx'
 
 import Button from 'components/button'
@@ -13,6 +14,7 @@ interface Props {
 
 const CTA = ({ theme }: Props) => {
   const [className, setClassName] = React.useState('')
+  const router = useRouter()
 
   useEffect(() => {
     if (theme === 'dark') setClassName(stl.darkCTA)
@@ -31,7 +33,7 @@ const CTA = ({ theme }: Props) => {
             theme={theme}
             label="Get Started"
             rightIcon={<ArrowIcon />}
-            handleOnClick={() => (location.href = '/dashboard')}
+            handleOnClick={() => router.push('/dashboard')}
           />
         </div>
       </div>

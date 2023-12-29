@@ -80,15 +80,8 @@ const ActionBox = ({
   }, [])
 
   useEffect(() => {
-    if (showShortTooltip) {
-      setTimeout(() => {
-        setShowShortTooltip(false)
-      }, 1500)
-    } else if (showLongTooltip) {
-      setTimeout(() => {
-        setShowLongTooltip(false)
-      }, 1500)
-    }
+    if (showShortTooltip) setTimeout(() => setShowShortTooltip(false), 1500)
+    else if (showLongTooltip) setTimeout(() => setShowLongTooltip(false), 1500)
   }, [showShortTooltip, showLongTooltip])
 
   useEffect(() => {

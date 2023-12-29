@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { Field, ErrorMessage } from 'formik'
 import clsx from 'clsx'
+import { Field, ErrorMessage } from 'formik'
 
 import stl from './InputContainer.module.scss'
 

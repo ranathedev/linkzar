@@ -155,9 +155,7 @@ const sendEmail = (
     )
 }
 
-const isMac = () => {
-  return /Mac|iPod|iPhone|iPad/.test(navigator.userAgent)
-}
+const isMac = () => /Mac|iPod|iPhone|iPad/.test(navigator.userAgent)
 
 const inputFocus = async (id: string) => {
   const input = document.getElementById(id)

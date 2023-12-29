@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import clsx from 'clsx'
 
 import Button from 'components/button'
@@ -33,6 +34,7 @@ const HeroSection = ({
   swap,
 }: Props) => {
   const [className, setClassName] = React.useState('')
+  const router = useRouter()
 
   useEffect(() => {
     if (theme === 'dark') setClassName(stl.darkHeroSec)
@@ -52,7 +54,7 @@ const HeroSection = ({
             label={btnLabel}
             theme={theme}
             rightIcon={btnIcon}
-            handleOnClick={() => (location.href = '/shorten')}
+            handleOnClick={() => router.push('/shorten')}
           />
         </div>
       </div>
@@ -67,7 +69,6 @@ HeroSection.defaultProps = {
   heading: 'Simplifying Your Links',
   desc: "Streamline your online experience with our link simplification tools. Shorten lengthy URLs into concise and shareable links that captivate your audience's attention. Customize these links with ease, personalize their destination, and gain valuable insights into their performance. Elevate engagement, enhance user experience, and optimize your digital strategy by simplifying your links with our powerful platform.",
   btnLabel: 'Get Started',
-  btnOnClick: () => (location.href = '/dashboard'),
   btnIcon: <ArrowIcon />,
   imgSrc: TrackURLImage,
   imgAlt:

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import clsx from 'clsx'
 
 import { formatDate } from 'lib/utils'
-
+import { LinkType } from 'lib/type'
 import ActionBox from 'components/action-box'
 import LinkEditor from 'components/link-editor'
 import Modal from 'components/modal'
@@ -15,16 +15,10 @@ import stl from './TableRow.module.scss'
 
 interface Props {
   domainUrl: string
-  linkData: {
-    _id: string
-    shortId: string
-    originalURL: string
-    createdDate: string
-    clickCounts: number
-  }
+  linkData: LinkType
   theme: string
   sendDeleteId: (arg: string) => void
-  sendUpdatedLinks: (arg: any) => void
+  sendUpdatedLinks: (arg: LinkType) => void
   increaseClickCount: (arg: string) => void
   uid: string
 }
@@ -50,8 +44,7 @@ const TableRow = ({
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkTableRow)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkTableRow) : setClassName('')
   }, [theme])
 
   useEffect(() => {
@@ -117,7 +110,7 @@ const TableRow = ({
         setShowModal={setShowModal}
         setShowEditor={setShowEditor}
         increaseClickCount={increaseClickCount}
-        getResponse={getResponse}
+        sendResponse={getResponse}
         sendVisibility={isActionBoxVisible}
         uid={uid}
       />
@@ -160,7 +153,7 @@ const TableRow = ({
           setShowModal={setShowModal}
           setShowEditor={setShowEditor}
           increaseClickCount={increaseClickCount}
-          getResponse={getResponse}
+          sendResponse={getResponse}
           sendVisibility={isActionBoxVisible}
           uid={uid}
         />

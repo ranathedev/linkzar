@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 // import Link from "next/link";
 import clsx from 'clsx'
 import { Formik, Form } from 'formik'
@@ -43,30 +44,23 @@ const AuthForm = ({ theme }: Props) => {
   const [resetPass, setResetPass] = useState(false)
   const [showToast, setShowToast] = useState(false)
   const [toastOpts, setToastOpts] = useState({ variant: '', msg: '' })
+  const router = useRouter()
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkAuthForm)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkAuthForm) : setClassName('')
   }, [theme])
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 1000)
-  }, [])
+    const type = router.query.type
 
-  useEffect(() => {
-    const currentUrl = new URL(location.href)
-
-    if (currentUrl) {
-      const type = currentUrl.searchParams.get('type')
-      if (type) {
-        setFormType(type)
-        const initVals = getInitVals(type)
-        //@ts-ignore
-        setInitVals(initVals)
-      }
+    if (type) {
+      setFormType(type.toString())
+      const initVals = getInitVals(type)
+      //@ts-ignore
+      setInitVals(initVals)
     }
+
+    setTimeout(() => setIsLoading(false), 1000)
   }, [])
 
   const socialMethods = [
@@ -128,12 +122,9 @@ const AuthForm = ({ theme }: Props) => {
     else if (formType === 'signin') newType = 'signup'
 
     const currentUrl = new URL(location.href)
-
     currentUrl.searchParams.set('type', newType)
-
     window.history.replaceState({}, '', currentUrl.toString())
-
-    location.reload()
+    router.reload()
   }
 
   return isLoading ? (
@@ -199,9 +190,7 @@ const AuthForm = ({ theme }: Props) => {
                   ))
               actions.resetForm()
               setIsChecked(false)
-            } else {
-              alert('Agree to our terms and conditions to create account.')
-            }
+            } else alert('Agree to our terms and conditions to create account.')
           }}
         >
           <Form>

@@ -18,7 +18,7 @@ interface Props {
     clickCounts: number
   }
   setShowEditor: (arg: boolean) => void
-  sendResponse: (arg: any) => void
+  sendResponse: (arg: Object) => void
   setLoading: (arg: string) => void
   setShowModal: (arg: boolean) => void
   uid: string
@@ -39,12 +39,11 @@ const LinkEditor = ({
   const [className, setClassName] = useState('')
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkLinkEditor)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkLinkEditor) : setClassName('')
   }, [theme])
 
   useEffect(() => {
-    if (!showEditor) setValue('')
+    !showEditor && setValue('')
   }, [showEditor])
 
   const isAlphanumeric = (e: any) => {
@@ -78,9 +77,7 @@ const LinkEditor = ({
     setLoading('')
   }
 
-  const handleKeyDown = (e: any) => {
-    e.keyCode === 13 && handleSubmit()
-  }
+  const handleKeyDown = (e: any) => e.key === 'Enter' && handleSubmit()
 
   const handleCancel = () => {
     setShowEditor(false)

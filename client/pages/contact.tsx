@@ -5,7 +5,10 @@ import Layout from 'components/layout'
 import ContactForm from 'components/contact-form'
 
 const Contact = () => {
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState({
+    displayName: 'John Doe',
+    photoURL: 'https://i.postimg.cc/Mp7gnttP/default-Pic.jpg',
+  })
   const theme = useSelector((state: { theme: string }) => state.theme)
 
   useEffect(() => {

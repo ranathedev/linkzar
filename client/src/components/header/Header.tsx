@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import clsx from 'clsx'
+import { User } from 'firebase/auth'
 
 import UserMenu from 'components/user-menu'
 import ToggleThemeBtn from 'components/toggle-theme-btn'
@@ -9,7 +11,7 @@ import stl from './Header.module.scss'
 
 interface Props {
   theme: string
-  user: any
+  user: User | { displayName: string; photoURL: string }
 }
 
 const Header = ({ theme, user }: Props) => {
@@ -17,10 +19,10 @@ const Header = ({ theme, user }: Props) => {
   const [width, setWidth] = useState(500)
   const [className, setClassName] = useState('')
   const [path, setPath] = useState('')
+  const router = useRouter()
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkHeader)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkHeader) : setClassName('')
   }, [theme])
 
   const links = [
@@ -45,7 +47,7 @@ const Header = ({ theme, user }: Props) => {
   }, [width])
 
   useEffect(() => {
-    const path = location.pathname
+    const path = router.pathname
 
     setPath(path)
 

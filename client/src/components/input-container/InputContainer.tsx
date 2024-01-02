@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { Field, ErrorMessage } from 'formik'
 import clsx from 'clsx'
+import { Field, ErrorMessage } from 'formik'
 
 import stl from './InputContainer.module.scss'
 
@@ -16,8 +16,7 @@ const InputContainer = ({ label, id, placeholder, type, theme }: Props) => {
   const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkInputContainer)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkInputContainer) : setClassName('')
   }, [theme])
 
   return (

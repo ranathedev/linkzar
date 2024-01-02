@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import Link from 'next/link'
 import clsx from 'clsx'
 
-import FAQItem from 'components/faq-item'
 import { qas } from 'lib/utils'
+import FAQItem from 'components/faq-item'
 
 import ErrorIcon from 'assets/error.svg'
 
@@ -17,8 +17,7 @@ const FAQSection = ({ theme }: Props) => {
   const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkFAQSec)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkFAQSec) : setClassName('')
   }, [theme])
 
   return (

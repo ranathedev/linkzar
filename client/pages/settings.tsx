@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import firebase from 'firebase/auth'
-import clsx from 'clsx'
+import { useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
+import clsx from 'clsx'
+import firebase from 'firebase/auth'
 
 import auth from 'lib/firebase'
 import Layout from 'components/layout'
@@ -16,14 +17,15 @@ const SettingsPage = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [isVerified, setIsVerified] = useState(false)
   const [className, setClassName] = useState('')
-  const [user, setUser] = useState<firebase.User | {}>({
-    fname: 'John',
-    lname: 'Doe',
+  const [user, setUser] = useState<
+    firebase.User | { email: string; displayName: string; photoURL: string }
+  >({
     email: 'johndoe@gmail.com',
     displayName: 'John Doe',
     photoURL: 'https://i.postimg.cc/Mp7gnttP/default-Pic.jpg',
   })
   const theme = useSelector((state: { theme: string }) => state.theme)
+  const router = useRouter()
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
@@ -37,21 +39,16 @@ const SettingsPage = () => {
         setIsVerified(user.emailVerified)
       }
 
-      if (mode !== 'dev') {
-        if (!user) location.href = '/auth?type=signin'
-      }
+      if (mode !== 'dev' && !user) router.push('/auth?type=signin')
 
-      setIsLoading(false)
+      setTimeout(() => setIsLoading(false), 500)
     })
 
-    return () => {
-      unsubscribe()
-    }
+    return () => unsubscribe()
   }, [])
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkSettings)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkSettings) : setClassName('')
   }, [theme])
 
   return isLoading ? (

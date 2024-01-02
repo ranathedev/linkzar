@@ -10,12 +10,8 @@ import {
   validateUrl,
   inputFocus,
   handleDelLink,
-  shareViaEmail,
-  shareViaTwitter,
-  shareViaLinkedIn,
-  shareViaFacebook,
-  shareViaWhatsapp,
 } from 'lib/utils'
+import { LinkType } from 'lib/type'
 import Button from 'components/button'
 import Spinner from 'components/spinner'
 import DialogBox from 'components/dialog-box'
@@ -40,7 +36,7 @@ interface Props {
   isVisible: boolean
   domainUrl: string
   setShowModal: (arg: boolean) => void
-  sendNewLink: (arg: any) => void
+  sendNewLink: (arg: LinkType) => void
   sendDeleteId: (arg: string) => void
   uid: string
   path: string
@@ -77,8 +73,7 @@ const URLShortener = ({
   const [showShareMenu, setShowShareMenu] = useState(false)
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkURLShortener)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkURLShortener) : setClassName('')
   }, [theme])
 
   useEffect(() => {
@@ -94,16 +89,11 @@ const URLShortener = ({
   }, [uid])
 
   useEffect(() => {
-    if (showTooltip) {
-      setTimeout(() => {
-        setShowTooltip(false)
-      }, 1500)
-    }
+    showTooltip && setTimeout(() => setShowTooltip(false), 1500)
   }, [showTooltip])
 
   useEffect(() => {
-    if (isVisible) inputFocus('originalLink')
-    else handleReset()
+    isVisible ? inputFocus('originalLink') : handleReset()
   }, [isVisible])
 
   const handleReset = () => {
@@ -123,24 +113,16 @@ const URLShortener = ({
     setUrlErr('')
     setAliasErr('')
 
-    if (e.keyCode === 13) {
-      if (uid === 'links') {
-        if (linksCount < 3) {
-          handleSubmit()
-          return
-        } else {
-          setShowToast(true)
-          setToastOpts({
-            variant: 'warn',
-            msg: '3 Links Created! Sign Up to Create More.',
-          })
-          return
-        }
-      } else {
-        handleSubmit()
-        return
+    if (e.key === 'Enter' && uid === 'links') {
+      if (linksCount < 3) handleSubmit()
+      else {
+        setShowToast(true)
+        setToastOpts({
+          variant: 'warn',
+          msg: '3 Links Created! Sign Up to Create More.',
+        })
       }
-    }
+    } else handleSubmit()
   }
 
   const handleChange = (e: any) => {
@@ -157,9 +139,7 @@ const URLShortener = ({
         setAlias(inputVal)
         setAliasErr('')
       }
-    } else {
-      setAliasErr('Alias cannot be more than 7 chars.')
-    }
+    } else setAliasErr('Alias cannot be more than 7 chars.')
   }
 
   const handleSubmit = async () => {
@@ -179,24 +159,22 @@ const URLShortener = ({
             })
           } else if (response.count) {
             setLinkData(response.document)
-            if (uid === 'links') {
-              if (linksCount < 3) {
-                const updatedLinkCount = linksCount + response.count
-                setLinksCount(updatedLinkCount)
-                const stringData = JSON.stringify(updatedLinkCount)
-                localStorage.setItem('linksCount', stringData)
+            if (uid === 'links' && linksCount < 3) {
+              const updatedLinkCount = linksCount + response.count
+              setLinksCount(updatedLinkCount)
+              const stringData = JSON.stringify(updatedLinkCount)
+              localStorage.setItem('linksCount', stringData)
 
-                const data = localStorage.getItem('demoLinks')
-                if (data) {
-                  const existingData = JSON.parse(data)
-                  const updatedData = [...existingData, response.document]
-                  const stringData = JSON.stringify(updatedData)
-                  localStorage.setItem('demoLinks', stringData)
-                } else {
-                  const demoLinks = [response.document]
-                  const stringData = JSON.stringify(demoLinks)
-                  localStorage.setItem('demoLinks', stringData)
-                }
+              const data = localStorage.getItem('demoLinks')
+              if (data) {
+                const existingData = JSON.parse(data)
+                const updatedData = [...existingData, response.document]
+                const stringData = JSON.stringify(updatedData)
+                localStorage.setItem('demoLinks', stringData)
+              } else {
+                const demoLinks = [response.document]
+                const stringData = JSON.stringify(demoLinks)
+                localStorage.setItem('demoLinks', stringData)
               }
             }
 
@@ -215,15 +193,9 @@ const URLShortener = ({
 
             sendNewLink(response)
           }
-        } else {
-          setAliasErr('Alias cannot be less than 5 chars.')
-        }
-      } else {
-        setUrlErr('Url is not valid.')
-      }
-    } else {
-      setUrlErr('Url cannot be empty.')
-    }
+        } else setAliasErr('Alias cannot be less than 5 chars.')
+      } else setUrlErr('Url is not valid.')
+    } else setUrlErr('Url cannot be empty.')
   }
 
   const getResponse = (res: any) => {
@@ -246,15 +218,6 @@ const URLShortener = ({
   const handleDelete = () => {
     handleDelLink(linkData._id, setLoading, getResponse, uid)
     setShowDialog(false)
-  }
-
-  const getViaMethod = (method: string) => {
-    const url = domainUrl + linkData.shortId
-    if (method === 'Email') shareViaEmail(url)
-    else if (method === 'Twitter') shareViaTwitter(url)
-    else if (method === 'LinkedIn') shareViaLinkedIn(url)
-    else if (method === 'Facebook') shareViaFacebook(url)
-    else if (method === 'Whatsapp') shareViaWhatsapp(url)
   }
 
   const handleCancel = () => {
@@ -311,10 +274,11 @@ const URLShortener = ({
                     <TextIcon />
                   </div>
                   <input
-                    value={alias}
+                    id="shortId"
                     className={stl.alias}
-                    onChange={handleChange}
                     placeholder="Alias must be 5 chars. (optional)"
+                    value={alias}
+                    onChange={handleChange}
                     onKeyDown={handleKeyDown}
                     spellCheck={false}
                   />
@@ -398,7 +362,7 @@ const URLShortener = ({
                             theme={theme}
                             isVisible={showShareMenu}
                             setShowShareMenu={setShowShareMenu}
-                            sendViaMethod={getViaMethod}
+                            shortId={linkData.shortId}
                           />
                         </>
                       )}

@@ -12,8 +12,7 @@ const Tooltip = ({ isVisible, theme }: Props) => {
   const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkTooltip)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkTooltip) : setClassName('')
   }, [theme])
 
   return (

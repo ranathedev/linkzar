@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import clsx from 'clsx'
 
 import { getLinks, isMobileDevice } from 'lib/utils'
+import { LinkType } from 'lib/type'
 import TableRow from 'components/table-row'
 import SearchBar from 'components/search-bar'
 import LoadingSpinner from 'components/loading-spinner'
@@ -20,14 +21,6 @@ interface Props {
   domainUrl: string
 }
 
-interface LinkType {
-  _id: string
-  shortId: string
-  originalURL: string
-  createdDate: string
-  clickCounts: number
-}
-
 const LinkTable = ({ theme, domainUrl }: Props) => {
   const [className, setClassName] = useState('')
   const [listOfLinks, setListOfLinks] = useState<LinkType[]>([])
@@ -41,8 +34,7 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
   const [allLinks, setAllLinks] = useState<LinkType[]>([])
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkLinkTable)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkLinkTable) : setClassName('')
   }, [theme])
 
   useEffect(() => {
@@ -74,11 +66,10 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
     }
   }
 
-  const saveDataToLocalStorage = async (data: any) => {
+  const saveDataToLocalStorage = async (data: Array<LinkType>) =>
     await localStorage.setItem('links', JSON.stringify(data))
-  }
 
-  const addNewLink = async (newLink: any) => {
+  const addNewLink = async (newLink: LinkType) => {
     const updatedList = await [...listOfLinks]
     updatedList.unshift(newLink)
 
@@ -95,7 +86,7 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
     }, 500)
   }
 
-  const updateLinkInList = async (updatedLink: any) => {
+  const updateLinkInList = async (updatedLink: LinkType) => {
     const updatedListOfLinks = await listOfLinks.map(link =>
       link._id === updatedLink._id ? updatedLink : link
     )
@@ -125,7 +116,7 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
     )
 
     setListOfLinks(filteredArray)
-    if (filteredArray.length <= 0)
+    filteredArray.length <= 0 &&
       setSearchMsg('Sorry, No link matches your search')
 
     setIsRefreshing(false)
@@ -199,7 +190,7 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
               {listOfLinks.length > 0 ? (
                 listOfLinks.map(linkItem => (
                   <TableRow
-                    key={uid}
+                    key={linkItem._id}
                     domainUrl={domainUrl}
                     theme={theme}
                     sendDeleteId={removeLink}

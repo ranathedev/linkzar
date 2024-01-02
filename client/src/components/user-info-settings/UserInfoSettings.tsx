@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import clsx from 'clsx'
+import { User } from 'firebase/auth'
 
 import {
   updateName,
@@ -19,8 +20,8 @@ import stl from './UserInfoSettings.module.scss'
 
 interface Props {
   theme: string
-  user: any
-  setUser: (arg: any) => void
+  user: User | { displayName: string; email: string; photoURL: string }
+  setUser: (arg: User) => void
 }
 
 const UserInfoSettings = ({ theme, user, setUser }: Props) => {
@@ -39,8 +40,7 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
   })
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkUserInforSet)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkUserInforSet) : setClassName('')
   }, [theme])
 
   const changeName = async () => {
@@ -142,7 +142,7 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
                 <label htmlFor="name">Name</label>
                 <input
                   name="name"
-                  placeholder={user.displayName}
+                  placeholder={user.displayName || 'John Doe'}
                   onChange={e => setName(e.target.value)}
                   value={name}
                 />
@@ -168,7 +168,7 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
                 <input
                   type="email"
                   name="email"
-                  placeholder={user.email}
+                  placeholder={user.email || 'johndoe@gmail.com'}
                   onChange={e => setEmail(e.target.value)}
                   value={email}
                 />

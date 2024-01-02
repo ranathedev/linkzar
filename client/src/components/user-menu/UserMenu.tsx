@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import clsx from 'clsx'
-import { setTheme } from '@/src/store'
 import { useDispatch } from 'react-redux'
+import clsx from 'clsx'
+import { User } from 'firebase/auth'
 
+import { setTheme } from '@/src/store'
 import { logOut } from 'lib/authFunctions'
 import useOnClickOutside from 'lib/useClickOutside'
 import ToggleThemeBtn from 'components/toggle-theme-btn'
@@ -18,7 +19,7 @@ import DashboardIcon from 'assets/dashboard-2.svg'
 import stl from './UserMenu.module.scss'
 
 interface Props {
-  user: any
+  user: User | { displayName: string; photoURL: string }
   theme: string
 }
 
@@ -32,16 +33,16 @@ const UserMenu = ({ user, theme }: Props) => {
   const ref = useRef(null)
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkUserMenu)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkUserMenu) : setClassName('')
   }, [theme])
 
-  useOnClickOutside(() => setExpand(false), ref)
-
   const handleThemeChange = () => {
-    if (theme === 'light') dispatch(setTheme('dark'))
-    else dispatch(setTheme('light'))
+    theme === 'light' ? dispatch(setTheme('dark')) : dispatch(setTheme('light'))
   }
+
+  const name = user.displayName?.split(' ')[0]
+
+  useOnClickOutside(() => setExpand(false), ref)
 
   return (
     <>
@@ -52,7 +53,11 @@ const UserMenu = ({ user, theme }: Props) => {
         content={toastOpts.msg}
         setShowToast={setShowToast}
       />
-      <div ref={ref} className={clsx(stl.userMenu, className)}>
+      <div
+        ref={ref}
+        className={clsx(stl.userMenu, className)}
+        title={user.displayName || 'John Doe'}
+      >
         <div className={stl.content} onClick={() => setExpand(!expand)}>
           <Image
             src={
@@ -67,7 +72,7 @@ const UserMenu = ({ user, theme }: Props) => {
             <DropdownIcon />
           </span>
           <span className={stl.name}>
-            {(user.displayName && user.displayName) || 'John Doe'}
+            {(user.displayName && name) || 'John Doe'}
           </span>
         </div>
         <div className={clsx(stl.menu, expand ? stl.show : '')}>

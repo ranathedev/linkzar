@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import clsx from 'clsx'
 
 import useOnClickOutside from 'lib/useClickOutside'
+import { shareShortUrl } from 'lib/utils'
 
 import stl from './ShareMenu.module.scss'
 
@@ -9,7 +10,7 @@ interface Props {
   theme: string
   isVisible: boolean
   setShowShareMenu: (arg: boolean) => void
-  sendViaMethod: (arg: string) => void
+  shortId: string
   customClass?: string
 }
 
@@ -17,7 +18,7 @@ const ShareMenu = ({
   theme,
   isVisible,
   setShowShareMenu,
-  sendViaMethod,
+  shortId,
   customClass,
 }: Props) => {
   const [className, setClassName] = React.useState('')
@@ -25,17 +26,19 @@ const ShareMenu = ({
   const ref = useRef(null)
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkShareMenu)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkShareMenu) : setClassName('')
   }, [theme])
 
-  const hideMenu = () => {
-    setShowShareMenu(false)
-  }
+  const hideMenu = () => setShowShareMenu(false)
 
   useOnClickOutside(hideMenu, ref)
 
   const shareOptions = ['Email', 'Twitter', 'LinkedIn', 'Facebook', 'Whatsapp']
+
+  const handleOnClick = (method: string) => {
+    shareShortUrl(method, shortId)
+    hideMenu()
+  }
 
   return (
     <div
@@ -51,10 +54,7 @@ const ShareMenu = ({
         <div
           key={item}
           className={stl.item}
-          onClick={() => {
-            sendViaMethod(item)
-            hideMenu()
-          }}
+          onClick={() => handleOnClick(item)}
         >
           <span>via {item}</span>
         </div>

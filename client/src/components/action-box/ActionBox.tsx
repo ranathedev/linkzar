@@ -6,11 +6,6 @@ import {
   shareShortLink,
   inputFocus,
   handleDelLink,
-  shareViaEmail,
-  shareViaTwitter,
-  shareViaLinkedIn,
-  shareViaFacebook,
-  shareViaWhatsapp,
 } from 'lib/utils'
 import useOnClickOutside from 'lib/useClickOutside'
 import Modal from 'components/modal'
@@ -43,7 +38,7 @@ interface Props {
   setShowEditor: (arg: boolean) => void
   setShowModal: (arg: boolean) => void
   increaseClickCount: (arg: string) => void
-  getResponse: (arg: any) => void
+  sendResponse: (arg: Object) => void
   uid: string
   sendVisibility: (arg: boolean) => void
 }
@@ -56,7 +51,7 @@ const ActionBox = ({
   linkData,
   setShowEditor,
   setShowModal,
-  getResponse,
+  sendResponse,
   increaseClickCount,
   uid,
   sendVisibility,
@@ -71,8 +66,7 @@ const ActionBox = ({
   const [showShareMenu, setShowShareMenu] = useState(false)
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkActionBox)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkActionBox) : setClassName('')
   }, [theme])
 
   useEffect(() => {
@@ -80,15 +74,8 @@ const ActionBox = ({
   }, [])
 
   useEffect(() => {
-    if (showShortTooltip) {
-      setTimeout(() => {
-        setShowShortTooltip(false)
-      }, 1500)
-    } else if (showLongTooltip) {
-      setTimeout(() => {
-        setShowLongTooltip(false)
-      }, 1500)
-    }
+    showShortTooltip && setTimeout(() => setShowShortTooltip(false), 1500)
+    showLongTooltip && setTimeout(() => setShowLongTooltip(false), 1500)
   }, [showShortTooltip, showLongTooltip])
 
   useEffect(() => {
@@ -145,17 +132,8 @@ const ActionBox = ({
   }
 
   const handleDelete = () => {
-    handleDelLink(linkData._id, setLoading, getResponse, uid)
+    handleDelLink(linkData._id, setLoading, sendResponse, uid)
     setShowDialog(false)
-  }
-
-  const getViaMethod = (method: string) => {
-    const url = domainUrl + linkData.shortId
-    if (method === 'Email') shareViaEmail(url)
-    else if (method === 'Twitter') shareViaTwitter(url)
-    else if (method === 'LinkedIn') shareViaLinkedIn(url)
-    else if (method === 'Facebook') shareViaFacebook(url)
-    else if (method === 'Whatsapp') shareViaWhatsapp(url)
   }
 
   return (
@@ -227,7 +205,7 @@ const ActionBox = ({
                 theme={theme}
                 isVisible={showShareMenu}
                 setShowShareMenu={setShowShareMenu}
-                sendViaMethod={getViaMethod}
+                shortId={linkData.shortId}
                 customClass={stl.shareMenu}
               />
             </>

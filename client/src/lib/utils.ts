@@ -24,11 +24,10 @@ const validateUrl = (url: string) => {
   return isValid
 }
 
-const isMobileDevice = () => {
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+const isMobileDevice = () =>
+  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
     navigator.userAgent
   )
-}
 
 const getLinks = async (
   setIsRefreshing: (arg: boolean) => void,
@@ -155,9 +154,7 @@ const sendEmail = (
     )
 }
 
-const isMac = () => {
-  return /Mac|iPod|iPhone|iPad/.test(navigator.userAgent)
-}
+const isMac = () => /Mac|iPod|iPhone|iPad/.test(navigator.userAgent)
 
 const inputFocus = async (id: string) => {
   const input = document.getElementById(id)
@@ -194,6 +191,15 @@ const shareViaFacebook = (url: string) => {
 const shareViaWhatsapp = (url: string) => {
   const link = `https://api.whatsapp.com/send?text=Check%20out%20this%20link%3A%20${url}`
   window.open(link, '_blank', windowFeatures)
+}
+
+const shareShortUrl = (method: string, shortId: string) => {
+  const url = `https://linkzar.fly.dev/${shortId} `
+  ;(method === 'Email' && shareViaEmail(url)) ||
+    (method === 'Twitter' && shareViaTwitter(url)) ||
+    (method === 'LinkedIn' && shareViaLinkedIn(url)) ||
+    (method === 'Facebook' && shareViaFacebook(url)) ||
+    (method === 'Whatsapp' && shareViaWhatsapp(url))
 }
 
 const formatDate = (date: Date) => {
@@ -291,5 +297,6 @@ export {
   shareViaLinkedIn,
   shareViaFacebook,
   shareViaWhatsapp,
+  shareShortUrl,
   qas,
 }

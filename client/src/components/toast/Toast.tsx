@@ -30,17 +30,12 @@ const Toast = ({
   const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkToast)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkToast) : setClassName('')
   }, [theme])
 
   useEffect(() => {
     const ms = dismissTime * 1000
-    if (isVisible) {
-      setTimeout(() => {
-        setShowToast(false)
-      }, ms)
-    }
+    isVisible && setTimeout(() => setShowToast(false), ms)
   }, [isVisible, dismissTime])
 
   return (

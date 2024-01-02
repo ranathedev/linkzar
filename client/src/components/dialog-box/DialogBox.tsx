@@ -27,8 +27,7 @@ const DialogBox = ({
   const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkDelDialog)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkDelDialog) : setClassName('')
   }, [theme])
 
   return (

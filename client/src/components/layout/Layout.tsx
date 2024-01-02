@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import Head from 'next/head'
+import { User } from 'firebase/auth'
 
 import Header from 'components/header'
 import Footer from 'components/footer'
@@ -10,15 +11,14 @@ interface Props {
   theme: string
   children: React.ReactNode
   title: string
-  user: any
+  user: User | { displayName: string; photoURL: string }
 }
 
 const Layout = ({ theme, children, title, user }: Props) => {
   const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkMain)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkMain) : setClassName('')
   }, [theme])
 
   const description =
@@ -94,11 +94,9 @@ const Layout = ({ theme, children, title, user }: Props) => {
           href="favicon/favicon-16x16.png"
         />
       </Head>
-      <main className={className}>
-        <Header theme={theme} user={user} />
-        {children}
-        <Footer theme={theme} />
-      </main>
+      <Header theme={theme} user={user} />
+      <main className={className}>{children}</main>
+      <Footer theme={theme} />
     </>
   )
 }

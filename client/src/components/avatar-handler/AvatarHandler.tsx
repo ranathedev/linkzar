@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import clsx from 'clsx'
+import { User } from 'firebase/auth'
 
 import { updatePhoto, deletePhoto } from 'lib/authFunctions'
 import Button from 'components/button'
@@ -15,8 +16,8 @@ import stl from './AvatarHandler.module.scss'
 
 interface Props {
   theme: string
-  user: any
-  setUser: (arg: any) => void
+  user: User | { displayName: string; photoURL: string }
+  setUser: (arg: User) => void
   customClass?: string
 }
 
@@ -27,8 +28,7 @@ const AvatarHandler = ({ theme, user, setUser, customClass }: Props) => {
   const [toastOpts, setToastOpts] = useState({ variant: '', msg: '' })
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkAvatarHandler)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkAvatarHandler) : setClassName('')
   }, [theme])
 
   const handleUpdatePhoto = async (e: any) => {
@@ -40,9 +40,8 @@ const AvatarHandler = ({ theme, user, setUser, customClass }: Props) => {
     fileInput?.click()
   }
 
-  const handleDelete = async () => {
+  const handleDelete = async () =>
     await deletePhoto(setUser, setShowToast, setToastOpts)
-  }
 
   return (
     <>

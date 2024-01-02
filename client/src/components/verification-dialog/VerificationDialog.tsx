@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import clsx from 'clsx'
+import { User } from 'firebase/auth'
 
 import { sendVerificationEmail } from 'lib/authFunctions'
-
 import Spinner from 'components/spinner'
 import Toast from 'components/toast'
 
@@ -10,7 +10,7 @@ import stl from './VerificationDialog.module.scss'
 
 interface Props {
   theme: string
-  user: any
+  user: User | { displayName: string }
 }
 
 const VerificationDialog = ({ theme, user }: Props) => {
@@ -20,8 +20,7 @@ const VerificationDialog = ({ theme, user }: Props) => {
   const [toastOpts, setToastOpts] = useState({ variant: '', msg: '' })
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkVerifyDialog)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkVerifyDialog) : setClassName('')
   }, [theme])
 
   const handleResend = async () => {

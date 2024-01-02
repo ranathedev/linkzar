@@ -15,8 +15,7 @@ const WelcomeBanner = ({ theme, name }: Props) => {
   const [className, setClassName] = React.useState('')
 
   useEffect(() => {
-    if (theme === 'dark') setClassName(stl.darkWelcomeBanner)
-    else setClassName('')
+    theme === 'dark' ? setClassName(stl.darkWelcomeBanner) : setClassName('')
   }, [theme])
 
   return (
@@ -30,6 +29,7 @@ const WelcomeBanner = ({ theme, name }: Props) => {
       <Image
         src={AnalyticsTrackingImg}
         alt="A focused man working at a desk with a laptop and a chain, engrossed in his work."
+        priority
       />
     </div>
   )

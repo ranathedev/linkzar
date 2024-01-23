@@ -1,8 +1,8 @@
 {
   "hosting": {
     "public": "out",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "site": "linkzar",
-    "cleanUrls": true
+    "cleanUrls": true,
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
   }
 }

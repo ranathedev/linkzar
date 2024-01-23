@@ -4,6 +4,7 @@ import { User } from 'firebase/auth'
 
 import Header from 'components/header'
 import Footer from 'components/footer'
+import NoticeBanner from 'components/notice-banner'
 
 import stl from './Layout.module.scss'
 
@@ -94,8 +95,10 @@ const Layout = ({ theme, children, title, user }: Props) => {
           href="favicon/favicon-16x16.png"
         />
       </Head>
+      <NoticeBanner />
       <Header theme={theme} user={user} />
       <main className={className}>{children}</main>
+      <NoticeBanner />
       <Footer theme={theme} />
     </>
   )

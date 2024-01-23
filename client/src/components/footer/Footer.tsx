@@ -6,7 +6,6 @@ import GithubIcon from 'assets/github.svg'
 import FacebookIcon from 'assets/facebook.svg'
 import LinkedInIcon from 'assets/linkedin.svg'
 import TwitterIcon from 'assets/twitter.svg'
-import InstaIcon from 'assets/instagram.svg'
 
 import stl from './Footer.module.scss'
 
@@ -25,32 +24,26 @@ const Footer = ({ theme }: Props) => {
     {
       id: 'github-profile-link',
       icon: <GithubIcon />,
-      href: 'https://linkzar.fly.dev/github',
+      href: 'https://github.com/ranathedev/linkzar',
       ariaLabel: 'Visit my Github Profile',
     },
     {
       id: 'facebook-profile-link',
       icon: <FacebookIcon />,
-      href: 'https://linkzar.fly.dev/facebook',
+      href: 'https://www.facebook.com/linkzar.web',
       ariaLabel: 'Visit my Facebook Profile',
     },
     {
       id: 'linkedin-profile-link',
       icon: <LinkedInIcon />,
-      href: 'https://linkzar.fly.dev/linkedin',
+      href: 'https://www.linkedin.com/company/linkzar',
       ariaLabel: 'Visit my Linkedin Profile',
     },
     {
       id: 'twitter-profile-link',
       icon: <TwitterIcon />,
-      href: 'https://linkzar.fly.dev/twitter',
+      href: 'https://twitter.com/linkzar_web',
       ariaLabel: 'Visit my Twitter Profile',
-    },
-    {
-      id: 'insta-profile-link',
-      icon: <InstaIcon />,
-      href: 'https://linkzar.fly.dev/insta',
-      ariaLabel: 'Visit my Instagram Profile',
     },
   ]
 

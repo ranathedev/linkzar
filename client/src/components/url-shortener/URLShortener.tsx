@@ -113,16 +113,18 @@ const URLShortener = ({
     setUrlErr('')
     setAliasErr('')
 
-    if (e.key === 'Enter' && uid === 'links') {
-      if (linksCount < 3) handleSubmit()
-      else {
-        setShowToast(true)
-        setToastOpts({
-          variant: 'warn',
-          msg: '3 Links Created! Sign Up to Create More.',
-        })
-      }
-    } else handleSubmit()
+    if (e.key === 'Enter') {
+      if (uid === 'links') {
+        if (linksCount < 3) handleSubmit()
+        else {
+          setShowToast(true)
+          setToastOpts({
+            variant: 'warn',
+            msg: '3 Links Created! Sign Up to Create More.',
+          })
+        }
+      } else handleSubmit()
+    }
   }
 
   const handleChange = (e: any) => {

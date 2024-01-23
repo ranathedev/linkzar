@@ -52,3 +52,7 @@ Contributions are welcome! Please submit issues and pull requests on the [GitHub
 ## License
 
 This extension is licensed under the [MIT License](https://github.com/ranathedev/linkzar/blob/main/LICENSE).
+
+## Note:
+
+This Repository contains only Frontend Code. Backend Code has been move [here](https://github.com/ranathedev/linkzar-backend.git)

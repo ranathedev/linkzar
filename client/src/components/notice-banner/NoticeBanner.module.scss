@@ -1,0 +1,13 @@
+.banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  background: #cf352e;
+  padding: 0.5rem 1rem;
+
+  p {
+    color: #fff;
+    text-align: center;
+  }
+}

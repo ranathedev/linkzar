@@ -17,6 +17,7 @@ body {
   color: #010851;
   font-family: 'Poppins', sans-serif;
   @extend .hideScrollbar;
+  padding-bottom: 5rem;
 
   main {
     position: relative;
@@ -47,5 +48,59 @@ img {
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
+  }
+}
+
+@media screen and (max-width: 940px) {
+  body {
+    padding-bottom: 7rem;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  body {
+    padding-bottom: 8.5rem;
+  }
+}
+
+@media screen and (max-width: 515px) {
+  body {
+    padding-bottom: 10rem;
+  }
+}
+
+@media screen and (max-width: 460px) {
+  body {
+    padding-bottom: 11.5rem;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  body {
+    padding-bottom: 13rem;
+  }
+}
+
+@media screen and (max-width: 365px) {
+  body {
+    padding-bottom: 14.5rem;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  body {
+    padding-bottom: 16rem;
+  }
+}
+
+@media screen and (max-width: 280px) {
+  body {
+    padding-bottom: 19rem;
+  }
+}
+
+@media screen and (max-width: 260px) {
+  body {
+    padding-bottom: 21rem;
   }
 }

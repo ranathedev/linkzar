@@ -61,7 +61,7 @@ const Layout = ({ theme, children, title, user }: Props) => {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '${process.env.GOOGLE_ANALYTICS_ID}', {
+            gtag('config', '${process.env.MEASUREMENTID}', {
               page_path: window.location.pathname,
             });
             `,
@@ -95,11 +95,10 @@ const Layout = ({ theme, children, title, user }: Props) => {
           href="favicon/favicon-16x16.png"
         />
       </Head>
-      <NoticeBanner />
       <Header theme={theme} user={user} />
       <main className={className}>{children}</main>
-      <NoticeBanner />
       <Footer theme={theme} />
+      <NoticeBanner />
     </>
   )
 }

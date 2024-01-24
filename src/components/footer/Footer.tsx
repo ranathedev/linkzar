@@ -58,6 +58,10 @@ const Footer = ({ theme }: Props) => {
         online presence. With our user-friendly platform, you can optimize
         sharing, track link performance, and maximize engagement. Experience the
         power of concise, shareable links today.
+        <Link href="https://forms.gle/4eCrPMLiLR9pUPnP9" target="_blank">
+          {' '}
+          Contact Support
+        </Link>
       </span>
       <div className={stl.socials}>
         {links.map(item => (

@@ -1,11 +1,11 @@
 .banner {
+  width: 100vw;
   position: fixed;
   bottom: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-  background: #cf352e;
+  background: #228b22;
   padding: 0.5rem 1rem;
   z-index: 1000;
 

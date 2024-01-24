@@ -352,3 +352,9 @@
     }
   }
 }
+
+@media screen and (max-width: 350px) {
+  .signupBtn {
+    display: none;
+  }
+}

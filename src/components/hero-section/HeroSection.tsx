@@ -53,7 +53,7 @@ const HeroSection = ({
             label={btnLabel}
             theme={theme}
             rightIcon={btnIcon}
-            handleOnClick={() => router.push('/shorten')}
+            handleOnClick={() => router.push('/auth?type=signup')}
           />
         </div>
       </div>

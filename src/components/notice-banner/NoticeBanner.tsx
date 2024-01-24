@@ -6,12 +6,14 @@ const NoticeBanner = () => {
   return (
     <div className={stl.banner}>
       <p>
-        We&apos;re sorry, but our Application is currently experiencing
-        technical difficulties. Our team is working hard to resolve the issue
-        and get things back to normal as soon as possible. We apologize for any
-        inconvenience this may cause.
+        We&apos;re excited to announce that the issue with our web app has been
+        successfully resolved! 🎉 You can now enjoy a seamless experience.
       </p>
-      <p>Please check back later. Thank you for your patience.</p>
+      <p>
+        Thank you for your patience and understanding. If you encounter any
+        further issues or have questions, feel free to reach out to us. Shorten
+        away!
+      </p>
     </div>
   )
 }

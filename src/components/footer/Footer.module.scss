@@ -22,11 +22,21 @@
     font-weight: 300;
     text-align: center;
     font-size: 1.1rem;
+
+    a {
+      color: dodgerblue;
+      font-weight: 500;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 
   .copyright {
     font-weight: 300;
     font-size: 1.1rem;
+    text-align: center;
   }
 
   .socials {

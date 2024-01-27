@@ -11,7 +11,7 @@ import { User } from 'firebase/auth'
 interface Props {
   theme: string
   domainUrl: string
-  user: User | { displayName: string }
+  user: User
 }
 
 const Dashboard = ({ theme, domainUrl, user }: Props) => {
@@ -33,8 +33,8 @@ const Dashboard = ({ theme, domainUrl, user }: Props) => {
   return (
     <div className={clsx(stl.dashboard, className)}>
       <div className={stl.container}>
-        <WelcomeBanner theme={theme} name={user.displayName || 'John Doe'} />
-        <LinkTable theme={theme} domainUrl={domainUrl} />
+        <WelcomeBanner theme={theme} name={user?.displayName || 'John Doe'} />
+        <LinkTable theme={theme} domainUrl={domainUrl} user={user} />
       </div>
     </div>
   )

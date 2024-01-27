@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useRouter } from 'next/router'
-import { useSelector } from 'react-redux'
 
-import auth from 'lib/firebase'
+import { PageProps } from 'lib/type'
 import Layout from 'components/layout'
 import URLShortener from 'components/url-shortener'
 import DemoContent from 'components/demo-content'
@@ -10,35 +9,14 @@ import LoadingScreen from 'components/loading-screen'
 
 import stl from './index.module.scss'
 
-const Shorten = () => {
-  const [user, setUser] = useState({
-    displayName: 'John Doe',
-    photoURL: 'https://i.postimg.cc/Mp7gnttP/default-Pic.jpg',
-  })
-  const [isLoading, setIsLoading] = useState(true)
-  const theme = useSelector((state: { theme: string }) => state.theme)
+const Shorten = ({ user, isLoading, theme }: PageProps) => {
   const router = useRouter()
 
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search)
+  const urlParams = new URLSearchParams(window.location.search)
 
-    const mode = urlParams.get('mode')
+  const mode = urlParams.get('mode')
 
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (mode !== 'dev' && user) router.push('/dashboard')
-
-      setTimeout(() => setIsLoading(false), 500)
-    })
-
-    return () => unsubscribe()
-  }, [])
-
-  useEffect(() => {
-    const data = localStorage.getItem('user')
-    //@ts-ignore
-    const user = JSON.parse(data)
-    setUser(user)
-  }, [])
+  if (mode !== 'dev' && user) router.push('/dashboard')
 
   const domainUrl = 'https://linkzar.fly.dev/'
 

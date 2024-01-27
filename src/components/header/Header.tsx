@@ -11,7 +11,7 @@ import stl from './Header.module.scss'
 
 interface Props {
   theme: string
-  user: User | { displayName: string; photoURL: string }
+  user: User
 }
 
 const Header = ({ theme, user }: Props) => {

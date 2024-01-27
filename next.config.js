@@ -8,6 +8,7 @@ module.exports = {
     APIKEY: process.env.APIKEY,
     AUTHDOMAIN: process.env.AUTHDOMAIN,
     PROJECTID: process.env.PROJECTID,
+    DATABASEURL: process.env.DATABASEURL,
     STORAGEBUCKET: process.env.STORAGEBUCKET,
     MESSAGINGSENDERID: process.env.MESSAGINGSENDERID,
     APPID: process.env.APPID,
@@ -16,7 +17,6 @@ module.exports = {
   },
   reactStrictMode: true,
   images: {
-    domains: ['i.postimg.cc'],
     unoptimized: true,
   },
   webpack: config => {

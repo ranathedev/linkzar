@@ -20,11 +20,10 @@ import stl from './UserInfoSettings.module.scss'
 
 interface Props {
   theme: string
-  user: User | { displayName: string; email: string; photoURL: string }
-  setUser: (arg: User) => void
+  user: User
 }
 
-const UserInfoSettings = ({ theme, user, setUser }: Props) => {
+const UserInfoSettings = ({ theme, user }: Props) => {
   const [className, setClassName] = useState('')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -44,7 +43,7 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
   }, [theme])
 
   const changeName = async () => {
-    await updateName(name, setUser, setShowToast, setToastOpts, setLoading)
+    await updateName(name, setShowToast, setToastOpts, setLoading, user)
 
     setName('')
   }
@@ -58,12 +57,12 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
     if (validateEmail()) {
       await handleUpdateEmail(
         email,
-        setUser,
         setShowToast,
         setToastOpts,
         setShowDialog,
         setDialogOpts,
-        setLoading
+        setLoading,
+        user
       )
     } else {
       setShowToast(true)
@@ -80,7 +79,8 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
       setToastOpts,
       setShowDialog,
       setDialogOpts,
-      setLoading
+      setLoading,
+      user
     )
 
     setNewPass('')
@@ -96,7 +96,13 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
   }
 
   const handleDelete = () => {
-    deleteAccount(setShowDialog, setDialogOpts, setShowToast, setToastOpts)
+    deleteAccount(
+      setShowDialog,
+      setDialogOpts,
+      setShowToast,
+      setToastOpts,
+      user
+    )
     setShowDialog(false)
   }
 
@@ -129,7 +135,6 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
           <AvatarContainer
             theme={theme}
             user={user}
-            setUser={setUser}
             setShowToast={setShowToast}
             setToastOpts={setToastOpts}
             customClass={stl.avatar}
@@ -142,7 +147,7 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
                 <label htmlFor="name">Name</label>
                 <input
                   name="name"
-                  placeholder={user.displayName || 'John Doe'}
+                  placeholder={user?.displayName || 'John Doe'}
                   onChange={e => setName(e.target.value)}
                   value={name}
                 />
@@ -168,7 +173,7 @@ const UserInfoSettings = ({ theme, user, setUser }: Props) => {
                 <input
                   type="email"
                   name="email"
-                  placeholder={user.email || 'johndoe@gmail.com'}
+                  placeholder={user?.email || 'johndoe@gmail.com'}
                   onChange={e => setEmail(e.target.value)}
                   value={email}
                 />

@@ -17,8 +17,7 @@ interface Props {
   theme: string
   isVisible: boolean
   setIsVisible: (arg: boolean) => void
-  user: User | { photoURL: string }
-  setUser: (arg: User) => void
+  user: User
   setShowToast: (arg: boolean) => void
   setToastOpts: (arg: { variant: string; msg: string }) => void
 }
@@ -28,7 +27,6 @@ const AvatarActions = ({
   isVisible,
   setIsVisible,
   user,
-  setUser,
   setShowToast,
   setToastOpts,
 }: Props) => {
@@ -40,7 +38,7 @@ const AvatarActions = ({
   }, [theme])
 
   const handleUpdatePhoto = async (e: any) =>
-    await updatePhoto(e, setUser, setIsLoading, setShowToast, setToastOpts)
+    await updatePhoto(e, setIsLoading, setShowToast, setToastOpts, user)
 
   const handleSelectFile = () => {
     const fileInput = document.getElementById('fileInput-2')
@@ -48,7 +46,7 @@ const AvatarActions = ({
   }
 
   const handleDelete = async () =>
-    await deletePhoto(setUser, setShowToast, setToastOpts)
+    await deletePhoto(setShowToast, setToastOpts, user)
 
   return (
     <div
@@ -66,7 +64,7 @@ const AvatarActions = ({
         </div>
       ) : (
         <Image
-          src={user.photoURL || ''}
+          src={user?.photoURL || ''}
           alt="profile-avatar"
           width={240}
           height={240}
@@ -90,7 +88,7 @@ const AvatarActions = ({
           theme={theme}
           label="Delete"
           isDisabled={
-            user.photoURL === 'https://i.postimg.cc/Mp7gnttP/default-Pic.jpg'
+            user?.photoURL === 'https://i.postimg.cc/Mp7gnttP/default-Pic.jpg'
           }
           leftIcon={<DeleteIcon />}
           variant="secondary"

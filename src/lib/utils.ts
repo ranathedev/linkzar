@@ -1,7 +1,7 @@
 import axios from 'axios'
 import emailjs from '@emailjs/browser'
 
-const domainUrl = 'https://linkzar.fly.dev/api/'
+const apiUrl = 'https://linkzar.fly.dev/api/'
 
 const generateRandomString = (len: number) => {
   let result = ''
@@ -34,10 +34,8 @@ const getLinks = async (
   uid: string
 ) => {
   setIsRefreshing(true)
-  const response = await axios.post(`${domainUrl}getLinks`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
+  const response = await axios.post(`${apiUrl}getLinks`, {
+    headers: { 'Content-Type': 'application/json' },
     uid,
   })
 
@@ -62,10 +60,8 @@ const createShortLink = async (
 ) => {
   setLoading('Creating short link')
 
-  const response = await axios.post(`${domainUrl}shorten`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
+  const response = await axios.post(`${apiUrl}shorten`, {
+    headers: { 'Content-Type': 'application/json' },
     uid,
     url,
     shortId,
@@ -97,10 +93,8 @@ const handleDelLink = async (
   uid: string
 ) => {
   setLoading('Deleting link')
-  const response = await axios.post(`${domainUrl}deleteLink`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
+  const response = await axios.post(`${apiUrl}deleteLink`, {
+    headers: { 'Content-Type': 'application/json' },
     uid,
     id,
   })
@@ -114,10 +108,8 @@ const handleDelLink = async (
 }
 
 const editLink = async (id: string, value: string, uid: string) => {
-  const response = await axios.post(`${domainUrl}editLink`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
+  const response = await axios.post(`${apiUrl}editLink`, {
+    headers: { 'Content-Type': 'application/json' },
     uid,
     id,
     value,

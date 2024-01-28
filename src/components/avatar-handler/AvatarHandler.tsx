@@ -7,6 +7,8 @@ import Button from 'components/button'
 import AvatarContainer from 'components/avatar-container'
 import Spinner from 'components/spinner'
 import Toast from 'components/toast'
+import Modal from 'components/modal'
+import DialogBox from 'components/dialog-box'
 
 import EditIcon from 'assets/edit.svg'
 import DeleteIcon from 'assets/delete.svg'
@@ -24,6 +26,7 @@ const AvatarHandler = ({ theme, user, customClass }: Props) => {
   const [className, setClassName] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [showToast, setShowToast] = useState(false)
+  const [showModal, setShowModal] = useState(false)
   const [toastOpts, setToastOpts] = useState({ variant: '', msg: '' })
 
   useEffect(() => {
@@ -40,10 +43,25 @@ const AvatarHandler = ({ theme, user, customClass }: Props) => {
   }
 
   const handleDelete = async () =>
-    await deletePhoto(setShowToast, setToastOpts, user)
+    await deletePhoto(setShowToast, setToastOpts, user, setIsLoading)
 
   return (
     <>
+      <Modal
+        isVisible={showModal}
+        dialog={
+          <DialogBox
+            isVisible={showModal}
+            theme={theme}
+            msg="Are you sure want delete you Avatar?"
+            primaryBtnLabel="Delete Avatar"
+            secondaryBtnLabel="Cancel"
+            handleCancel={() => setShowModal(false)}
+            handleAction={handleDelete}
+          />
+        }
+        theme={theme}
+      />
       <Toast
         theme={theme}
         isVisible={showToast}
@@ -87,7 +105,7 @@ const AvatarHandler = ({ theme, user, customClass }: Props) => {
             label="Delete Avatar"
             variant="secondary"
             leftIcon={<DeleteIcon />}
-            handleOnClick={handleDelete}
+            handleOnClick={() => setShowModal(true)}
           />
         </div>
         <div className={stl.note}>

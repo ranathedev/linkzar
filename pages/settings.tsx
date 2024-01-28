@@ -36,9 +36,7 @@ const SettingsPage = ({ user, isLoading, theme }: PageProps) => {
             customClass={stl.avatarHandler}
             user={user}
           />
-          <div className={stl.wrapper}>
-            <UserInfoSettings theme={theme} user={user} />
-          </div>
+          <UserInfoSettings theme={theme} user={user} />
         </div>
       </div>
     </Layout>

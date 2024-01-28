@@ -27,7 +27,7 @@ const Auth = ({ user, isLoading, theme }: PageProps) => {
   return isLoading ? (
     <LoadingScreen />
   ) : (
-    <Layout theme={theme} title="Auth | Linkzar">
+    <Layout theme={theme} user={user} title="Auth | Linkzar">
       <div className={clsx(stl.about, className)}>
         <div className={stl.formContainer}>
           <AuthForm theme={theme} />

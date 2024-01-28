@@ -104,7 +104,6 @@
 
       .delBtn button {
         display: block;
-        background: #d0312d;
       }
 
       .logoutBtn button {
@@ -117,6 +116,7 @@
 .darkUserInforSet {
   background: #1f2937;
   color: #fff;
+  border: 1px solid #6b7280;
 
   .container {
     .basicInfo,

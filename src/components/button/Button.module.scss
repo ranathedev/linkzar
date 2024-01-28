@@ -1,4 +1,4 @@
-@import "styles/common";
+@import 'styles/common';
 
 .btn {
   @extend .flexCenter;
@@ -48,6 +48,11 @@
   &:disabled {
     opacity: 0.5;
   }
+}
+
+.dangerBtn {
+  background: #922724;
+  color: #fff;
 }
 
 .darksecondaryBtn {

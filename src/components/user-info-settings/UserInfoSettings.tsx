@@ -39,6 +39,16 @@ const UserInfoSettings = ({ theme, user }: Props) => {
   })
 
   useEffect(() => {
+    const handleKeyDown = (e: any) => {
+      e.key === 'Escape' && setShowDialog(false)
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
+  useEffect(() => {
     theme === 'dark' ? setClassName(stl.darkUserInforSet) : setClassName('')
   }, [theme])
 

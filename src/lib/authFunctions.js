@@ -688,7 +688,7 @@ const deleteAccount = async (
 
 const logOut = (setShowToast, setToastOpts) => {
   signOut(auth)
-    .then(() => (location.href = '/auth?type=signup'))
+    .then(() => (location.href = '/auth?type=signin'))
     .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
 }
 

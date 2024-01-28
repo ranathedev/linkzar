@@ -103,8 +103,4 @@ const Layout = ({ theme, children, title, user }: Props) => {
   )
 }
 
-Layout.defaultProps = {
-  user: null,
-}
-
 export default Layout

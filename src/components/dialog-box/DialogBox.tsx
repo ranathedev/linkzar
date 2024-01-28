@@ -43,6 +43,7 @@ const DialogBox = ({
         <Button
           theme={theme}
           label={primaryBtnLabel}
+          variant="danger"
           handleOnClick={handleAction}
         />
       </div>

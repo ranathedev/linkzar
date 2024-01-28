@@ -62,6 +62,7 @@ const signupWithEmailPassword = async (
       })
         .then(async () => {
           const data = localStorage.getItem('demoLinks')
+          const linksData = localStorage.getItem('links')
 
           await sendEmailVerification(user, actionCodeSettings)
             .then(async () => {
@@ -79,6 +80,7 @@ const signupWithEmailPassword = async (
 
           if (data) {
             localStorage.setItem('links', data)
+            if (linksData) localStorage.setItem('links', linksData)
             const originalArray = JSON.parse(data)
             const demoLinks = originalArray.reverse()
 
@@ -131,6 +133,7 @@ const signinWithGoogle = async (setShowToast, setToastOpts) => {
       const user = userCredential.user
 
       const data = localStorage.getItem('demoLinks')
+      const linksData = localStorage.getItem('links')
 
       location.href = '/dashboard'
 
@@ -150,6 +153,8 @@ const signinWithGoogle = async (setShowToast, setToastOpts) => {
 
       if (data) {
         localStorage.setItem('links', data)
+        if (linksData) localStorage.setItem('links', linksData)
+
         const originalArray = JSON.parse(data)
         const demoLinks = originalArray.reverse()
 
@@ -184,6 +189,7 @@ const signinWithGithub = async (setShowToast, setToastOpts) => {
       const user = userCredential.user
 
       const data = localStorage.getItem('demoLinks')
+      const linksData = localStorage.getItem('links')
 
       location.href = '/dashboard'
 
@@ -203,6 +209,7 @@ const signinWithGithub = async (setShowToast, setToastOpts) => {
 
       if (data) {
         localStorage.setItem('links', data)
+        if (linksData) localStorage.setItem('links', linksData)
         const originalArray = JSON.parse(data)
         const demoLinks = originalArray.reverse()
 
@@ -238,6 +245,7 @@ const signinWithMicrosoft = async (setShowToast, setToastOpts) => {
       const user = userCredential.user
 
       const data = localStorage.getItem('demoLinks')
+      const linksData = localStorage.getItem('links')
 
       location.href = '/dashboard'
 
@@ -257,6 +265,7 @@ const signinWithMicrosoft = async (setShowToast, setToastOpts) => {
 
       if (data) {
         localStorage.setItem('links', data)
+        if (linksData) localStorage.setItem('links', linksData)
         const originalArray = JSON.parse(data)
         const demoLinks = originalArray.reverse()
 
@@ -559,7 +568,8 @@ const updatePhoto = async (
   )
 }
 
-const deletePhoto = async (setShowToast, setToastOpts, user) => {
+const deletePhoto = async (setShowToast, setToastOpts, user, setIsLoading) => {
+  setIsLoading(true)
   const uid = user.uid
   const profilePicRef = ref(storage, `${process.env.BUCKET}/${uid}/profilePic`)
 
@@ -592,6 +602,8 @@ const deletePhoto = async (setShowToast, setToastOpts, user) => {
         msg: "Can't update Profile photo.",
       })
     })
+
+  setIsLoading(false)
 }
 
 const deleteAccount = async (

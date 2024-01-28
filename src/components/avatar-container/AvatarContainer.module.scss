@@ -5,6 +5,7 @@
   @include setSquare(15rem);
   border: 1px solid #ccc;
   border-radius: 50%;
+  cursor: pointer;
   overflow: hidden;
 
   img {

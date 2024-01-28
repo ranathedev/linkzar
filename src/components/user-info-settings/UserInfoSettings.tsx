@@ -239,6 +239,7 @@ const UserInfoSettings = ({ theme, user }: Props) => {
                 <Button
                   theme={theme}
                   label="Delete"
+                  variant="danger"
                   handleOnClick={showDeleteDialog}
                 />
               </div>

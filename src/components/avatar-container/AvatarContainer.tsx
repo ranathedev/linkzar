@@ -12,8 +12,7 @@ import stl from './AvatarContainer.module.scss'
 
 interface Props {
   theme: string
-  user: User | { photoURL: string }
-  setUser: (arg: User) => void
+  user: User
   setShowToast: (arg: boolean) => void
   setToastOpts: (arg: { variant: string; msg: string }) => void
   customClass?: string
@@ -22,7 +21,6 @@ interface Props {
 const AvatarContainer = ({
   theme,
   user,
-  setUser,
   setShowToast,
   setToastOpts,
   customClass,
@@ -40,7 +38,6 @@ const AvatarContainer = ({
             isVisible={showModal}
             setIsVisible={setShowModal}
             user={user}
-            setUser={setUser}
             setShowToast={setShowToast}
             setToastOpts={setToastOpts}
           />
@@ -51,7 +48,7 @@ const AvatarContainer = ({
         onClick={() => setShowModal(true)}
       >
         <Image
-          src={user.photoURL || ''}
+          src={user?.photoURL || ''}
           alt="profile-avatar"
           width={500}
           height={500}

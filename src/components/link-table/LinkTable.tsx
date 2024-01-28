@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import clsx from 'clsx'
 
+import { User } from 'firebase/auth'
 import { getLinks, isMobileDevice } from 'lib/utils'
 import { LinkType } from 'lib/type'
 import TableRow from 'components/table-row'
@@ -19,14 +20,14 @@ import stl from './LinkTable.module.scss'
 interface Props {
   theme: string
   domainUrl: string
+  user: User
 }
 
-const LinkTable = ({ theme, domainUrl }: Props) => {
+const LinkTable = ({ theme, domainUrl, user }: Props) => {
   const [className, setClassName] = useState('')
   const [listOfLinks, setListOfLinks] = useState<LinkType[]>([])
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [showModal, setShowModal] = useState(false)
-  const [uid, setUid] = useState('')
   const [showToast, setShowToast] = useState(false)
   const [toastOpts, setToastOpts] = useState({ variant: '', msg: '' })
   const [device, setDevice] = useState('')
@@ -45,17 +46,11 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
       setListOfLinks(links)
     }
 
-    const data = localStorage.getItem('user')
-    //@ts-ignore
-    const user = JSON.parse(data)
-    const uid = user?.uid
-    setUid(uid)
-
     isMobileDevice() ? setDevice('mobile') : setDevice('')
   }, [])
 
   const refresh = async () => {
-    const links = await getLinks(setIsRefreshing, uid)
+    const links = await getLinks(setIsRefreshing, user?.uid)
 
     if (!links.err) {
       setShowToast(false)
@@ -148,7 +143,7 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
             setShowModal={setShowModal}
             sendDeleteId={removeLink}
             theme={theme}
-            uid={uid}
+            uid={user?.uid}
           />
         }
       />
@@ -197,7 +192,7 @@ const LinkTable = ({ theme, domainUrl }: Props) => {
                     sendUpdatedLinks={updateLinkInList}
                     increaseClickCount={increaseClickCount}
                     linkData={linkItem}
-                    uid={uid}
+                    uid={user?.uid}
                   />
                 ))
               ) : searchMsg !== '' ? (

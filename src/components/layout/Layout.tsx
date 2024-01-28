@@ -12,7 +12,7 @@ interface Props {
   theme: string
   children: React.ReactNode
   title: string
-  user: User | { displayName: string; photoURL: string }
+  user: User
 }
 
 const Layout = ({ theme, children, title, user }: Props) => {

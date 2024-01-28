@@ -14,7 +14,7 @@ import storage from 'redux-persist/lib/storage'
 import { PersistGate } from 'redux-persist/integration/react'
 
 const initialState = {
-  theme: 'dark',
+  theme: 'light',
 }
 
 const persistConfig = {

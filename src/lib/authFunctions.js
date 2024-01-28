@@ -38,7 +38,7 @@ const actionCodeSettings = {
   handleCodeInApp: true,
 }
 
-const domainUrl = 'https://linkzar.fly.dev/api/'
+const apiUrl = 'https://linkzar.fly.dev/api/'
 
 const signupWithEmailPassword = async (
   fname,
@@ -54,13 +54,13 @@ const signupWithEmailPassword = async (
     .then(async userCredential => {
       const user = userCredential.user
 
+      const displayName = (fname + ' ' + lname).trim()
+
       await updateProfile(user, {
-        displayName: fname + ' ' + lname,
+        displayName,
         photoURL: 'https://i.postimg.cc/Mp7gnttP/default-Pic.jpg',
       })
         .then(async () => {
-          await localStorage.setItem('user', JSON.stringify(user))
-
           const data = localStorage.getItem('demoLinks')
 
           await sendEmailVerification(user, actionCodeSettings)
@@ -82,21 +82,19 @@ const signupWithEmailPassword = async (
             const originalArray = JSON.parse(data)
             const demoLinks = originalArray.reverse()
 
-            await axios.post(`${domainUrl}demoLinks`, {
-              headers: {
-                'Content-Type': 'application/json',
-              },
+            const res = await axios.post(`${apiUrl}demoLinks`, {
+              headers: { 'Content-Type': 'application/json' },
               uid: user.uid,
               demoLinks,
             })
+
+            if (res.status === 200) localStorage.removeItem('demoLinks')
           } else {
             const links = []
             localStorage.setItem('links', JSON.stringify(links))
 
-            await axios.post(`${domainUrl}createColl`, {
-              headers: {
-                'Content-Type': 'application/json',
-              },
+            await axios.post(`${apiUrl}createColl`, {
+              headers: { 'Content-Type': 'application/json' },
               uid: user.uid,
             })
           }
@@ -117,7 +115,6 @@ const signinWithEmailPassword = async (
   await signInWithEmailAndPassword(auth, email, password)
     .then(async userCredential => {
       const user = userCredential.user
-      await localStorage.setItem('user', JSON.stringify(user))
       location.href = '/dashboard'
     })
     .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
@@ -132,8 +129,6 @@ const signinWithGoogle = async (setShowToast, setToastOpts) => {
   await signInWithPopup(auth, provider)
     .then(async userCredential => {
       const user = userCredential.user
-
-      await localStorage.setItem('user', JSON.stringify(user))
 
       const data = localStorage.getItem('demoLinks')
 
@@ -158,21 +153,19 @@ const signinWithGoogle = async (setShowToast, setToastOpts) => {
         const originalArray = JSON.parse(data)
         const demoLinks = originalArray.reverse()
 
-        await axios.post(`${domainUrl}demoLinks`, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
+        const res = await axios.post(`${apiUrl}demoLinks`, {
+          headers: { 'Content-Type': 'application/json' },
           uid: user.uid,
           demoLinks,
         })
+
+        if (res.status === 200) localStorage.removeItem('demoLinks')
       } else {
         const links = []
         localStorage.setItem('links', JSON.stringify(links))
 
-        await axios.post(`${domainUrl}createColl`, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
+        await axios.post(`${apiUrl}createColl`, {
+          headers: { 'Content-Type': 'application/json' },
           uid: user.uid,
         })
       }
@@ -190,8 +183,6 @@ const signinWithGithub = async (setShowToast, setToastOpts) => {
     .then(async userCredential => {
       const user = userCredential.user
 
-      await localStorage.setItem('user', JSON.stringify(user))
-
       const data = localStorage.getItem('demoLinks')
 
       location.href = '/dashboard'
@@ -215,21 +206,19 @@ const signinWithGithub = async (setShowToast, setToastOpts) => {
         const originalArray = JSON.parse(data)
         const demoLinks = originalArray.reverse()
 
-        await axios.post(`${domainUrl}demoLinks`, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
+        const res = await axios.post(`${apiUrl}demoLinks`, {
+          headers: { 'Content-Type': 'application/json' },
           uid: user.uid,
           demoLinks,
         })
+
+        if (res.status === 200) localStorage.removeItem('demoLinks')
       } else {
         const links = []
         localStorage.setItem('links', JSON.stringify(links))
 
-        await axios.post(`${domainUrl}createColl`, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
+        await axios.post(`${apiUrl}createColl`, {
+          headers: { 'Content-Type': 'application/json' },
           uid: user.uid,
         })
       }
@@ -248,8 +237,6 @@ const signinWithMicrosoft = async (setShowToast, setToastOpts) => {
     .then(async userCredential => {
       const user = userCredential.user
 
-      await localStorage.setItem('user', JSON.stringify(user))
-
       const data = localStorage.getItem('demoLinks')
 
       location.href = '/dashboard'
@@ -273,21 +260,19 @@ const signinWithMicrosoft = async (setShowToast, setToastOpts) => {
         const originalArray = JSON.parse(data)
         const demoLinks = originalArray.reverse()
 
-        await axios.post(`${domainUrl}demoLinks`, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
+        const res = await axios.post(`${apiUrl}demoLinks`, {
+          headers: { 'Content-Type': 'application/json' },
           uid: user.uid,
           demoLinks,
         })
+
+        if (res.status === 200) localStorage.removeItem('demoLinks')
       } else {
         const links = []
         localStorage.setItem('links', JSON.stringify(links))
 
-        await axios.post(`${domainUrl}createColl`, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
+        await axios.post(`${apiUrl}createColl`, {
+          headers: { 'Content-Type': 'application/json' },
           uid: user.uid,
         })
       }
@@ -322,26 +307,17 @@ const sendResetPasswordEmail = async (email, setShowToast, setToastOpts) => {
 
 const updateName = async (
   name,
-  setUser,
   setShowToast,
   setToastOpts,
-  setLoading
+  setLoading,
+  user
 ) => {
   setLoading('Updaing Name')
 
-  const user = await auth.currentUser
   await updateProfile(user, {
     displayName: name,
   })
     .then(async () => {
-      const existingData = localStorage.getItem('user')
-      const parsedData = JSON.parse(existingData)
-      parsedData.displayName = name
-      const updatedData = JSON.stringify(parsedData)
-
-      setUser(parsedData)
-      await localStorage.setItem('user', JSON.stringify(updatedData))
-
       setShowToast(true)
       setToastOpts({
         variant: 'success',
@@ -363,28 +339,18 @@ const updateName = async (
 
 const handleUpdateEmail = async (
   email,
-  setUser,
   setShowToast,
   setToastOpts,
   setShowDialog,
   setDialogOpts,
-  setLoading
+  setLoading,
+  user
 ) => {
   setLoading('Updating Email')
-
-  const user = await auth.currentUser
   await updateEmail(user, email)
     .then(async () => {
       await sendEmailVerification(user)
         .then(async () => {
-          const existingData = localStorage.getItem('user')
-          const parsedData = JSON.parse(existingData)
-          parsedData.email = email
-          const updatedData = JSON.stringify(updatedData)
-
-          await localStorage.setItem('user', JSON.stringify(updatedData))
-          setUser(parsedData)
-
           setShowToast(true)
           setToastOpts({
             variant: 'success',
@@ -408,38 +374,35 @@ const handleUpdateEmail = async (
             const providerId = profile.providerId
 
             let provider
-            if (providerId === 'google.com') {
-              provider = new GoogleAuthProvider()
-            } else if (providerId === 'github.com') {
+            if (providerId === 'google.com') provider = new GoogleAuthProvider()
+            else if (providerId === 'github.com')
               provider = new GithubAuthProvider()
-            } else if (providerId === 'microsoft.com') {
+            else if (providerId === 'microsoft.com')
               provider = new OAuthProvider('microsoft.com')
-            }
 
             if (providerId !== 'password') {
               await reauthenticateWithPopup(user, provider)
                 .then(async result => {
                   const user = result.user
-                  await sendEmailVerification(user)
-                    .then(async () => {
-                      await localStorage.setItem('user', JSON.stringify(user))
-                      setUser(user)
-
-                      setShowToast(true)
-                      setToastOpts({
-                        variant: 'success',
-                        msg: 'Email updated successfully.',
+                  if (!user.emailVerified) {
+                    await sendEmailVerification(user)
+                      .then(async () => {
+                        setShowToast(true)
+                        setToastOpts({
+                          variant: 'success',
+                          msg: 'Email updated successfully.',
+                        })
                       })
-                    })
-                    .catch(err => {
-                      handleAuthErrs(err, setShowToast, setToastOpts)
+                      .catch(err => {
+                        handleAuthErrs(err, setShowToast, setToastOpts)
 
-                      setShowToast(true)
-                      setToastOpts({
-                        variant: 'danger',
-                        msg: "Can't update Email.",
+                        setShowToast(true)
+                        setToastOpts({
+                          variant: 'danger',
+                          msg: "Can't update Email.",
+                        })
                       })
-                    })
+                  }
                 })
                 .catch(err => console.log('Error:', err))
             }
@@ -466,11 +429,11 @@ const handleUpdatePass = async (
   setToastOpts,
   setShowDialog,
   setDialogOpts,
-  setLoading
+  setLoading,
+  user
 ) => {
   setLoading('Updating Password')
 
-  const user = auth.currentUser
   await updatePassword(user, newPassword)
     .then(() => {
       setShowToast(true)
@@ -486,13 +449,12 @@ const handleUpdatePass = async (
             const providerId = profile.providerId
 
             let provider
-            if (providerId === 'google.com') {
-              provider = new GoogleAuthProvider()
-            } else if (providerId === 'github.com') {
+            if (providerId === 'google.com') provider = new GoogleAuthProvider()
+            else if (providerId === 'github.com')
               provider = new GithubAuthProvider()
-            } else if (providerId === 'microsoft.com') {
+            else if (providerId === 'microsoft.com')
               provider = new OAuthProvider('microsoft.com')
-            }
+
             if (providerId !== 'password') {
               await reauthenticateWithPopup(user, provider)
                 .then(async result => {
@@ -538,14 +500,13 @@ const handleUpdatePass = async (
 
 const updatePhoto = async (
   e,
-  setUser,
   setIsLoading,
   setShowToast,
-  setToastOpts
+  setToastOpts,
+  user
 ) => {
   setIsLoading(true)
   const file = e.target.files[0]
-  const user = await auth.currentUser
   const uid = user.uid
   const profilePicRef = ref(storage, `${process.env.BUCKET}/${uid}/profilePic`)
   await deleteObject(profilePicRef)
@@ -565,16 +526,8 @@ const updatePhoto = async (
     async () => {
       await getDownloadURL(uploadTask.snapshot.ref)
         .then(async downloadURL => {
-          await updateProfile(auth.currentUser, { photoURL: downloadURL })
+          await updateProfile(user, { photoURL: downloadURL })
             .then(async () => {
-              const existingData = await localStorage.getItem('user')
-              const parsedData = JSON.parse(existingData)
-              parsedData.photoURL = downloadURL
-              const updatedData = JSON.stringify(parsedData)
-
-              setUser(parsedData)
-              await localStorage.setItem('user', updatedData)
-
               setIsLoading(false)
               setShowToast(true)
               setToastOpts({
@@ -606,8 +559,7 @@ const updatePhoto = async (
   )
 }
 
-const deletePhoto = async (setUser, setShowToast, setToastOpts) => {
-  const user = await auth.currentUser
+const deletePhoto = async (setShowToast, setToastOpts, user) => {
   const uid = user.uid
   const profilePicRef = ref(storage, `${process.env.BUCKET}/${uid}/profilePic`)
 
@@ -617,14 +569,6 @@ const deletePhoto = async (setUser, setShowToast, setToastOpts) => {
 
       await updateProfile(user, { photoURL })
         .then(() => {
-          const existingData = localStorage.getItem('user')
-          const parsedData = JSON.parse(existingData)
-          parsedData.photoURL = photoURL
-          const updatedData = JSON.stringify(updatedData)
-
-          setUser(parsedData)
-          localStorage.setItem('user', JSON.stringify(updatedData))
-
           setShowToast(true)
           setToastOpts({
             variant: 'success',
@@ -654,15 +598,12 @@ const deleteAccount = async (
   setShowDialog,
   setDialogOpts,
   setShowToast,
-  setToastOpts
+  setToastOpts,
+  user
 ) => {
-  const user = await auth.currentUser
-
   await axios
-    .post(`${domainUrl}deleteColl`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
+    .post(`${apiUrl}deleteColl`, {
+      headers: { 'Content-Type': 'application/json' },
       uid: user.uid,
     })
     .then(async () => {
@@ -681,13 +622,12 @@ const deleteAccount = async (
                 const providerId = profile.providerId
 
                 let provider
-                if (providerId === 'google.com') {
+                if (providerId === 'google.com')
                   provider = new GoogleAuthProvider()
-                } else if (providerId === 'github.com') {
+                else if (providerId === 'github.com')
                   provider = new GithubAuthProvider()
-                } else if (providerId === 'microsoft.com') {
+                else if (providerId === 'microsoft.com')
                   provider = new OAuthProvider('microsoft.com')
-                }
 
                 if (providerId !== 'password') {
                   await reauthenticateWithPopup(user, provider)
@@ -700,10 +640,8 @@ const deleteAccount = async (
 
                           location.href = '/auth?type=signup'
 
-                          await axios.post(`${domainUrl}deleteColl`, {
-                            headers: {
-                              'Content-Type': 'application/json',
-                            },
+                          await axios.post(`${apiUrl}deleteColl`, {
+                            headers: { 'Content-Type': 'application/json' },
                             uid: user.uid,
                           })
                         })

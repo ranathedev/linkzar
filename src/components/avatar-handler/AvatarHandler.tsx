@@ -16,12 +16,11 @@ import stl from './AvatarHandler.module.scss'
 
 interface Props {
   theme: string
-  user: User | { displayName: string; photoURL: string }
-  setUser: (arg: User) => void
+  user: User
   customClass?: string
 }
 
-const AvatarHandler = ({ theme, user, setUser, customClass }: Props) => {
+const AvatarHandler = ({ theme, user, customClass }: Props) => {
   const [className, setClassName] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [showToast, setShowToast] = useState(false)
@@ -32,7 +31,7 @@ const AvatarHandler = ({ theme, user, setUser, customClass }: Props) => {
   }, [theme])
 
   const handleUpdatePhoto = async (e: any) => {
-    await updatePhoto(e, setUser, setIsLoading, setShowToast, setToastOpts)
+    await updatePhoto(e, setIsLoading, setShowToast, setToastOpts, user)
   }
 
   const handleSelectFile = () => {
@@ -41,7 +40,7 @@ const AvatarHandler = ({ theme, user, setUser, customClass }: Props) => {
   }
 
   const handleDelete = async () =>
-    await deletePhoto(setUser, setShowToast, setToastOpts)
+    await deletePhoto(setShowToast, setToastOpts, user)
 
   return (
     <>
@@ -53,7 +52,7 @@ const AvatarHandler = ({ theme, user, setUser, customClass }: Props) => {
         setShowToast={setShowToast}
       />
       <div className={clsx(stl.avatarHandler, className, customClass)}>
-        <div className={stl.name}>{user.displayName}</div>
+        <div className={stl.name}>{user?.displayName}</div>
         {isLoading ? (
           <div className={stl.loading}>
             <Spinner taskTitle="" />
@@ -62,7 +61,6 @@ const AvatarHandler = ({ theme, user, setUser, customClass }: Props) => {
           <AvatarContainer
             theme={theme}
             user={user}
-            setUser={setUser}
             setShowToast={setShowToast}
             setToastOpts={setToastOpts}
           />
@@ -84,7 +82,7 @@ const AvatarHandler = ({ theme, user, setUser, customClass }: Props) => {
           <Button
             theme={theme}
             isDisabled={
-              user.photoURL === 'https://i.postimg.cc/Mp7gnttP/default-Pic.jpg'
+              user?.photoURL === 'https://i.postimg.cc/Mp7gnttP/default-Pic.jpg'
             }
             label="Delete Avatar"
             variant="secondary"

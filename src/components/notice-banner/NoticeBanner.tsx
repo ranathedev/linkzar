@@ -11,8 +11,11 @@ const NoticeBanner = () => {
       </p>
       <p>
         Thank you for your patience and understanding. If you encounter any
-        further issues or have questions, feel free to reach out to us. Shorten
-        away!
+        further issues or have questions, feel free to{' '}
+        <a href="https://forms.gle/4eCrPMLiLR9pUPnP9" target="_blank">
+          reach out to us
+        </a>
+        . Shorten away!
       </p>
     </div>
   )

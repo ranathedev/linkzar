@@ -1,4 +1,4 @@
-@import "styles/common";
+@import 'styles/common';
 
 .userInfoSettings {
   width: 97%;
@@ -43,11 +43,11 @@
     }
 
     .basicInfo::after {
-      content: "Basic Info";
+      content: 'Basic Info';
     }
 
     .accContainer::after {
-      content: "Account";
+      content: 'Account';
     }
 
     .inputContainer {

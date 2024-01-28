@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
-import Intro from "components/intro";
-import HeroSection from "components/hero-section";
-import FAQSection from "components/faq-section";
-import CTA from "components/cta";
+import Intro from 'components/intro'
+import HeroSection from 'components/hero-section'
+import FAQSection from 'components/faq-section'
+import CTA from 'components/cta'
 
 interface Props {
-  theme: string;
+  theme: string
 }
 
 const Homepage = ({ theme }: Props) => {
@@ -29,7 +29,7 @@ const Homepage = ({ theme }: Props) => {
       <FAQSection theme={theme} />
       <CTA theme={theme} />
     </div>
-  );
-};
+  )
+}
 
-export default Homepage;
+export default Homepage

@@ -22,6 +22,8 @@ const IdTokenListener = ({ setUser, setIsLoading, setTheme }: Props) => {
       setTimeout(() => setIsLoading(false), 500)
     })
 
+    localStorage.removeItem('user')
+
     return () => unsubscribe()
   }, [setUser, setIsLoading])
 

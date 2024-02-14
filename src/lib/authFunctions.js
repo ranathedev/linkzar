@@ -623,10 +623,11 @@ const deleteAccount = async (
         .then(async () => {
           await localStorage.removeItem('user')
           await localStorage.removeItem('links')
+          await localStorage.removeItem('linkCount')
+          await localStorage.removeItem('demoLinks')
 
           location.href = '/auth?type=signup'
         })
-
         .catch(err => {
           if (err.code === 'auth/requires-recent-login') {
             if (user !== null) {

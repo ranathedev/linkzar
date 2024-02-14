@@ -182,6 +182,7 @@ const UserInfoSettings = ({ theme, user }: Props) => {
                 <label htmlFor="email">Your email</label>
                 <input
                   type="email"
+                  autoComplete="off"
                   name="email"
                   placeholder={user?.email || 'johndoe@gmail.com'}
                   onChange={e => setEmail(e.target.value)}
@@ -208,6 +209,7 @@ const UserInfoSettings = ({ theme, user }: Props) => {
                 <label htmlFor="newPass">New Password</label>
                 <input
                   type="password"
+                  autoComplete="off"
                   name="newPass"
                   placeholder="Enter your new password"
                   onChange={e => setNewPass(e.target.value)}

@@ -75,7 +75,7 @@ const LinkTable = ({ theme, domainUrl, user }: Props) => {
     await localStorage.setItem('links', JSON.stringify(data))
 
   const addNewLink = async (newLink: LinkType) => {
-    const updatedList = await [...listOfLinks]
+    const updatedList = [...listOfLinks]
     updatedList.unshift(newLink)
 
     setListOfLinks(updatedList)

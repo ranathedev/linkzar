@@ -18,7 +18,7 @@ const Shorten = ({ user, isLoading, theme }: PageProps) => {
 
   if (mode !== 'dev' && user) router.push('/dashboard')
 
-  const domainUrl = 'https://linkzar.fly.dev/'
+  const domainUrl = process.env.DOMAIN_URL
 
   return isLoading ? (
     <LoadingScreen />
@@ -26,7 +26,7 @@ const Shorten = ({ user, isLoading, theme }: PageProps) => {
     <Layout theme={theme} user={user} title="Shorten | Linkzar">
       <div className={stl.shorten}>
         <URLShortener
-          domainUrl={domainUrl}
+          domainUrl={domainUrl as string}
           isVisible={true}
           theme={theme}
           sendNewLink={() => {}}

@@ -52,7 +52,7 @@ const Layout = ({ theme, children, title, user }: Props) => {
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <script
           async
-          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`}
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.MEASUREMENTID}`}
         />
         <script
           id="google-analytics"

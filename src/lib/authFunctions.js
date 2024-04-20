@@ -38,7 +38,7 @@ const actionCodeSettings = {
   handleCodeInApp: true,
 }
 
-const apiUrl = 'https://linkzar.fly.dev/api/'
+const apiUrl = process.env.API_URL
 
 const signupWithEmailPassword = async (
   fname,
@@ -62,7 +62,6 @@ const signupWithEmailPassword = async (
       })
         .then(async () => {
           const data = localStorage.getItem('demoLinks')
-          const linksData = localStorage.getItem('links')
 
           await sendEmailVerification(user, actionCodeSettings)
             .then(async () => {
@@ -76,11 +75,8 @@ const signupWithEmailPassword = async (
             })
             .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
 
-          location.href = '/dashboard'
-
           if (data) {
             localStorage.setItem('links', data)
-            if (linksData) localStorage.setItem('links', linksData)
             const originalArray = JSON.parse(data)
             const demoLinks = originalArray.reverse()
 
@@ -90,7 +86,16 @@ const signupWithEmailPassword = async (
               demoLinks,
             })
 
-            if (res.status === 200) localStorage.removeItem('demoLinks')
+            if (res.status === 200) {
+              await localStorage.removeItem('demoLinks')
+              await localStorage.removeItem('linksCount')
+
+              await axios.post(apiUrl + 'delDemoLinksFromMain', demoLinks, {
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              })
+            }
           } else {
             const links = []
             localStorage.setItem('links', JSON.stringify(links))
@@ -100,6 +105,8 @@ const signupWithEmailPassword = async (
               uid: user.uid,
             })
           }
+
+          location.href = '/dashboard'
         })
         .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
     })
@@ -133,9 +140,6 @@ const signinWithGoogle = async (setShowToast, setToastOpts) => {
       const user = userCredential.user
 
       const data = localStorage.getItem('demoLinks')
-      const linksData = localStorage.getItem('links')
-
-      location.href = '/dashboard'
 
       if (!user.emailVerified) {
         await sendEmailVerification(user, actionCodeSettings)
@@ -153,7 +157,6 @@ const signinWithGoogle = async (setShowToast, setToastOpts) => {
 
       if (data) {
         localStorage.setItem('links', data)
-        if (linksData) localStorage.setItem('links', linksData)
 
         const originalArray = JSON.parse(data)
         const demoLinks = originalArray.reverse()
@@ -164,7 +167,16 @@ const signinWithGoogle = async (setShowToast, setToastOpts) => {
           demoLinks,
         })
 
-        if (res.status === 200) localStorage.removeItem('demoLinks')
+        if (res.status === 200) {
+          await localStorage.removeItem('demoLinks')
+          await localStorage.removeItem('linksCount')
+
+          await axios.post(apiUrl + 'delDemoLinksFromMain', demoLinks, {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
+        }
       } else {
         const links = []
         localStorage.setItem('links', JSON.stringify(links))
@@ -174,6 +186,8 @@ const signinWithGoogle = async (setShowToast, setToastOpts) => {
           uid: user.uid,
         })
       }
+
+      location.href = '/dashboard'
     })
     .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
 }
@@ -189,9 +203,6 @@ const signinWithGithub = async (setShowToast, setToastOpts) => {
       const user = userCredential.user
 
       const data = localStorage.getItem('demoLinks')
-      const linksData = localStorage.getItem('links')
-
-      location.href = '/dashboard'
 
       if (!user.emailVerified) {
         await sendEmailVerification(user, actionCodeSettings)
@@ -209,7 +220,7 @@ const signinWithGithub = async (setShowToast, setToastOpts) => {
 
       if (data) {
         localStorage.setItem('links', data)
-        if (linksData) localStorage.setItem('links', linksData)
+
         const originalArray = JSON.parse(data)
         const demoLinks = originalArray.reverse()
 
@@ -219,7 +230,16 @@ const signinWithGithub = async (setShowToast, setToastOpts) => {
           demoLinks,
         })
 
-        if (res.status === 200) localStorage.removeItem('demoLinks')
+        if (res.status === 200) {
+          await localStorage.removeItem('demoLinks')
+          await localStorage.removeItem('linksCount')
+
+          await axios.post(apiUrl + 'delDemoLinksFromMain', demoLinks, {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
+        }
       } else {
         const links = []
         localStorage.setItem('links', JSON.stringify(links))
@@ -229,6 +249,8 @@ const signinWithGithub = async (setShowToast, setToastOpts) => {
           uid: user.uid,
         })
       }
+
+      location.href = '/dashboard'
     })
     .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
 }
@@ -245,9 +267,6 @@ const signinWithMicrosoft = async (setShowToast, setToastOpts) => {
       const user = userCredential.user
 
       const data = localStorage.getItem('demoLinks')
-      const linksData = localStorage.getItem('links')
-
-      location.href = '/dashboard'
 
       if (!user.emailVerified) {
         await sendEmailVerification(user, actionCodeSettings)
@@ -265,7 +284,7 @@ const signinWithMicrosoft = async (setShowToast, setToastOpts) => {
 
       if (data) {
         localStorage.setItem('links', data)
-        if (linksData) localStorage.setItem('links', linksData)
+
         const originalArray = JSON.parse(data)
         const demoLinks = originalArray.reverse()
 
@@ -275,7 +294,16 @@ const signinWithMicrosoft = async (setShowToast, setToastOpts) => {
           demoLinks,
         })
 
-        if (res.status === 200) localStorage.removeItem('demoLinks')
+        if (res.status === 200) {
+          await localStorage.removeItem('demoLinks')
+          await localStorage.removeItem('linksCount')
+
+          await axios.post(apiUrl + 'delDemoLinksFromMain', demoLinks, {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
+        }
       } else {
         const links = []
         localStorage.setItem('links', JSON.stringify(links))
@@ -285,6 +313,8 @@ const signinWithMicrosoft = async (setShowToast, setToastOpts) => {
           uid: user.uid,
         })
       }
+
+      location.href = '/dashboard'
     })
     .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
 }
@@ -621,9 +651,8 @@ const deleteAccount = async (
     .then(async () => {
       await deleteUser(user)
         .then(async () => {
-          await localStorage.removeItem('user')
           await localStorage.removeItem('links')
-          await localStorage.removeItem('linkCount')
+          await localStorage.removeItem('linksCount')
           await localStorage.removeItem('demoLinks')
 
           location.href = '/auth?type=signup'

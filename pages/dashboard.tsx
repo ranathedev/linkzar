@@ -18,7 +18,7 @@ const DashboardPage = ({ user, isLoading, theme }: PageProps) => {
 
   if (!isLoading && mode !== 'dev' && !user) router.push('/auth?type=signin')
 
-  const domainUrl = 'https://linkzar.fly.dev/'
+  const domainUrl = process.env.DOMAIN_URL
 
   return isLoading ? (
     <LoadingScreen />
@@ -33,7 +33,7 @@ const DashboardPage = ({ user, isLoading, theme }: PageProps) => {
           <VerificationDialog theme={theme} user={user} />
         </div>
       ) : (
-        <Dashboard theme={theme} domainUrl={domainUrl} user={user} />
+        <Dashboard theme={theme} domainUrl={domainUrl as string} user={user} />
       )}
     </Layout>
   )

@@ -14,11 +14,14 @@ module.exports = {
     APPID: process.env.APPID,
     MEASUREMENTID: process.env.MEASUREMENTID,
     BUCKET: process.env.BUCKET,
+    API_URL: process.env.API_URL,
+    DOMAIN_URL: process.env.DOMAIN_URL,
   },
   reactStrictMode: true,
   images: {
     unoptimized: true,
   },
+  output: 'export',
   webpack: config => {
     config.module.rules.push({
       test: /\.svg$/,

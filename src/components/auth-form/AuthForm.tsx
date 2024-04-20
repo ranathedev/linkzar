@@ -68,19 +68,20 @@ const AuthForm = ({ theme }: Props) => {
       id: 'sign-in-with-google',
       icon: <GoogleIcon />,
       name: 'google',
-      onClick: () => signinWithGoogle(setShowToast, setShowToast),
+      onClick: () => signinWithGoogle(setShowToast, setShowToast, setIsLoading),
     },
     {
       id: 'sign-in-with-github',
       icon: <GithubIcon />,
       name: 'github',
-      onClick: () => signinWithGithub(setShowToast, setShowToast),
+      onClick: () => signinWithGithub(setShowToast, setShowToast, setIsLoading),
     },
     {
       id: 'sign-in-with-microsoft',
       icon: <MicrosoftIcon />,
       name: 'twitter',
-      onClick: () => signinWithMicrosoft(setShowToast, setShowToast),
+      onClick: () =>
+        signinWithMicrosoft(setShowToast, setShowToast, setIsLoading),
     },
   ]
   const signUpSchema = Yup.object().shape({

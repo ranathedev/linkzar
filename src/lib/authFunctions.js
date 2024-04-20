@@ -111,7 +111,6 @@ const signupWithEmailPassword = async (
         .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
     })
     .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
-
   setIsLoading(false)
 }
 
@@ -129,7 +128,8 @@ const signinWithEmailPassword = async (
     .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
 }
 
-const signinWithGoogle = async (setShowToast, setToastOpts) => {
+const signinWithGoogle = async (setShowToast, setToastOpts, setIsLoading) => {
+  setIsLoading(true)
   const provider = new GoogleAuthProvider()
   provider.setCustomParameters({
     prompt: 'consent',
@@ -190,9 +190,11 @@ const signinWithGoogle = async (setShowToast, setToastOpts) => {
       location.href = '/dashboard'
     })
     .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
+  setIsLoading(false)
 }
 
-const signinWithGithub = async (setShowToast, setToastOpts) => {
+const signinWithGithub = async (setShowToast, setToastOpts, setIsLoading) => {
+  setIsLoading(true)
   const provider = new GithubAuthProvider()
   provider.setCustomParameters({
     prompt: 'consent',
@@ -253,9 +255,15 @@ const signinWithGithub = async (setShowToast, setToastOpts) => {
       location.href = '/dashboard'
     })
     .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
+  setIsLoading(false)
 }
 
-const signinWithMicrosoft = async (setShowToast, setToastOpts) => {
+const signinWithMicrosoft = async (
+  setShowToast,
+  setToastOpts,
+  setIsLoading
+) => {
+  setIsLoading(true)
   const provider = new OAuthProvider('microsoft.com')
 
   provider.setCustomParameters({
@@ -317,6 +325,7 @@ const signinWithMicrosoft = async (setShowToast, setToastOpts) => {
       location.href = '/dashboard'
     })
     .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
+  setIsLoading(false)
 }
 
 const sendVerificationEmail = async (user, setShowToast, setToastOpts) => {

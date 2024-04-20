@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import type { AppProps } from 'next/app'
-import { Provider, store, persistor, PersistGate } from '../src/store'
-import '@/styles/globals.scss'
-import IdTokenListener from 'components/IdTokenListener'
 import { User } from 'firebase/auth'
+
+import '@/styles/globals.scss'
+import { Provider, store, persistor, PersistGate } from '../src/store'
+
+import IdTokenListener from 'components/IdTokenListener'
 
 export default function App({ Component, pageProps }: AppProps) {
   const [user, setUser] = useState<User | null>(null)

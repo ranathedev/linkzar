@@ -26,4 +26,9 @@ jobs:
           echo "DOMAIN_URL=${{ secrets.DOMAIN_URL }}" >> .env
 
       - run: yarn install --frozen-lockfile && yarn build
-      - run: yarn deploy
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_URLZAR }}'
+          channelId: live
+          projectId: urlzar

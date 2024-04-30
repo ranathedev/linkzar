@@ -554,14 +554,15 @@ const updatePhoto = async (
   user
 ) => {
   setIsLoading(true)
+  const imgRefUrl = `gs://${process.env.STORAGEBUCKET}/${uid}/profilePic`
   const file = e.target.files[0]
   const uid = user.uid
-  const profilePicRef = ref(storage, `${process.env.BUCKET}/${uid}/profilePic`)
+  const profilePicRef = ref(storage, imgRefUrl)
   await deleteObject(profilePicRef)
     .then(() => {})
     .catch(err => {})
 
-  const storageRef = ref(storage, `${process.env.BUCKET}/${uid}/profilePic`)
+  const storageRef = ref(storage, imgRefUrl)
 
   const uploadTask = uploadBytesResumable(storageRef, file)
 
@@ -610,7 +611,10 @@ const updatePhoto = async (
 const deletePhoto = async (setShowToast, setToastOpts, user, setIsLoading) => {
   setIsLoading(true)
   const uid = user.uid
-  const profilePicRef = ref(storage, `${process.env.BUCKET}/${uid}/profilePic`)
+  const profilePicRef = ref(
+    storage,
+    `gs://${process.env.STORAGEBUCKET}/${uid}/profilePic`
+  )
 
   await deleteObject(profilePicRef)
     .then(async () => {

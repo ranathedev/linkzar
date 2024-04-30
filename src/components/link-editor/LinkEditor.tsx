@@ -11,7 +11,7 @@ interface Props {
   theme: string
   showEditor: boolean
   linkData: {
-    _id: string
+    id: string
     shortId: string
     originalURL: string
     createdDate: string
@@ -70,7 +70,7 @@ const LinkEditor = ({
     else {
       setError('')
       setShowEditor(false)
-      const response = await editLink(linkData._id, value, uid)
+      const response = await editLink(linkData.id, value, uid)
       sendResponse(response)
     }
 

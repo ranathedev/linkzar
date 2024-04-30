@@ -29,7 +29,7 @@ interface Props {
   variant: 'primary' | 'secondary'
   domainUrl: string
   linkData: {
-    _id: string
+    id: string
     shortId: string
     originalURL: string
     createdDate: string
@@ -141,7 +141,7 @@ const ActionBox = ({
   }
 
   const handleDelete = () => {
-    handleDelLink(linkData._id, setLoading, sendResponse, uid)
+    handleDelLink(linkData.id, setLoading, sendResponse, uid)
     setShowDialog(false)
   }
 
@@ -175,7 +175,7 @@ const ActionBox = ({
           <li
             onClick={() => {
               openLink(domainUrl + linkData.shortId)
-              increaseClickCount(linkData._id)
+              increaseClickCount(linkData.id)
             }}
           >
             <OpenLinkIcon /> Open short link

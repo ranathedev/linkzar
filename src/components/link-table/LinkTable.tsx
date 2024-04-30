@@ -41,23 +41,25 @@ const LinkTable = ({ theme, domainUrl, user }: Props) => {
 
     window.addEventListener('keydown', handleKeyDown)
 
+    const linksData = localStorage.getItem('links')
+    if (linksData) {
+      //@ts-ignore
+      const links = JSON.parse(linksData)
+      if (links.length > 0 && !!links[0].id) setListOfLinks(links)
+      else {
+        localStorage.removeItem('links')
+        setListOfLinks([])
+      }
+    }
+
+    isMobileDevice() ? setDevice('mobile') : setDevice('')
+
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [])
 
   useEffect(() => {
     theme === 'dark' ? setClassName(stl.darkLinkTable) : setClassName('')
   }, [theme])
-
-  useEffect(() => {
-    const linksData = localStorage.getItem('links')
-    if (linksData) {
-      //@ts-ignore
-      const links = JSON.parse(linksData)
-      setListOfLinks(links)
-    }
-
-    isMobileDevice() ? setDevice('mobile') : setDevice('')
-  }, [])
 
   const refresh = async () => {
     const links = await getLinks(setIsRefreshing, user?.uid)
@@ -83,7 +85,7 @@ const LinkTable = ({ theme, domainUrl, user }: Props) => {
   }
 
   const removeLink = async (linkId: string) => {
-    const updatedList = await listOfLinks.filter(link => link._id !== linkId)
+    const updatedList = await listOfLinks.filter(link => link.id !== linkId)
 
     setTimeout(() => {
       saveDataToLocalStorage(updatedList)
@@ -92,8 +94,8 @@ const LinkTable = ({ theme, domainUrl, user }: Props) => {
   }
 
   const updateLinkInList = async (updatedLink: LinkType) => {
-    const updatedListOfLinks = await listOfLinks.map(link =>
-      link._id === updatedLink._id ? updatedLink : link
+    const updatedListOfLinks = listOfLinks.map(link =>
+      link.id === updatedLink.id ? updatedLink : link
     )
 
     setListOfLinks(updatedListOfLinks)
@@ -101,7 +103,7 @@ const LinkTable = ({ theme, domainUrl, user }: Props) => {
   }
 
   const increaseClickCount = async (linkId: string) => {
-    const linkIndex = await listOfLinks.findIndex(link => link._id === linkId)
+    const linkIndex = await listOfLinks.findIndex(link => link.id === linkId)
 
     if (linkIndex !== -1) {
       const updatedLinks = await [...listOfLinks]
@@ -195,7 +197,7 @@ const LinkTable = ({ theme, domainUrl, user }: Props) => {
               {listOfLinks.length > 0 ? (
                 listOfLinks.map(linkItem => (
                   <TableRow
-                    key={linkItem._id}
+                    key={linkItem.id}
                     domainUrl={domainUrl}
                     theme={theme}
                     sendDeleteId={removeLink}

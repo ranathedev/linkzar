@@ -1,3 +1,3 @@
-import LinkEditor from "./LinkEditor";
+import LinkEditor from './LinkEditor'
 
-export default LinkEditor;
+export default LinkEditor

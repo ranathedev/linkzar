@@ -65,7 +65,7 @@ const TableRow = ({
     if (!res.err) {
       setShowToast(true)
       setToastOpts({ variant: 'success', msg: 'Link deleted successfully!' })
-      sendDeleteId(linkData._id)
+      sendDeleteId(linkData.id)
       sendUpdatedLinks(res)
     } else {
       setShowToast(true)
@@ -142,9 +142,7 @@ const TableRow = ({
         <span className={stl.divider} />
         <span className={stl.clicks}>{linkData.clickCounts}</span>
         <span className={stl.divider} />
-        <span className={stl.date}>
-          {formatDate(new Date(linkData.createdDate))}
-        </span>
+        <span className={stl.date}>{formatDate(linkData.createdDate)}</span>
         <ActionBox
           display={showActionList ? 'none' : 'inline-flex'}
           theme={theme}
@@ -167,7 +165,7 @@ const TableRow = ({
 
 TableRow.defaultProps = {
   linkData: {
-    _id: '64dcac9194d3a3336afe917d',
+    id: '64dcac9194d3a3336afe917d',
     shortId: 'aftaab',
     originalURL: 'https://www.youtube.com/watch?v=I7EDAR2GRVo',
     clickCounts: 345,

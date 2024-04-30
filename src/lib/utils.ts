@@ -194,7 +194,7 @@ const shareShortUrl = (method: string, shortId: string) => {
     (method === 'Whatsapp' && shareViaWhatsapp(url))
 }
 
-const formatDate = (date: Date) => {
+const formatDate = (timestamp: any) => {
   const months = [
     'Jan',
     'Feb',
@@ -210,6 +210,14 @@ const formatDate = (date: Date) => {
     'Dec',
   ]
 
+  let date
+
+  const { _seconds, _nanoseconds } = timestamp
+  const milliseconds = _seconds * 1000 + Math.floor(_nanoseconds / 1e6)
+  date = new Date(milliseconds)
+
+  if (!isValidDate(date)) date = new Date(timestamp)
+
   const day = date.getDate()
   const monthIndex = date.getMonth()
   const year = date.getFullYear()
@@ -217,6 +225,9 @@ const formatDate = (date: Date) => {
   const formattedDate = `${months[monthIndex]}-${day}-${year}`
   return formattedDate
 }
+
+// @ts-ignore
+const isValidDate = (d: any) => d instanceof Date && !isNaN(d)
 
 const qas = [
   {

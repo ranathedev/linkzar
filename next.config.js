@@ -13,7 +13,6 @@ module.exports = {
     MESSAGINGSENDERID: process.env.MESSAGINGSENDERID,
     APPID: process.env.APPID,
     MEASUREMENTID: process.env.MEASUREMENTID,
-    BUCKET: process.env.BUCKET,
     API_URL: process.env.API_URL,
     DOMAIN_URL: process.env.DOMAIN_URL,
   },

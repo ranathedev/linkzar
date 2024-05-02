@@ -55,7 +55,7 @@ const URLShortener = ({
   const [url, setURL] = useState('')
   const [alias, setAlias] = useState('')
   const [linkData, setLinkData] = useState({
-    id: '',
+    _id: '',
     shortId: '',
     originalURL: '',
     clickCounts: 0,
@@ -102,7 +102,7 @@ const URLShortener = ({
     setUrlErr('')
     setAliasErr('')
     setLinkData({
-      id: '',
+      _id: '',
       shortId: '',
       originalURL: '',
       clickCounts: 0,
@@ -198,7 +198,7 @@ const URLShortener = ({
       setShowToast(true)
       setToastOpts({ variant: 'success', msg: 'Link deleted successfully!' })
       handleReset()
-      sendDeleteId(linkData.id)
+      sendDeleteId(linkData._id)
       if (uid === 'links') {
         const data = localStorage.getItem('linksCount')
         if (data) {
@@ -213,7 +213,7 @@ const URLShortener = ({
         if (demoLinksData) {
           const existingData = JSON.parse(demoLinksData)
           const updatedData = existingData.filter(
-            (item: LinkType) => item.id !== linkData.id
+            (item: LinkType) => item._id !== linkData._id
           )
           const stringData = JSON.stringify(updatedData)
           localStorage.setItem('demoLinks', stringData)
@@ -231,7 +231,7 @@ const URLShortener = ({
   }
 
   const handleDelete = () => {
-    handleDelLink(linkData.id, setLoading, getResponse, uid)
+    handleDelLink(linkData._id, setLoading, getResponse, uid)
     setShowDialog(false)
   }
 

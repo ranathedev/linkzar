@@ -45,11 +45,7 @@ const LinkTable = ({ theme, domainUrl, user }: Props) => {
     if (linksData) {
       //@ts-ignore
       const links = JSON.parse(linksData)
-      if (links.length > 0 && !!links[0].id) setListOfLinks(links)
-      else {
-        localStorage.removeItem('links')
-        setListOfLinks([])
-      }
+      setListOfLinks(links)
     }
 
     isMobileDevice() ? setDevice('mobile') : setDevice('')
@@ -85,7 +81,7 @@ const LinkTable = ({ theme, domainUrl, user }: Props) => {
   }
 
   const removeLink = async (linkId: string) => {
-    const updatedList = await listOfLinks.filter(link => link.id !== linkId)
+    const updatedList = await listOfLinks.filter(link => link._id !== linkId)
 
     setTimeout(() => {
       saveDataToLocalStorage(updatedList)
@@ -95,7 +91,7 @@ const LinkTable = ({ theme, domainUrl, user }: Props) => {
 
   const updateLinkInList = async (updatedLink: LinkType) => {
     const updatedListOfLinks = listOfLinks.map(link =>
-      link.id === updatedLink.id ? updatedLink : link
+      link._id === updatedLink._id ? updatedLink : link
     )
 
     setListOfLinks(updatedListOfLinks)
@@ -103,7 +99,7 @@ const LinkTable = ({ theme, domainUrl, user }: Props) => {
   }
 
   const increaseClickCount = async (linkId: string) => {
-    const linkIndex = await listOfLinks.findIndex(link => link.id === linkId)
+    const linkIndex = await listOfLinks.findIndex(link => link._id === linkId)
 
     if (linkIndex !== -1) {
       const updatedLinks = await [...listOfLinks]
@@ -197,7 +193,7 @@ const LinkTable = ({ theme, domainUrl, user }: Props) => {
               {listOfLinks.length > 0 ? (
                 listOfLinks.map(linkItem => (
                   <TableRow
-                    key={linkItem.id}
+                    key={linkItem._id}
                     domainUrl={domainUrl}
                     theme={theme}
                     sendDeleteId={removeLink}

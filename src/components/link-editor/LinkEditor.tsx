@@ -6,17 +6,12 @@ import Button from 'components/button'
 import InputError from 'components/input-error'
 
 import stl from './LinkEditor.module.scss'
+import { LinkType } from 'lib/type'
 
 interface Props {
   theme: string
   showEditor: boolean
-  linkData: {
-    id: string
-    shortId: string
-    originalURL: string
-    createdDate: string
-    clickCounts: number
-  }
+  linkData: LinkType
   setShowEditor: (arg: boolean) => void
   sendResponse: (arg: Object) => void
   setLoading: (arg: string) => void
@@ -70,7 +65,7 @@ const LinkEditor = ({
     else {
       setError('')
       setShowEditor(false)
-      const response = await editLink(linkData.id, value, uid)
+      const response = await editLink(linkData._id, value, uid)
       sendResponse(response)
     }
 
@@ -118,7 +113,7 @@ const LinkEditor = ({
 LinkEditor.defaultProps = {
   showEditor: false,
   linkData: {
-    id: '1234567890',
+    _id: '1234567890',
     shortId: 'aftab',
     originalURL: 'https://www.google.com/',
     clickCounts: 300,

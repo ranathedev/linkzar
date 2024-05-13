@@ -24,12 +24,12 @@ jobs:
           echo "MEASUREMENTID=${{ secrets.MEASUREMENTID }}" >> .env
           echo "API_URL=${{ secrets.API_URL }}" >> .env
           echo "DOMAIN_URL=${{ secrets.DOMAIN_URL }}" >> .env
-      - name: Build and Deploy to Firebase
+      - name: Deploy functions
         run: |
+          cd functions
           yarn install --frozen-lockfile
           echo "$GCP_SA_KEY" > /opt/gcp_key.json
           export GOOGLE_APPLICATION_CREDENTIALS=/opt/gcp_key.json
           npx firebase-tools@latest deploy --only functions
         env:
           GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_URLZAR }}
-        working-directory: functions

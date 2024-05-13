@@ -26,7 +26,6 @@ jobs:
           echo "DOMAIN_URL=${{ secrets.DOMAIN_URL }}" >> .env
       - name: Deploy functions
         run: |
-          cd functions
           yarn install --frozen-lockfile
           echo "$GCP_SA_KEY" > /opt/gcp_key.json
           export GOOGLE_APPLICATION_CREDENTIALS=/opt/gcp_key.json

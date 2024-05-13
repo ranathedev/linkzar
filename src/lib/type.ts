@@ -1,7 +1,7 @@
 import { User } from 'firebase/auth'
 
 export interface LinkType {
-  id: string
+  _id: string
   shortId: string
   originalURL: string
   createdDate: string

@@ -10,7 +10,8 @@
     "build": "next build",
     "start": "next start -p 3000",
     "lint": "next lint",
-    "deploy": "next build && firebase deploy --only hosting"
+    "deploy": "next build && firebase deploy --only hosting",
+    "deploy:functions": "firebase deploy --only functions"
   },
   "dependencies": {
     "@emailjs/browser": "^3.11.0",

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { User } from 'firebase/auth'
-import { doc, setDoc } from 'firebase/firestore'
+import { doc, getDoc, setDoc } from 'firebase/firestore'
 
 import auth, { db } from '../lib/firebase'
 
@@ -18,17 +18,21 @@ const IdTokenListener = ({ setUser, setIsLoading, setTheme }: Props) => {
     const unsubscribe = auth.onIdTokenChanged(async user => {
       if (user) {
         setUser(user)
+
         try {
           const docRef = doc(db, 'users', user.uid)
-          const data = {
-            id: user.uid,
-            name: user.displayName,
-            email: user.email,
-            emailVerified: user.emailVerified,
-            photoURL: user.photoURL,
-            creationTime: user.metadata.creationTime,
+          const snapshot = await getDoc(docRef)
+          if (!snapshot.exists()) {
+            const data = {
+              id: user.uid,
+              name: user.displayName,
+              email: user.email,
+              emailVerified: user.emailVerified,
+              photoURL: user.photoURL,
+              creationTime: user.metadata.creationTime,
+            }
+            setDoc(docRef, data)
           }
-          setDoc(docRef, data)
         } catch (error) {}
 
         getRefreshedToken(user)

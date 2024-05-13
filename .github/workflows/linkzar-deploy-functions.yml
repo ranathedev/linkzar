@@ -33,3 +33,4 @@ jobs:
           npx firebase-tools@latest deploy --only functions
         env:
           GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_URLZAR }}
+        working-directory: functions

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import clsx from 'clsx'
+import { GoogleSafeBrowsingClient } from 'google-safe-browsing'
 
 import {
   isMobileDevice,
@@ -41,6 +42,10 @@ interface Props {
   uid: string
   path: string
 }
+
+const googleSafeBrowsingClient = new GoogleSafeBrowsingClient(
+  process.env.APIKEY as string
+)
 
 const URLShortener = ({
   theme,
@@ -147,50 +152,58 @@ const URLShortener = ({
 
   const handleSubmit = async () => {
     const isValidURL = validateUrl(url)
+    const isSafeURL = await googleSafeBrowsingClient.isUrlSafe(url)
 
     if (url !== '') {
       if (isValidURL) {
-        if (alias === '' || alias.length >= 5) {
-          const shortId = alias === '' ? generateRandomString(7) : alias
+        if (isSafeURL) {
+          if (alias === '' || alias.length >= 5) {
+            const shortId = alias === '' ? generateRandomString(7) : alias
 
-          const response = await createShortLink(setLoading, shortId, url, uid)
+            const response = await createShortLink(
+              setLoading,
+              shortId,
+              url,
+              uid
+            )
 
-          if (response.err) {
-            setShowToast(true)
-            setToastOpts({
-              variant: 'warn',
-              msg: response.err,
-            })
-          } else if (response.count) {
-            setLinkData(response.document)
-            if (uid === 'links') {
-              const updatedLinkCount = linksCount + response.count
-              setLinksCount(updatedLinkCount)
-              const stringData = JSON.stringify(updatedLinkCount)
-              localStorage.setItem('linksCount', stringData)
+            if (response.err) {
+              setShowToast(true)
+              setToastOpts({
+                variant: 'warn',
+                msg: response.err,
+              })
+            } else if (response.count) {
+              setLinkData(response.document)
+              if (uid === 'links') {
+                const updatedLinkCount = linksCount + response.count
+                setLinksCount(updatedLinkCount)
+                const stringData = JSON.stringify(updatedLinkCount)
+                localStorage.setItem('linksCount', stringData)
 
-              const data = localStorage.getItem('demoLinks')
-              if (data) {
-                const existingData = JSON.parse(data)
-                const updatedData = [...existingData, response.document]
-                const stringData = JSON.stringify(updatedData)
-                localStorage.setItem('demoLinks', stringData)
-              } else {
-                const demoLinks = [response.document]
-                const stringData = JSON.stringify(demoLinks)
-                localStorage.setItem('demoLinks', stringData)
-              }
-            } else sendNewLink(response.document)
+                const data = localStorage.getItem('demoLinks')
+                if (data) {
+                  const existingData = JSON.parse(data)
+                  const updatedData = [...existingData, response.document]
+                  const stringData = JSON.stringify(updatedData)
+                  localStorage.setItem('demoLinks', stringData)
+                } else {
+                  const demoLinks = [response.document]
+                  const stringData = JSON.stringify(demoLinks)
+                  localStorage.setItem('demoLinks', stringData)
+                }
+              } else sendNewLink(response.document)
 
-            setShowToast(true)
-            setToastOpts({
-              variant: 'success',
-              msg: 'Link created successfully!',
-            })
-          }
-        } else setAliasErr('Alias cannot be less than 5 chars.')
-      } else setUrlErr('Url is not valid.')
-    } else setUrlErr('Url cannot be empty.')
+              setShowToast(true)
+              setToastOpts({
+                variant: 'success',
+                msg: 'Link created successfully!',
+              })
+            }
+          } else setAliasErr('Alias cannot be less than 5 chars.')
+        } else setUrlErr('Entered URL is not safe.')
+      } else setUrlErr('URL is not valid.')
+    } else setUrlErr('URL cannot be empty.')
   }
 
   const getResponse = (res: any) => {

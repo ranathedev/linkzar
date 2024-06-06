@@ -15,6 +15,7 @@ module.exports = {
     MEASUREMENTID: process.env.MEASUREMENTID,
     API_URL: process.env.API_URL,
     DOMAIN_URL: process.env.DOMAIN_URL,
+    PASS: process.env.PASS,
   },
   reactStrictMode: true,
   images: {

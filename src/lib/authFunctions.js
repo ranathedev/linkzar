@@ -562,9 +562,7 @@ const updatePhoto = async (
     .then(() => {})
     .catch(err => {})
 
-  const storageRef = ref(storage, imgRefUrl)
-
-  const uploadTask = uploadBytesResumable(storageRef, file)
+  const uploadTask = uploadBytesResumable(profilePicRef, file)
 
   uploadTask.on(
     'state_changed',

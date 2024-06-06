@@ -23,8 +23,8 @@ const UnderMaintenance = () => (
     <div className={stl.content}>
       <h1>Technical Problems</h1>
       <p>
-        We're currently experiencing technical issues and the site cannot be
-        accessed at the moment. Please try again later.
+        We&apos;re currently experiencing technical issues and the site cannot
+        be accessed at the moment. Please try again later.
       </p>
     </div>
   </div>

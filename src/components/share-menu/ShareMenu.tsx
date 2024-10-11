@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from 'react'
-import clsx from 'clsx'
+import React, { useEffect, useRef } from "react"
+import clsx from "clsx"
 
-import useOnClickOutside from 'lib/useClickOutside'
-import { shareShortUrl } from 'lib/utils'
+import useOnClickOutside from "lib/useClickOutside"
+import { shareShortUrl } from "lib/utils"
 
-import stl from './ShareMenu.module.scss'
+import stl from "./ShareMenu.module.scss"
 
 interface Props {
   theme: string
@@ -21,19 +21,19 @@ const ShareMenu = ({
   shortId,
   customClass,
 }: Props) => {
-  const [className, setClassName] = React.useState('')
+  const [className, setClassName] = React.useState("")
 
   const ref = useRef(null)
 
   useEffect(() => {
-    theme === 'dark' ? setClassName(stl.darkShareMenu) : setClassName('')
+    theme === "dark" ? setClassName(stl.darkShareMenu) : setClassName("")
   }, [theme])
 
   const hideMenu = () => setShowShareMenu(false)
 
   useOnClickOutside(hideMenu, ref)
 
-  const shareOptions = ['Email', 'Twitter', 'LinkedIn', 'Facebook', 'Whatsapp']
+  const shareOptions = ["Email", "Twitter", "LinkedIn", "Facebook", "Whatsapp"]
 
   const handleOnClick = (method: string) => {
     shareShortUrl(method, shortId)
@@ -46,7 +46,7 @@ const ShareMenu = ({
       className={clsx(
         stl.shareMenu,
         className,
-        isVisible ? stl.show : '',
+        isVisible ? stl.show : "",
         customClass
       )}
     >

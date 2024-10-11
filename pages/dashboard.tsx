@@ -1,22 +1,23 @@
-import React from 'react'
-import { useRouter } from 'next/router'
+import React from "react"
+import { useRouter } from "next/router"
 
-import { PageProps } from 'lib/type'
-import Dashboard from 'components/dashboard'
-import Layout from 'components/layout'
-import LoadingScreen from 'components/loading-screen'
-import VerificationDialog from 'components/verification-dialog'
+import { PageProps } from "lib/type"
+import Dashboard from "components/dashboard"
+import Layout from "components/layout"
+import LoadingScreen from "components/loading-screen"
+import VerificationDialog from "components/verification-dialog"
 
-import stl from './index.module.scss'
+import stl from "./index.module.scss"
 
 const DashboardPage = ({ user, isLoading, theme }: PageProps) => {
   const router = useRouter()
 
   const urlParams = new URLSearchParams(window.location.search)
 
-  const mode = urlParams.get('mode')
+  const mode = urlParams.get("mode")
 
-  if (!isLoading && mode !== 'dev' && !user) router.push('/auth?type=signin')
+  if (!isLoading && mode !== "dev" && !user)
+    router.push("/auth?type=signin&mode=dev")
 
   const domainUrl = process.env.DOMAIN_URL
 
@@ -26,7 +27,7 @@ const DashboardPage = ({ user, isLoading, theme }: PageProps) => {
     <Layout
       theme={theme}
       user={user}
-      title={user?.emailVerified ? 'Dashboard' : 'Verify' + ' | Linkzar'}
+      title={user?.emailVerified ? "Dashboard" : "Verify" + " | Linkzar"}
     >
       {user && !user.emailVerified ? (
         <div className={stl.verification}>

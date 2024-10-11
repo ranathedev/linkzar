@@ -1,22 +1,22 @@
-import React from 'react'
-import { useRouter } from 'next/router'
+import React from "react"
+import { useRouter } from "next/router"
 
-import { PageProps } from 'lib/type'
-import Layout from 'components/layout'
-import URLShortener from 'components/url-shortener'
-import DemoContent from 'components/demo-content'
-import LoadingScreen from 'components/loading-screen'
+import { PageProps } from "lib/type"
+import Layout from "components/layout"
+import URLShortener from "components/url-shortener"
+import DemoContent from "components/demo-content"
+import LoadingScreen from "components/loading-screen"
 
-import stl from './index.module.scss'
+import stl from "./index.module.scss"
 
 const Shorten = ({ user, isLoading, theme }: PageProps) => {
   const router = useRouter()
 
   const urlParams = new URLSearchParams(window.location.search)
 
-  const mode = urlParams.get('mode')
+  const mode = urlParams.get("mode")
 
-  if (mode !== 'dev' && user) router.push('/dashboard')
+  if (mode !== "dev" && user) router.push("/dashboard?mode=dev")
 
   const domainUrl = process.env.DOMAIN_URL
 

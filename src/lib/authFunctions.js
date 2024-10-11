@@ -1,7 +1,7 @@
-import axios from 'axios'
-import firebase from 'firebase/app'
+import axios from "axios"
+import firebase from "firebase/app"
 
-import auth from './firebase'
+import auth from "./firebase"
 import {
   createUserWithEmailAndPassword,
   updateProfile,
@@ -17,21 +17,21 @@ import {
   updatePassword,
   deleteUser,
   reauthenticateWithPopup,
-} from 'firebase/auth'
+} from "firebase/auth"
 import {
   ref,
   deleteObject,
   uploadBytesResumable,
   getDownloadURL,
   getStorage,
-} from 'firebase/storage'
-import handleAuthErrs from './handleAuthErrs'
+} from "firebase/storage"
+import handleAuthErrs from "./handleAuthErrs"
 
 const storage = getStorage()
 
-let origin = ''
+let origin = ""
 
-if (typeof window !== 'undefined') origin = window.location.origin
+if (typeof window !== "undefined") origin = window.location.origin
 
 const actionCodeSettings = {
   url: `${origin}/dashboard`,
@@ -54,20 +54,20 @@ const signupWithEmailPassword = async (
     .then(async userCredential => {
       const user = userCredential.user
 
-      const displayName = (fname + ' ' + lname).trim()
+      const displayName = (fname + " " + lname).trim()
 
       await updateProfile(user, {
         displayName,
-        photoURL: 'https://i.postimg.cc/Mp7gnttP/default-Pic.jpg',
+        photoURL: "https://i.postimg.cc/Mp7gnttP/default-Pic.jpg",
       })
         .then(async () => {
-          const data = localStorage.getItem('demoLinks')
+          const data = localStorage.getItem("demoLinks")
 
           await sendEmailVerification(user, actionCodeSettings)
             .then(async () => {
               setShowToast(true)
               setToastOpts({
-                variant: 'success',
+                variant: "success",
                 msg: `Verification email sent to: ${email}`,
               })
 
@@ -76,37 +76,37 @@ const signupWithEmailPassword = async (
             .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
 
           if (data) {
-            localStorage.setItem('links', data)
+            localStorage.setItem("links", data)
             const originalArray = JSON.parse(data)
             const demoLinks = originalArray.reverse()
 
             const res = await axios.post(`${apiUrl}demoLinks`, {
-              headers: { 'Content-Type': 'application/json' },
+              headers: { "Content-Type": "application/json" },
               uid: user.uid,
               demoLinks,
             })
 
             if (res.status === 200) {
-              await localStorage.removeItem('demoLinks')
-              await localStorage.removeItem('linksCount')
+              await localStorage.removeItem("demoLinks")
+              await localStorage.removeItem("linksCount")
 
-              await axios.post(apiUrl + 'delDemoLinksFromMain', demoLinks, {
+              await axios.post(apiUrl + "delDemoLinksFromMain", demoLinks, {
                 headers: {
-                  'Content-Type': 'application/json',
+                  "Content-Type": "application/json",
                 },
               })
             }
           } else {
             const links = []
-            localStorage.setItem('links', JSON.stringify(links))
+            localStorage.setItem("links", JSON.stringify(links))
 
             await axios.post(`${apiUrl}createColl`, {
-              headers: { 'Content-Type': 'application/json' },
+              headers: { "Content-Type": "application/json" },
               uid: user.uid,
             })
           }
 
-          location.href = '/dashboard'
+          location.href = "/dashboard?mode=dev"
         })
         .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
     })
@@ -123,7 +123,7 @@ const signinWithEmailPassword = async (
   await signInWithEmailAndPassword(auth, email, password)
     .then(async userCredential => {
       const user = userCredential.user
-      location.href = '/dashboard'
+      location.href = "/dashboard?mode=dev"
     })
     .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
 }
@@ -132,21 +132,21 @@ const signinWithGoogle = async (setShowToast, setToastOpts, setIsLoading) => {
   setIsLoading(true)
   const provider = new GoogleAuthProvider()
   provider.setCustomParameters({
-    prompt: 'consent',
+    prompt: "consent",
   })
 
   await signInWithPopup(auth, provider)
     .then(async userCredential => {
       const user = userCredential.user
 
-      const data = localStorage.getItem('demoLinks')
+      const data = localStorage.getItem("demoLinks")
 
       if (!user.emailVerified) {
         await sendEmailVerification(user, actionCodeSettings)
           .then(async () => {
             setShowToast(true)
             setToastOpts({
-              variant: 'success',
+              variant: "success",
               msg: `Verification email sent to: ${email}`,
             })
 
@@ -156,38 +156,38 @@ const signinWithGoogle = async (setShowToast, setToastOpts, setIsLoading) => {
       }
 
       if (data) {
-        localStorage.setItem('links', data)
+        localStorage.setItem("links", data)
 
         const originalArray = JSON.parse(data)
         const demoLinks = originalArray.reverse()
 
         const res = await axios.post(`${apiUrl}demoLinks`, {
-          headers: { 'Content-Type': 'application/json' },
+          headers: { "Content-Type": "application/json" },
           uid: user.uid,
           demoLinks,
         })
 
         if (res.status === 200) {
-          await localStorage.removeItem('demoLinks')
-          await localStorage.removeItem('linksCount')
+          await localStorage.removeItem("demoLinks")
+          await localStorage.removeItem("linksCount")
 
-          await axios.post(apiUrl + 'delDemoLinksFromMain', demoLinks, {
+          await axios.post(apiUrl + "delDemoLinksFromMain", demoLinks, {
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
           })
         }
       } else {
         const links = []
-        localStorage.setItem('links', JSON.stringify(links))
+        localStorage.setItem("links", JSON.stringify(links))
 
         await axios.post(`${apiUrl}createColl`, {
-          headers: { 'Content-Type': 'application/json' },
+          headers: { "Content-Type": "application/json" },
           uid: user.uid,
         })
       }
 
-      location.href = '/dashboard'
+      location.href = "/dashboard?mode=dev"
     })
     .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
   setIsLoading(false)
@@ -197,21 +197,21 @@ const signinWithGithub = async (setShowToast, setToastOpts, setIsLoading) => {
   setIsLoading(true)
   const provider = new GithubAuthProvider()
   provider.setCustomParameters({
-    prompt: 'consent',
+    prompt: "consent",
   })
 
   signInWithPopup(auth, provider)
     .then(async userCredential => {
       const user = userCredential.user
 
-      const data = localStorage.getItem('demoLinks')
+      const data = localStorage.getItem("demoLinks")
 
       if (!user.emailVerified) {
         await sendEmailVerification(user, actionCodeSettings)
           .then(async () => {
             setShowToast(true)
             setToastOpts({
-              variant: 'success',
+              variant: "success",
               msg: `Verification email sent to: ${email}`,
             })
 
@@ -221,38 +221,38 @@ const signinWithGithub = async (setShowToast, setToastOpts, setIsLoading) => {
       }
 
       if (data) {
-        localStorage.setItem('links', data)
+        localStorage.setItem("links", data)
 
         const originalArray = JSON.parse(data)
         const demoLinks = originalArray.reverse()
 
         const res = await axios.post(`${apiUrl}demoLinks`, {
-          headers: { 'Content-Type': 'application/json' },
+          headers: { "Content-Type": "application/json" },
           uid: user.uid,
           demoLinks,
         })
 
         if (res.status === 200) {
-          await localStorage.removeItem('demoLinks')
-          await localStorage.removeItem('linksCount')
+          await localStorage.removeItem("demoLinks")
+          await localStorage.removeItem("linksCount")
 
-          await axios.post(apiUrl + 'delDemoLinksFromMain', demoLinks, {
+          await axios.post(apiUrl + "delDemoLinksFromMain", demoLinks, {
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
           })
         }
       } else {
         const links = []
-        localStorage.setItem('links', JSON.stringify(links))
+        localStorage.setItem("links", JSON.stringify(links))
 
         await axios.post(`${apiUrl}createColl`, {
-          headers: { 'Content-Type': 'application/json' },
+          headers: { "Content-Type": "application/json" },
           uid: user.uid,
         })
       }
 
-      location.href = '/dashboard'
+      location.href = "/dashboard?mode=dev"
     })
     .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
   setIsLoading(false)
@@ -264,24 +264,24 @@ const signinWithMicrosoft = async (
   setIsLoading
 ) => {
   setIsLoading(true)
-  const provider = new OAuthProvider('microsoft.com')
+  const provider = new OAuthProvider("microsoft.com")
 
   provider.setCustomParameters({
-    prompt: 'consent',
-    tenant: '6b2aaabf-fc70-42aa-bf76-c493c61263fc',
+    prompt: "consent",
+    tenant: "6b2aaabf-fc70-42aa-bf76-c493c61263fc",
   })
   signInWithPopup(auth, provider)
     .then(async userCredential => {
       const user = userCredential.user
 
-      const data = localStorage.getItem('demoLinks')
+      const data = localStorage.getItem("demoLinks")
 
       if (!user.emailVerified) {
         await sendEmailVerification(user, actionCodeSettings)
           .then(async () => {
             setShowToast(true)
             setToastOpts({
-              variant: 'success',
+              variant: "success",
               msg: `Verification email sent to: ${email}`,
             })
 
@@ -291,38 +291,38 @@ const signinWithMicrosoft = async (
       }
 
       if (data) {
-        localStorage.setItem('links', data)
+        localStorage.setItem("links", data)
 
         const originalArray = JSON.parse(data)
         const demoLinks = originalArray.reverse()
 
         const res = await axios.post(`${apiUrl}demoLinks`, {
-          headers: { 'Content-Type': 'application/json' },
+          headers: { "Content-Type": "application/json" },
           uid: user.uid,
           demoLinks,
         })
 
         if (res.status === 200) {
-          await localStorage.removeItem('demoLinks')
-          await localStorage.removeItem('linksCount')
+          await localStorage.removeItem("demoLinks")
+          await localStorage.removeItem("linksCount")
 
-          await axios.post(apiUrl + 'delDemoLinksFromMain', demoLinks, {
+          await axios.post(apiUrl + "delDemoLinksFromMain", demoLinks, {
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
           })
         }
       } else {
         const links = []
-        localStorage.setItem('links', JSON.stringify(links))
+        localStorage.setItem("links", JSON.stringify(links))
 
         await axios.post(`${apiUrl}createColl`, {
-          headers: { 'Content-Type': 'application/json' },
+          headers: { "Content-Type": "application/json" },
           uid: user.uid,
         })
       }
 
-      location.href = '/dashboard'
+      location.href = "/dashboard?mode=dev"
     })
     .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
   setIsLoading(false)
@@ -332,7 +332,7 @@ const sendVerificationEmail = async (user, setShowToast, setToastOpts) => {
   await sendEmailVerification(user, actionCodeSettings)
     .then(() => {
       setShowToast(true)
-      setToastOpts({ variant: 'success', msg: 'Verification Email sent!' })
+      setToastOpts({ variant: "success", msg: "Verification Email sent!" })
     })
     .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
 }
@@ -346,7 +346,7 @@ const sendResetPasswordEmail = async (email, setShowToast, setToastOpts) => {
     .then(() => {
       setShowToast(true)
       setToastOpts({
-        variant: 'success',
+        variant: "success",
         msg: `Password reset email sent to: ${email}`,
       })
     })
@@ -360,7 +360,7 @@ const updateName = async (
   setLoading,
   user
 ) => {
-  setLoading('Updaing Name')
+  setLoading("Updaing Name")
 
   await updateProfile(user, {
     displayName: name,
@@ -368,8 +368,8 @@ const updateName = async (
     .then(async () => {
       setShowToast(true)
       setToastOpts({
-        variant: 'success',
-        msg: 'Name updated successfully.',
+        variant: "success",
+        msg: "Name updated successfully.",
       })
     })
     .catch(err => {
@@ -377,12 +377,12 @@ const updateName = async (
 
       setShowToast(true)
       setToastOpts({
-        variant: 'danger',
+        variant: "danger",
         msg: "Can't update Name.",
       })
     })
 
-  setLoading('')
+  setLoading("")
 }
 
 const handleUpdateEmail = async (
@@ -394,15 +394,15 @@ const handleUpdateEmail = async (
   setLoading,
   user
 ) => {
-  setLoading('Updating Email')
+  setLoading("Updating Email")
   await updateEmail(user, email)
     .then(async () => {
       await sendEmailVerification(user)
         .then(async () => {
           setShowToast(true)
           setToastOpts({
-            variant: 'success',
-            msg: 'Email updated successfully.',
+            variant: "success",
+            msg: "Email updated successfully.",
           })
         })
         .catch(err => {
@@ -410,25 +410,25 @@ const handleUpdateEmail = async (
 
           setShowToast(true)
           setToastOpts({
-            variant: 'danger',
+            variant: "danger",
             msg: "Can't update Email.",
           })
         })
     })
     .catch(err => {
-      if (err.code === 'auth/requires-recent-login') {
+      if (err.code === "auth/requires-recent-login") {
         if (user !== null) {
           user.providerData.forEach(async profile => {
             const providerId = profile.providerId
 
             let provider
-            if (providerId === 'google.com') provider = new GoogleAuthProvider()
-            else if (providerId === 'github.com')
+            if (providerId === "google.com") provider = new GoogleAuthProvider()
+            else if (providerId === "github.com")
               provider = new GithubAuthProvider()
-            else if (providerId === 'microsoft.com')
-              provider = new OAuthProvider('microsoft.com')
+            else if (providerId === "microsoft.com")
+              provider = new OAuthProvider("microsoft.com")
 
-            if (providerId !== 'password') {
+            if (providerId !== "password") {
               await reauthenticateWithPopup(user, provider)
                 .then(async result => {
                   const user = result.user
@@ -437,8 +437,8 @@ const handleUpdateEmail = async (
                       .then(async () => {
                         setShowToast(true)
                         setToastOpts({
-                          variant: 'success',
-                          msg: 'Email updated successfully.',
+                          variant: "success",
+                          msg: "Email updated successfully.",
                         })
                       })
                       .catch(err => {
@@ -446,21 +446,22 @@ const handleUpdateEmail = async (
 
                         setShowToast(true)
                         setToastOpts({
-                          variant: 'danger',
+                          variant: "danger",
                           msg: "Can't update Email.",
                         })
                       })
                   }
                 })
-                .catch(err => console.log('Error:', err))
+                .catch(err => console.log("Error:", err))
             }
 
-            if (providerId === 'password') {
+            if (providerId === "password") {
               setShowDialog(true)
               setDialogOpts({
-                primaryBtnLabel: 'Go to Log In',
-                msg: 'You will have to log in again to perform this action.',
-                handleAction: () => (location.href = '/auth?type=signin'),
+                primaryBtnLabel: "Go to Log In",
+                msg: "You will have to log in again to perform this action.",
+                handleAction: () =>
+                  (location.href = "/auth?type=signin&mode=dev"),
               })
             }
           })
@@ -468,7 +469,7 @@ const handleUpdateEmail = async (
       } else handleAuthErrs(err, setShowToast, setToastOpts)
     })
 
-  setLoading('')
+  setLoading("")
 }
 
 const handleUpdatePass = async (
@@ -480,30 +481,30 @@ const handleUpdatePass = async (
   setLoading,
   user
 ) => {
-  setLoading('Updating Password')
+  setLoading("Updating Password")
 
   await updatePassword(user, newPassword)
     .then(() => {
       setShowToast(true)
       setToastOpts({
-        variant: 'success',
-        msg: 'Password updated successfully.',
+        variant: "success",
+        msg: "Password updated successfully.",
       })
     })
     .catch(err => {
-      if (err.code === 'auth/requires-recent-login') {
+      if (err.code === "auth/requires-recent-login") {
         if (user !== null) {
           user.providerData.forEach(async profile => {
             const providerId = profile.providerId
 
             let provider
-            if (providerId === 'google.com') provider = new GoogleAuthProvider()
-            else if (providerId === 'github.com')
+            if (providerId === "google.com") provider = new GoogleAuthProvider()
+            else if (providerId === "github.com")
               provider = new GithubAuthProvider()
-            else if (providerId === 'microsoft.com')
-              provider = new OAuthProvider('microsoft.com')
+            else if (providerId === "microsoft.com")
+              provider = new OAuthProvider("microsoft.com")
 
-            if (providerId !== 'password') {
+            if (providerId !== "password") {
               await reauthenticateWithPopup(user, provider)
                 .then(async result => {
                   const user = result.user
@@ -511,22 +512,23 @@ const handleUpdatePass = async (
                     .then(() => {
                       setShowToast(true)
                       setToastOpts({
-                        variant: 'success',
-                        msg: 'Password updated successfully.',
+                        variant: "success",
+                        msg: "Password updated successfully.",
                       })
                     })
                     .catch(err =>
                       handleAuthErrs(err, setShowToast, setToastOpts)
                     )
                 })
-                .catch(err => console.log('Error:', err))
+                .catch(err => console.log("Error:", err))
             }
 
-            if (providerId === 'password') {
+            if (providerId === "password") {
               setDialogOpts({
-                primaryBtnLabel: 'Go to Log In',
-                msg: 'You will have to log in again to perform this action.',
-                handleAction: () => (location.href = '/auth?type=signin'),
+                primaryBtnLabel: "Go to Log In",
+                msg: "You will have to log in again to perform this action.",
+                handleAction: () =>
+                  (location.href = "/auth?type=signin&mode=dev"),
               })
               setShowDialog(true)
             }
@@ -537,13 +539,13 @@ const handleUpdatePass = async (
 
         setShowToast(true)
         setToastOpts({
-          variant: 'danger',
+          variant: "danger",
           msg: "Can't update Password.",
         })
       }
     })
 
-  setLoading('')
+  setLoading("")
 }
 
 const updatePhoto = async (
@@ -565,7 +567,7 @@ const updatePhoto = async (
   const uploadTask = uploadBytesResumable(profilePicRef, file)
 
   uploadTask.on(
-    'state_changed',
+    "state_changed",
     snapshot => {
       const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
     },
@@ -578,8 +580,8 @@ const updatePhoto = async (
               setIsLoading(false)
               setShowToast(true)
               setToastOpts({
-                variant: 'success',
-                msg: 'Profile photo updated.',
+                variant: "success",
+                msg: "Profile photo updated.",
               })
             })
             .catch(err => {
@@ -587,7 +589,7 @@ const updatePhoto = async (
 
               setShowToast(true)
               setToastOpts({
-                variant: 'danger',
+                variant: "danger",
                 msg: "Can't update Profile photo.",
               })
             })
@@ -598,7 +600,7 @@ const updatePhoto = async (
           setIsLoading(false)
           setShowToast(true)
           setToastOpts({
-            variant: 'danger',
+            variant: "danger",
             msg: "Can't update Profile photo.",
           })
         })
@@ -616,14 +618,14 @@ const deletePhoto = async (setShowToast, setToastOpts, user, setIsLoading) => {
 
   await deleteObject(profilePicRef)
     .then(async () => {
-      const photoURL = 'https://i.postimg.cc/Mp7gnttP/default-Pic.jpg'
+      const photoURL = "https://i.postimg.cc/Mp7gnttP/default-Pic.jpg"
 
       await updateProfile(user, { photoURL })
         .then(() => {
           setShowToast(true)
           setToastOpts({
-            variant: 'success',
-            msg: 'Profile photo removed.',
+            variant: "success",
+            msg: "Profile photo removed.",
           })
         })
         .catch(err => {
@@ -631,7 +633,7 @@ const deletePhoto = async (setShowToast, setToastOpts, user, setIsLoading) => {
 
           setShowToast(true)
           setToastOpts({
-            variant: 'danger',
+            variant: "danger",
             msg: "Can't update Profile photo.",
           })
         })
@@ -639,7 +641,7 @@ const deletePhoto = async (setShowToast, setToastOpts, user, setIsLoading) => {
     .catch(err => {
       setShowToast(true)
       setToastOpts({
-        variant: 'danger',
+        variant: "danger",
         msg: "Can't update Profile photo.",
       })
     })
@@ -656,45 +658,45 @@ const deleteAccount = async (
 ) => {
   await axios
     .post(`${apiUrl}deleteColl`, {
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
       uid: user.uid,
     })
     .then(async () => {
       await deleteUser(user)
         .then(async () => {
-          await localStorage.removeItem('links')
-          await localStorage.removeItem('linksCount')
-          await localStorage.removeItem('demoLinks')
+          await localStorage.removeItem("links")
+          await localStorage.removeItem("linksCount")
+          await localStorage.removeItem("demoLinks")
 
-          location.href = '/auth?type=signup'
+          location.href = "/auth?type=signup&mode=dev"
         })
         .catch(err => {
-          if (err.code === 'auth/requires-recent-login') {
+          if (err.code === "auth/requires-recent-login") {
             if (user !== null) {
               user.providerData.forEach(async profile => {
                 const providerId = profile.providerId
 
                 let provider
-                if (providerId === 'google.com')
+                if (providerId === "google.com")
                   provider = new GoogleAuthProvider()
-                else if (providerId === 'github.com')
+                else if (providerId === "github.com")
                   provider = new GithubAuthProvider()
-                else if (providerId === 'microsoft.com')
-                  provider = new OAuthProvider('microsoft.com')
+                else if (providerId === "microsoft.com")
+                  provider = new OAuthProvider("microsoft.com")
 
-                if (providerId !== 'password') {
+                if (providerId !== "password") {
                   await reauthenticateWithPopup(user, provider)
                     .then(async result => {
                       const user = result.user
                       await deleteUser(user)
                         .then(async () => {
-                          await localStorage.removeItem('user')
-                          await localStorage.removeItem('links')
+                          await localStorage.removeItem("user")
+                          await localStorage.removeItem("links")
 
-                          location.href = '/auth?type=signup'
+                          location.href = "/auth?type=signup&mode=dev"
 
                           await axios.post(`${apiUrl}deleteColl`, {
-                            headers: { 'Content-Type': 'application/json' },
+                            headers: { "Content-Type": "application/json" },
                             uid: user.uid,
                           })
                         })
@@ -702,14 +704,15 @@ const deleteAccount = async (
                           handleAuthErrs(err, setShowToast, setToastOpts)
                         )
                     })
-                    .catch(err => console.log('Error:', err))
+                    .catch(err => console.log("Error:", err))
                 }
 
-                if (providerId === 'password') {
+                if (providerId === "password") {
                   setDialogOpts({
-                    primaryBtnLabel: 'Go to Log In',
-                    msg: 'You will have to Log In again to perform this action.',
-                    handleAction: () => (location.href = '/auth?type=signin'),
+                    primaryBtnLabel: "Go to Log In",
+                    msg: "You will have to Log In again to perform this action.",
+                    handleAction: () =>
+                      (location.href = "/auth?type=signin&mode=dev"),
                   })
                   setShowDialog(true)
                 }
@@ -721,7 +724,7 @@ const deleteAccount = async (
     .catch(err => {
       setShowToast(true)
       setToastOpts({
-        variant: 'danger',
+        variant: "danger",
         msg: "Can't delete account. Try again.",
       })
     })
@@ -729,7 +732,7 @@ const deleteAccount = async (
 
 const logOut = (setShowToast, setToastOpts) => {
   signOut(auth)
-    .then(() => (location.href = '/auth?type=signin'))
+    .then(() => (location.href = "/auth?type=signin&mode=dev"))
     .catch(err => handleAuthErrs(err, setShowToast, setToastOpts))
 }
 

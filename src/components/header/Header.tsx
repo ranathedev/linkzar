@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import clsx from 'clsx'
-import { User } from 'firebase/auth'
+import React, { useEffect, useState } from "react"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import clsx from "clsx"
+import { User } from "firebase/auth"
 
-import UserMenu from 'components/user-menu'
-import ToggleThemeBtn from 'components/toggle-theme-btn'
+import UserMenu from "components/user-menu"
+import ToggleThemeBtn from "components/toggle-theme-btn"
 
-import stl from './Header.module.scss'
+import stl from "./Header.module.scss"
 
 interface Props {
   theme: string
@@ -17,25 +17,25 @@ interface Props {
 const Header = ({ theme, user }: Props) => {
   const [expand, setIsExpand] = useState(false)
   const [width, setWidth] = useState(500)
-  const [className, setClassName] = useState('')
-  const [path, setPath] = useState('')
+  const [className, setClassName] = useState("")
+  const [path, setPath] = useState("")
   const router = useRouter()
 
   useEffect(() => {
-    theme === 'dark' ? setClassName(stl.darkHeader) : setClassName('')
+    theme === "dark" ? setClassName(stl.darkHeader) : setClassName("")
   }, [theme])
 
   const links = [
-    { name: 'Home', href: '/' },
+    { name: "Home", href: "/?mode=dev" },
     user
-      ? { name: 'Dashboard', href: '/dashboard' }
-      : { name: 'Shorten URL', href: '/shorten' },
-    { name: 'About', href: '/about' },
-    { name: 'Contact', href: '/contact' },
+      ? { name: "Dashboard", href: "/dashboard?mode=dev" }
+      : { name: "Shorten URL", href: "/shorten?mode=dev" },
+    { name: "About", href: "/about?mode=dev" },
+    { name: "Contact", href: "/contact?mode=dev" },
   ]
 
   useEffect(() => {
-    const btn = document.getElementById('btn')
+    const btn = document.getElementById("btn")
     expand ? btn?.classList.add(stl.active) : btn?.classList.add(stl.noActive)
     expand
       ? btn?.classList.remove(stl.notActive)
@@ -55,8 +55,8 @@ const Header = ({ theme, user }: Props) => {
       setWidth(document.body.clientWidth)
     }
     measureWidth()
-    window.addEventListener('resize', measureWidth)
-    return () => window.removeEventListener('resize', measureWidth)
+    window.addEventListener("resize", measureWidth)
+    return () => window.removeEventListener("resize", measureWidth)
   }, [])
 
   return (
@@ -65,7 +65,7 @@ const Header = ({ theme, user }: Props) => {
       className={clsx(stl.header, className)}
     >
       <div className={stl.container}>
-        <Link href="/" className={stl.logo}>
+        <Link href="/?mode=dev" className={stl.logo}>
           Linkzar
         </Link>
         <div className={stl.menu}>
@@ -73,7 +73,7 @@ const Header = ({ theme, user }: Props) => {
             <Link
               key={item.name}
               href={item.href}
-              className={path === item.href ? stl.active : ''}
+              className={path === item.href ? stl.active : ""}
             >
               {item.name}
             </Link>
@@ -85,8 +85,11 @@ const Header = ({ theme, user }: Props) => {
           ) : (
             <>
               <ToggleThemeBtn customClass={stl.toggleBtn} theme={theme} />
-              {path === '/auth' ? undefined : (
-                <Link href="/auth?type=signup" className={stl.signupBtn}>
+              {path === "/auth" ? undefined : (
+                <Link
+                  href="/auth?type=signup&mode=dev"
+                  className={stl.signupBtn}
+                >
                   Sign Up
                 </Link>
               )}
@@ -98,21 +101,21 @@ const Header = ({ theme, user }: Props) => {
             aria-label="Navigation"
             className={stl.expandBtn}
           >
-            <span></span>
-            <span></span>
-            <span></span>
+            <span />
+            <span />
+            <span />
           </button>
         </div>
       </div>
       <ul
-        style={expand ? { transform: 'scaleY(1)' } : { transform: 'scaleY(0)' }}
+        style={expand ? { transform: "scaleY(1)" } : { transform: "scaleY(0)" }}
         className={stl.list}
       >
         {links.map(item => (
           <li key={item.name}>
             <Link
               href={item.href}
-              className={path === item.href ? stl.active : ''}
+              className={path === item.href ? stl.active : ""}
             >
               {item.name}
             </Link>

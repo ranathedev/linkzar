@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react'
-import Image from 'next/image'
-import { useRouter } from 'next/router'
-import clsx from 'clsx'
+import React, { useEffect } from "react"
+import Image from "next/image"
+import { useRouter } from "next/router"
+import clsx from "clsx"
 
-import Button from 'components/button'
+import Button from "components/button"
 
-import ArrowIcon from 'assets/arrow-right.svg'
-import TrackURLImage from 'assets/track-url-section.png'
+import ArrowIcon from "assets/arrow-right.svg"
+import TrackURLImage from "assets/track-url-section.png"
 
-import stl from './HeroSection.module.scss'
+import stl from "./HeroSection.module.scss"
 
 interface Props {
   theme: string
@@ -33,17 +33,17 @@ const HeroSection = ({
   background,
   swap,
 }: Props) => {
-  const [className, setClassName] = React.useState('')
+  const [className, setClassName] = React.useState("")
   const router = useRouter()
 
   useEffect(() => {
-    theme === 'dark' ? setClassName(stl.darkHeroSec) : setClassName('')
+    theme === "dark" ? setClassName(stl.darkHeroSec) : setClassName("")
   }, [theme])
 
   return (
     <section
       style={{ background }}
-      className={clsx(stl.heroSec, swap ? stl.swap : '', className)}
+      className={clsx(stl.heroSec, swap ? stl.swap : "", className)}
     >
       <div className={stl.content}>
         <div className={stl.heading}>{heading}</div>
@@ -53,7 +53,7 @@ const HeroSection = ({
             label={btnLabel}
             theme={theme}
             rightIcon={btnIcon}
-            handleOnClick={() => router.push('/auth?type=signup')}
+            handleOnClick={() => router.push("/auth?type=signup&mode=dev")}
           />
         </div>
       </div>
@@ -65,13 +65,13 @@ const HeroSection = ({
 }
 
 HeroSection.defaultProps = {
-  heading: 'Simplifying Your Links',
+  heading: "Simplifying Your Links",
   desc: "Streamline your online experience with our link simplification tools. Shorten lengthy URLs into concise and shareable links that captivate your audience's attention. Customize these links with ease, personalize their destination, and gain valuable insights into their performance. Elevate engagement, enhance user experience, and optimize your digital strategy by simplifying your links with our powerful platform.",
-  btnLabel: 'Get Started',
+  btnLabel: "Get Started",
   btnIcon: <ArrowIcon />,
   imgSrc: TrackURLImage,
   imgAlt:
-    'A man scrutinizes a graph on a monitor with the help of a magnifying glass.',
+    "A man scrutinizes a graph on a monitor with the help of a magnifying glass.",
   swap: false,
 }
 

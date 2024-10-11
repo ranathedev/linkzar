@@ -1,28 +1,29 @@
-import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import clsx from 'clsx'
+import React, { useEffect, useState } from "react"
+import { useRouter } from "next/router"
+import clsx from "clsx"
 
-import { PageProps } from 'lib/type'
-import Layout from 'components/layout'
-import AvatarHandler from 'components/avatar-handler'
-import UserInfoSettings from 'components/user-info-settings'
-import LoadingScreen from 'components/loading-screen'
-import VerificationDialog from 'components/verification-dialog'
+import { PageProps } from "lib/type"
+import Layout from "components/layout"
+import AvatarHandler from "components/avatar-handler"
+import UserInfoSettings from "components/user-info-settings"
+import LoadingScreen from "components/loading-screen"
+import VerificationDialog from "components/verification-dialog"
 
-import stl from './index.module.scss'
+import stl from "./index.module.scss"
 
 const Profile = ({ user, isLoading, theme }: PageProps) => {
-  const [className, setClassName] = useState('')
+  const [className, setClassName] = useState("")
   const router = useRouter()
 
   const urlParams = new URLSearchParams(window.location.search)
 
-  const mode = urlParams.get('mode')
+  const mode = urlParams.get("mode")
 
-  if (!isLoading && mode !== 'dev' && !user) router.push('/auth?type=signin')
+  if (!isLoading && mode !== "dev" && !user)
+    router.push("/auth?type=signin&mode=dev")
 
   useEffect(() => {
-    theme === 'dark' ? setClassName(stl.darkProfile) : setClassName('')
+    theme === "dark" ? setClassName(stl.darkProfile) : setClassName("")
   }, [theme])
 
   return isLoading ? (

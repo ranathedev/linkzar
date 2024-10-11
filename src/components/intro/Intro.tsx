@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import Image from 'next/image'
-import { useRouter } from 'next/router'
-import clsx from 'clsx'
+import React, { useEffect, useState } from "react"
+import Image from "next/image"
+import { useRouter } from "next/router"
+import clsx from "clsx"
 
-import Button from 'components/button'
+import Button from "components/button"
 
-import Img from 'assets/url-shortener.png'
-import ArrowIcon from 'assets/arrow-right.svg'
+import Img from "assets/url-shortener.png"
+import ArrowIcon from "assets/arrow-right.svg"
 
-import stl from './Intro.module.scss'
+import stl from "./Intro.module.scss"
 
 interface Props {
   theme: string
@@ -17,11 +17,11 @@ interface Props {
 
 const Intro = ({ theme, customClass }: Props) => {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [className, setClassName] = useState('')
+  const [className, setClassName] = useState("")
   const texts = [
-    'Simplifying Your Links',
-    'Amplifying Your Reach',
-    'Optimizing Your Sharing',
+    "Simplifying Your Links",
+    "Amplifying Your Reach",
+    "Optimizing Your Sharing",
   ]
   const router = useRouter()
 
@@ -35,7 +35,7 @@ const Intro = ({ theme, customClass }: Props) => {
   }, [texts.length])
 
   useEffect(() => {
-    theme === 'dark' ? setClassName(stl.darkIntro) : setClassName('')
+    theme === "dark" ? setClassName(stl.darkIntro) : setClassName("")
   }, [theme])
 
   return (
@@ -50,7 +50,7 @@ const Intro = ({ theme, customClass }: Props) => {
                   key={text}
                   className={clsx(
                     stl.text,
-                    `${i === currentIndex ? stl.current : ''}`
+                    `${i === currentIndex ? stl.current : ""}`
                   )}
                 >
                   {text}
@@ -67,13 +67,13 @@ const Intro = ({ theme, customClass }: Props) => {
               label="Get Started"
               theme={theme}
               rightIcon={<ArrowIcon />}
-              handleOnClick={() => router.push('/dashboard')}
+              handleOnClick={() => router.push("/dashboard?mode=dev")}
             />
             <Button
               label="Try Demo"
               theme={theme}
               variant="secondary"
-              handleOnClick={() => router.push('/shorten')}
+              handleOnClick={() => router.push("/shorten?mode=dev")}
             />
           </div>
         </div>

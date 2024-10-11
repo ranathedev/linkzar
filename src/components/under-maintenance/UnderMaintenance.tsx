@@ -1,13 +1,13 @@
-import React from 'react'
-import Image from 'next/image'
+import React from "react"
+import Image from "next/image"
 
-import stl from './UnderMaintenance.module.scss'
+import stl from "./UnderMaintenance.module.scss"
 
 const UnderMaintenance = () => (
   <div className={stl.underMaintenance}>
     <div className={stl.imgContainer}>
       <a
-        title="maintenance icons"
+        title="Maintenance icons created by Freepik - Flaticon"
         href="https://www.flaticon.com/free-icons/maintenance"
         target="_blank"
       >
@@ -24,7 +24,7 @@ const UnderMaintenance = () => (
       <h1>Technical Problems</h1>
       <p>
         We&apos;re currently experiencing technical issues and the site cannot
-        be accessed at the moment. Please try again later.
+        be accessed at the moment. Please come back later.
       </p>
     </div>
   </div>

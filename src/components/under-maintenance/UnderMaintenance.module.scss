@@ -1,0 +1,21 @@
+@import 'styles/common';
+
+.underMaintenance {
+  @extend .flexColCen;
+  gap: 1rem;
+  height: 100vh;
+
+  .imgContainer {
+    max-width: 512px;
+    padding: 1.5rem;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .content {
+    text-align: center;
+  }
+}

@@ -1,32 +1,32 @@
-import React, { useEffect, useRef, useState } from 'react'
-import clsx from 'clsx'
+import React, { useEffect, useRef, useState } from "react"
+import clsx from "clsx"
 
 import {
   isMobileDevice,
   shareShortLink,
   inputFocus,
   handleDelLink,
-} from 'lib/utils'
-import useOnClickOutside from 'lib/useClickOutside'
-import Modal from 'components/modal'
-import DialogBox from 'components/dialog-box'
-import Spinner from 'components/spinner'
-import ShareMenu from 'components/share-menu'
+} from "lib/utils"
+import useOnClickOutside from "lib/useClickOutside"
+import Modal from "components/modal"
+import DialogBox from "components/dialog-box"
+import Spinner from "components/spinner"
+import ShareMenu from "components/share-menu"
 
-import MoreIcon from 'assets/more-icon.svg'
-import OpenLinkIcon from 'assets/openLink.svg'
-import CopyIcon from 'assets/copy.svg'
-import ShareIcon from 'assets/share.svg'
-import EditIcon from 'assets/edit.svg'
-import DeleteIcon from 'assets/delete.svg'
-import DoneIcon from 'assets/done.svg'
+import MoreIcon from "assets/more-icon.svg"
+import OpenLinkIcon from "assets/openLink.svg"
+import CopyIcon from "assets/copy.svg"
+import ShareIcon from "assets/share.svg"
+import EditIcon from "assets/edit.svg"
+import DeleteIcon from "assets/delete.svg"
+import DoneIcon from "assets/done.svg"
 
-import stl from './ActionBox.module.scss'
+import stl from "./ActionBox.module.scss"
 
 interface Props {
   display: string
   theme: string
-  variant: 'primary' | 'secondary'
+  variant: "primary" | "secondary"
   domainUrl: string
   linkData: {
     _id: string
@@ -57,9 +57,9 @@ const ActionBox = ({
   sendVisibility,
 }: Props) => {
   const [showActionList, setShowActionList] = useState(false)
-  const [device, setDevice] = useState('')
-  const [className, setClassName] = useState('')
-  const [loading, setLoading] = useState('')
+  const [device, setDevice] = useState("")
+  const [className, setClassName] = useState("")
+  const [loading, setLoading] = useState("")
   const [showDialog, setShowDialog] = useState(false)
   const [showShortTooltip, setShowShortTooltip] = useState(false)
   const [showLongTooltip, setShowLongTooltip] = useState(false)
@@ -67,19 +67,19 @@ const ActionBox = ({
 
   useEffect(() => {
     const handleKeyDown = (e: any) =>
-      e.key === 'Escape' && setShowActionList(false)
+      e.key === "Escape" && setShowActionList(false)
 
-    window.addEventListener('keydown', handleKeyDown)
+    window.addEventListener("keydown", handleKeyDown)
 
-    return () => window.removeEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
   }, [])
 
   useEffect(() => {
-    theme === 'dark' ? setClassName(stl.darkActionBox) : setClassName('')
+    theme === "dark" ? setClassName(stl.darkActionBox) : setClassName("")
   }, [theme])
 
   useEffect(() => {
-    isMobileDevice() ? setDevice('Mobile') : setDevice('')
+    isMobileDevice() ? setDevice("Mobile") : setDevice("")
   }, [])
 
   useEffect(() => {
@@ -116,7 +116,7 @@ const ActionBox = ({
   useOnClickOutside(hideActionList, ref)
 
   const openLink = (link: string) => {
-    window.open(link, '_blank')
+    window.open(link, "_blank")
     hideActionList()
   }
 
@@ -132,7 +132,7 @@ const ActionBox = ({
     setShowModal(true)
     setShowEditor(true)
     hideActionList()
-    inputFocus('editerInput')
+    inputFocus("editerInput")
   }
 
   const showDeleteDialog = () => {
@@ -148,10 +148,10 @@ const ActionBox = ({
   return (
     <>
       <Modal
-        isVisible={showDialog || loading !== ''}
+        isVisible={showDialog || loading !== ""}
         theme={theme}
         dialog={
-          loading !== '' ? (
+          loading !== "" ? (
             <Spinner taskTitle={loading} variant="secondary" />
           ) : (
             <DialogBox
@@ -171,7 +171,7 @@ const ActionBox = ({
         <button onClick={() => setShowActionList(!showActionList)}>
           <MoreIcon />
         </button>
-        <ul className={showActionList ? stl.showList : ''}>
+        <ul className={showActionList ? stl.showList : ""}>
           <li
             onClick={() => {
               openLink(domainUrl + linkData.shortId)
@@ -201,7 +201,7 @@ const ActionBox = ({
             {showLongTooltip ? <DoneIcon /> : <CopyIcon />}
             Copy original link
           </li>
-          {device === 'Mobile' ? (
+          {device === "Mobile" ? (
             <li onClick={() => handleShare(domainUrl + linkData.shortId)}>
               <ShareIcon /> Share
             </li>
@@ -232,8 +232,8 @@ const ActionBox = ({
 }
 
 ActionBox.defaultProps = {
-  display: 'inline-flex',
-  variant: 'primary',
+  display: "inline-flex",
+  variant: "primary",
 }
 
 export default ActionBox

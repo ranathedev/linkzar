@@ -1,23 +1,23 @@
-import React, { useEffect } from 'react'
-import { useRouter } from 'next/router'
-import clsx from 'clsx'
+import React, { useEffect } from "react"
+import { useRouter } from "next/router"
+import clsx from "clsx"
 
-import Button from 'components/button'
+import Button from "components/button"
 
-import ArrowIcon from 'assets/arrow-right.svg'
+import ArrowIcon from "assets/arrow-right.svg"
 
-import stl from './CTA.module.scss'
+import stl from "./CTA.module.scss"
 
 interface Props {
   theme: string
 }
 
 const CTA = ({ theme }: Props) => {
-  const [className, setClassName] = React.useState('')
+  const [className, setClassName] = React.useState("")
   const router = useRouter()
 
   useEffect(() => {
-    theme === 'dark' ? setClassName(stl.darkCTA) : setClassName('')
+    theme === "dark" ? setClassName(stl.darkCTA) : setClassName("")
   }, [theme])
 
   return (
@@ -32,7 +32,7 @@ const CTA = ({ theme }: Props) => {
             theme={theme}
             label="Get Started"
             rightIcon={<ArrowIcon />}
-            handleOnClick={() => router.push('/dashboard')}
+            handleOnClick={() => router.push("/dashboard?mode=dev")}
           />
         </div>
       </div>

@@ -24,6 +24,7 @@ jobs:
           echo "MEASUREMENTID=${{ secrets.MEASUREMENTID }}" >> .env
           echo "API_URL=${{ secrets.API_URL }}" >> .env
           echo "DOMAIN_URL=${{ secrets.DOMAIN_URL }}" >> .env
+          echo "PASS=${{ secrets.PASS }}" >> .env
 
       - run: yarn install --frozen-lockfile && yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0

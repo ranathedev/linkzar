@@ -1,10 +1,10 @@
-import React from 'react'
-import Link from 'next/link'
+import React from "react"
+import Link from "next/link"
 
-import Logo from 'assets/logo.svg'
-import ArrowRightIcon from 'assets/arrow-right.svg'
+import Logo from "assets/logo.svg"
+import ArrowRightIcon from "assets/arrow-right.svg"
 
-import stl from './AuthSideContent.module.scss'
+import stl from "./AuthSideContent.module.scss"
 
 const AuthSideContent = () => (
   <div className={stl.authSideContent}>
@@ -22,7 +22,7 @@ const AuthSideContent = () => (
         Craft compelling calls-to-action, monitor engagement, and refine your
         strategy. Transform clicks into connections.
       </p>
-      <Link href="/shorten">
+      <Link href="/shorten?mode=dev">
         Try Demo <ArrowRightIcon />
       </Link>
     </div>

@@ -1,18 +1,18 @@
-import React, { useEffect } from 'react'
-import Link from 'next/link'
-import clsx from 'clsx'
+import React, { useEffect } from "react"
+import Link from "next/link"
+import clsx from "clsx"
 
-import stl from './DemoContent.module.scss'
+import stl from "./DemoContent.module.scss"
 
 interface Props {
   theme: string
 }
 
 const DemoContent = ({ theme }: Props) => {
-  const [className, setClassName] = React.useState('')
+  const [className, setClassName] = React.useState("")
 
   useEffect(() => {
-    theme === 'dark' ? setClassName(stl.darkDemoContent) : setClassName('')
+    theme === "dark" ? setClassName(stl.darkDemoContent) : setClassName("")
   }, [theme])
 
   return (
@@ -45,11 +45,11 @@ const DemoContent = ({ theme }: Props) => {
               <h3>Limited Demo</h3>
               <p>
                 To give you a taste of the link shortener&apos;s capabilities,
-                we&apos;ve limited the demo to allow you to create up to{' '}
+                we&apos;ve limited the demo to allow you to create up to{" "}
                 <b>3 (three)</b> short links. If you&apos;re excited to create
-                more links and keep track of them, consider{' '}
-                <Link href="/auth?type=signup">Signing Up</Link> for a full
-                account.
+                more links and keep track of them, consider{" "}
+                <Link href="/auth?type=signup&mode=dev">Signing Up</Link> for a
+                full account.
               </p>
             </li>
             <li>
@@ -77,9 +77,9 @@ const DemoContent = ({ theme }: Props) => {
             This demo showcases the basic functionality of our link shortener.
             To fully explore the tool&apos;s capabilities and enjoy the benefits
             of unlimited link creation and tracking, we encourage you to
-            register for an account.{' '}
-            <Link href="/auth?type=signup">Sign Up</Link> today to take your
-            link sharing to the next level!
+            register for an account.{" "}
+            <Link href="/auth?type=signup&mode=dev">Sign Up</Link> today to take
+            your link sharing to the next level!
           </p>
         </div>
         <div>

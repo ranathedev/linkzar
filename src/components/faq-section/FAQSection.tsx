@@ -1,23 +1,23 @@
-import React, { useEffect } from 'react'
-import Link from 'next/link'
-import clsx from 'clsx'
+import React, { useEffect } from "react"
+import Link from "next/link"
+import clsx from "clsx"
 
-import { qas } from 'lib/utils'
-import FAQItem from 'components/faq-item'
+import { qas } from "lib/utils"
+import FAQItem from "components/faq-item"
 
-import ErrorIcon from 'assets/error.svg'
+import ErrorIcon from "assets/error.svg"
 
-import stl from './FAQSection.module.scss'
+import stl from "./FAQSection.module.scss"
 
 interface Props {
   theme: string
 }
 
 const FAQSection = ({ theme }: Props) => {
-  const [className, setClassName] = React.useState('')
+  const [className, setClassName] = React.useState("")
 
   useEffect(() => {
-    theme === 'dark' ? setClassName(stl.darkFAQSec) : setClassName('')
+    theme === "dark" ? setClassName(stl.darkFAQSec) : setClassName("")
   }, [theme])
 
   return (
@@ -43,7 +43,7 @@ const FAQSection = ({ theme }: Props) => {
           </span>
           <div className={stl.text}>
             <span>Didn&apos;t find the answer you are looking for?</span>
-            <Link href="/contact">Contact our support</Link>
+            <Link href="/contact?mode=dev">Contact our support</Link>
           </div>
         </div>
       </div>
